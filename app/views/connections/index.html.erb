@@ -1,4 +1,155 @@
-<div>
-  <h1 class="font-bold text-4xl">Connections#index</h1>
-  <p>Find me in app/views/connections/index.html.erb</p>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="flex justify-between items-center mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-800">Your Connections</h1>
+      <p class="text-gray-600 mt-1">Manage your partner connections and invitations</p>
+    </div>
+    <%= link_to new_invitation_path, class: "bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-200 flex items-center gap-2" do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+      </svg>
+      Send Invitation
+    <% end %>
+  </div>
+
+  <!-- Current Partner -->
+  <% if @partner %>
+    <div class="mb-8">
+      <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+        <div class="bg-teal-50 px-6 py-4">
+          <div class="flex items-center gap-3">
+            <div class="bg-white rounded-lg p-2">
+              <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+              </svg>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800">Connected Partner</h2>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <div class="bg-teal-100 rounded-full w-12 h-12 flex items-center justify-center">
+                <span class="text-lg font-semibold text-teal-700">
+                  <%= @partner.name&.first&.upcase || @partner.email&.first&.upcase %>
+                </span>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-gray-800">
+                  <%= @partner.name || "Partner" %>
+                </h3>
+                <p class="text-gray-600 text-sm"><%= @partner.email %></p>
+                <p class="text-gray-500 text-xs">Connected since <%= current_user.connection_with(@partner)&.created_at&.strftime("%B %d, %Y") %></p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <%= link_to "View Wishlists", wishlists_path, class: "bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition duration-200 text-sm font-medium" %>
+              <%= button_to "Disconnect", connection_path(current_user.connection_with(@partner)), method: :delete, 
+                    data: { confirm: "Are you sure you want to disconnect from #{@partner.name || @partner.email}? You won't be able to see each other's wishlists anymore." },
+                    class: "bg-red-100 text-red-600 px-4 py-2 rounded-lg hover:bg-red-200 transition duration-200 text-sm font-medium" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Pending Invitations -->
+  <% received_invitations = current_user.received_invitations.pending %>
+  <% sent_invitations = current_user.sent_invitations.pending %>
+
+  <% if received_invitations.any? %>
+    <div class="mb-8">
+      <div class="bg-white rounded-xl border border-purple-200 overflow-hidden">
+        <div class="bg-purple-50 px-6 py-4">
+          <div class="flex items-center gap-3">
+            <div class="bg-white rounded-lg p-2">
+              <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <h2 class="text-lg font-semibold text-gray-800">Invitation Received</h2>
+            <span class="text-sm text-purple-600">Someone wants to share wishlists with you</span>
+          </div>
+        </div>
+        <div class="divide-y divide-gray-100">
+          <% received_invitations.each do |invitation| %>
+            <div class="p-6">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                  <div class="bg-purple-100 rounded-full w-10 h-10 flex items-center justify-center">
+                    <span class="text-sm font-semibold text-purple-700">
+                      <%= invitation.sender.name&.first&.upcase || invitation.sender.email&.first&.upcase %>
+                    </span>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-gray-800">
+                      <%= invitation.sender.name || "Someone" %>
+                    </h3>
+                    <p class="text-gray-600 text-sm"><%= invitation.sender.email %></p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <%= link_to "Accept", invitation_path(invitation.token, accept: true), method: :patch,
+                        class: "bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition duration-200 text-sm font-medium" %>
+                  <%= link_to "Decline", invitation_path(invitation.token, accept: false), method: :patch,
+                        class: "bg-gray-100 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200 text-sm font-medium" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <% if sent_invitations.any? %>
+    <div class="mb-8">
+      <div class="bg-white rounded-xl border border-teal-200 overflow-hidden">
+        <div class="bg-teal-50 px-6 py-4">
+          <div class="flex items-center gap-3">
+            <div class="bg-white rounded-lg p-2">
+              <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+              </svg>
+            </div>
+            <h2 class="text-lg font-semibold text-gray-800">Invitation Sent</h2>
+            <span class="text-sm text-teal-600">Waiting for your partner to accept</span>
+          </div>
+        </div>
+        <div class="divide-y divide-gray-100">
+          <% sent_invitations.each do |invitation| %>
+            <div class="p-6">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="font-medium text-gray-800">Invitation sent to:</p>
+                  <p class="text-gray-600"><%= invitation.recipient_email %></p>
+                  <p class="text-gray-500 text-sm">Sent <%= time_ago_in_words(invitation.created_at) %> ago</p>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-medium">Pending</span>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Empty State -->
+  <% if @partner.nil? && received_invitations.empty? && sent_invitations.empty? %>
+    <div class="text-center py-12">
+      <div class="bg-teal-50 rounded-xl p-8 max-w-md mx-auto">
+        <div class="bg-white rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+          <svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">No Connections Yet</h3>
+        <p class="text-gray-600 mb-6">Start by inviting your partner to share wishlists together</p>
+        <%= link_to "Send Your First Invitation", new_invitation_path, class: "bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 transition duration-200 font-medium" %>
+      </div>
+    </div>
+  <% end %>
 </div>

@@ -1,0 +1,115 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="flex justify-between items-center mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-800">Your Wishlists</h1>
+      <p class="text-gray-600 mt-1">Create and manage your wishlists to share with your partner</p>
+    </div>
+    <%= link_to new_wishlist_path, class: "bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition duration-200 flex items-center gap-2" do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+      </svg>
+      New Wishlist
+    <% end %>
+  </div>
+
+  <% if @wishlists.any? %>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+      <% @wishlists.each do |wishlist| %>
+        <div class="bg-white rounded-xl border border-gray-100 hover:border-teal-200 transition duration-200 overflow-hidden">
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-3">
+              <h3 class="text-xl font-semibold text-gray-800">
+                <%= link_to wishlist.name, wishlist_path(wishlist), class: "hover:text-teal-600 transition duration-200" %>
+              </h3>
+              <div class="flex items-center gap-2">
+                <% if wishlist.is_default %>
+                  <span class="bg-teal-100 text-teal-700 text-xs px-2 py-1 rounded-full font-medium">Default</span>
+                <% end %>
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                </svg>
+              </div>
+            </div>
+            
+            <% if wishlist.description.present? %>
+              <p class="text-gray-600 text-sm mb-4"><%= truncate(wishlist.description, length: 100) %></p>
+            <% end %>
+            
+            <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+              <div class="flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                </svg>
+                <%= pluralize(wishlist.wishlist_items.count, 'item') %>
+              </div>
+              <div class="flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="text-xs"><%= wishlist.visibility.humanize %></span>
+              </div>
+            </div>
+            
+            <div class="flex gap-2">
+              <%= link_to "View Items", wishlist_path(wishlist), class: "flex-1 text-center bg-teal-600 text-white px-3 py-2 rounded-lg hover:bg-teal-700 transition duration-200 text-sm font-medium" %>
+              <%= link_to "Add Item", new_wishlist_wishlist_item_path(wishlist), class: "text-center bg-gray-100 text-gray-700 px-3 py-2 rounded-lg hover:bg-gray-200 transition duration-200 text-sm font-medium" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="bg-teal-50 rounded-xl border-2 border-dashed border-teal-200 p-12 text-center">
+      <div class="bg-white rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+        <svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+      </div>
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">Create New Wishlist</h3>
+      <p class="text-gray-600 mb-6">Add items you'd love to receive</p>
+      <%= link_to "Get Started", new_wishlist_path, class: "bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 transition duration-200 font-medium" %>
+    </div>
+  <% end %>
+
+  <% if @partner_wishlists.any? %>
+    <div class="mt-12">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="bg-purple-100 p-2 rounded-lg">
+          <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046-.151-1.5-.454a2.704 2.704 0 01-1.042-.918 2.704 2.704 0 01-.454-1.5V8.546c0-.523.151-1.046.454-1.5.303-.454.631-.813 1.042-.918.453-.303.977-.454 1.5-.454s1.046.151 1.5.454c.411.105.739.464 1.042.918.303.454.454.977.454 1.5v4.128c0 .523-.151 1.046-.454 1.5a2.704 2.704 0 01-1.042.918c-.454.303-.977.454-1.5.454zM12 21a9 9 0 100-18 9 9 0 000 18z"></path>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800">Partner's Wishlist</h2>
+        <p class="text-gray-600">See what your partner wants</p>
+      </div>
+      <div class="bg-white rounded-xl border border-purple-100 p-8 text-center">
+        <div class="bg-purple-50 rounded-xl p-6">
+          <div class="bg-white rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+            </svg>
+          </div>
+          <% @partner_wishlists.each do |wishlist| %>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2"><%= wishlist.name %></h3>
+            <% if wishlist.description.present? %>
+              <p class="text-gray-600 text-sm mb-4"><%= truncate(wishlist.description, length: 100) %></p>
+            <% end %>
+            <p class="text-sm text-gray-500 mb-4"><%= pluralize(wishlist.wishlist_items.available.count, 'available item') %></p>
+            <%= link_to "View Items", wishlist_path(wishlist), class: "bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition duration-200 font-medium" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% elsif @partner.nil? %>
+    <div class="mt-12 bg-teal-50 rounded-xl p-8 text-center">
+      <div class="bg-white rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+        <svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+        </svg>
+      </div>
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">Invite Your Partner</h3>
+      <p class="text-gray-600 mb-6">Send a simple invitation to share wishlists with each other</p>
+      <%= link_to "Send Invitation", new_invitation_path, class: "bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 transition duration-200 font-medium" %>
+    </div>
+  <% end %>
+</div>
