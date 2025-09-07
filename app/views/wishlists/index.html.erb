@@ -1,29 +1,31 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <div class="flex justify-between items-center mb-8">
+  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
     <div>
       <% if @focus_partner %>
-        <h1 class="text-3xl font-bold text-gray-800"><%= @partner.name || "Partner" %>'s Wishlists</h1>
-        <p class="text-gray-600 mt-1">Browse items your partner would love to receive</p>
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800"><%= @partner.name || "Partner" %>'s Wishlists</h1>
+        <p class="text-gray-600 mt-1 text-sm sm:text-base">Browse items your partner would love to receive</p>
       <% else %>
-        <h1 class="text-3xl font-bold text-gray-800">Your Wishlists</h1>
-        <p class="text-gray-600 mt-1">Create and manage your wishlists to share with your partner</p>
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Your Wishlists</h1>
+        <p class="text-gray-600 mt-1 text-sm sm:text-base">Create and manage your wishlists to share with your partner</p>
       <% end %>
     </div>
     <div class="flex gap-3">
       <% unless @focus_partner %>
-        <%= link_to new_wishlist_path, class: "bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition duration-200 flex items-center gap-2" do %>
+        <%= link_to new_wishlist_path, class: "bg-teal-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-teal-700 transition duration-200 flex items-center gap-2 text-sm sm:text-base" do %>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
           </svg>
-          New Wishlist
+          <span class="hidden xs:inline">New Wishlist</span>
+          <span class="xs:hidden">New</span>
         <% end %>
       <% end %>
       <% if @focus_partner %>
-        <%= link_to wishlists_path, class: "bg-gray-100 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200 flex items-center gap-2" do %>
+        <%= link_to wishlists_path, class: "bg-gray-100 text-gray-600 px-3 sm:px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200 flex items-center gap-2 text-sm sm:text-base" do %>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
           </svg>
-          Back to My Wishlists
+          <span class="hidden sm:inline">Back to My Wishlists</span>
+          <span class="sm:hidden">Back</span>
         <% end %>
       <% end %>
     </div>
@@ -31,15 +33,15 @@
 
   <% unless @focus_partner %>
     <% if @wishlists.any? %>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-12">
       <% @wishlists.each do |wishlist| %>
         <div class="bg-white rounded-xl border border-gray-100 hover:border-teal-200 transition duration-200 overflow-hidden">
-          <div class="p-6">
+          <div class="p-4 sm:p-6">
             <div class="flex justify-between items-start mb-3">
-              <h3 class="text-xl font-semibold text-gray-800">
+              <h3 class="text-lg sm:text-xl font-semibold text-gray-800 pr-2">
                 <%= link_to wishlist.name, wishlist_path(wishlist), class: "hover:text-teal-600 transition duration-200" %>
               </h3>
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2 flex-shrink-0">
                 <% if wishlist.is_default %>
                   <span class="bg-teal-100 text-teal-700 text-xs px-2 py-1 rounded-full font-medium">Default</span>
                 <% end %>
@@ -50,10 +52,10 @@
             </div>
             
             <% if wishlist.description.present? %>
-              <p class="text-gray-600 text-sm mb-4"><%= truncate(wishlist.description, length: 100) %></p>
+              <p class="text-gray-600 text-sm mb-4"><%= truncate(wishlist.description, length: 80) %></p>
             <% end %>
             
-            <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-gray-500 mb-4">
               <div class="flex items-center gap-1">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
@@ -68,7 +70,7 @@
               </div>
             </div>
             
-            <div class="flex gap-2">
+            <div class="flex flex-col sm:flex-row gap-2">
               <%= link_to "View Items", wishlist_path(wishlist), class: "flex-1 text-center bg-teal-600 text-white px-3 py-2 rounded-lg hover:bg-teal-700 transition duration-200 text-sm font-medium" %>
               <%= link_to "Add Item", new_wishlist_wishlist_item_path(wishlist), class: "text-center bg-gray-100 text-gray-700 px-3 py-2 rounded-lg hover:bg-gray-200 transition duration-200 text-sm font-medium" %>
             </div>
