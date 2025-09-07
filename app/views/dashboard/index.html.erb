@@ -1,0 +1,11 @@
+<div class="w-full">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="font-bold text-4xl">Welcome to Cupid Gifts</h1>
+    <%= link_to "Sign out", destroy_user_session_path, method: :delete, data: { "turbo-method": :delete }, class: "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" %>
+  </div>
+  
+  <div class="bg-white shadow rounded-lg p-6">
+    <p class="text-gray-700 mb-4">Welcome, <%= current_user.email %>!</p>
+    <p class="text-gray-600">Your wishlist dashboard is coming soon...</p>
+  </div>
+</div>

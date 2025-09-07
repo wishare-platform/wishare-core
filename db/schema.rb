@@ -10,34 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_28_104710) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_07_191656) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
-
-  create_table "couple_users", force: :cascade do |t|
-    t.bigint "couple_id", null: false
-    t.bigint "user_id", null: false
-    t.string "status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["couple_id"], name: "index_couple_users_on_couple_id"
-    t.index ["user_id"], name: "index_couple_users_on_user_id"
-  end
-
-  create_table "couples", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "items", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.decimal "price"
-    t.string "link"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "image_url"
-  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -45,34 +20,10 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_28_104710) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "first_name"
-    t.string "last_name"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  end
-
-  create_table "wishlist_items", force: :cascade do |t|
-    t.bigint "wishlist_id", null: false
-    t.bigint "item_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["item_id"], name: "index_wishlist_items_on_item_id"
-    t.index ["wishlist_id"], name: "index_wishlist_items_on_wishlist_id"
-  end
-
-  create_table "wishlists", force: :cascade do |t|
-    t.bigint "user_id", null: false
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_wishlists_on_user_id"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
-
-  add_foreign_key "couple_users", "couples"
-  add_foreign_key "couple_users", "users"
-  add_foreign_key "wishlist_items", "items"
-  add_foreign_key "wishlist_items", "wishlists"
-  add_foreign_key "wishlists", "users"
 end
