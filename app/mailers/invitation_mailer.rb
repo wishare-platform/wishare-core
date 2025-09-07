@@ -10,7 +10,7 @@ class InvitationMailer < ApplicationMailer
     
     mail(
       to: @recipient_email,
-      subject: "#{@sender.display_name} wants to share wishlists with you on WishShare!"
+      subject: "#{@sender.display_name} wants to share wishlists with you on Wishare!"
     )
   end
 end
