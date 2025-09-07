@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   
+  # Resources for authenticated users
+  resources :connections, only: [:index, :show, :update, :destroy]
+  resources :invitations, only: [:new, :create, :show, :update], param: :token
+  
   authenticated :user do
     root 'dashboard#index', as: :authenticated_root
   end

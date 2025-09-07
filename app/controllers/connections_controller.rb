@@ -1,0 +1,37 @@
+class ConnectionsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_connection, only: [:show, :update, :destroy]
+
+  def index
+    @connections = current_user.all_connections.includes(:user, :partner)
+    @partner = current_user.partner
+  end
+
+  def show
+  end
+
+  def update
+    if @connection.update(connection_params)
+      redirect_to connections_path, notice: 'Connection updated successfully.'
+    else
+      render :show, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @connection.destroy
+    redirect_to connections_path, notice: 'Connection removed successfully.'
+  end
+
+  private
+
+  def set_connection
+    @connection = current_user.all_connections.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to connections_path, alert: 'Connection not found.'
+  end
+
+  def connection_params
+    params.require(:connection).permit(:status)
+  end
+end
