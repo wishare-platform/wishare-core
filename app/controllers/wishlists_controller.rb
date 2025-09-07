@@ -6,6 +6,7 @@ class WishlistsController < ApplicationController
     @wishlists = current_user.wishlists.includes(:wishlist_items)
     @partner = current_user.partner
     @partner_wishlists = @partner&.wishlists&.partner_only&.includes(:wishlist_items) || []
+    @focus_partner = params[:partner] == 'true'
   end
 
   def show

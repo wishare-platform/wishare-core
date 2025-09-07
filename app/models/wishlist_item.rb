@@ -9,6 +9,7 @@ class WishlistItem < ApplicationRecord
   validates :priority, presence: true
   validates :status, presence: true
   validates :url, format: URI::DEFAULT_PARSER.make_regexp(%w[http https]), allow_blank: true
+  validates :url, uniqueness: { scope: :wishlist_id, message: "This item has already been added to your wishlist" }, if: :url?
   validates :price, numericality: { greater_than_or_equal_to: 0 }, allow_blank: true
 
   before_validation :extract_metadata_from_url, if: :url_changed?

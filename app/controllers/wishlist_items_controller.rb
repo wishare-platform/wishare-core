@@ -32,7 +32,7 @@ class WishlistItemsController < ApplicationController
     @wishlist_item.status = :available
 
     if @wishlist_item.save
-      redirect_to [@wishlist, @wishlist_item], notice: 'Item was successfully added to your wishlist.'
+      redirect_to @wishlist, notice: 'Item was successfully added to your wishlist.'
     else
       render :new, status: :unprocessable_entity
     end
@@ -52,7 +52,7 @@ class WishlistItemsController < ApplicationController
     end
 
     if @wishlist_item.update(wishlist_item_params)
-      redirect_to [@wishlist, @wishlist_item], notice: 'Item was successfully updated.'
+      redirect_to @wishlist, notice: 'Item was successfully updated.'
     else
       render :edit, status: :unprocessable_entity
     end
