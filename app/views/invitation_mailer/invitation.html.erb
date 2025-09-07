@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+      .email-container {
+        max-width: 600px;
+        margin: 0 auto;
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #374151;
+      }
+      .header {
+        background-color: #0F766E;
+        color: white;
+        padding: 30px;
+        text-align: center;
+        border-radius: 12px 12px 0 0;
+      }
+      .content {
+        background-color: #ffffff;
+        padding: 30px;
+        border: 1px solid #E5E7EB;
+      }
+      .footer {
+        background-color: #F9FAFB;
+        padding: 20px;
+        text-align: center;
+        border-radius: 0 0 12px 12px;
+        border: 1px solid #E5E7EB;
+        border-top: none;
+      }
+      .button {
+        display: inline-block;
+        background-color: #0F766E;
+        color: white;
+        padding: 15px 30px;
+        text-decoration: none;
+        border-radius: 12px;
+        font-weight: 600;
+        margin: 20px 0;
+      }
+      .button:hover {
+        background-color: #0D9488;
+      }
+      .highlight {
+        background-color: #ECFDF5;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid #0F766E;
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <div class="header">
+        <h1 style="margin: 0; font-size: 28px;">🎁 WishShare</h1>
+        <p style="margin: 10px 0 0 0; opacity: 0.9;">Share wishlists with your partner</p>
+      </div>
+      
+      <div class="content">
+        <h2 style="color: #0F766E; margin-top: 0;">You're invited to join WishShare!</h2>
+        
+        <p>Hi there! 👋</p>
+        
+        <p><strong><%= @sender.display_name %></strong> (<%= @sender.email %>) has invited you to connect on WishShare so you can share wishlists with each other!</p>
+        
+        <div class="highlight">
+          <p style="margin: 0;"><strong>What is WishShare?</strong></p>
+          <p style="margin: 5px 0 0 0;">WishShare is a platform where couples can create and share wishlists with each other, making gift-giving easier and more thoughtful.</p>
+        </div>
+        
+        <% if @existing_user %>
+          <p>Great news! You already have a WishShare account. Just click the button below to accept the invitation and start sharing wishlists:</p>
+        <% else %>
+          <p>To get started, you'll need to create a free WishShare account and accept the invitation:</p>
+        <% end %>
+        
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="<%= @invitation_url %>" class="button">Accept Invitation</a>
+        </div>
+        
+        <% unless @existing_user %>
+          <p><small><strong>New to WishShare?</strong> Don't worry! Clicking the link above will guide you through creating your account first.</small></p>
+        <% end %>
+        
+        <p>Once connected, you'll be able to:</p>
+        <ul>
+          <li>Create and organize your wishlists</li>
+          <li>View your partner's wishlists</li>
+          <li>Mark items as purchased (hidden from your partner)</li>
+          <li>Never run out of gift ideas again!</li>
+        </ul>
+        
+        <p>Looking forward to seeing you on WishShare!</p>
+        
+        <p style="margin-bottom: 0;">Best regards,<br>
+The WishShare Team</p>
+      </div>
+      
+      <div class="footer">
+        <p style="margin: 0; font-size: 12px; color: #6B7280;">This invitation will expire in 7 days. If you have any questions, please contact us.</p>
+        <p style="margin: 5px 0 0 0; font-size: 12px; color: #6B7280;">
+          Can't click the button? Copy and paste this link: <br>
+          <a href="<%= @invitation_url %>" style="color: #0F766E;"><%= @invitation_url %></a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -62,6 +62,9 @@ group :development, :test do
   gem "dotenv-rails"
 end
 
+# Email delivery
+gem "sendgrid-ruby"
+
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"

@@ -13,6 +13,7 @@ class User < ApplicationRecord
 
   # Invitation associations
   has_many :sent_invitations, class_name: 'Invitation', foreign_key: 'sender_id', dependent: :destroy
+  has_many :received_invitations, class_name: 'Invitation', foreign_key: 'recipient_email', primary_key: 'email', dependent: :destroy
 
   # Wishlist associations
   has_many :wishlists, dependent: :destroy
@@ -48,6 +49,12 @@ class User < ApplicationRecord
     return false if other_user.nil?
     
     Connection.between_users(self, other_user)&.accepted?
+  end
+
+  def connection_with(other_user)
+    return nil if other_user.nil?
+    
+    Connection.between_users(self, other_user)
   end
 
   def pending_invitation_to?(email)

@@ -10,8 +10,9 @@ class InvitationsController < ApplicationController
     @invitation = current_user.sent_invitations.build(invitation_params)
     
     if @invitation.save
-      # TODO: Send email invitation
-      redirect_to connections_path, notice: 'Invitation sent successfully!'
+      # Send email invitation
+      InvitationMailer.invitation(@invitation).deliver_now
+      redirect_to connections_path, notice: 'Invitation sent successfully! An email has been sent to your partner.'
     else
       render :new, status: :unprocessable_entity
     end

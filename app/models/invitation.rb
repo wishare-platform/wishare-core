@@ -8,12 +8,12 @@ class Invitation < ApplicationRecord
   validate :cannot_invite_self
 
   before_validation :generate_token, on: :create
-  before_validation :set_expiry_time, on: :create
 
   scope :pending_invitations, -> { where(status: :pending) }
   scope :not_expired, -> { where('created_at > ?', 7.days.ago) }
 
   def expired?
+    return false if created_at.nil?
     created_at < 7.days.ago
   end
 
@@ -42,11 +42,6 @@ class Invitation < ApplicationRecord
 
   def generate_token
     self.token = SecureRandom.urlsafe_base64(32)
-  end
-
-  def set_expiry_time
-    # Auto-expire invitations after 7 days
-    mark_as_expired! if expired?
   end
 
   def cannot_invite_self
