@@ -4,6 +4,14 @@ Rails.application.routes.draw do
   # Resources for authenticated users
   resources :connections, only: [:index, :show, :update, :destroy]
   resources :invitations, only: [:new, :create, :show, :update], param: :token
+  resources :wishlists do
+    resources :wishlist_items, path: 'items' do
+      member do
+        patch :purchase
+        patch :unpurchase
+      end
+    end
+  end
   
   authenticated :user do
     root 'dashboard#index', as: :authenticated_root

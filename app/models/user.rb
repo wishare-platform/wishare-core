@@ -14,6 +14,10 @@ class User < ApplicationRecord
   # Invitation associations
   has_many :sent_invitations, class_name: 'Invitation', foreign_key: 'sender_id', dependent: :destroy
 
+  # Wishlist associations
+  has_many :wishlists, dependent: :destroy
+  has_many :purchased_items, class_name: 'WishlistItem', foreign_key: 'purchased_by_id', dependent: :nullify
+
   validates :name, presence: true
 
   def self.from_omniauth(auth)
