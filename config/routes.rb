@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   
   # Resources for authenticated users
   resources :connections, only: [:index, :show, :update, :destroy]
-  resources :invitations, only: [:new, :create, :show, :update], param: :token
+  resources :invitations, only: [:new, :create]
+  get '/invite/:token', to: 'invitations#show', as: :invitation
+  patch '/invite/:token', to: 'invitations#update'
   resources :wishlists do
     resources :wishlist_items, path: 'items' do
       member do

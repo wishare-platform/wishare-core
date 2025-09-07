@@ -19,13 +19,22 @@ class InvitationsController < ApplicationController
   end
 
   def show
+    # Check if invitation is expired by time
     if @invitation.expired?
-      @invitation.mark_as_expired!
-      render :expired and return
+      @invitation.mark_as_expired! unless @invitation.status == 'expired'
+      redirect_to root_path, alert: 'This invitation has expired.'
+      return
     end
     
+    # Check if invitation has already been accepted
     if @invitation.accepted?
       redirect_to root_path, notice: 'This invitation has already been accepted.'
+      return
+    end
+
+    # Check if invitation has already been declined or marked as expired
+    if @invitation.status == 'expired'
+      redirect_to root_path, alert: 'This invitation is no longer valid.'
       return
     end
 
@@ -43,18 +52,26 @@ class InvitationsController < ApplicationController
   end
 
   def update
+    # Check if invitation is still valid before processing
+    if @invitation.expired? || @invitation.status == 'expired' || @invitation.accepted?
+      redirect_to root_path, alert: 'This invitation is no longer valid.'
+      return
+    end
+
     if params[:accept] == 'true'
       if user_signed_in? && current_user.email == @invitation.recipient_email
         begin
           @invitation.accept!(current_user)
           redirect_to root_path, notice: 'You are now connected! 💕'
         rescue ActiveRecord::RecordInvalid => e
-          redirect_to invitation_path(@invitation.token), alert: 'Unable to accept invitation: ' + e.message
+          redirect_to invitation_path(token: @invitation.token), alert: 'Unable to accept invitation: ' + e.message
         end
       else
         redirect_to new_user_registration_path(email: @invitation.recipient_email)
       end
     else
+      # Mark invitation as expired when declined
+      @invitation.mark_as_expired!
       redirect_to root_path, notice: 'Invitation declined.'
     end
   end
@@ -62,7 +79,7 @@ class InvitationsController < ApplicationController
   private
 
   def set_invitation
-    @invitation = Invitation.find_by!(token: params[:id])
+    @invitation = Invitation.find_by!(token: params[:token])
   rescue ActiveRecord::RecordNotFound
     redirect_to root_path, alert: 'Invalid invitation link.'
   end
