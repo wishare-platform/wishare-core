@@ -11,7 +11,7 @@
     </div>
     <div class="flex gap-3">
       <% unless @focus_partner %>
-        <%= link_to new_wishlist_path, class: "bg-teal-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-teal-700 transition duration-200 flex items-center gap-2 text-sm sm:text-base" do %>
+        <%= link_to new_wishlist_path, class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-3 sm:px-4 py-2 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 flex items-center gap-2 text-sm sm:text-base shadow-lg" do %>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
           </svg>
@@ -35,15 +35,15 @@
     <% if @wishlists.any? %>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-12">
       <% @wishlists.each do |wishlist| %>
-        <div class="bg-white rounded-xl border border-gray-100 hover:border-teal-200 transition duration-200 overflow-hidden">
+        <div class="bg-white/90 backdrop-blur-sm rounded-3xl border border-rose-100 hover:border-rose-200 hover:shadow-xl transition duration-300 overflow-hidden">
           <div class="p-4 sm:p-6">
             <div class="flex justify-between items-start mb-3">
               <h3 class="text-lg sm:text-xl font-semibold text-gray-800 pr-2">
-                <%= link_to wishlist.name, wishlist_path(wishlist), class: "hover:text-teal-600 transition duration-200" %>
+                <%= link_to wishlist.name, wishlist_path(wishlist), class: "hover:text-rose-600 transition duration-200" %>
               </h3>
               <div class="flex items-center gap-2 flex-shrink-0">
                 <% if wishlist.is_default %>
-                  <span class="bg-teal-100 text-teal-700 text-xs px-2 py-1 rounded-full font-medium">Default</span>
+                  <span class="bg-gradient-to-r from-rose-100 to-rose-200 text-rose-700 text-xs px-2 py-1 rounded-full font-medium">Default</span>
                 <% end %>
                 <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
@@ -71,16 +71,16 @@
             </div>
             
             <div class="flex flex-col sm:flex-row gap-2">
-              <%= link_to "View Items", wishlist_path(wishlist), class: "flex-1 text-center bg-teal-600 text-white px-3 py-2 rounded-lg hover:bg-teal-700 transition duration-200 text-sm font-medium" %>
-              <%= link_to "Add Item", new_wishlist_wishlist_item_path(wishlist), class: "text-center bg-gray-100 text-gray-700 px-3 py-2 rounded-lg hover:bg-gray-200 transition duration-200 text-sm font-medium" %>
+              <%= link_to "View Items", wishlist_path(wishlist), class: "flex-1 text-center bg-gradient-to-r from-rose-500 to-rose-600 text-white px-3 py-2 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 text-sm font-medium shadow-sm" %>
+              <%= link_to "Add Item", new_wishlist_wishlist_item_path(wishlist), class: "text-center bg-amber-50 text-amber-700 px-3 py-2 rounded-xl hover:bg-amber-100 transition duration-200 text-sm font-medium border border-amber-200" %>
             </div>
           </div>
         </div>
       <% end %>
       </div>
     <% else %>
-      <div class="bg-teal-50 rounded-xl border-2 border-dashed border-teal-200 p-12 text-center">
-        <div class="bg-white rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+      <div class="bg-gradient-to-br from-rose-50 to-amber-50 rounded-3xl border-2 border-dashed border-rose-200 p-12 text-center">
+        <div class="bg-white/80 backdrop-blur-sm rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center shadow-lg">
           <svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
           </svg>
@@ -151,7 +151,7 @@
         <!-- Normal view: Show as single card -->
         <div class="bg-white rounded-xl border border-purple-100 p-8 text-center">
           <div class="bg-purple-50 rounded-xl p-6">
-            <div class="bg-white rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+            <div class="bg-white/80 backdrop-blur-sm rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center shadow-lg">
               <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
               </svg>
