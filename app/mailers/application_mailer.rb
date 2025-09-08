@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "noreply@wishshare.app"
+  default from: "noreply@wishare.app"
   layout "mailer"
 end
