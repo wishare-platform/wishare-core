@@ -2,7 +2,7 @@
   <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
     <div>
       <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Your Connections</h1>
-      <p class="text-gray-600 mt-1 text-sm sm:text-base">Manage your partner connections and invitations</p>
+      <p class="text-gray-600 mt-1 text-sm sm:text-base">Manage your connections with friends & family</p>
     </div>
     <%= link_to new_invitation_path, class: "bg-purple-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-200 flex items-center gap-2 text-sm sm:text-base self-start" do %>
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -17,34 +17,34 @@
   <% if @partner %>
     <div class="mb-8">
       <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
-        <div class="bg-teal-50 px-4 sm:px-6 py-4">
+        <div class="bg-pink-50 px-4 sm:px-6 py-4">
           <div class="flex items-center gap-3">
             <div class="bg-white rounded-lg p-2">
-              <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-5 h-5 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
               </svg>
             </div>
-            <h2 class="text-lg sm:text-xl font-semibold text-gray-800">Connected Partner</h2>
+            <h2 class="text-lg sm:text-xl font-semibold text-gray-800">Connected Friend</h2>
           </div>
         </div>
         <div class="p-4 sm:p-6">
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div class="flex items-center gap-4">
-              <div class="bg-teal-100 rounded-full w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center flex-shrink-0">
-                <span class="text-sm sm:text-lg font-semibold text-teal-700">
+              <div class="bg-pink-100 rounded-full w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center flex-shrink-0">
+                <span class="text-sm sm:text-lg font-semibold text-pink-600">
                   <%= @partner.name&.first&.upcase || @partner.email&.first&.upcase %>
                 </span>
               </div>
               <div class="min-w-0">
                 <h3 class="text-base sm:text-lg font-semibold text-gray-800 truncate">
-                  <%= @partner.name || "Partner" %>
+                  <%= @partner.name || "Friend" %>
                 </h3>
                 <p class="text-gray-600 text-sm truncate"><%= @partner.email %></p>
                 <p class="text-gray-500 text-xs">Connected since <%= current_user.connection_with(@partner)&.created_at&.strftime("%B %d, %Y") %></p>
               </div>
             </div>
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
-              <%= link_to "View Wishlists", wishlists_path(partner: true), class: "bg-teal-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-teal-700 transition duration-200 text-sm font-medium text-center" %>
+              <%= link_to "View Wishlists", wishlists_path(partner: true), class: "bg-pink-500 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-pink-600 transition duration-200 text-sm font-medium text-center" %>
               <%= button_to "Disconnect", connection_path(current_user.connection_with(@partner)), method: :delete, 
                     data: { confirm: "Are you sure you want to disconnect from #{@partner.name || @partner.email}? You won't be able to see each other's wishlists anymore." },
                     class: "bg-red-100 text-red-600 px-3 sm:px-4 py-2 rounded-lg hover:bg-red-200 transition duration-200 text-sm font-medium" %>
@@ -94,7 +94,7 @@
                 </div>
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                   <%= link_to "Accept", invitation_path(invitation.token, accept: true), method: :patch,
-                        class: "bg-teal-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-teal-700 transition duration-200 text-sm font-medium text-center" %>
+                        class: "bg-pink-500 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-pink-600 transition duration-200 text-sm font-medium text-center" %>
                   <%= link_to "Decline", invitation_path(invitation.token, accept: false), method: :patch,
                         class: "bg-gray-100 text-gray-600 px-3 sm:px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200 text-sm font-medium text-center" %>
                 </div>
@@ -108,18 +108,18 @@
 
   <% if sent_invitations.any? %>
     <div class="mb-8">
-      <div class="bg-white rounded-xl border border-teal-200 overflow-hidden">
-        <div class="bg-teal-50 px-4 sm:px-6 py-4">
+      <div class="bg-white rounded-xl border border-pink-200 overflow-hidden">
+        <div class="bg-pink-50 px-4 sm:px-6 py-4">
           <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
             <div class="flex items-center gap-3">
               <div class="bg-white rounded-lg p-2">
-                <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                 </svg>
               </div>
               <h2 class="text-base sm:text-lg font-semibold text-gray-800">Invitation Sent</h2>
             </div>
-            <span class="text-sm text-teal-600">Waiting for your partner to accept</span>
+            <span class="text-sm text-pink-500">Waiting for them to accept</span>
           </div>
         </div>
         <div class="divide-y divide-gray-100">
@@ -145,15 +145,15 @@
   <!-- Empty State -->
   <% if @partner.nil? && received_invitations.empty? && sent_invitations.empty? %>
     <div class="text-center py-12">
-      <div class="bg-teal-50 rounded-xl p-8 max-w-md mx-auto">
+      <div class="bg-pink-50 rounded-xl p-8 max-w-md mx-auto">
         <div class="bg-white rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-          <svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-8 h-8 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
           </svg>
         </div>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">No Connections Yet</h3>
-        <p class="text-gray-600 mb-6">Start by inviting your partner to share wishlists together</p>
-        <%= link_to "Send Your First Invitation", new_invitation_path, class: "bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 transition duration-200 font-medium" %>
+        <p class="text-gray-600 mb-6">Start by inviting friends & family to share wishlists together</p>
+        <%= link_to "Send Your First Invitation", new_invitation_path, class: "bg-pink-500 text-white px-6 py-3 rounded-lg hover:bg-pink-600 transition duration-200 font-medium" %>
       </div>
     </div>
   <% end %>
