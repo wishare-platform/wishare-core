@@ -5,14 +5,26 @@ class WishlistsController < ApplicationController
 
   def index
     @wishlists = current_user.wishlists.includes(:wishlist_items)
-    @partner = current_user.partner
-    # Include both partner_only and public wishlists from connected users
-    if @partner
-      partner_wishlists = @partner.wishlists.where(visibility: [:partner_only, :publicly_visible]).includes(:wishlist_items)
-      @partner_wishlists = partner_wishlists
-    else
-      @partner_wishlists = []
+    
+    # Get all connected users
+    connected_user_ids = current_user.accepted_connections.map do |connection|
+      connection.other_user(current_user).id
     end
+    
+    # Get wishlists from all connected users (friends_and_family and public)
+    if connected_user_ids.any?
+      @connected_wishlists = Wishlist.where(user_id: connected_user_ids)
+                                     .where(visibility: [:partner_only, :publicly_visible])
+                                     .includes(:user, :wishlist_items)
+    else
+      @connected_wishlists = []
+    end
+    
+    # Also get all public wishlists from non-connected users
+    @public_wishlists = Wishlist.where(visibility: :publicly_visible)
+                                .where.not(user_id: [current_user.id] + connected_user_ids)
+                                .includes(:user, :wishlist_items)
+    
     @focus_partner = params[:partner] == 'true'
   end
 
@@ -75,8 +87,12 @@ class WishlistsController < ApplicationController
     return true if wishlist.user == current_user
     return true if wishlist.publicly_visible?
     return false if wishlist.private_list?
-    return false unless current_user&.connected_to?(wishlist.user)
     
-    wishlist.partner_only?
+    # For friends_and_family visibility (currently partner_only in the enum)
+    if wishlist.partner_only?
+      return current_user&.connected_to?(wishlist.user)
+    end
+    
+    false
   end
 end
