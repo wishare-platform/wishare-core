@@ -64,7 +64,7 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     user_name: 'apikey',
-    password: ENV.fetch('SENDGRID_API_KEY', nil),
+    password: ENV['SENDGRID_API_KEY'],
     address: 'smtp.sendgrid.net',
     port: 587,
     authentication: :plain,
