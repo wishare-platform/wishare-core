@@ -24,6 +24,8 @@ default: &default
 development:
   <<: *default
   database: wishare_development
+  host: localhost
+  # Ignore DATABASE_URL in development - use local PostgreSQL
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -58,6 +60,8 @@ development:
 test:
   <<: *default
   database: wishare_test
+  host: localhost
+  # Ignore DATABASE_URL in test - use local PostgreSQL
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -85,7 +89,11 @@ production:
     encoding: unicode
     pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
     timeout: 5000
-    url: <%= ENV['DATABASE_URL'] %>
+    database: <%= ENV['DATABASE_NAME'] || 'railway' %>
+    username: <%= ENV['DATABASE_USER'] || 'postgres' %>
+    password: <%= ENV['DATABASE_PASSWORD'] %>
+    host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
+    port: <%= ENV['DATABASE_PORT'] || 5432 %>
   cache:
     <<: *primary_production
   queue:
