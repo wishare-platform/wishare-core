@@ -2,11 +2,12 @@ class Wishlist < ApplicationRecord
   belongs_to :user
   has_many :wishlist_items, dependent: :destroy
 
-  enum :visibility, { private_list: 0, partner_only: 1 }
+  enum :visibility, { private_list: 0, partner_only: 1, publicly_visible: 2 }
 
   validates :name, presence: true
   validates :visibility, presence: true
 
   scope :default_lists, -> { where(is_default: true) }
   scope :custom_lists, -> { where(is_default: false) }
+  scope :public_lists, -> { where(visibility: :publicly_visible) }
 end

@@ -1,0 +1,161 @@
+<% content_for :title, "#{@user.name}'s Profile" %>
+<% content_for :description, "Explore #{@user.name}'s public wishlists on Wishare - the perfect place to find gift ideas for any occasion." %>
+
+<div class="min-h-screen bg-gradient-to-br from-rose-50 via-white to-purple-50">
+  <div class="container mx-auto px-4 py-8">
+    <!-- User Profile Header -->
+    <div class="bg-white rounded-xl shadow-sm border border-rose-100 p-8 mb-8">
+      <div class="flex items-center space-x-6">
+        <!-- User Avatar -->
+        <div class="flex-shrink-0">
+          <% if @user.avatar_url.present? %>
+            <img src="<%= @user.avatar_url %>" alt="<%= @user.name %>" class="w-20 h-20 rounded-full border-4 border-rose-100">
+          <% else %>
+            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-rose-400 to-purple-500 flex items-center justify-center border-4 border-rose-100">
+              <span class="text-white text-2xl font-bold">
+                <%= @user.name.split(' ').map(&:first).join.upcase %>
+              </span>
+            </div>
+          <% end %>
+        </div>
+        
+        <!-- User Info -->
+        <div class="flex-grow">
+          <h1 class="text-3xl font-bold text-gray-900 mb-2"><%= @user.name %></h1>
+          <p class="text-gray-600 text-lg">
+            <i class="fas fa-heart text-rose-500 mr-2"></i>
+            Sharing gift ideas on Wishare
+          </p>
+          <p class="text-sm text-gray-500 mt-2">
+            Member since <%= @user.created_at.strftime("%B %Y") %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Public Wishlists -->
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-gray-900">
+          <i class="fas fa-globe text-rose-500 mr-3"></i>
+          Public Wishlists
+        </h2>
+        <p class="text-gray-600">
+          <%= pluralize(@public_wishlists.count, 'public wishlist') %>
+        </p>
+      </div>
+
+      <% if @public_wishlists.any? %>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <% @public_wishlists.each do |wishlist| %>
+            <div class="bg-white rounded-xl shadow-sm border border-rose-100 hover:shadow-lg transition-all duration-300 group">
+              <div class="p-6">
+                <!-- Wishlist Header -->
+                <div class="flex items-start justify-between mb-4">
+                  <div class="flex-grow">
+                    <h3 class="text-xl font-semibold text-gray-900 group-hover:text-rose-600 transition-colors duration-200">
+                      <%= wishlist.name %>
+                      <% if wishlist.is_default %>
+                        <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800">
+                          <i class="fas fa-star mr-1"></i>
+                          Default
+                        </span>
+                      <% end %>
+                    </h3>
+                    <% if wishlist.description.present? %>
+                      <p class="text-gray-600 mt-2 text-sm leading-relaxed">
+                        <%= truncate(wishlist.description, length: 120) %>
+                      </p>
+                    <% end %>
+                  </div>
+                  
+                  <div class="flex-shrink-0 ml-4">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      <i class="fas fa-globe mr-1"></i>
+                      Public
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Wishlist Stats -->
+                <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                  <span>
+                    <i class="fas fa-gift mr-1"></i>
+                    <%= pluralize(wishlist.wishlist_items.count, 'item') %>
+                  </span>
+                  <span>
+                    <i class="fas fa-calendar mr-1"></i>
+                    <%= wishlist.created_at.strftime("%B %Y") %>
+                  </span>
+                </div>
+
+                <!-- Recent Items Preview -->
+                <% if wishlist.wishlist_items.any? %>
+                  <div class="space-y-2">
+                    <p class="text-xs font-medium text-gray-600 mb-2">Recent Items:</p>
+                    <% wishlist.wishlist_items.limit(3).each do |item| %>
+                      <div class="flex items-center space-x-2">
+                        <i class="fas fa-gift text-rose-400 text-xs"></i>
+                        <span class="text-sm text-gray-700 truncate">
+                          <%= item.name %>
+                        </span>
+                        <% if item.price.present? %>
+                          <span class="text-xs text-gray-500">
+                            $<%= number_with_precision(item.price, precision: 0) %>
+                          </span>
+                        <% end %>
+                      </div>
+                    <% end %>
+                    
+                    <% if wishlist.wishlist_items.count > 3 %>
+                      <p class="text-xs text-gray-500 mt-2">
+                        +<%= wishlist.wishlist_items.count - 3 %> more items
+                      </p>
+                    <% end %>
+                  </div>
+                <% else %>
+                  <div class="text-center py-4">
+                    <i class="fas fa-gift text-gray-300 text-2xl mb-2"></i>
+                    <p class="text-sm text-gray-500">No items yet</p>
+                  </div>
+                <% end %>
+
+                <!-- View Wishlist Button -->
+                <div class="mt-6 pt-4 border-t border-gray-100">
+                  <%= link_to wishlist_path(wishlist), 
+                      class: "inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-rose-500 to-purple-600 rounded-lg hover:from-rose-600 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg" do %>
+                    <i class="fas fa-eye mr-2"></i>
+                    View Wishlist
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <!-- Empty State -->
+        <div class="bg-white rounded-xl shadow-sm border border-rose-100 p-12 text-center">
+          <div class="max-w-sm mx-auto">
+            <i class="fas fa-globe text-6xl text-gray-300 mb-6"></i>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">
+              No Public Wishlists Yet
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              <%= @user.name %> hasn't shared any public wishlists yet. 
+              Check back later for gift ideas!
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Back to Browse -->
+    <div class="text-center">
+      <%= link_to root_path, 
+          class: "inline-flex items-center px-6 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200" do %>
+        <i class="fas fa-arrow-left mr-2"></i>
+        Back to Dashboard
+      <% end %>
+    </div>
+  </div>
+</div>

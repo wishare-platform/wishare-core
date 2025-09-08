@@ -18,6 +18,9 @@ Rails.application.routes.draw do
     end
   end
   
+  # Public user profiles
+  resources :users, only: [:show]
+  
   authenticated :user do
     root 'dashboard#index', as: :authenticated_root
   end

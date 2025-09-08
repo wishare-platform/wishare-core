@@ -1,11 +1,18 @@
 class WishlistsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:show]
   before_action :set_wishlist, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_authenticated_for_private_wishlists, only: [:show]
 
   def index
     @wishlists = current_user.wishlists.includes(:wishlist_items)
     @partner = current_user.partner
-    @partner_wishlists = @partner&.wishlists&.partner_only&.includes(:wishlist_items) || []
+    # Include both partner_only and public wishlists from connected users
+    if @partner
+      partner_wishlists = @partner.wishlists.where(visibility: [:partner_only, :publicly_visible]).includes(:wishlist_items)
+      @partner_wishlists = partner_wishlists
+    else
+      @partner_wishlists = []
+    end
     @focus_partner = params[:partner] == 'true'
   end
 
@@ -59,10 +66,16 @@ class WishlistsController < ApplicationController
     params.require(:wishlist).permit(:name, :description, :is_default, :visibility)
   end
 
+  def ensure_authenticated_for_private_wishlists
+    return if @wishlist.publicly_visible?
+    authenticate_user!
+  end
+
   def can_view_wishlist?(wishlist)
     return true if wishlist.user == current_user
+    return true if wishlist.publicly_visible?
     return false if wishlist.private_list?
-    return false unless current_user.connected_to?(wishlist.user)
+    return false unless current_user&.connected_to?(wishlist.user)
     
     wishlist.partner_only?
   end
