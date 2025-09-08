@@ -2,11 +2,11 @@
   <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
     <div>
       <% if @focus_partner %>
-        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800"><%= @partner.name || "Partner" %>'s Wishlists</h1>
-        <p class="text-gray-600 mt-1 text-sm sm:text-base">Browse items your partner would love to receive</p>
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800"><%= @partner.name || "Friend" %>'s Wishlists</h1>
+        <p class="text-gray-600 mt-1 text-sm sm:text-base">Browse items they would love to receive</p>
       <% else %>
         <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Your Wishlists</h1>
-        <p class="text-gray-600 mt-1 text-sm sm:text-base">Create and manage your wishlists to share with your partner</p>
+        <p class="text-gray-600 mt-1 text-sm sm:text-base">Create and manage your wishlists to share with friends & family</p>
       <% end %>
     </div>
     <div class="flex gap-3">
@@ -81,13 +81,13 @@
     <% else %>
       <div class="bg-gradient-to-br from-rose-50 to-amber-50 rounded-3xl border-2 border-dashed border-rose-200 p-12 text-center">
         <div class="bg-white/80 backdrop-blur-sm rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center shadow-lg">
-          <svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-8 h-8 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
           </svg>
         </div>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">Create New Wishlist</h3>
         <p class="text-gray-600 mb-6">Add items you'd love to receive</p>
-        <%= link_to "Get Started", new_wishlist_path, class: "bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 transition duration-200 font-medium" %>
+        <%= link_to "Get Started", new_wishlist_path, class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-6 py-3 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 font-medium shadow-lg" %>
       </div>
     <% end %>
   <% end %>
@@ -101,8 +101,8 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046-.151-1.5-.454a2.704 2.704 0 01-1.042-.918 2.704 2.704 0 01-.454-1.5V8.546c0-.523.151-1.046.454-1.5.303-.454.631-.813 1.042-.918.453-.303.977-.454 1.5-.454s1.046.151 1.5.454c.411.105.739.464 1.042.918.303.454.454.977.454 1.5v4.128c0 .523-.151 1.046-.454 1.5a2.704 2.704 0 01-1.042.918c-.454.303-.977.454-1.5.454zM12 21a9 9 0 100-18 9 9 0 000 18z"></path>
             </svg>
           </div>
-          <h2 class="text-2xl font-bold text-gray-800">Partner's Wishlist</h2>
-          <p class="text-gray-600">See what your partner wants</p>
+          <h2 class="text-2xl font-bold text-gray-800">Friends & Family</h2>
+          <p class="text-gray-600">See what they want</p>
         </div>
       <% end %>
       
@@ -177,19 +177,19 @@
         </svg>
       </div>
       <h3 class="text-xl font-semibold text-gray-800 mb-2">No Wishlists Yet</h3>
-      <p class="text-gray-600 mb-6">Your partner hasn't created any shareable wishlists yet</p>
-      <%= link_to "Back to My Wishlists", wishlists_path, class: "bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 transition duration-200 font-medium" %>
+      <p class="text-gray-600 mb-6">They haven't created any shareable wishlists yet</p>
+      <%= link_to "Back to My Wishlists", wishlists_path, class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-6 py-3 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 font-medium shadow-lg" %>
     </div>
   <% elsif @partner.nil? %>
-    <div class="<%= @focus_partner ? '' : 'mt-12' %> bg-teal-50 rounded-xl p-8 text-center">
+    <div class="<%= @focus_partner ? '' : 'mt-12' %> bg-gradient-to-br from-rose-50 to-amber-50 rounded-xl p-8 text-center">
       <div class="bg-white rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-        <svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-8 h-8 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
         </svg>
       </div>
-      <h3 class="text-xl font-semibold text-gray-800 mb-2">Invite Your Partner</h3>
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">Invite Friends & Family</h3>
       <p class="text-gray-600 mb-6">Send a simple invitation to share wishlists with each other</p>
-      <%= link_to "Send Invitation", new_invitation_path, class: "bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 transition duration-200 font-medium" %>
+      <%= link_to "Send Invitation", new_invitation_path, class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-6 py-3 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 font-medium shadow-lg" %>
     </div>
   <% end %>
 </div>

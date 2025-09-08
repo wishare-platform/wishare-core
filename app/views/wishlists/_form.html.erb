@@ -19,28 +19,28 @@
 
   <div class="mb-6">
     <%= form.label :name, class: "block text-sm font-semibold text-gray-800 mb-2" %>
-    <%= form.text_field :name, class: "w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200", placeholder: "Birthday Wishlist 2024" %>
+    <%= form.text_field :name, class: "w-full px-4 py-3 border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-rose-50/30 focus:bg-white", placeholder: "Birthday Wishlist 2024" %>
   </div>
 
   <div class="mb-6">
     <%= form.label :description, class: "block text-sm font-semibold text-gray-800 mb-2" %>
-    <%= form.text_area :description, rows: 4, class: "w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200 resize-none", placeholder: "Things I'd love for my upcoming birthday..." %>
+    <%= form.text_area :description, rows: 4, class: "w-full px-4 py-3 border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 resize-none bg-rose-50/30 focus:bg-white", placeholder: "Things I'd love for my upcoming birthday..." %>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
     <div>
       <%= form.label :visibility, class: "block text-sm font-semibold text-gray-800 mb-2" %>
-      <%= form.select :visibility, options_for_select([['Partner Only', 'partner_only'], ['Private', 'private_list']], wishlist.visibility), {}, class: "w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition duration-200 bg-white" %>
+      <%= form.select :visibility, options_for_select([['Friends & Family', 'partner_only'], ['Private', 'private_list']], wishlist.visibility), {}, class: "w-full px-4 py-3 border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-white" %>
       <p class="mt-2 text-sm text-gray-500">Choose who can see this wishlist</p>
     </div>
 
     <div class="flex items-center">
-      <div class="bg-teal-50 p-4 rounded-xl w-full">
+      <div class="bg-gradient-to-r from-rose-50 to-amber-50 p-4 rounded-xl w-full">
         <div class="flex items-start gap-3">
-          <%= form.check_box :is_default, class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mt-0.5" %>
+          <%= form.check_box :is_default, class: "h-4 w-4 text-rose-600 focus:ring-rose-500 border-rose-300 rounded mt-0.5" %>
           <div>
             <%= form.label :is_default, "Set as default wishlist", class: "text-sm font-medium text-gray-700" %>
-            <p class="text-xs text-gray-500 mt-1">This will be shown first to your partner</p>
+            <p class="text-xs text-gray-500 mt-1">This will be shown first to friends & family</p>
           </div>
         </div>
       </div>
@@ -48,7 +48,7 @@
   </div>
 
   <div class="flex gap-3 pt-4">
-    <%= form.submit class: "bg-teal-600 text-white px-8 py-3 rounded-xl hover:bg-teal-700 transition duration-200 cursor-pointer font-medium" %>
+    <%= form.submit class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-8 py-3 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 cursor-pointer font-medium shadow-lg" %>
     <%= link_to "Cancel", wishlists_path, class: "bg-gray-100 text-gray-700 px-8 py-3 rounded-xl hover:bg-gray-200 transition duration-200 font-medium" %>
   </div>
 <% end %>
