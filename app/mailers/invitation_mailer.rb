@@ -3,7 +3,7 @@ class InvitationMailer < ApplicationMailer
     @invitation = invitation_record
     @sender = @invitation.sender
     @recipient_email = @invitation.recipient_email
-    @invitation_url = invitation_url(token: @invitation.token)
+    @invitation_url = accept_invitation_url(token: @invitation.token)
     
     # Check if recipient already has an account
     @existing_user = User.find_by(email: @recipient_email)

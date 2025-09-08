@@ -22,12 +22,19 @@ class User < ApplicationRecord
   validates :name, presence: true
 
   def self.from_omniauth(auth)
-    find_or_create_by(provider: auth.provider, uid: auth.uid) do |user|
-      user.email = auth.info.email
-      user.password = Devise.friendly_token[0, 20]
-      user.name = auth.info.name
-      user.avatar_url = auth.info.image
+    user = find_or_create_by(provider: auth.provider, uid: auth.uid) do |u|
+      u.email = auth.info.email
+      u.password = Devise.friendly_token[0, 20]
+      u.name = auth.info.name
+      u.avatar_url = auth.info.image
     end
+    
+    # Update avatar_url and name for existing users
+    if user.persisted? && (user.avatar_url != auth.info.image || user.name != auth.info.name)
+      user.update(avatar_url: auth.info.image, name: auth.info.name)
+    end
+    
+    user
   end
 
   def all_connections
