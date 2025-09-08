@@ -1,1 +1,26 @@
+# Robots.txt for Wishare
 # See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+
+User-agent: *
+Allow: /
+Disallow: /users/
+Disallow: /admin/
+Disallow: /api/
+Disallow: /rails/
+Disallow: /*?*utm_*
+Disallow: /*?*ref=*
+Disallow: /invite/
+
+# Allow specific authentication pages for indexing
+Allow: /users/sign_in
+Allow: /users/sign_up
+
+# Legal pages should be indexed
+Allow: /terms-of-service
+Allow: /privacy-policy
+
+# Sitemap location (when implemented)
+# Sitemap: https://wishare.com/sitemap.xml
+
+# Crawl delay (optional)
+Crawl-delay: 1

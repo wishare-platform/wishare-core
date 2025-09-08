@@ -1,3 +1,7 @@
+<% content_for :title, @wishlist.name %>
+<% content_for :description, @wishlist.description.present? ? "#{@wishlist.description} - #{pluralize(@wishlist.wishlist_items.count, 'item')} in this wishlist." : "View #{@wishlist.name} wishlist with #{pluralize(@wishlist.wishlist_items.count, 'gift idea')} from #{@wishlist.user.name || @wishlist.user.email}." %>
+<% content_for :structured_data, structured_data_wishlist(@wishlist) %>
+
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <div class="mb-6">
     <%= link_to wishlists_path, class: "inline-flex items-center text-gray-600 hover:text-rose-600 transition duration-200" do %>
