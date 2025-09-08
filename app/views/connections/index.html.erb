@@ -16,8 +16,8 @@
     <% end %>
   </div>
 
-  <!-- Current Partner -->
-  <% if @partner %>
+  <!-- Connected Friends -->
+  <% if @connections.any? %>
     <div class="mb-8">
       <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
         <div class="bg-pink-50 px-4 sm:px-6 py-4">
@@ -27,32 +27,40 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
               </svg>
             </div>
-            <h2 class="text-lg sm:text-xl font-semibold text-gray-800">Connected Friend</h2>
+            <h2 class="text-lg sm:text-xl font-semibold text-gray-800">Connected Friends</h2>
+            <span class="bg-pink-100 text-pink-700 text-xs px-2 py-1 rounded-full font-medium">
+              <%= pluralize(@connections.count, 'connection') %>
+            </span>
           </div>
         </div>
-        <div class="p-4 sm:p-6">
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div class="flex items-center gap-4">
-              <div class="bg-pink-100 rounded-full w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center flex-shrink-0">
-                <span class="text-sm sm:text-lg font-semibold text-pink-600">
-                  <%= @partner.name&.first&.upcase || @partner.email&.first&.upcase %>
-                </span>
-              </div>
-              <div class="min-w-0">
-                <h3 class="text-base sm:text-lg font-semibold text-gray-800 truncate">
-                  <%= @partner.name || "Friend" %>
-                </h3>
-                <p class="text-gray-600 text-sm truncate"><%= @partner.email %></p>
-                <p class="text-gray-500 text-xs">Connected since <%= current_user.connection_with(@partner)&.created_at&.strftime("%B %d, %Y") %></p>
+        <div class="divide-y divide-gray-100">
+          <% @connections.each do |connection| %>
+            <% partner = connection.other_user(current_user) %>
+            <div class="p-4 sm:p-6">
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div class="flex items-center gap-4">
+                  <div class="bg-pink-100 rounded-full w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center flex-shrink-0">
+                    <span class="text-sm sm:text-lg font-semibold text-pink-600">
+                      <%= partner.name&.first&.upcase || partner.email&.first&.upcase %>
+                    </span>
+                  </div>
+                  <div class="min-w-0">
+                    <h3 class="text-base sm:text-lg font-semibold text-gray-800 truncate">
+                      <%= partner.name || "Friend" %>
+                    </h3>
+                    <p class="text-gray-600 text-sm truncate"><%= partner.email %></p>
+                    <p class="text-gray-500 text-xs">Connected since <%= connection.created_at.strftime("%B %d, %Y") %></p>
+                  </div>
+                </div>
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
+                  <%= link_to "View Wishlists", wishlists_path(partner_id: partner.id), class: "bg-pink-500 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-pink-600 transition duration-200 text-sm font-medium text-center" %>
+                  <%= button_to "Disconnect", connection_path(connection), method: :delete, 
+                        data: { confirm: "Are you sure you want to disconnect from #{partner.name || partner.email}? You won't be able to see each other's wishlists anymore." },
+                        class: "bg-red-100 text-red-600 px-3 sm:px-4 py-2 rounded-lg hover:bg-red-200 transition duration-200 text-sm font-medium" %>
+                </div>
               </div>
             </div>
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
-              <%= link_to "View Wishlists", wishlists_path(partner: true), class: "bg-pink-500 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-pink-600 transition duration-200 text-sm font-medium text-center" %>
-              <%= button_to "Disconnect", connection_path(current_user.connection_with(@partner)), method: :delete, 
-                    data: { confirm: "Are you sure you want to disconnect from #{@partner.name || @partner.email}? You won't be able to see each other's wishlists anymore." },
-                    class: "bg-red-100 text-red-600 px-3 sm:px-4 py-2 rounded-lg hover:bg-red-200 transition duration-200 text-sm font-medium" %>
-            </div>
-          </div>
+          <% end %>
         </div>
       </div>
     </div>
@@ -60,7 +68,7 @@
 
   <!-- Pending Invitations -->
   <% received_invitations = current_user.received_invitations.pending %>
-  <% sent_invitations = current_user.sent_invitations.pending %>
+  <% sent_invitations = @pending_invitations %>
 
   <% if received_invitations.any? %>
     <div class="mb-8">
