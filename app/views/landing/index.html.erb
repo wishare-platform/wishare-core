@@ -1,0 +1,95 @@
+<% content_for :title, t('landing.title') %>
+<% content_for :description, t('landing.description') %>
+
+<div class="min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-purple-50">
+  <!-- Language Switcher -->
+  <div class="fixed top-4 right-4 z-50">
+    <div class="flex gap-2">
+      <% available_locales.each do |locale| %>
+        <%= link_to locale_switch_url(locale[:code]), 
+              class: "flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition duration-200 bg-white/80 backdrop-blur-sm border shadow-sm #{'border-rose-200 text-rose-700 bg-rose-50/80' if I18n.locale.to_s == locale[:code]} #{'border-gray-200 text-gray-600 hover:bg-white hover:border-gray-300' unless I18n.locale.to_s == locale[:code]}" do %>
+          <span><%= locale[:flag] %></span>
+          <span class="hidden sm:inline"><%= locale[:name] %></span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-4xl mx-auto">
+      <!-- Logo and Brand -->
+      <div class="flex items-center justify-center gap-3 mb-8">
+        <span class="text-6xl sm:text-7xl">💝</span>
+        <div>
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-rose-500 to-purple-600 bg-clip-text text-transparent">
+            Wishare
+          </h1>
+          <p class="text-lg sm:text-xl text-gray-600 mt-2">
+            <%= t('app.tagline') %>
+          </p>
+        </div>
+      </div>
+      
+      <!-- Tagline -->
+      <h2 class="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-800 mb-6">
+        <%= t('landing.hero.title') %>
+      </h2>
+      
+      <p class="text-lg sm:text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
+        <%= t('landing.hero.subtitle') %>
+      </p>
+      
+      <!-- Call to Action -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+        <%= link_to new_user_registration_path, 
+              class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-8 py-4 rounded-2xl hover:from-rose-600 hover:to-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 transition duration-200 cursor-pointer font-semibold text-lg touch-manipulation shadow-lg inline-flex items-center gap-2" do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          <%= t('landing.cta.get_started') %>
+        <% end %>
+        
+        <%= link_to new_user_session_path,
+              class: "border-2 border-rose-500 text-rose-600 px-8 py-4 rounded-2xl hover:bg-rose-50 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 transition duration-200 cursor-pointer font-semibold text-lg touch-manipulation inline-flex items-center gap-2" do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+          </svg>
+          <%= t('landing.cta.sign_in') %>
+        <% end %>
+      </div>
+      
+      <!-- Features -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-rose-100">
+          <div class="text-3xl mb-4">🎁</div>
+          <h3 class="text-lg font-semibold text-gray-800 mb-2">
+            <%= t('landing.features.create.title') %>
+          </h3>
+          <p class="text-gray-600 text-sm">
+            <%= t('landing.features.create.description') %>
+          </p>
+        </div>
+        
+        <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-rose-100">
+          <div class="text-3xl mb-4">👥</div>
+          <h3 class="text-lg font-semibold text-gray-800 mb-2">
+            <%= t('landing.features.share.title') %>
+          </h3>
+          <p class="text-gray-600 text-sm">
+            <%= t('landing.features.share.description') %>
+          </p>
+        </div>
+        
+        <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-rose-100">
+          <div class="text-3xl mb-4">🎉</div>
+          <h3 class="text-lg font-semibold text-gray-800 mb-2">
+            <%= t('landing.features.occasions.title') %>
+          </h3>
+          <p class="text-gray-600 text-sm">
+            <%= t('landing.features.occasions.description') %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,6 +4,26 @@ pt-BR:
     tagline: "Presentes pensados com carinho"
     description: "Conecte-se com amigos e família para compartilhar ideias de presente para qualquer ocasião"
   
+  landing:
+    title: "Wishare - Presentes Pensados com Carinho"
+    description: "Crie e compartilhe listas de presente com amigos e família. Perfeito para aniversários, feriados e ocasiões especiais. Torne os presentes mais significativos com o Wishare."
+    hero:
+      title: "Torne cada presente significativo"
+      subtitle: "Crie listas de presente, conecte-se com pessoas queridas e nunca perca uma oportunidade de presente perfeito"
+    cta:
+      get_started: "Começar Gratuitamente"
+      sign_in: "Entrar"
+    features:
+      create:
+        title: "Criar Listas"
+        description: "Adicione itens que você gostaria de receber para qualquer ocasião"
+      share:
+        title: "Conectar e Compartilhar"
+        description: "Compartilhe com amigos e família para tornar os presentes sem esforço"
+      occasions:
+        title: "Qualquer Ocasião"
+        description: "Aniversários, feriados, casamentos e mais"
+  
   navigation:
     dashboard: "Painel"
     wishlists: "Minhas Listas"
@@ -22,6 +42,8 @@ pt-BR:
       subtitle: "Entre para continuar compartilhando presentes especiais"
       email: "E-mail"
       password: "Senha"
+      email_placeholder: "Digite seu e-mail"
+      password_placeholder: "Digite sua senha"
       remember_me: "Lembrar de mim"
       forgot_password: "Esqueceu sua senha?"
       sign_in_button: "Entrar"
@@ -31,12 +53,21 @@ pt-BR:
       sign_up_link: "Cadastre-se"
     sign_up:
       title: "Junte-se ao Wishare"
+      description: "Junte-se ao Wishare para criar e compartilhar listas de presente com amigos e família. Torne os presentes mais pensados e organizados para todas as ocasiões."
       subtitle: "Comece a compartilhar presentes especiais com amigos e família"
+      invited_title: "Você foi convidado!"
+      invited_message: "Crie sua conta para começar a compartilhar listas de presente."
       name: "Nome"
+      name_placeholder: "Digite seu nome"
       email: "E-mail"
+      email_placeholder: "Digite seu e-mail"
+      birthday: "Aniversário (opcional)"
+      birthday_help: "Opcional - ajuda amigos a lembrar do seu aniversário e criar melhores sugestões de presente"
       password: "Senha"
+      password_placeholder: "Crie uma senha"
       password_confirmation: "Confirmar senha"
-      sign_up_button: "Cadastrar"
+      password_confirmation_placeholder: "Confirme sua senha"
+      sign_up_button: "Criar conta"
       or: "Ou"
       google_sign_up: "Continuar com Google"
       have_account: "Já tem uma conta?"
@@ -44,10 +75,19 @@ pt-BR:
       password_hint: "(mínimo de %{minimum} caracteres)"
     forgot_password:
       title: "Esqueceu sua senha?"
-      subtitle: "Enviaremos instruções para redefini-la"
-      email: "E-mail"
-      send_instructions: "Enviar instruções"
+      subtitle: "Enviaremos um link para redefini-la"
+      email: "Endereço de e-mail"
+      email_placeholder: "Digite seu e-mail"
+      pro_tip_label: "Dica:"
+      pro_tip_message: "Verifique sua pasta de spam se não receber o e-mail"
+      send_instructions: "Enviar instruções de redefinição"
       remembered: "Lembrou sua senha?"
+    shared:
+      or_continue_with: "Ou continue com"
+      sign_in_with_google: "Entrar com Google"
+      sign_in_instead: "Entrar"
+      create_account: "Criar uma conta"
+      forgot_password: "Esqueceu sua senha?"
       sign_in_link: "Entrar"
     reset_password:
       title: "Redefinir sua senha"
@@ -71,11 +111,22 @@ pt-BR:
       title: "Suas Listas de Desejos"
       subtitle: "Gerencie suas listas de presentes para todas as ocasiões"
       new_wishlist: "Nova Lista"
-      empty_state: "Você ainda não criou nenhuma lista"
-      empty_state_description: "Crie sua primeira lista para começar a compartilhar ideias de presente com amigos e família"
+      empty_state:
+        title: "Criar Nova Lista de Presente"
+        subtitle: "Adicione itens que você gostaria de receber"
+        get_started: "Começar"
       connected_wishlists: "Listas de Amigos e Família"
       public_wishlists: "Listas Públicas"
       your_wishlists: "Suas Listas"
+      delete_confirmation: "Tem certeza que deseja excluir '%{name}'? Isso também excluirá todos os itens desta lista."
+      partner_empty:
+        title: "Ainda Não Há Listas"
+        subtitle: "Eles ainda não criaram nenhuma lista compartilhável"
+        back_to_mine: "Voltar para Minhas Listas"
+      no_connections:
+        title: "Convide Amigos e Família"
+        subtitle: "Envie um convite simples para compartilhar listas de presente uns com os outros"
+        send_invitation: "Enviar Convite"
       items_count:
         zero: "Nenhum item"
         one: "%{count} item"

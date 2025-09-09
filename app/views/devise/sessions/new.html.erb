@@ -2,6 +2,19 @@
 <% content_for :description, "Sign in to your Wishare account to create and manage wishlists, connect with friends and family, and make gifting more meaningful." %>
 
 <div class="min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-purple-50 flex flex-col justify-center px-4 py-8 sm:px-6 lg:px-8">
+  <!-- Language Switcher -->
+  <div class="fixed top-4 right-4 z-50">
+    <div class="flex gap-2">
+      <% available_locales.each do |locale| %>
+        <%= link_to locale_switch_url(locale[:code]), 
+              class: "flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition duration-200 bg-white/80 backdrop-blur-sm border shadow-sm #{'border-rose-200 text-rose-700 bg-rose-50/80' if I18n.locale.to_s == locale[:code]} #{'border-gray-200 text-gray-600 hover:bg-white hover:border-gray-300' unless I18n.locale.to_s == locale[:code]}" do %>
+          <span><%= locale[:flag] %></span>
+          <span class="hidden sm:inline"><%= locale[:name] %></span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
   <div class="mx-auto w-full max-w-sm sm:max-w-md">
     <div class="flex justify-center mb-8">
       <div class="flex items-center gap-3">
@@ -29,7 +42,7 @@
             </div>
             <%= f.email_field :email, autofocus: true, autocomplete: "email", 
                   class: "w-full pl-12 pr-4 py-4 text-base border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-rose-50/50 focus:bg-white", 
-                  placeholder: "Enter your email" %>
+                  placeholder: t('auth.sign_in.email_placeholder') %>
           </div>
         </div>
 
@@ -43,7 +56,7 @@
             </div>
             <%= f.password_field :password, autocomplete: "current-password",
                   class: "w-full pl-12 pr-4 py-4 text-base border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-rose-50/50 focus:bg-white",
-                  placeholder: "Enter your password" %>
+                  placeholder: t('auth.sign_in.password_placeholder') %>
           </div>
         </div>
 

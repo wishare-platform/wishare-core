@@ -68,7 +68,7 @@
 <%= t('wishlists.show.edit') %> <%= t('navigation.wishlists').singularize || 'Lista' %>
                       </div>
                     <% end %>
-                    <%= link_to wishlist, method: :delete, data: { confirm: "Are you sure you want to delete '#{wishlist.name}'? This will also delete all items in this wishlist." }, class: "block px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition duration-200" do %>
+                    <%= link_to wishlist, method: :delete, data: { confirm: t('wishlists.index.delete_confirmation', name: wishlist.name) }, class: "block px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition duration-200" do %>
                       <div class="flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
@@ -181,9 +181,9 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
           </svg>
         </div>
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">Create New Wishlist</h3>
-        <p class="text-gray-600 mb-6">Add items you'd love to receive</p>
-        <%= link_to "Get Started", new_wishlist_path, class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-6 py-3 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 font-medium shadow-lg" %>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2"><%= t('wishlists.index.empty_state.title') %></h3>
+        <p class="text-gray-600 mb-6"><%= t('wishlists.index.empty_state.subtitle') %></p>
+        <%= link_to t('wishlists.index.empty_state.get_started'), new_wishlist_path, class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-6 py-3 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 font-medium shadow-lg" %>
       </div>
     <% end %>
   <% end %>
@@ -448,9 +448,9 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
         </svg>
       </div>
-      <h3 class="text-xl font-semibold text-gray-800 mb-2">No Wishlists Yet</h3>
-      <p class="text-gray-600 mb-6">They haven't created any shareable wishlists yet</p>
-      <%= link_to "Back to My Wishlists", wishlists_path, class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-6 py-3 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 font-medium shadow-lg" %>
+      <h3 class="text-xl font-semibold text-gray-800 mb-2"><%= t('wishlists.index.partner_empty.title') %></h3>
+      <p class="text-gray-600 mb-6"><%= t('wishlists.index.partner_empty.subtitle') %></p>
+      <%= link_to t('wishlists.index.partner_empty.back_to_mine'), wishlists_path, class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-6 py-3 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 font-medium shadow-lg" %>
     </div>
   <% elsif current_user.accepted_connections.empty? %>
     <div class="<%= @focus_partner ? '' : 'mt-12' %> bg-gradient-to-br from-rose-50 to-amber-50 rounded-xl p-8 text-center">
@@ -459,9 +459,9 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
         </svg>
       </div>
-      <h3 class="text-xl font-semibold text-gray-800 mb-2">Invite Friends & Family</h3>
-      <p class="text-gray-600 mb-6">Send a simple invitation to share wishlists with each other</p>
-      <%= link_to "Send Invitation", new_invitation_path, class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-6 py-3 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 font-medium shadow-lg" %>
+      <h3 class="text-xl font-semibold text-gray-800 mb-2"><%= t('wishlists.index.no_connections.title') %></h3>
+      <p class="text-gray-600 mb-6"><%= t('wishlists.index.no_connections.subtitle') %></p>
+      <%= link_to t('wishlists.index.no_connections.send_invitation'), new_invitation_path, class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-6 py-3 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 font-medium shadow-lg" %>
     </div>
   <% end %>
 </div>

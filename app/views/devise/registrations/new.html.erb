@@ -1,14 +1,27 @@
-<% content_for :title, "Create Account" %>
-<% content_for :description, "Join Wishare to create and share wishlists with friends and family. Make gift-giving more thoughtful and organized for every occasion." %>
+<% content_for :title, t('auth.sign_up.title') %>
+<% content_for :description, t('auth.sign_up.description') %>
 
 <div class="min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-purple-50 flex flex-col justify-center px-4 py-8 sm:px-6 lg:px-8">
+  <!-- Language Switcher -->
+  <div class="fixed top-4 right-4 z-50">
+    <div class="flex gap-2">
+      <% available_locales.each do |locale| %>
+        <%= link_to locale_switch_url(locale[:code]), 
+              class: "flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition duration-200 bg-white/80 backdrop-blur-sm border shadow-sm #{'border-rose-200 text-rose-700 bg-rose-50/80' if I18n.locale.to_s == locale[:code]} #{'border-gray-200 text-gray-600 hover:bg-white hover:border-gray-300' unless I18n.locale.to_s == locale[:code]}" do %>
+          <span><%= locale[:flag] %></span>
+          <span class="hidden sm:inline"><%= locale[:name] %></span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
   <div class="mx-auto w-full max-w-sm sm:max-w-md">
     <div class="flex justify-center mb-8">
       <div class="flex items-center gap-3">
         <span class="text-4xl">💝</span>
         <div>
           <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-rose-500 to-purple-600 bg-clip-text text-transparent">Wishare</h1>
-          <p class="text-sm text-gray-600">Share wishlists with friends & family</p>
+          <p class="text-sm text-gray-600"><%= t('app.tagline') %></p>
         </div>
       </div>
     </div>
@@ -16,22 +29,22 @@
 
   <div class="mx-auto w-full max-w-sm sm:max-w-md">
     <div class="bg-white/80 backdrop-blur-sm py-8 px-6 shadow-xl rounded-3xl sm:px-10 border border-rose-100">
-      <h2 class="text-2xl font-bold text-gray-800 text-center mb-2">Create your account ✨</h2>
+      <h2 class="text-2xl font-bold text-gray-800 text-center mb-2"><%= t('auth.sign_up.title') %> ✨</h2>
       <% if params[:email].present? %>
         <div class="bg-gradient-to-r from-rose-50 to-purple-50 border border-rose-200 rounded-xl p-4 mb-6">
           <p class="text-sm text-rose-800 text-center">
-            🎁 <strong>You've been invited!</strong> Create your account to start sharing wishlists.
+            🎁 <strong><%= t('auth.sign_up.invited_title') %></strong> <%= t('auth.sign_up.invited_message') %>
           </p>
         </div>
       <% else %>
-        <p class="text-gray-600 text-center mb-8">Join Wishare and start sharing wishlists with friends & family</p>
+        <p class="text-gray-600 text-center mb-8"><%= t('auth.sign_up.subtitle') %></p>
       <% end %>
       
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-5" }) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
 
         <div>
-          <%= f.label :name, "Your name", class: "block text-sm font-semibold text-gray-800 mb-3" %>
+          <%= f.label :name, t('auth.sign_up.name'), class: "block text-sm font-semibold text-gray-800 mb-3" %>
           <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,12 +53,12 @@
             </div>
             <%= f.text_field :name, autofocus: true,
                   class: "w-full pl-12 pr-4 py-4 text-base border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-rose-50/50 focus:bg-white", 
-                  placeholder: "Enter your name" %>
+                  placeholder: t('auth.sign_up.name_placeholder') %>
           </div>
         </div>
 
         <div>
-          <%= f.label :email, "Email address", class: "block text-sm font-semibold text-gray-800 mb-3" %>
+          <%= f.label :email, t('auth.sign_up.email'), class: "block text-sm font-semibold text-gray-800 mb-3" %>
           <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -55,12 +68,12 @@
             <%= f.email_field :email, autocomplete: "email", 
                   value: params[:email],
                   class: "w-full pl-12 pr-4 py-4 text-base border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-rose-50/50 focus:bg-white", 
-                  placeholder: "Enter your email" %>
+                  placeholder: t('auth.sign_up.email_placeholder') %>
           </div>
         </div>
 
         <div>
-          <%= f.label :date_of_birth, "Birthday (optional)", class: "block text-sm font-semibold text-gray-800 mb-3" %>
+          <%= f.label :date_of_birth, t('auth.sign_up.birthday'), class: "block text-sm font-semibold text-gray-800 mb-3" %>
           <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -70,14 +83,14 @@
             <%= f.date_field :date_of_birth, 
                   class: "w-full pl-12 pr-4 py-4 text-base border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-rose-50/50 focus:bg-white" %>
           </div>
-          <p class="mt-2 text-xs text-gray-500">📅 Optional - helps friends remember your birthday and create better gift suggestions</p>
+          <p class="mt-2 text-xs text-gray-500">📅 <%= t('auth.sign_up.birthday_help') %></p>
         </div>
 
         <div>
           <%= f.label :password, class: "block text-sm font-semibold text-gray-800 mb-2" do %>
-            Password
+            <%= t('auth.sign_up.password') %>
             <% if @minimum_password_length %>
-              <span class="text-gray-500 font-normal">(<%= @minimum_password_length %> characters minimum)</span>
+              <span class="text-gray-500 font-normal"><%= t('auth.sign_up.password_hint', minimum: @minimum_password_length) %></span>
             <% end %>
           <% end %>
           <div class="relative">
@@ -88,12 +101,12 @@
             </div>
             <%= f.password_field :password, autocomplete: "new-password",
                   class: "w-full pl-12 pr-4 py-4 text-base border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-rose-50/50 focus:bg-white",
-                  placeholder: "Create a password" %>
+                  placeholder: t('auth.sign_up.password_placeholder') %>
           </div>
         </div>
 
         <div>
-          <%= f.label :password_confirmation, "Confirm password", class: "block text-sm font-semibold text-gray-800 mb-3" %>
+          <%= f.label :password_confirmation, t('auth.sign_up.password_confirmation'), class: "block text-sm font-semibold text-gray-800 mb-3" %>
           <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -102,12 +115,12 @@
             </div>
             <%= f.password_field :password_confirmation, autocomplete: "new-password",
                   class: "w-full pl-12 pr-4 py-4 text-base border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-rose-50/50 focus:bg-white",
-                  placeholder: "Confirm your password" %>
+                  placeholder: t('auth.sign_up.password_confirmation_placeholder') %>
           </div>
         </div>
 
         <div class="pt-2">
-          <%= f.submit "Create account", class: "w-full bg-gradient-to-r from-rose-500 to-rose-600 text-white py-4 px-6 rounded-xl hover:from-rose-600 hover:to-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 transition duration-200 cursor-pointer font-semibold text-lg touch-manipulation shadow-lg" %>
+          <%= f.submit t('auth.sign_up.sign_up_button'), class: "w-full bg-gradient-to-r from-rose-500 to-rose-600 text-white py-4 px-6 rounded-xl hover:from-rose-600 hover:to-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 transition duration-200 cursor-pointer font-semibold text-lg touch-manipulation shadow-lg" %>
         </div>
       <% end %>
 

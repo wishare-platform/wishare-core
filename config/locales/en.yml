@@ -4,6 +4,26 @@ en:
     tagline: "Thoughtful gifting made simple"
     description: "Connect with friends and family to share gift ideas for any occasion"
   
+  landing:
+    title: "Wishare - Thoughtful Gifting Made Simple"
+    description: "Create and share wishlists with friends and family. Perfect for birthdays, holidays, and special occasions. Make gifting meaningful with Wishare."
+    hero:
+      title: "Make every gift meaningful"
+      subtitle: "Create wishlists, connect with loved ones, and never miss a perfect gift opportunity again"
+    cta:
+      get_started: "Get Started Free"
+      sign_in: "Sign In"
+    features:
+      create:
+        title: "Create Wishlists"
+        description: "Add items you'd love to receive for any occasion"
+      share:
+        title: "Connect & Share"
+        description: "Share with friends and family to make gifting effortless"
+      occasions:
+        title: "Any Occasion"
+        description: "Birthdays, holidays, weddings, and more"
+  
   navigation:
     dashboard: "Dashboard"
     wishlists: "My Wishlists"
@@ -22,6 +42,8 @@ en:
       subtitle: "Sign in to continue sharing thoughtful gifts"
       email: "Email"
       password: "Password"
+      email_placeholder: "Enter your email"
+      password_placeholder: "Enter your password"
       remember_me: "Remember me"
       forgot_password: "Forgot your password?"
       sign_in_button: "Sign in"
@@ -31,12 +53,21 @@ en:
       sign_up_link: "Sign up"
     sign_up:
       title: "Join Wishare"
+      description: "Join Wishare to create and share wishlists with friends and family. Make gift-giving more thoughtful and organized for every occasion."
       subtitle: "Start sharing thoughtful gifts with friends and family"
+      invited_title: "You've been invited!"
+      invited_message: "Create your account to start sharing wishlists."
       name: "Name"
+      name_placeholder: "Enter your name"
       email: "Email"
+      email_placeholder: "Enter your email"
+      birthday: "Birthday (optional)"
+      birthday_help: "Optional - helps friends remember your birthday and create better gift suggestions"
       password: "Password"
+      password_placeholder: "Create a password"
       password_confirmation: "Confirm password"
-      sign_up_button: "Sign up"
+      password_confirmation_placeholder: "Confirm your password"
+      sign_up_button: "Create account"
       or: "Or"
       google_sign_up: "Continue with Google"
       have_account: "Already have an account?"
@@ -44,10 +75,19 @@ en:
       password_hint: "(minimum %{minimum} characters)"
     forgot_password:
       title: "Forgot your password?"
-      subtitle: "We'll send you instructions to reset it"
-      email: "Email"
+      subtitle: "We'll send you a link to reset it"
+      email: "Email address"
+      email_placeholder: "Enter your email"
+      pro_tip_label: "Pro tip:"
+      pro_tip_message: "Check your spam folder if you don't receive an email"
       send_instructions: "Send reset instructions"
       remembered: "Remembered your password?"
+    shared:
+      or_continue_with: "Or continue with"
+      sign_in_with_google: "Sign in with Google"
+      sign_in_instead: "Sign in instead"
+      create_account: "Create an account"
+      forgot_password: "Forgot your password?"
       sign_in_link: "Sign in"
     reset_password:
       title: "Reset your password"
@@ -71,11 +111,22 @@ en:
       title: "Your Wishlists"
       subtitle: "Manage your gift lists for all occasions"
       new_wishlist: "New Wishlist"
-      empty_state: "You haven't created any wishlists yet"
-      empty_state_description: "Create your first wishlist to start sharing gift ideas with friends and family"
+      empty_state:
+        title: "Create New Wishlist"
+        subtitle: "Add items you'd love to receive"
+        get_started: "Get Started"
       connected_wishlists: "Friends & Family Wishlists"
       public_wishlists: "Public Wishlists"
       your_wishlists: "Your Wishlists"
+      delete_confirmation: "Are you sure you want to delete '%{name}'? This will also delete all items in this wishlist."
+      partner_empty:
+        title: "No Wishlists Yet"
+        subtitle: "They haven't created any shareable wishlists yet"
+        back_to_mine: "Back to My Wishlists"
+      no_connections:
+        title: "Invite Friends & Family"
+        subtitle: "Send a simple invitation to share wishlists with each other"
+        send_invitation: "Send Invitation"
       items_count:
         zero: "No items"
         one: "%{count} item"

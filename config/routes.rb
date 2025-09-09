@@ -31,7 +31,7 @@ Rails.application.routes.draw do
       root 'dashboard#index', as: :authenticated_root
     end
     
-    root 'dashboard#index'
+    root 'landing#index'
     
     # Legal pages
     get '/terms-of-service', to: 'legal#terms_of_service', as: :terms_of_service
