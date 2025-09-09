@@ -1,31 +1,391 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
-  hello: "Hello world"
+  app:
+    name: "Wishare"
+    tagline: "Thoughtful gifting made simple"
+    description: "Connect with friends and family to share gift ideas for any occasion"
+  
+  navigation:
+    dashboard: "Dashboard"
+    wishlists: "My Wishlists"
+    connections: "Friends & Family"
+    profile: "Profile"
+    settings: "Settings"
+    sign_out: "Sign out"
+    sign_in: "Sign in"
+    sign_up: "Sign up"
+    view_public_profile: "View Public Profile"
+    invite_friend: "Invite Friend"
+  
+  auth:
+    sign_in:
+      title: "Welcome back to Wishare"
+      subtitle: "Sign in to continue sharing thoughtful gifts"
+      email: "Email"
+      password: "Password"
+      remember_me: "Remember me"
+      forgot_password: "Forgot your password?"
+      sign_in_button: "Sign in"
+      or: "Or"
+      google_sign_in: "Continue with Google"
+      no_account: "Don't have an account?"
+      sign_up_link: "Sign up"
+    sign_up:
+      title: "Join Wishare"
+      subtitle: "Start sharing thoughtful gifts with friends and family"
+      name: "Name"
+      email: "Email"
+      password: "Password"
+      password_confirmation: "Confirm password"
+      sign_up_button: "Sign up"
+      or: "Or"
+      google_sign_up: "Continue with Google"
+      have_account: "Already have an account?"
+      sign_in_link: "Sign in"
+      password_hint: "(minimum %{minimum} characters)"
+    forgot_password:
+      title: "Forgot your password?"
+      subtitle: "We'll send you instructions to reset it"
+      email: "Email"
+      send_instructions: "Send reset instructions"
+      remembered: "Remembered your password?"
+      sign_in_link: "Sign in"
+    reset_password:
+      title: "Reset your password"
+      subtitle: "Choose a new password for your account"
+      new_password: "New password"
+      confirm_password: "Confirm new password"
+      reset_button: "Reset password"
+  
+  dashboard:
+    welcome: "Welcome to Wishare, %{name}!"
+    subtitle: "Your central hub for thoughtful gifting across all your relationships"
+    quick_actions: "Quick Actions"
+    create_wishlist: "Create New Wishlist"
+    invite_friends: "Invite Friends & Family"
+    view_connections: "View Connections"
+    recent_activity: "Recent Activity"
+    no_activity: "No recent activity to show"
+  
+  wishlists:
+    index:
+      title: "Your Wishlists"
+      subtitle: "Manage your gift lists for all occasions"
+      new_wishlist: "New Wishlist"
+      empty_state: "You haven't created any wishlists yet"
+      empty_state_description: "Create your first wishlist to start sharing gift ideas with friends and family"
+      connected_wishlists: "Friends & Family Wishlists"
+      public_wishlists: "Public Wishlists"
+      your_wishlists: "Your Wishlists"
+      items_count:
+        zero: "No items"
+        one: "%{count} item"
+        other: "%{count} items"
+      visibility:
+        private: "Private"
+        friends_and_family: "Friends & Family"
+        publicly_visible: "Public"
+      default_badge: "Default"
+      event_type: "Event"
+      days_until: "%{count} days"
+      days_left:
+        one: "1 day left"
+        other: "%{count} days left"
+      event_passed: "Past event"
+      section_descriptions:
+        connected: "Wishlists shared with you"
+        public: "Browse wishlists from the community"
+      buttons:
+        view_wishlist: "View Wishlist"
+        view_items: "View Items"
+        add_item: "Add Item"
+        browse_items: "Browse Items"
+      item_counts:
+        available:
+          one: "%{count} available item"
+          other: "%{count} available items"
+        purchased:
+          one: "%{count} purchased"
+          other: "%{count} purchased"
+    new:
+      title: "Create a New Wishlist"
+      subtitle: "Set up a gift list for any occasion"
+    edit:
+      title: "Edit Wishlist"
+      subtitle: "Update your wishlist details"
+    form:
+      name: "Wishlist Name"
+      name_placeholder: "e.g., Birthday Wishes, Holiday Gifts"
+      description: "Description"
+      description_placeholder: "Add notes about this wishlist..."
+      event_type: "Event Type"
+      event_date: "Event Date"
+      visibility: "Who can see this wishlist?"
+      visibility_help:
+        private: "Only you can see this wishlist"
+        friends_and_family: "Your connected friends and family can see this"
+        publicly_visible: "Anyone with the link can see this (perfect for registries)"
+      visibility_labels:
+        publicly_visible: "Public"
+        friends_and_family: "Friends & Family"
+        private: "Private"
+      make_default: "Make this my default wishlist"
+      default_help: "Items added from external sites will go to your default wishlist"
+      save_button: "Save Wishlist"
+      cancel_button: "Cancel"
+      event_type_help: "Choose if this is for a specific event or a general wishlist"
+      event_date_help: "Optional - helps with countdown timers and reminders"
+    show:
+      edit: "Edit"
+      delete: "Delete"
+      add_item: "Add Item"
+      empty_state: "No items in this wishlist yet"
+      empty_state_description: "Start adding items you'd love to receive"
+      confirm_delete: "Are you sure you want to delete this wishlist?"
+      back_to_your_wishlists: "Back to Your Wishlists"
+      back_to_their_wishlists: "Back to Their Wishlists"
+      created_by: "Created %{date} by %{user}"
+      edit_wishlist: "Edit Wishlist"
+      delete_wishlist: "Delete Wishlist"
+      delete_confirm: "Are you sure you want to delete '%{name}'? This will also delete all items in this wishlist."
+      gift_ideas: "Gift Ideas"
+      items_you_love: "Items you would love to receive"
+      items_they_love: "Items they would love to receive"
+      purchased: "Purchased"
+      price_not_set: "Price not set"
+      priority: "priority"
+      view_item: "View Item"
+      mark_purchased: "Mark Purchased"
+      purchase: "Purchase"
+      purchased_by: "Purchased by %{buyer}"
+      mark_as_available: "Mark as Available"
+      no_items_yet: "No Items Yet"
+      no_items_description_owner: "Start adding items you'd love to receive"
+      no_items_description_visitor: "They haven't added any items yet. Check back soon!"
+      add_first_item: "Add Your First Item"
+      edit_item: "Edit item"
+      delete_item: "Delete item"
+      delete_item_confirm: "Are you sure you want to delete '%{name}' from this wishlist?"
+  
+  items:
+    form:
+      name: "Item Name"
+      name_placeholder: "What would you like?"
+      description: "Description"
+      description_placeholder: "Add details, size, color, etc..."
+      url: "Product Link"
+      url_placeholder: "https://..."
+      url_help: "We'll automatically fetch details from the link"
+      price: "Price"
+      priority: "Priority"
+      priority_levels:
+        low: "Nice to have"
+        medium: "Would love"
+        high: "Really want"
+      priority_display:
+        low: "low"
+        medium: "medium"
+        high: "high"
+      save_button: "Save Item"
+      cancel_button: "Cancel"
+    card:
+      purchased: "Purchased"
+      mark_purchased: "Mark as Purchased"
+      mark_available: "Mark as Available"
+      edit: "Edit"
+      delete: "Delete"
+      confirm_delete: "Are you sure you want to delete this item?"
+      view_product: "View Product"
+  
+  connections:
+    index:
+      title: "Friends & Family"
+      subtitle: "Manage your connections and invitations"
+      invite_button: "Invite Someone"
+      connected: "Connected"
+      pending_invitations: "Pending Invitations"
+      sent_invitations: "Sent Invitations"
+      empty_state: "No connections yet"
+      empty_state_description: "Connect with friends and family to share wishlists"
+      view_profile: "View Profile"
+      view_wishlists: "View Wishlists"
+      disconnect: "Disconnect"
+      cancel_invitation: "Cancel"
+      resend_invitation: "Resend"
+      confirm_disconnect: "Are you sure you want to disconnect from %{name}?"
+      confirm_cancel: "Are you sure you want to cancel this invitation?"
+      invitation_sent_to: "Invitation sent to %{email}"
+      waiting_for_response: "Waiting for response"
+      connections_count:
+        zero: "No connections"
+        one: "1 connection"
+        other: "%{count} connections"
+      connected_since: "Connected since %{date}"
+      invitation_message: "Someone wants to share wishlists with you"
+      sent_time_ago: "Sent %{time} ago"
+      send_first_invitation: "Send Your First Invitation"
+  
+  invitations:
+    new:
+      title: "Invite Friends & Family"
+      subtitle: "Connect with loved ones to share gift ideas"
+      email: "Email address"
+      email_placeholder: "friend@example.com"
+      message: "Personal message (optional)"
+      message_placeholder: "Add a personal note to your invitation..."
+      send_button: "Send Invitation"
+      cancel_button: "Cancel"
+      email_help: "We'll send them an invitation to connect and start sharing wishlists together"
+      how_it_works: "How it works"
+      step_1: "They will receive an email invitation"
+      step_2: "They'll create an account or sign in if they already have one"
+      step_3: "Once they accept, you'll both be able to see each other's wishlists"
+    show:
+      title: "You're Invited!"
+      subtitle: "%{sender} wants to connect with you on Wishare"
+      accept_button: "Accept Invitation"
+      decline_button: "Decline"
+      sign_up_prompt: "Sign up to accept this invitation"
+      already_connected: "You're already connected with %{sender}"
+      invitation_expired: "This invitation has expired"
+      invitation_invalid: "This invitation is invalid"
+  
+  profile:
+    edit:
+      title: "Edit Profile"
+      subtitle: "Manage your account settings"
+      personal_info: "Personal Information"
+      name: "Name"
+      email: "Email"
+      date_of_birth: "Date of Birth"
+      date_of_birth_help: "Used for birthday reminders for your connections"
+      preferred_language: "Preferred Language"
+      password_section: "Change Password"
+      current_password: "Current password"
+      new_password: "New password"
+      confirm_password: "Confirm new password"
+      password_help: "Leave blank if you don't want to change it"
+      current_password_help: "We need your current password to confirm your changes"
+      save_button: "Save Changes"
+      cancel_button: "Cancel"
+    public:
+      title: "%{name}'s Wishare Profile"
+      public_wishlists: "Public Wishlists"
+      no_public_wishlists: "No public wishlists available"
+  
+  notifications:
+    invitation_received: "%{sender} sent you a connection invitation"
+    invitation_accepted: "%{recipient} accepted your invitation"
+    item_purchased: "%{buyer} purchased %{item} from your wishlist"
+    wishlist_shared: "%{sharer} shared a wishlist with you"
+    new_item_added: "%{user} added %{item} to their wishlist"
+  
+  emails:
+    invitation:
+      subject: "%{sender_name} wants to connect with you on Wishare"
+      greeting: "Hello!"
+      body: "%{sender_name} has invited you to connect on Wishare, the thoughtful gifting platform."
+      message_label: "Personal message:"
+      action: "View Invitation"
+      footer: "This invitation will expire in 7 days."
+  
+  common:
+    actions:
+      save: "Save"
+      cancel: "Cancel"
+      delete: "Delete"
+      edit: "Edit"
+      back: "Back"
+      continue: "Continue"
+      confirm: "Confirm"
+      view_all: "View All"
+      invite: "Invite"
+      new: "New"
+      back_to_my_wishlists: "Back to My Wishlists"
+    footer:
+      tagline: "Share joy, give thoughtfully"
+      terms_of_service: "Terms of Service"
+      privacy_policy: "Privacy Policy"
+      copyright: "© %{year} Wishare"
+    status:
+      loading: "Loading..."
+      saving: "Saving..."
+      success: "Success!"
+      error: "Something went wrong"
+      pending: "Pending"
+    time:
+      just_now: "Just now"
+      minutes_ago: "%{count} minutes ago"
+      hours_ago: "%{count} hours ago"
+      days_ago: "%{count} days ago"
+      weeks_ago: "%{count} weeks ago"
+      today: "TODAY!"
+  
+  activerecord:
+    errors:
+      template:
+        header:
+          one: "1 error prohibited this %{model} from being saved"
+          other: "%{count} errors prohibited this %{model} from being saved"
+        body: "There were problems with the following fields:"
+      messages:
+        blank: "can't be blank"
+        taken: "has already been taken"
+        too_short: "is too short (minimum is %{count} characters)"
+        too_long: "is too long (maximum is %{count} characters)"
+        invalid: "is invalid"
+        confirmation: "doesn't match confirmation"
+      models:
+        user:
+          attributes:
+            email:
+              blank: "Email is required"
+              taken: "Email is already registered"
+              invalid: "Please enter a valid email address"
+            password:
+              blank: "Password is required"
+              too_short: "Password must be at least %{count} characters"
+            name:
+              blank: "Name is required"
+        wishlist:
+          attributes:
+            name:
+              blank: "Wishlist name is required"
+        wishlist_item:
+          attributes:
+            name:
+              blank: "Item name is required"
+  
+  date:
+    formats:
+      default: "%m/%d/%Y"
+      long: "%B %d, %Y"
+      short: "%b %d"
+  
+  time:
+    formats:
+      default: "%m/%d/%Y %I:%M %p"
+      long: "%B %d, %Y at %I:%M %p"
+      short: "%b %d, %I:%M %p"
+  
+  number:
+    currency:
+      format:
+        delimiter: ","
+        format: "%u%n"
+        precision: 2
+        separator: "."
+        unit: "$"
+  
+  event_types:
+    general_wishlist: "General Wishlist"
+    birthday: "Birthday"
+    wedding: "Wedding"
+    baby_shower: "Baby Shower"
+    christmas: "Christmas"
+    anniversary: "Anniversary"
+    graduation: "Graduation"
+    housewarming: "Housewarming"
+    valentines_day: "Valentine's Day"
+    mothers_day: "Mother's Day"
+    fathers_day: "Father's Day"
+    other_special_event: "Other Special Event"

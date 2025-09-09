@@ -1,4 +1,4 @@
-<% content_for :title, "Sign In" %>
+<% content_for :title, t('auth.sign_in.title') %>
 <% content_for :description, "Sign in to your Wishare account to create and manage wishlists, connect with friends and family, and make gifting more meaningful." %>
 
 <div class="min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-purple-50 flex flex-col justify-center px-4 py-8 sm:px-6 lg:px-8">
@@ -8,7 +8,7 @@
         <span class="text-4xl">💝</span>
         <div>
           <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-rose-500 to-purple-600 bg-clip-text text-transparent">Wishare</h1>
-          <p class="text-sm text-gray-600">Share wishlists with friends & family</p>
+          <p class="text-sm text-gray-600"><%= t('app.tagline') %></p>
         </div>
       </div>
     </div>
@@ -16,11 +16,11 @@
 
   <div class="mx-auto w-full max-w-sm sm:max-w-md">
     <div class="bg-white/80 backdrop-blur-sm py-8 px-6 shadow-xl rounded-3xl sm:px-10 border border-rose-100">
-      <h2 class="text-2xl font-bold text-gray-800 text-center mb-8">Welcome back ✨</h2>
+      <h2 class="text-2xl font-bold text-gray-800 text-center mb-8"><%= t('auth.sign_in.title') %> ✨</h2>
       
       <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-5" }) do |f| %>
         <div>
-          <%= f.label :email, "Email address", class: "block text-sm font-semibold text-gray-800 mb-3" %>
+          <%= f.label :email, t('auth.sign_in.email'), class: "block text-sm font-semibold text-gray-800 mb-3" %>
           <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -34,7 +34,7 @@
         </div>
 
         <div>
-          <%= f.label :password, "Password", class: "block text-sm font-semibold text-gray-800 mb-3" %>
+          <%= f.label :password, t('auth.sign_in.password'), class: "block text-sm font-semibold text-gray-800 mb-3" %>
           <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -50,12 +50,12 @@
         <% if devise_mapping.rememberable? %>
           <div class="flex items-center py-2">
             <%= f.check_box :remember_me, class: "h-5 w-5 text-rose-600 focus:ring-rose-500 border-rose-300 rounded" %>
-            <%= f.label :remember_me, "Remember me", class: "ml-3 block text-sm text-gray-700 select-none cursor-pointer" %>
+            <%= f.label :remember_me, t('auth.sign_in.remember_me'), class: "ml-3 block text-sm text-gray-700 select-none cursor-pointer" %>
           </div>
         <% end %>
 
         <div class="pt-2">
-          <%= f.submit "Sign in", class: "w-full bg-gradient-to-r from-rose-500 to-rose-600 text-white py-4 px-6 rounded-xl hover:from-rose-600 hover:to-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 transition duration-200 cursor-pointer font-semibold text-lg touch-manipulation shadow-lg" %>
+          <%= f.submit t('auth.sign_in.sign_in_button'), class: "w-full bg-gradient-to-r from-rose-500 to-rose-600 text-white py-4 px-6 rounded-xl hover:from-rose-600 hover:to-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 transition duration-200 cursor-pointer font-semibold text-lg touch-manipulation shadow-lg" %>
         </div>
       <% end %>
 

@@ -20,6 +20,7 @@ class User < ApplicationRecord
   has_many :purchased_items, class_name: 'WishlistItem', foreign_key: 'purchased_by_id', dependent: :nullify
 
   validates :name, presence: true
+  validates :preferred_locale, inclusion: { in: %w[en pt-BR] }
 
   def self.from_omniauth(auth)
     user = find_or_create_by(provider: auth.provider, uid: auth.uid) do |u|

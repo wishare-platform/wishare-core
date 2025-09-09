@@ -8,9 +8,11 @@ class InvitationMailer < ApplicationMailer
     # Check if recipient already has an account
     @existing_user = User.find_by(email: @recipient_email)
     
-    mail(
-      to: @recipient_email,
-      subject: "#{@sender.display_name} wants to share wishlists with you on Wishare!"
-    )
+    I18n.with_locale(@sender.preferred_locale || I18n.default_locale) do
+      mail(
+        to: @recipient_email,
+        subject: t('emails.invitation.subject', sender_name: @sender.display_name)
+      )
+    end
   end
 end

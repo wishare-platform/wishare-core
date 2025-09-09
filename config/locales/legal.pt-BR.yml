@@ -1,0 +1,177 @@
+pt-BR:
+  legal:
+    terms_of_service:
+      title: "Termos de Serviço"
+      last_updated: "Última atualização: %{date}"
+      back_to_wishare: "← Voltar ao Wishare"
+      acknowledgment: "Ao usar o Wishare, você reconhece que leu, compreendeu e concorda em se vincular a estes Termos de Serviço."
+      sections:
+        acceptance:
+          title: "1. Aceitação dos Termos"
+          content: "Bem-vindo ao Wishare! Ao acessar ou usar nosso serviço, você concorda em estar vinculado a estes Termos de Serviço (\"Termos\"). Se você não concordar com estes termos, por favor não use nosso serviço. Estes Termos se aplicam a todos os visitantes, usuários e outras pessoas que acessem ou usem o Wishare."
+        service_description:
+          title: "2. Descrição do Serviço"
+          intro: "O Wishare é uma plataforma digital que permite aos usuários:"
+          features:
+            - "Criar e gerenciar listas de desejos para várias ocasiões"
+            - "Compartilhar listas de desejos com amigos e família"
+            - "Conectar-se com outros usuários para ver suas listas compartilhadas"
+            - "Rastrear compras de presentes e disponibilidade"
+            - "Enviar convites para participar da plataforma"
+        user_accounts:
+          title: "3. Contas de Usuário"
+          registration:
+            title: "Registro"
+            content: "Para usar o Wishare, você deve criar uma conta fornecendo informações precisas e completas. Você pode se registrar usando seu endereço de e-mail ou através de serviços de terceiros suportados como Google OAuth."
+          security:
+            title: "Segurança da Conta"
+            content: "Você é responsável por manter a confidencialidade de suas credenciais de conta e por todas as atividades que ocorrem sob sua conta. Notifique-nos imediatamente sobre qualquer uso não autorizado de sua conta."
+          termination:
+            title: "Encerramento da Conta"
+            content: "Você pode excluir sua conta a qualquer momento. Reservamo-nos o direito de suspender ou encerrar contas que violem estes Termos ou se envolvam em comportamento prejudicial."
+        user_content:
+          title: "4. Conteúdo e Conduta do Usuário"
+          your_content:
+            title: "Seu Conteúdo"
+            content: "Você mantém a propriedade de todo o conteúdo que criar no Wishare, incluindo listas de desejos, descrições de itens e outras informações. Ao usar nosso serviço, você nos concede uma licença para usar, exibir e distribuir seu conteúdo conforme necessário para operar o serviço."
+          prohibited:
+            title: "Conteúdo Proibido"
+            intro: "Você concorda em não postar conteúdo que:"
+            list:
+              - "Seja ilegal, prejudicial, ameaçador ou assediador"
+              - "Viole direitos de propriedade intelectual"
+              - "Contenha malware ou código malicioso"
+              - "Seja spam ou conteúdo comercial não solicitado"
+              - "Contenha conteúdo adulto ou seja inadequado para todas as audiências"
+        privacy:
+          title: "5. Privacidade e Dados"
+          content: "Sua privacidade é importante para nós. Nossa coleta e uso de informações pessoais são regidos por nossa Política de Privacidade, que está incorporada a estes Termos por referência."
+        intellectual_property:
+          title: "6. Propriedade Intelectual"
+          content: "O Wishare e seu conteúdo original, recursos e funcionalidades são de propriedade do Wishare e são protegidos por leis internacionais de direitos autorais, marcas registradas, patentes, segredos comerciais e outras leis de propriedade intelectual. Nossas marcas registradas e trade dress não podem ser usadas sem nosso consentimento prévio por escrito."
+        third_party:
+          title: "7. Serviços de Terceiros"
+          content: "O Wishare pode integrar-se com serviços de terceiros (como Google OAuth para autenticação ou sites externos para links de produtos). Não somos responsáveis pelo conteúdo, políticas de privacidade ou práticas desses serviços de terceiros. Seu uso de tais serviços está sujeito aos respectivos termos e condições."
+        disclaimers:
+          title: "8. Isenções de Responsabilidade e Limitações"
+          availability:
+            title: "Disponibilidade do Serviço"
+            content: "Nos esforçamos para manter a disponibilidade do serviço, mas não podemos garantir acesso ininterrupto. Podemos modificar, suspender ou descontinuar o serviço a qualquer momento com ou sem aviso prévio."
+          liability:
+            title: "Limitação de Responsabilidade"
+            content: "Na extensão máxima permitida pela lei, o Wishare não será responsável por quaisquer danos indiretos, incidentais, especiais, consequenciais ou punitivos, ou qualquer perda de lucros ou receitas, seja incorrida direta ou indiretamente, ou qualquer perda de dados, uso, goodwill ou outras perdas intangíveis."
+        indemnification:
+          title: "9. Indenização"
+          content: "Você concorda em defender, indenizar e isentar o Wishare e suas afiliadas de qualquer reivindicação, danos, obrigações, perdas, responsabilidades, custos ou dívidas e despesas (incluindo honorários advocatícios) decorrentes de seu uso do serviço ou violação destes Termos."
+        changes:
+          title: "10. Alterações nos Termos"
+          content: "Reservamo-nos o direito de modificar estes Termos a qualquer momento. Notificaremos os usuários sobre mudanças significativas publicando os novos Termos nesta página e atualizando a data \"Última atualização\". Seu uso continuado do serviço após as mudanças entrarem em vigor constitui aceitação dos novos Termos."
+        governing_law:
+          title: "11. Lei Aplicável"
+          content: "Estes Termos serão interpretados e regidos pelas leis da jurisdição em que o Wishare opera, sem consideração às disposições sobre conflito de leis. Qualquer disputa decorrente destes Termos ou de seu uso do serviço será resolvida através de arbitragem vinculativa ou nos tribunais de jurisdição competente."
+        contact:
+          title: "12. Informações de Contato"
+          intro: "Se você tiver alguma dúvida sobre estes Termos de Serviço, entre em contato conosco em:"
+          support_title: "Suporte Wishare"
+          email: "E-mail: legal@wishare.app"
+          website: "Site:"
+    privacy_policy:
+      title: "Política de Privacidade"
+      last_updated: "Última atualização: %{date}"
+      back_to_wishare: "← Voltar ao Wishare"
+      sections:
+        introduction:
+          title: "1. Introdução"
+          content: "No Wishare, levamos sua privacidade a sério. Esta Política de Privacidade explica como coletamos, usamos, divulgamos e protegemos suas informações pessoais quando você usa nossa plataforma de compartilhamento de listas de desejos. Ao usar o Wishare, você consente com as práticas descritas nesta política."
+        information_collected:
+          title: "2. Informações que Coletamos"
+          personal:
+            title: "Informações Pessoais"
+            intro: "Coletamos as seguintes informações pessoais:"
+            list:
+              - "**Informações da Conta:** Nome, endereço de e-mail e senha (criptografada)"
+              - "**Dados do Perfil:** Avatar/foto do perfil (quando fornecida via Google OAuth)"
+              - "**Dados OAuth:** Quando você entra com o Google, recebemos seu ID do Google, e-mail, nome e foto do perfil"
+          content:
+            title: "Dados de Conteúdo e Uso"
+            intro: "Coletamos informações sobre como você usa o Wishare:"
+            list:
+              - "**Listas de Desejos:** Nomes, descrições e itens que você adiciona às suas listas"
+              - "**Itens da Lista:** Nomes de produtos, descrições, preços, URLs e níveis de prioridade"
+              - "**Conexões:** Informações sobre usuários com quem você se conecta e convida"
+              - "**Convites:** Endereços de e-mail de pessoas que você convida para o Wishare"
+              - "**Análises de Uso:** Como você navega e interage com nossa plataforma"
+          technical:
+            title: "Informações Técnicas"
+            intro: "Coletamos automaticamente certas informações técnicas:"
+            list:
+              - "Endereço IP e informações gerais de localização"
+              - "Tipo e versão do navegador"
+              - "Informações do dispositivo (tipo, sistema operacional)"
+              - "Dados de log (horários de acesso, páginas visualizadas, ações realizadas)"
+              - "Cookies e tecnologias de rastreamento similares"
+        how_we_use:
+          title: "3. Como Usamos Suas Informações"
+          intro: "Usamos as informações que coletamos para os seguintes propósitos:"
+          list:
+            - "**Operação do Serviço:** Para fornecer e manter a funcionalidade do Wishare"
+            - "**Gerenciamento de Conta:** Para criar, autenticar e gerenciar sua conta"
+            - "**Comunicação:** Para enviar atualizações, notificações e responder a consultas"
+            - "**Personalização:** Para personalizar sua experiência e mostrar conteúdo relevante"
+            - "**Segurança:** Para proteger contra fraude, abuso e acesso não autorizado"
+            - "**Análises:** Para entender como os usuários interagem com nossa plataforma e melhorar nossos serviços"
+            - "**Conformidade Legal:** Para cumprir leis e regulamentos aplicáveis"
+        sharing_disclosure:
+          title: "4. Compartilhamento e Divulgação de Informações"
+          intro: "Não vendemos, negociamos ou alugamos suas informações pessoais para terceiros. Podemos compartilhar suas informações nas seguintes circunstâncias limitadas:"
+          with_users:
+            title: "Com Outros Usuários"
+            content: "Quando você compartilha listas de desejos ou se conecta com outros usuários, certas informações (como seu nome e conteúdo de lista compartilhada) ficam visíveis para eles como parte da funcionalidade do serviço."
+          service_providers:
+            title: "Prestadores de Serviços"
+            content: "Podemos compartilhar informações com prestadores de serviços terceirizados confiáveis que nos ajudam a operar nossa plataforma (como hospedagem, entrega de e-mail ou serviços de análise). Estes prestadores são contratualmente obrigados a proteger suas informações."
+          legal_requirements:
+            title: "Requisitos Legais"
+            content: "Podemos divulgar suas informações se exigido por lei, ordem judicial ou solicitação governamental, ou para proteger os direitos, propriedade ou segurança do Wishare, nossos usuários ou outros."
+          business_transfers:
+            title: "Transferências de Negócios"
+            content: "No caso de fusão, aquisição ou venda de ativos, suas informações podem ser transferidas como parte da transação comercial."
+        data_security:
+          title: "5. Segurança de Dados"
+          content: "Implementamos medidas técnicas e organizacionais apropriadas para proteger suas informações pessoais contra acesso não autorizado, alteração, divulgação ou destruição. No entanto, nenhum método de transmissão pela internet ou armazenamento eletrônico é 100% seguro."
+        data_retention:
+          title: "6. Retenção de Dados"
+          content: "Retemos suas informações pessoais pelo tempo necessário para fornecer nossos serviços, cumprir obrigações legais, resolver disputas e fazer cumprir nossos acordos. Quando você exclui sua conta, excluiremos suas informações pessoais, embora alguns dados possam ser retidos por motivos legais ou comerciais legítimos."
+        your_rights:
+          title: "7. Seus Direitos de Privacidade"
+          intro: "Dependendo de sua localização, você pode ter certos direitos sobre suas informações pessoais:"
+          list:
+            - "**Acesso:** Solicitar cópias de suas informações pessoais"
+            - "**Correção:** Solicitar correção de informações imprecisas ou incompletas"
+            - "**Exclusão:** Solicitar exclusão de suas informações pessoais"
+            - "**Portabilidade:** Solicitar transferência de suas informações para outro serviço"
+            - "**Objeção:** Objetar a certo processamento de suas informações"
+            - "**Restrição:** Solicitar restrição de processamento em certas circunstâncias"
+          contact_info: "Para exercer esses direitos, entre em contato conosco usando as informações fornecidas abaixo."
+        cookies:
+          title: "8. Cookies e Rastreamento"
+          content: "Usamos cookies e tecnologias similares para melhorar sua experiência, analisar padrões de uso e fornecer conteúdo personalizado. Você pode controlar as configurações de cookies através das preferências do seu navegador, embora desabilitar cookies possa afetar algumas funcionalidades."
+        third_party_links:
+          title: "9. Links de Terceiros"
+          content: "O Wishare pode conter links para sites ou serviços de terceiros. Não somos responsáveis pelas práticas de privacidade ou conteúdo desses sites externos. Encorajamos você a revisar suas políticas de privacidade antes de fornecer qualquer informação pessoal."
+        children_privacy:
+          title: "10. Privacidade de Crianças"
+          content: "O Wishare não é destinado ao uso por crianças menores de 13 anos. Não coletamos conscientemente informações pessoais de crianças menores de 13 anos. Se tomarmos conhecimento de que coletamos tais informações, tomaremos medidas para excluí-las prontamente."
+        international_users:
+          title: "11. Usuários Internacionais"
+          content: "Se você está acessando o Wishare de fora da jurisdição onde nossos servidores estão localizados, observe que suas informações podem ser transferidas, armazenadas e processadas nessa jurisdição. Ao usar nosso serviço, você consente com tal transferência."
+        policy_changes:
+          title: "12. Alterações nesta Política de Privacidade"
+          content: "Podemos atualizar esta Política de Privacidade de tempos em tempos para refletir mudanças em nossas práticas ou requisitos legais. Notificaremos você sobre mudanças significativas postando a política atualizada nesta página e atualizando a data \"Última atualização\"."
+        contact:
+          title: "13. Entre em Contato"
+          intro: "Se você tiver alguma dúvida, preocupação ou solicitação sobre esta Política de Privacidade ou nossas práticas de privacidade, entre em contato conosco:"
+          support_title: "Equipe de Privacidade Wishare"
+          email: "E-mail: privacy@wishare.app"
+          website: "Site:"
+          response_time: "Responderemos à sua consulta dentro de 30 dias."

@@ -1,18 +1,18 @@
-<% content_for :title, "My Connections" %>
-<% content_for :description, "Manage your connections with friends and family. Send invitations to share wishlists and make gift-giving easier for everyone." %>
+<% content_for :title, t('connections.index.title') %>
+<% content_for :description, t('connections.index.subtitle') %>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
     <div>
-      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Your Connections</h1>
-      <p class="text-gray-600 mt-1 text-sm sm:text-base">Manage your connections with friends & family</p>
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800"><%= t('connections.index.title') %></h1>
+      <p class="text-gray-600 mt-1 text-sm sm:text-base"><%= t('connections.index.subtitle') %></p>
     </div>
     <%= link_to new_invitation_path, class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-3 sm:px-4 py-1.5 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 flex items-center gap-2 text-sm font-medium shadow-sm self-start" do %>
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
       </svg>
-      <span class="hidden xs:inline">Invite Friend</span>
-      <span class="xs:hidden">Invite</span>
+      <span class="hidden xs:inline"><%= t('connections.index.invite_button') %></span>
+      <span class="xs:hidden"><%= t('common.actions.invite') || t('connections.index.invite_button') %></span>
     <% end %>
   </div>
 
@@ -27,9 +27,9 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
               </svg>
             </div>
-            <h2 class="text-lg sm:text-xl font-semibold text-gray-800">Connected Friends</h2>
+            <h2 class="text-lg sm:text-xl font-semibold text-gray-800"><%= t('connections.index.connected') %></h2>
             <span class="bg-pink-100 text-pink-700 text-xs px-2 py-1 rounded-full font-medium">
-              <%= pluralize(@connections.count, 'connection') %>
+              <%= t('connections.index.connections_count', count: @connections.count) %>
             </span>
           </div>
         </div>
@@ -49,13 +49,13 @@
                       <%= partner.name || "Friend" %>
                     </h3>
                     <p class="text-gray-600 text-sm truncate"><%= partner.email %></p>
-                    <p class="text-gray-500 text-xs">Connected since <%= connection.created_at.strftime("%B %d, %Y") %></p>
+                    <p class="text-gray-500 text-xs"><%= t('connections.index.connected_since', date: l(connection.created_at, format: :long)) %></p>
                   </div>
                 </div>
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
-                  <%= link_to "View Wishlists", user_path(partner), class: "bg-pink-500 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-pink-600 transition duration-200 text-sm font-medium text-center" %>
-                  <%= button_to "Disconnect", connection_path(connection), method: :delete, 
-                        data: { confirm: "Are you sure you want to disconnect from #{partner.name || partner.email}? You won't be able to see each other's wishlists anymore." },
+                  <%= link_to t('connections.index.view_wishlists'), user_path(partner), class: "bg-pink-500 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-pink-600 transition duration-200 text-sm font-medium text-center" %>
+                  <%= button_to t('connections.index.disconnect'), connection_path(connection), method: :delete, 
+                        data: { confirm: t('connections.index.confirm_disconnect', name: partner.name || partner.email) },
                         class: "bg-red-100 text-red-600 px-3 sm:px-4 py-2 rounded-lg hover:bg-red-200 transition duration-200 text-sm font-medium" %>
                 </div>
               </div>
@@ -81,9 +81,9 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                 </svg>
               </div>
-              <h2 class="text-base sm:text-lg font-semibold text-gray-800">Invitation Received</h2>
+              <h2 class="text-base sm:text-lg font-semibold text-gray-800"><%= t('connections.index.pending_invitations') %></h2>
             </div>
-            <span class="text-sm text-purple-600">Someone wants to share wishlists with you</span>
+            <span class="text-sm text-purple-600"><%= t('connections.index.invitation_message') %></span>
           </div>
         </div>
         <div class="divide-y divide-gray-100">
@@ -104,9 +104,9 @@
                   </div>
                 </div>
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-                  <%= link_to "Accept", update_invitation_path(invitation.token, accept: true), method: :patch,
+                  <%= link_to t('invitations.show.accept_button'), update_invitation_path(invitation.token, accept: true), method: :patch,
                         class: "bg-pink-500 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-pink-600 transition duration-200 text-sm font-medium text-center" %>
-                  <%= link_to "Decline", update_invitation_path(invitation.token, accept: false), method: :patch,
+                  <%= link_to t('invitations.show.decline_button'), update_invitation_path(invitation.token, accept: false), method: :patch,
                         class: "bg-gray-100 text-gray-600 px-3 sm:px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200 text-sm font-medium text-center" %>
                 </div>
               </div>
@@ -128,9 +128,9 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                 </svg>
               </div>
-              <h2 class="text-base sm:text-lg font-semibold text-gray-800">Invitation Sent</h2>
+              <h2 class="text-base sm:text-lg font-semibold text-gray-800"><%= t('connections.index.sent_invitations') %></h2>
             </div>
-            <span class="text-sm text-pink-500">Waiting for them to accept</span>
+            <span class="text-sm text-pink-500"><%= t('connections.index.waiting_for_response') %></span>
           </div>
         </div>
         <div class="divide-y divide-gray-100">
@@ -138,16 +138,15 @@
             <div class="p-4 sm:p-6">
               <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div class="min-w-0">
-                  <p class="font-medium text-gray-800">Invitation sent to:</p>
-                  <p class="text-gray-600 truncate"><%= invitation.recipient_email %></p>
-                  <p class="text-gray-500 text-sm">Sent <%= time_ago_in_words(invitation.created_at) %> ago</p>
+                  <p class="font-medium text-gray-800"><%= t('connections.index.invitation_sent_to', email: invitation.recipient_email) %></p>
+                  <p class="text-gray-500 text-sm"><%= t('connections.index.sent_time_ago', time: time_ago_in_words(invitation.created_at)) %></p>
                 </div>
                 <div class="flex items-center gap-2 flex-shrink-0">
-                  <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-medium">Pending</span>
+                  <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-medium"><%= t('common.status.pending') %></span>
                   <%= button_to invitation_path(invitation), {method: :delete, 
-                      data: { turbo_confirm: "Are you sure you want to cancel this invitation?" },
+                      data: { turbo_confirm: t('connections.index.confirm_cancel') },
                       class: "bg-red-100 text-red-600 px-3 py-1 rounded-lg hover:bg-red-200 transition duration-200 text-sm font-medium"} do %>
-                    Cancel
+<%= t('connections.index.cancel_invitation') %>
                   <% end %>
                 </div>
               </div>
@@ -167,9 +166,9 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
           </svg>
         </div>
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">No Connections Yet</h3>
-        <p class="text-gray-600 mb-6">Start by inviting friends & family to share wishlists together</p>
-        <%= link_to "Send Your First Invitation", new_invitation_path, class: "bg-pink-500 text-white px-6 py-3 rounded-lg hover:bg-pink-600 transition duration-200 font-medium" %>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2"><%= t('connections.index.empty_state') %></h3>
+        <p class="text-gray-600 mb-6"><%= t('connections.index.empty_state_description') %></p>
+        <%= link_to t('connections.index.send_first_invitation'), new_invitation_path, class: "bg-pink-500 text-white px-6 py-3 rounded-lg hover:bg-pink-600 transition duration-200 font-medium" %>
       </div>
     </div>
   <% end %>

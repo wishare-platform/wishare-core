@@ -1,35 +1,42 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { 
-    omniauth_callbacks: 'users/omniauth_callbacks',
-    registrations: 'users/registrations'
+  # OAuth callbacks must be outside of locale scope
+  devise_for :users, only: :omniauth_callbacks, controllers: { 
+    omniauth_callbacks: 'users/omniauth_callbacks'
   }
   
-  # Resources for authenticated users
-  resources :connections, only: [:index, :show, :update, :destroy]
-  resources :invitations, only: [:new, :create, :destroy]
-  get '/invite/:token', to: 'invitations#show', as: :accept_invitation
-  patch '/invite/:token', to: 'invitations#update', as: :update_invitation
-  resources :wishlists do
-    resources :wishlist_items, path: 'items' do
-      member do
-        patch :purchase
-        patch :unpurchase
+  # Locale scope for internationalization
+  scope "(:locale)", locale: /en|pt-BR/ do
+    devise_for :users, skip: :omniauth_callbacks, controllers: { 
+      registrations: 'users/registrations'
+    }
+    
+    # Resources for authenticated users
+    resources :connections, only: [:index, :show, :update, :destroy]
+    resources :invitations, only: [:new, :create, :destroy]
+    get '/invite/:token', to: 'invitations#show', as: :accept_invitation
+    patch '/invite/:token', to: 'invitations#update', as: :update_invitation
+    resources :wishlists do
+      resources :wishlist_items, path: 'items' do
+        member do
+          patch :purchase
+          patch :unpurchase
+        end
       end
     end
+    
+    # Public user profiles
+    resources :users, only: [:show]
+    
+    authenticated :user do
+      root 'dashboard#index', as: :authenticated_root
+    end
+    
+    root 'dashboard#index'
+    
+    # Legal pages
+    get '/terms-of-service', to: 'legal#terms_of_service', as: :terms_of_service
+    get '/privacy-policy', to: 'legal#privacy_policy', as: :privacy_policy
   end
-  
-  # Public user profiles
-  resources :users, only: [:show]
-  
-  authenticated :user do
-    root 'dashboard#index', as: :authenticated_root
-  end
-  
-  root 'dashboard#index'
-  
-  # Legal pages
-  get '/terms-of-service', to: 'legal#terms_of_service', as: :terms_of_service
-  get '/privacy-policy', to: 'legal#privacy_policy', as: :privacy_policy
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

@@ -56,15 +56,15 @@
     <div class="email-container">
       <div class="header">
         <h1 style="margin: 0; font-size: 28px;">🎁 Wishare</h1>
-        <p style="margin: 10px 0 0 0; opacity: 0.9;">Share wishlists with friends & family</p>
+        <p style="margin: 10px 0 0 0; opacity: 0.9;"><%= t('app.tagline') %></p>
       </div>
       
       <div class="content">
-        <h2 style="color: #EC4899; margin-top: 0;">You're invited to join Wishare!</h2>
+        <h2 style="color: #EC4899; margin-top: 0;"><%= t('invitations.show.title') %></h2>
         
-        <p>Hi there! 👋</p>
+        <p><%= t('emails.invitation.greeting') %> 👋</p>
         
-        <p><strong><%= @sender.display_name %></strong> (<%= @sender.email %>) has invited you to connect on Wishare so you can share wishlists together!</p>
+        <p><%= t('emails.invitation.body', sender_name: @sender.display_name) %></p>
         
         <div class="highlight">
           <p style="margin: 0;"><strong>What is Wishare?</strong></p>
@@ -78,7 +78,7 @@
         <% end %>
         
         <div style="text-align: center; margin: 30px 0;">
-          <a href="<%= @invitation_url %>" class="button">Accept Invitation</a>
+          <a href="<%= @invitation_url %>" class="button"><%= t('emails.invitation.action') %></a>
         </div>
         
         <% unless @existing_user %>
@@ -100,7 +100,7 @@ The Wishare Team</p>
       </div>
       
       <div class="footer">
-        <p style="margin: 0; font-size: 12px; color: #6B7280;">This invitation will expire in 7 days. If you have any questions, please contact us.</p>
+        <p style="margin: 0; font-size: 12px; color: #6B7280;"><%= t('emails.invitation.footer') %></p>
         <p style="margin: 5px 0 0 0; font-size: 12px; color: #6B7280;">
           Can't click the button? Copy and paste this link: <br>
           <a href="<%= @invitation_url %>" style="color: #EC4899;"><%= @invitation_url %></a>

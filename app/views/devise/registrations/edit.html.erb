@@ -85,17 +85,37 @@
               </div>
             </div>
 
-            <div class="max-w-xs">
-              <%= f.label :date_of_birth, "Birthday", class: "block text-sm font-medium text-gray-700 mb-2" %>
-              <div class="relative">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                  </svg>
+            <div class="grid gap-6 sm:grid-cols-2">
+              <div class="max-w-xs">
+                <%= f.label :date_of_birth, "Birthday", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                  </div>
+                  <%= f.date_field :date_of_birth, class: "w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition" %>
                 </div>
-                <%= f.date_field :date_of_birth, class: "w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition" %>
+                <p class="mt-1 text-xs text-gray-500">📅 Optional - helps friends remember your birthday</p>
               </div>
-              <p class="mt-1 text-xs text-gray-500">📅 Optional - helps friends remember your birthday</p>
+
+              <div class="max-w-xs">
+                <%= f.label :preferred_locale, "Preferred Language", class: "block text-sm font-medium text-gray-700 mb-2" %>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+                    </svg>
+                  </div>
+                  <%= f.select :preferred_locale, options_for_select([
+                    ['🇺🇸 English', 'en'],
+                    ['🇧🇷 Português', 'pt-BR']
+                  ], f.object.preferred_locale || I18n.default_locale.to_s), 
+                  {}, 
+                  { class: "w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition" } %>
+                </div>
+                <p class="mt-1 text-xs text-gray-500">🌍 Choose your preferred language</p>
+              </div>
             </div>
           </div>
         </div>

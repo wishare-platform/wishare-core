@@ -1,0 +1,437 @@
+pt-BR:
+  app:
+    name: "Wishare"
+    tagline: "Presentes pensados com carinho"
+    description: "Conecte-se com amigos e família para compartilhar ideias de presente para qualquer ocasião"
+  
+  navigation:
+    dashboard: "Painel"
+    wishlists: "Minhas Listas"
+    connections: "Amigos e Família"
+    profile: "Perfil"
+    settings: "Configurações"
+    sign_out: "Sair"
+    sign_in: "Entrar"
+    sign_up: "Cadastrar"
+    view_public_profile: "Ver Perfil Público"
+    invite_friend: "Convidar Amigo"
+  
+  auth:
+    sign_in:
+      title: "Bem-vindo de volta ao Wishare"
+      subtitle: "Entre para continuar compartilhando presentes especiais"
+      email: "E-mail"
+      password: "Senha"
+      remember_me: "Lembrar de mim"
+      forgot_password: "Esqueceu sua senha?"
+      sign_in_button: "Entrar"
+      or: "Ou"
+      google_sign_in: "Continuar com Google"
+      no_account: "Não tem uma conta?"
+      sign_up_link: "Cadastre-se"
+    sign_up:
+      title: "Junte-se ao Wishare"
+      subtitle: "Comece a compartilhar presentes especiais com amigos e família"
+      name: "Nome"
+      email: "E-mail"
+      password: "Senha"
+      password_confirmation: "Confirmar senha"
+      sign_up_button: "Cadastrar"
+      or: "Ou"
+      google_sign_up: "Continuar com Google"
+      have_account: "Já tem uma conta?"
+      sign_in_link: "Entrar"
+      password_hint: "(mínimo de %{minimum} caracteres)"
+    forgot_password:
+      title: "Esqueceu sua senha?"
+      subtitle: "Enviaremos instruções para redefini-la"
+      email: "E-mail"
+      send_instructions: "Enviar instruções"
+      remembered: "Lembrou sua senha?"
+      sign_in_link: "Entrar"
+    reset_password:
+      title: "Redefinir sua senha"
+      subtitle: "Escolha uma nova senha para sua conta"
+      new_password: "Nova senha"
+      confirm_password: "Confirmar nova senha"
+      reset_button: "Redefinir senha"
+  
+  dashboard:
+    welcome: "Bem-vindo ao Wishare, %{name}!"
+    subtitle: "Seu centro de presentes especiais para todos os seus relacionamentos"
+    quick_actions: "Ações Rápidas"
+    create_wishlist: "Criar Nova Lista"
+    invite_friends: "Convidar Amigos e Família"
+    view_connections: "Ver Conexões"
+    recent_activity: "Atividade Recente"
+    no_activity: "Nenhuma atividade recente"
+  
+  wishlists:
+    index:
+      title: "Suas Listas de Desejos"
+      subtitle: "Gerencie suas listas de presentes para todas as ocasiões"
+      new_wishlist: "Nova Lista"
+      empty_state: "Você ainda não criou nenhuma lista"
+      empty_state_description: "Crie sua primeira lista para começar a compartilhar ideias de presente com amigos e família"
+      connected_wishlists: "Listas de Amigos e Família"
+      public_wishlists: "Listas Públicas"
+      your_wishlists: "Suas Listas"
+      items_count:
+        zero: "Nenhum item"
+        one: "%{count} item"
+        other: "%{count} itens"
+      visibility:
+        private: "Privada"
+        friends_and_family: "Amigos e Família"
+        publicly_visible: "Pública"
+      default_badge: "Padrão"
+      event_type: "Evento"
+      days_until: "%{count} dias"
+      days_left:
+        one: "1 dia restante"
+        other: "%{count} dias restantes"
+      event_passed: "Evento passado"
+      section_descriptions:
+        connected: "Listas compartilhadas com você"
+        public: "Navegue pelas listas da comunidade"
+      buttons:
+        view_wishlist: "Ver Lista"
+        view_items: "Ver Itens"
+        add_item: "Adicionar Item"
+        browse_items: "Navegar Itens"
+      item_counts:
+        available:
+          one: "%{count} item disponível"
+          other: "%{count} itens disponíveis"
+        purchased:
+          one: "%{count} comprado"
+          other: "%{count} comprados"
+    new:
+      title: "Criar Nova Lista de Desejos"
+      subtitle: "Configure uma lista de presentes para qualquer ocasião"
+    edit:
+      title: "Editar Lista"
+      subtitle: "Atualize os detalhes da sua lista"
+    form:
+      name: "Nome da Lista"
+      name_placeholder: "ex: Aniversário, Presentes de Natal"
+      description: "Descrição"
+      description_placeholder: "Adicione notas sobre esta lista..."
+      event_type: "Tipo de Evento"
+      event_date: "Data do Evento"
+      visibility: "Quem pode ver esta lista?"
+      visibility_help:
+        private: "Apenas você pode ver esta lista"
+        friends_and_family: "Seus amigos e família conectados podem ver"
+        publicly_visible: "Qualquer pessoa com o link pode ver (perfeito para listas de casamento)"
+      visibility_labels:
+        publicly_visible: "Pública"
+        friends_and_family: "Amigos e Família"
+        private: "Privada"
+      make_default: "Tornar esta minha lista padrão"
+      default_help: "Itens adicionados de sites externos irão para sua lista padrão"
+      save_button: "Salvar Lista"
+      cancel_button: "Cancelar"
+      event_type_help: "Escolha se esta é para um evento específico ou uma lista geral"
+      event_date_help: "Opcional - ajuda com cronômetros regressivos e lembretes"
+    show:
+      edit: "Editar"
+      delete: "Excluir"
+      add_item: "Adicionar Item"
+      empty_state: "Nenhum item nesta lista ainda"
+      empty_state_description: "Comece a adicionar itens que você gostaria de receber"
+      confirm_delete: "Tem certeza que deseja excluir esta lista?"
+      back_to_your_wishlists: "Voltar para Suas Listas"
+      back_to_their_wishlists: "Voltar para as Listas Deles"
+      created_by: "Criado em %{date} por %{user}"
+      edit_wishlist: "Editar Lista"
+      delete_wishlist: "Excluir Lista"
+      delete_confirm: "Tem certeza que deseja excluir '%{name}'? Isso também excluirá todos os itens desta lista."
+      gift_ideas: "Ideias de Presente"
+      items_you_love: "Itens que você adoraria receber"
+      items_they_love: "Itens que eles adorariam receber"
+      purchased: "Comprado"
+      price_not_set: "Preço não definido"
+      priority: "prioridade"
+      view_item: "Ver Item"
+      mark_purchased: "Marcar como Comprado"
+      purchase: "Comprar"
+      purchased_by: "Comprado por %{buyer}"
+      mark_as_available: "Marcar como Disponível"
+      no_items_yet: "Nenhum Item Ainda"
+      no_items_description_owner: "Comece a adicionar itens que você adoraria receber"
+      no_items_description_visitor: "Eles ainda não adicionaram nenhum item. Verifique novamente em breve!"
+      add_first_item: "Adicionar Seu Primeiro Item"
+      edit_item: "Editar item"
+      delete_item: "Excluir item"
+      delete_item_confirm: "Tem certeza que deseja excluir '%{name}' desta lista?"
+  
+  items:
+    form:
+      name: "Nome do Item"
+      name_placeholder: "O que você gostaria?"
+      description: "Descrição"
+      description_placeholder: "Adicione detalhes, tamanho, cor, etc..."
+      url: "Link do Produto"
+      url_placeholder: "https://..."
+      url_help: "Buscaremos automaticamente os detalhes do link"
+      price: "Preço"
+      priority: "Prioridade"
+      priority_levels:
+        low: "Seria legal ter"
+        medium: "Adoraria ter"
+        high: "Quero muito"
+      priority_display:
+        low: "baixa"
+        medium: "média"
+        high: "alta"
+      save_button: "Salvar Item"
+      cancel_button: "Cancelar"
+    card:
+      purchased: "Comprado"
+      mark_purchased: "Marcar como Comprado"
+      mark_available: "Marcar como Disponível"
+      edit: "Editar"
+      delete: "Excluir"
+      confirm_delete: "Tem certeza que deseja excluir este item?"
+      view_product: "Ver Produto"
+  
+  connections:
+    index:
+      title: "Amigos e Família"
+      subtitle: "Gerencie suas conexões e convites"
+      invite_button: "Convidar Alguém"
+      connected: "Conectado"
+      pending_invitations: "Convites Pendentes"
+      sent_invitations: "Convites Enviados"
+      empty_state: "Nenhuma conexão ainda"
+      empty_state_description: "Conecte-se com amigos e família para compartilhar listas"
+      view_profile: "Ver Perfil"
+      view_wishlists: "Ver Listas"
+      disconnect: "Desconectar"
+      cancel_invitation: "Cancelar"
+      resend_invitation: "Reenviar"
+      confirm_disconnect: "Tem certeza que deseja se desconectar de %{name}?"
+      confirm_cancel: "Tem certeza que deseja cancelar este convite?"
+      invitation_sent_to: "Convite enviado para %{email}"
+      waiting_for_response: "Aguardando resposta"
+      connections_count:
+        zero: "Nenhuma conexão"
+        one: "1 conexão"
+        other: "%{count} conexões"
+      connected_since: "Conectado desde %{date}"
+      invitation_message: "Alguém quer compartilhar listas com você"
+      sent_time_ago: "Enviado %{time} atrás"
+      send_first_invitation: "Envie Seu Primeiro Convite"
+  
+  invitations:
+    new:
+      title: "Convidar Amigos e Família"
+      subtitle: "Conecte-se com pessoas queridas para compartilhar ideias de presente"
+      email: "Endereço de e-mail"
+      email_placeholder: "amigo@exemplo.com"
+      message: "Mensagem pessoal (opcional)"
+      message_placeholder: "Adicione uma nota pessoal ao seu convite..."
+      send_button: "Enviar Convite"
+      cancel_button: "Cancelar"
+      email_help: "Enviaremos um convite para eles se conectarem e começarem a compartilhar listas juntos"
+      how_it_works: "Como funciona"
+      step_1: "Eles receberão um convite por e-mail"
+      step_2: "Criarão uma conta ou farão login se já tiverem uma"
+      step_3: "Depois que aceitarem, vocês poderão ver as listas um do outro"
+    show:
+      title: "Você foi convidado!"
+      subtitle: "%{sender} quer se conectar com você no Wishare"
+      accept_button: "Aceitar Convite"
+      decline_button: "Recusar"
+      sign_up_prompt: "Cadastre-se para aceitar este convite"
+      already_connected: "Você já está conectado com %{sender}"
+      invitation_expired: "Este convite expirou"
+      invitation_invalid: "Este convite é inválido"
+  
+  profile:
+    edit:
+      title: "Editar Perfil"
+      subtitle: "Gerencie suas configurações de conta"
+      personal_info: "Informações Pessoais"
+      name: "Nome"
+      email: "E-mail"
+      date_of_birth: "Data de Nascimento"
+      date_of_birth_help: "Usada para lembretes de aniversário para suas conexões"
+      preferred_language: "Idioma Preferido"
+      password_section: "Alterar Senha"
+      current_password: "Senha atual"
+      new_password: "Nova senha"
+      confirm_password: "Confirmar nova senha"
+      password_help: "Deixe em branco se não quiser alterar"
+      current_password_help: "Precisamos da sua senha atual para confirmar suas alterações"
+      save_button: "Salvar Alterações"
+      cancel_button: "Cancelar"
+    public:
+      title: "Perfil Wishare de %{name}"
+      public_wishlists: "Listas Públicas"
+      no_public_wishlists: "Nenhuma lista pública disponível"
+  
+  notifications:
+    invitation_received: "%{sender} enviou um convite de conexão"
+    invitation_accepted: "%{recipient} aceitou seu convite"
+    item_purchased: "%{buyer} comprou %{item} da sua lista"
+    wishlist_shared: "%{sharer} compartilhou uma lista com você"
+    new_item_added: "%{user} adicionou %{item} à lista"
+  
+  emails:
+    invitation:
+      subject: "%{sender_name} quer se conectar com você no Wishare"
+      greeting: "Olá!"
+      body: "%{sender_name} convidou você para se conectar no Wishare, a plataforma de presentes especiais."
+      message_label: "Mensagem pessoal:"
+      action: "Ver Convite"
+      footer: "Este convite expira em 7 dias."
+  
+  common:
+    actions:
+      save: "Salvar"
+      cancel: "Cancelar"
+      delete: "Excluir"
+      edit: "Editar"
+      back: "Voltar"
+      continue: "Continuar"
+      confirm: "Confirmar"
+      view_all: "Ver Todos"
+      invite: "Convidar"
+      new: "Nova"
+      back_to_my_wishlists: "Voltar para Minhas Listas"
+    footer:
+      tagline: "Compartilhe alegria, presenteie com carinho"
+      terms_of_service: "Termos de Serviço"
+      privacy_policy: "Política de Privacidade"
+      copyright: "© %{year} Wishare"
+    status:
+      loading: "Carregando..."
+      saving: "Salvando..."
+      success: "Sucesso!"
+      error: "Algo deu errado"
+      pending: "Pendente"
+    time:
+      just_now: "Agora mesmo"
+      minutes_ago: "%{count} minutos atrás"
+      hours_ago: "%{count} horas atrás"
+      days_ago: "%{count} dias atrás"
+      weeks_ago: "%{count} semanas atrás"
+      today: "HOJE!"
+  
+  activerecord:
+    errors:
+      template:
+        header:
+          one: "1 erro impediu que %{model} fosse salvo"
+          other: "%{count} erros impediram que %{model} fosse salvo"
+        body: "Houve problemas com os seguintes campos:"
+      messages:
+        blank: "não pode ficar em branco"
+        taken: "já está em uso"
+        too_short: "é muito curto (mínimo de %{count} caracteres)"
+        too_long: "é muito longo (máximo de %{count} caracteres)"
+        invalid: "é inválido"
+        confirmation: "não confere"
+      models:
+        user:
+          attributes:
+            email:
+              blank: "E-mail é obrigatório"
+              taken: "E-mail já está cadastrado"
+              invalid: "Por favor, insira um e-mail válido"
+            password:
+              blank: "Senha é obrigatória"
+              too_short: "Senha deve ter pelo menos %{count} caracteres"
+            name:
+              blank: "Nome é obrigatório"
+        wishlist:
+          attributes:
+            name:
+              blank: "Nome da lista é obrigatório"
+        wishlist_item:
+          attributes:
+            name:
+              blank: "Nome do item é obrigatório"
+  
+  date:
+    formats:
+      default: "%d/%m/%Y"
+      long: "%d de %B de %Y"
+      short: "%d %b"
+    day_names: [Domingo, Segunda, Terça, Quarta, Quinta, Sexta, Sábado]
+    abbr_day_names: [Dom, Seg, Ter, Qua, Qui, Sex, Sáb]
+    month_names: [~, Janeiro, Fevereiro, Março, Abril, Maio, Junho, Julho, Agosto, Setembro, Outubro, Novembro, Dezembro]
+    abbr_month_names: [~, Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez]
+  
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M"
+      long: "%d de %B de %Y às %H:%M"
+      short: "%d %b, %H:%M"
+    am: "manhã"
+    pm: "tarde"
+  
+  datetime:
+    distance_in_words:
+      half_a_minute: "meio minuto"
+      less_than_x_seconds:
+        one: "menos de 1 segundo"
+        other: "menos de %{count} segundos"
+      x_seconds:
+        one: "1 segundo"
+        other: "%{count} segundos"
+      less_than_x_minutes:
+        one: "menos de 1 minuto"
+        other: "menos de %{count} minutos"
+      x_minutes:
+        one: "1 minuto"
+        other: "%{count} minutos"
+      about_x_hours:
+        one: "aproximadamente 1 hora"
+        other: "aproximadamente %{count} horas"
+      x_days:
+        one: "1 dia"
+        other: "%{count} dias"
+      about_x_months:
+        one: "aproximadamente 1 mês"
+        other: "aproximadamente %{count} meses"
+      x_months:
+        one: "1 mês"
+        other: "%{count} meses"
+      about_x_years:
+        one: "aproximadamente 1 ano"
+        other: "aproximadamente %{count} anos"
+      over_x_years:
+        one: "mais de 1 ano"
+        other: "mais de %{count} anos"
+      almost_x_years:
+        one: "quase 1 ano"
+        other: "quase %{count} anos"
+  
+  number:
+    currency:
+      format:
+        delimiter: "."
+        format: "%u %n"
+        precision: 2
+        separator: ","
+        unit: "R$"
+    format:
+      delimiter: "."
+      separator: ","
+  
+  event_types:
+    general_wishlist: "Lista Geral"
+    birthday: "Aniversário"
+    wedding: "Casamento"
+    baby_shower: "Chá de Bebê"
+    christmas: "Natal"
+    anniversary: "Aniversário de Casamento"
+    graduation: "Formatura"
+    housewarming: "Casa Nova"
+    valentines_day: "Dia dos Namorados"
+    mothers_day: "Dia das Mães"
+    fathers_day: "Dia dos Pais"
+    other_special_event: "Outro Evento Especial"

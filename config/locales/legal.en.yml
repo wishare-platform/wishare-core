@@ -1,0 +1,177 @@
+en:
+  legal:
+    terms_of_service:
+      title: "Terms of Service"
+      last_updated: "Last updated: %{date}"
+      back_to_wishare: "← Back to Wishare"
+      acknowledgment: "By using Wishare, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service."
+      sections:
+        acceptance:
+          title: "1. Acceptance of Terms"
+          content: "Welcome to Wishare! By accessing or using our service, you agree to be bound by these Terms of Service (\"Terms\"). If you don't agree to these terms, please don't use our service. These Terms apply to all visitors, users, and others who access or use Wishare."
+        service_description:
+          title: "2. Description of Service"
+          intro: "Wishare is a digital platform that allows users to:"
+          features:
+            - "Create and manage wishlists for various occasions"
+            - "Share wishlists with friends and family"
+            - "Connect with other users to view their shared wishlists"
+            - "Track gift purchases and availability"
+            - "Send invitations to join the platform"
+        user_accounts:
+          title: "3. User Accounts"
+          registration:
+            title: "Registration"
+            content: "To use Wishare, you must create an account by providing accurate and complete information. You may register using your email address or through supported third-party services like Google OAuth."
+          security:
+            title: "Account Security"
+            content: "You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. Please notify us immediately of any unauthorized use of your account."
+          termination:
+            title: "Account Termination"
+            content: "You may delete your account at any time. We reserve the right to suspend or terminate accounts that violate these Terms or engage in harmful behavior."
+        user_content:
+          title: "4. User Content and Conduct"
+          your_content:
+            title: "Your Content"
+            content: "You retain ownership of all content you create on Wishare, including wishlists, item descriptions, and other information. By using our service, you grant us a license to use, display, and distribute your content as necessary to operate the service."
+          prohibited:
+            title: "Prohibited Content"
+            intro: "You agree not to post content that:"
+            list:
+              - "Is illegal, harmful, threatening, or harassing"
+              - "Violates intellectual property rights"
+              - "Contains malware or malicious code"
+              - "Is spam or unsolicited commercial content"
+              - "Contains adult content or is inappropriate for all audiences"
+        privacy:
+          title: "5. Privacy and Data"
+          content: "Your privacy is important to us. Our collection and use of personal information is governed by our Privacy Policy, which is incorporated into these Terms by reference."
+        intellectual_property:
+          title: "6. Intellectual Property"
+          content: "Wishare and its original content, features, and functionality are owned by Wishare and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws. Our trademarks and trade dress may not be used without our prior written consent."
+        third_party:
+          title: "7. Third-Party Services"
+          content: "Wishare may integrate with third-party services (such as Google OAuth for authentication or external websites for product links). We are not responsible for the content, privacy policies, or practices of these third-party services. Your use of such services is subject to their respective terms and conditions."
+        disclaimers:
+          title: "8. Disclaimers and Limitations"
+          availability:
+            title: "Service Availability"
+            content: "We strive to maintain service availability but cannot guarantee uninterrupted access. We may modify, suspend, or discontinue the service at any time with or without notice."
+          liability:
+            title: "Limitation of Liability"
+            content: "To the maximum extent permitted by law, Wishare shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses."
+        indemnification:
+          title: "9. Indemnification"
+          content: "You agree to defend, indemnify, and hold harmless Wishare and its affiliates from and against any claims, damages, obligations, losses, liabilities, costs, or debt, and expenses (including attorney's fees) arising from your use of the service or violation of these Terms."
+        changes:
+          title: "10. Changes to Terms"
+          content: "We reserve the right to modify these Terms at any time. We will notify users of significant changes by posting the new Terms on this page and updating the \"Last updated\" date. Your continued use of the service after changes become effective constitutes acceptance of the new Terms."
+        governing_law:
+          title: "11. Governing Law"
+          content: "These Terms shall be interpreted and governed by the laws of the jurisdiction in which Wishare operates, without regard to conflict of law provisions. Any disputes arising from these Terms or your use of the service will be resolved through binding arbitration or in the courts of competent jurisdiction."
+        contact:
+          title: "12. Contact Information"
+          intro: "If you have any questions about these Terms of Service, please contact us at:"
+          support_title: "Wishare Support"
+          email: "Email: legal@wishare.app"
+          website: "Website:"
+    privacy_policy:
+      title: "Privacy Policy"
+      last_updated: "Last updated: %{date}"
+      back_to_wishare: "← Back to Wishare"
+      sections:
+        introduction:
+          title: "1. Introduction"
+          content: "At Wishare, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your personal information when you use our wishlist sharing platform. By using Wishare, you consent to the practices described in this policy."
+        information_collected:
+          title: "2. Information We Collect"
+          personal:
+            title: "Personal Information"
+            intro: "We collect the following personal information:"
+            list:
+              - "**Account Information:** Name, email address, and password (encrypted)"
+              - "**Profile Data:** Avatar/profile picture (when provided via Google OAuth)"
+              - "**OAuth Data:** When you sign in with Google, we receive your Google ID, email, name, and profile picture"
+          content:
+            title: "Content and Usage Data"
+            intro: "We collect information about how you use Wishare:"
+            list:
+              - "**Wishlists:** Names, descriptions, and items you add to your wishlists"
+              - "**Wishlist Items:** Product names, descriptions, prices, URLs, and priority levels"
+              - "**Connections:** Information about users you connect with and invite"
+              - "**Invitations:** Email addresses of people you invite to join Wishare"
+              - "**Usage Analytics:** How you navigate and interact with our platform"
+          technical:
+            title: "Technical Information"
+            intro: "We automatically collect certain technical information:"
+            list:
+              - "IP address and general location information"
+              - "Browser type and version"
+              - "Device information (type, operating system)"
+              - "Log data (access times, pages viewed, actions taken)"
+              - "Cookies and similar tracking technologies"
+        how_we_use:
+          title: "3. How We Use Your Information"
+          intro: "We use the information we collect for the following purposes:"
+          list:
+            - "**Service Operation:** To provide and maintain Wishare's functionality"
+            - "**Account Management:** To create, authenticate, and manage your account"
+            - "**Communication:** To send you updates, notifications, and respond to inquiries"
+            - "**Personalization:** To customize your experience and show relevant content"
+            - "**Security:** To protect against fraud, abuse, and unauthorized access"
+            - "**Analytics:** To understand how users interact with our platform and improve our services"
+            - "**Legal Compliance:** To comply with applicable laws and regulations"
+        sharing_disclosure:
+          title: "4. Information Sharing and Disclosure"
+          intro: "We do not sell, trade, or rent your personal information to third parties. We may share your information in the following limited circumstances:"
+          with_users:
+            title: "With Other Users"
+            content: "When you share wishlists or connect with other users, certain information (like your name and shared wishlist content) becomes visible to them as part of the service functionality."
+          service_providers:
+            title: "Service Providers"
+            content: "We may share information with trusted third-party service providers who help us operate our platform (such as hosting, email delivery, or analytics services). These providers are contractually bound to protect your information."
+          legal_requirements:
+            title: "Legal Requirements"
+            content: "We may disclose your information if required by law, court order, or government request, or to protect the rights, property, or safety of Wishare, our users, or others."
+          business_transfers:
+            title: "Business Transfers"
+            content: "In the event of a merger, acquisition, or sale of assets, your information may be transferred as part of the business transaction."
+        data_security:
+          title: "5. Data Security"
+          content: "We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the internet or electronic storage is 100% secure."
+        data_retention:
+          title: "6. Data Retention"
+          content: "We retain your personal information for as long as necessary to provide our services, comply with legal obligations, resolve disputes, and enforce our agreements. When you delete your account, we will delete your personal information, though some data may be retained for legal or legitimate business purposes."
+        your_rights:
+          title: "7. Your Privacy Rights"
+          intro: "Depending on your location, you may have certain rights regarding your personal information:"
+          list:
+            - "**Access:** Request copies of your personal information"
+            - "**Correction:** Request correction of inaccurate or incomplete information"
+            - "**Deletion:** Request deletion of your personal information"
+            - "**Portability:** Request transfer of your information to another service"
+            - "**Objection:** Object to certain processing of your information"
+            - "**Restriction:** Request restriction of processing in certain circumstances"
+          contact_info: "To exercise these rights, please contact us using the information provided below."
+        cookies:
+          title: "8. Cookies and Tracking"
+          content: "We use cookies and similar technologies to enhance your experience, analyze usage patterns, and provide personalized content. You can control cookie settings through your browser preferences, though disabling cookies may affect some functionality."
+        third_party_links:
+          title: "9. Third-Party Links"
+          content: "Wishare may contain links to third-party websites or services. We are not responsible for the privacy practices or content of these external sites. We encourage you to review their privacy policies before providing any personal information."
+        children_privacy:
+          title: "10. Children's Privacy"
+          content: "Wishare is not intended for use by children under 13 years of age. We do not knowingly collect personal information from children under 13. If we become aware that we have collected such information, we will take steps to delete it promptly."
+        international_users:
+          title: "11. International Users"
+          content: "If you are accessing Wishare from outside the jurisdiction where our servers are located, please note that your information may be transferred to, stored, and processed in that jurisdiction. By using our service, you consent to such transfer."
+        policy_changes:
+          title: "12. Changes to This Privacy Policy"
+          content: "We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. We will notify you of significant changes by posting the updated policy on this page and updating the \"Last updated\" date."
+        contact:
+          title: "13. Contact Us"
+          intro: "If you have any questions, concerns, or requests regarding this Privacy Policy or our privacy practices, please contact us:"
+          support_title: "Wishare Privacy Team"
+          email: "Email: privacy@wishare.app"
+          website: "Website:"
+          response_time: "We will respond to your inquiry within 30 days."

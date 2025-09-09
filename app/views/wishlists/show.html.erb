@@ -8,7 +8,7 @@
       <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
       </svg>
-      Back to <%= @wishlist.user == current_user ? "Your" : "Their" %> Wishlists
+<%= @wishlist.user == current_user ? t('wishlists.show.back_to_your_wishlists') : t('wishlists.show.back_to_their_wishlists') %>
     <% end %>
   </div>
 
@@ -37,7 +37,7 @@
                 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                 </svg>
-                <span class="truncate">Created <%= @wishlist.created_at.strftime("%m/%d/%Y") %> by <%= @wishlist.user.name || @wishlist.user.email %></span>
+                <span class="truncate"><%= t('wishlists.show.created_by', date: l(@wishlist.created_at, format: :short), user: @wishlist.user.name || @wishlist.user.email) %></span>
               </span>
             </div>
           </div>
@@ -45,7 +45,7 @@
         
         <% if @wishlist.user == current_user %>
           <div class="flex gap-2 flex-shrink-0 items-center">
-            <%= link_to "Add Item", new_wishlist_wishlist_item_path(@wishlist), class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-3 sm:px-4 py-2 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 font-medium text-sm sm:text-base shadow-lg" %>
+            <%= link_to t('wishlists.show.add_item'), new_wishlist_wishlist_item_path(@wishlist), class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-3 sm:px-4 py-2 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 font-medium text-sm sm:text-base shadow-lg" %>
             
             <!-- Three dots menu -->
             <div class="relative" data-controller="dropdown">
@@ -62,15 +62,15 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                     </svg>
-                    Edit Wishlist
+                    <%= t('wishlists.show.edit_wishlist') %>
                   </div>
                 <% end %>
-                <%= link_to @wishlist, method: :delete, data: { confirm: "Are you sure you want to delete '#{@wishlist.name}'? This will also delete all items in this wishlist." }, class: "block px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition duration-200" do %>
+                <%= link_to @wishlist, method: :delete, data: { confirm: t('wishlists.show.delete_confirm', name: @wishlist.name) }, class: "block px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition duration-200" do %>
                   <div class="flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                     </svg>
-                    Delete Wishlist
+                    <%= t('wishlists.show.delete_wishlist') %>
                   </div>
                 <% end %>
               </div>
@@ -82,8 +82,8 @@
   </div>
 
   <div class="mb-6">
-    <h2 class="text-xl font-semibold text-gray-800 mb-1">Gift Ideas</h2>
-    <p class="text-gray-600">Items <%= @wishlist.user == current_user ? "you" : "they" %> would love to receive</p>
+    <h2 class="text-xl font-semibold text-gray-800 mb-1"><%= t('wishlists.show.gift_ideas') %></h2>
+    <p class="text-gray-600"><%= @wishlist.user == current_user ? t('wishlists.show.items_you_love') : t('wishlists.show.items_they_love') %></p>
   </div>
 
   <% if @wishlist_items.any? %>
@@ -99,7 +99,7 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
-                    Purchased
+                    <%= t('wishlists.show.purchased') %>
                   </div>
                 </div>
               <% end %>
@@ -115,7 +115,7 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
-                    Purchased
+                    <%= t('wishlists.show.purchased') %>
                   </div>
                 </div>
               <% end %>
@@ -127,15 +127,15 @@
               <h3 class="text-base sm:text-lg font-semibold text-gray-800 flex-1 pr-2 break-words"><%= item.name %></h3>
               <% if @wishlist.user == current_user %>
                 <div class="flex gap-1 flex-shrink-0">
-                  <%= link_to edit_wishlist_wishlist_item_path(@wishlist, item), class: "text-gray-400 hover:text-pink-500 transition duration-200 p-1", title: "Edit item" do %>
+                  <%= link_to edit_wishlist_wishlist_item_path(@wishlist, item), class: "text-gray-400 hover:text-pink-500 transition duration-200 p-1", title: t('wishlists.show.edit_item') do %>
                     <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                     </svg>
                   <% end %>
                   <%= button_to wishlist_wishlist_item_path(@wishlist, item), {method: :delete, 
-                      data: { confirm: "Are you sure you want to delete '#{item.name}' from this wishlist?" },
+                      data: { confirm: t('wishlists.show.delete_item_confirm', name: item.name) },
                       class: "text-gray-400 hover:text-red-500 transition duration-200 border-none bg-transparent p-1", 
-                      title: "Delete item"} do %>
+                      title: t('wishlists.show.delete_item')} do %>
                     <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                     </svg>
@@ -152,11 +152,11 @@
               <% if item.price.present? %>
                 <span class="text-lg sm:text-xl font-bold text-gray-800">$<%= item.price %></span>
               <% else %>
-                <span class="text-sm text-gray-500">Price not set</span>
+                <span class="text-sm text-gray-500"><%= t('wishlists.show.price_not_set') %></span>
               <% end %>
               
               <span class="text-xs px-2 sm:px-3 py-1 rounded-full font-medium self-start sm:self-auto <%= item.priority == 'high' ? 'bg-red-100 text-red-700' : item.priority == 'medium' ? 'bg-pink-100 text-pink-700' : 'bg-gray-100 text-gray-600' %>">
-                <%= item.priority %> priority
+                <%= t("items.form.priority_display.#{item.priority}") %> <%= t('wishlists.show.priority') %>
               </span>
             </div>
             
@@ -167,14 +167,14 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                     </svg>
-                    View Item
+                    <%= t('wishlists.show.view_item') %>
                   <% end %>
                 <% end %>
                 
                 <% if @wishlist.user != current_user %>
                   <%= button_to purchase_wishlist_wishlist_item_path(@wishlist, item), {method: :patch, class: "flex-1 bg-pink-500 text-white px-3 py-2 rounded-lg hover:bg-pink-600 transition duration-200 text-sm font-medium cursor-pointer"} do %>
-                    <span class="hidden xs:inline">Mark Purchased</span>
-                    <span class="xs:hidden">Purchase</span>
+                    <span class="hidden xs:inline"><%= t('wishlists.show.mark_purchased') %></span>
+                    <span class="xs:hidden"><%= t('wishlists.show.purchase') %></span>
                   <% end %>
                 <% end %>
               </div>
@@ -186,19 +186,19 @@
                     <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
-                    <span class="text-green-700 font-medium">Purchased by <%= item.purchased_by.name || item.purchased_by.email %></span>
+                    <span class="text-green-700 font-medium"><%= t('wishlists.show.purchased_by', buyer: item.purchased_by.name || item.purchased_by.email) %></span>
                   </div>
                   <% if item.purchased_by == current_user %>
                     <%= button_to unpurchase_wishlist_wishlist_item_path(@wishlist, item), {method: :patch, 
                         class: "bg-gray-100 text-gray-700 px-3 py-1 rounded text-xs hover:bg-gray-200 transition duration-200"} do %>
-                      Mark as Available
+                      <%= t('wishlists.show.mark_as_available') %>
                     <% end %>
                   <% elsif item.url.present? %>
                     <%= link_to item.url, target: "_blank", class: "text-green-600 hover:text-green-700 text-xs flex items-center gap-1" do %>
                       <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                       </svg>
-                      View Item
+                      <%= t('wishlists.show.view_item') %>
                     <% end %>
                   <% end %>
                 </div>
@@ -215,12 +215,12 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
       </div>
-      <h3 class="text-xl font-semibold text-gray-800 mb-2">No Items Yet</h3>
+      <h3 class="text-xl font-semibold text-gray-800 mb-2"><%= t('wishlists.show.no_items_yet') %></h3>
       <% if @wishlist.user == current_user %>
-        <p class="text-gray-600 mb-6">Start adding items you'd love to receive</p>
-        <%= link_to "Add Your First Item", new_wishlist_wishlist_item_path(@wishlist), class: "bg-pink-500 text-white px-6 py-3 rounded-lg hover:bg-pink-600 transition duration-200 font-medium" %>
+        <p class="text-gray-600 mb-6"><%= t('wishlists.show.no_items_description_owner') %></p>
+        <%= link_to t('wishlists.show.add_first_item'), new_wishlist_wishlist_item_path(@wishlist), class: "bg-pink-500 text-white px-6 py-3 rounded-lg hover:bg-pink-600 transition duration-200 font-medium" %>
       <% else %>
-        <p class="text-gray-600">They haven't added any items yet. Check back soon!</p>
+        <p class="text-gray-600"><%= t('wishlists.show.no_items_description_visitor') %></p>
       <% end %>
     </div>
   <% end %>
