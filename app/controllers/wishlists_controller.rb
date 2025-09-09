@@ -75,7 +75,7 @@ class WishlistsController < ApplicationController
   end
 
   def wishlist_params
-    params.require(:wishlist).permit(:name, :description, :is_default, :visibility)
+    params.require(:wishlist).permit(:name, :description, :is_default, :visibility, :event_type, :event_date)
   end
 
   def ensure_authenticated_for_private_wishlists

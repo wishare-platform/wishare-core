@@ -27,12 +27,33 @@ class User < ApplicationRecord
       u.password = Devise.friendly_token[0, 20]
       u.name = auth.info.name
       u.avatar_url = auth.info.image
+      
+      # Try to extract birthday from Google+ extra_info or raw_info
+      # Note: Google has restricted birthday access, but we can try
+      if auth.extra && auth.extra.raw_info && auth.extra.raw_info.birthday
+        begin
+          u.date_of_birth = Date.parse(auth.extra.raw_info.birthday)
+        rescue Date::Error
+          # Ignore if birthday format is invalid
+        end
+      end
     end
     
-    # Update avatar_url and name for existing users
-    if user.persisted? && (user.avatar_url != auth.info.image || user.name != auth.info.name)
-      user.update(avatar_url: auth.info.image, name: auth.info.name)
+    # Update avatar_url, name and potentially birthday for existing users
+    update_fields = {}
+    update_fields[:avatar_url] = auth.info.image if user.avatar_url != auth.info.image
+    update_fields[:name] = auth.info.name if user.name != auth.info.name
+    
+    # Try to update birthday if we don't have one yet
+    if user.date_of_birth.nil? && auth.extra && auth.extra.raw_info && auth.extra.raw_info.birthday
+      begin
+        update_fields[:date_of_birth] = Date.parse(auth.extra.raw_info.birthday)
+      rescue Date::Error
+        # Ignore if birthday format is invalid
+      end
     end
+    
+    user.update(update_fields) if user.persisted? && update_fields.any?
     
     user
   end

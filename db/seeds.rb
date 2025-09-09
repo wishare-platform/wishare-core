@@ -11,6 +11,13 @@ if Rails.env.development?
   Invitation.destroy_all
   Connection.destroy_all
   User.destroy_all
+  
+  # Reset primary key sequences to avoid ID conflicts
+  ActiveRecord::Base.connection.reset_pk_sequence!('users')
+  ActiveRecord::Base.connection.reset_pk_sequence!('connections')
+  ActiveRecord::Base.connection.reset_pk_sequence!('invitations')
+  ActiveRecord::Base.connection.reset_pk_sequence!('wishlists')
+  ActiveRecord::Base.connection.reset_pk_sequence!('wishlist_items')
 end
 
 # Create main test user
@@ -20,6 +27,7 @@ main_user = User.create!(
   password: "password123",
   password_confirmation: "password123",
   name: "Test User",
+  date_of_birth: Date.new(1990, 3, 15),
   avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=test"
 )
 
@@ -29,6 +37,7 @@ friend1 = User.create!(
   password: "password123",
   password_confirmation: "password123",
   name: "Sarah Johnson",
+  date_of_birth: Date.new(1994, 6, 22),
   avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=sarah"
 )
 
@@ -37,6 +46,7 @@ friend2 = User.create!(
   password: "password123", 
   password_confirmation: "password123",
   name: "Michael Chen",
+  date_of_birth: Date.new(1988, 11, 8),
   avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=michael"
 )
 
@@ -45,6 +55,7 @@ family1 = User.create!(
   password: "password123",
   password_confirmation: "password123", 
   name: "Emma Davis",
+  date_of_birth: Date.new(1985, 9, 12),
   avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=emma"
 )
 
@@ -54,6 +65,7 @@ pending_user = User.create!(
   password: "password123",
   password_confirmation: "password123",
   name: "David Wilson",
+  date_of_birth: Date.new(1992, 4, 30),
   avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=david"
 )
 
@@ -63,6 +75,7 @@ public_user = User.create!(
   password: "password123",
   password_confirmation: "password123",
   name: "Alex Thompson",
+  date_of_birth: Date.new(1987, 12, 3),
   avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=alex"
 )
 
@@ -128,6 +141,8 @@ birthday_list = Wishlist.create!(
   user: main_user,
   name: "Birthday Wishlist 🎂",
   description: "Things I'd love for my birthday coming up in March!",
+  event_type: "birthday",
+  event_date: Date.new(2025, 3, 15),
   is_default: true,
   visibility: :partner_only
 )
@@ -136,6 +151,8 @@ christmas_list = Wishlist.create!(
   user: main_user,
   name: "Christmas 2025 🎄",
   description: "Holiday gift ideas for family and friends",
+  event_type: "christmas",
+  event_date: Date.new(2025, 12, 25),
   is_default: false,
   visibility: :partner_only
 )
@@ -144,6 +161,7 @@ public_list = Wishlist.create!(
   user: main_user,
   name: "Home Office Upgrade",
   description: "Items to improve my work from home setup",
+  event_type: "none",
   is_default: false,
   visibility: :publicly_visible
 )
@@ -152,6 +170,7 @@ private_list = Wishlist.create!(
   user: main_user,
   name: "Secret Project Ideas",
   description: "Personal project supplies - just for me",
+  event_type: "none",
   is_default: false,
   visibility: :private_list
 )
@@ -160,7 +179,9 @@ private_list = Wishlist.create!(
 friend1_birthday = Wishlist.create!(
   user: friend1,
   name: "Sarah's Birthday List",
-  description: "Turning 30 this year! 🎉",
+  description: "Turning 31 this year! 🎉",
+  event_type: "birthday",
+  event_date: Date.new(2025, 6, 22),
   is_default: true,
   visibility: :partner_only
 )
@@ -169,6 +190,8 @@ friend1_baby = Wishlist.create!(
   user: friend1,
   name: "Baby Shower Registry",
   description: "Items for our upcoming arrival 👶",
+  event_type: "baby_shower",
+  event_date: Date.new(2025, 4, 15),
   is_default: false,
   visibility: :publicly_visible
 )
@@ -178,6 +201,7 @@ friend2_list = Wishlist.create!(
   user: friend2,
   name: "Michael's Tech Wishlist",
   description: "Gadgets and gizmos I'm eyeing",
+  event_type: "none",
   is_default: true,
   visibility: :partner_only
 )
@@ -187,6 +211,7 @@ family1_list = Wishlist.create!(
   user: family1,
   name: "Emma's Reading List",
   description: "Books I want to read this year 📚",
+  event_type: "none",
   is_default: true,
   visibility: :partner_only
 )
@@ -194,8 +219,10 @@ family1_list = Wishlist.create!(
 # Public user's public wishlist (not connected)
 public_user_list = Wishlist.create!(
   user: public_user,
-  name: "Alex's Public Wishlist",
-  description: "Gift ideas anyone can see",
+  name: "Alex's Wedding Registry",
+  description: "Items for our upcoming wedding!",
+  event_type: "wedding",
+  event_date: Date.new(2025, 8, 12),
   is_default: true,
   visibility: :publicly_visible
 )
