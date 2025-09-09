@@ -23,7 +23,7 @@ end
 # Create main test user
 puts "Creating test users..."
 main_user = User.create!(
-  email: "test@wishare.com",
+  email: "test@wishare.xyz",
   password: "password123",
   password_confirmation: "password123",
   name: "Test User",
@@ -33,7 +33,7 @@ main_user = User.create!(
 
 # Create connected friends/family
 friend1 = User.create!(
-  email: "friend1@wishare.com", 
+  email: "friend1@wishare.xyz", 
   password: "password123",
   password_confirmation: "password123",
   name: "Sarah Johnson",
@@ -42,7 +42,7 @@ friend1 = User.create!(
 )
 
 friend2 = User.create!(
-  email: "friend2@wishare.com",
+  email: "friend2@wishare.xyz",
   password: "password123", 
   password_confirmation: "password123",
   name: "Michael Chen",
@@ -51,7 +51,7 @@ friend2 = User.create!(
 )
 
 family1 = User.create!(
-  email: "family1@wishare.com",
+  email: "family1@wishare.xyz",
   password: "password123",
   password_confirmation: "password123", 
   name: "Emma Davis",
@@ -61,7 +61,7 @@ family1 = User.create!(
 
 # Create user with pending invitation
 pending_user = User.create!(
-  email: "pending@wishare.com",
+  email: "pending@wishare.xyz",
   password: "password123",
   password_confirmation: "password123",
   name: "David Wilson",
@@ -71,7 +71,7 @@ pending_user = User.create!(
 
 # Create unconnected user (for public wishlist testing)
 public_user = User.create!(
-  email: "public@wishare.com",
+  email: "public@wishare.xyz",
   password: "password123",
   password_confirmation: "password123",
   name: "Alex Thompson",
@@ -455,12 +455,12 @@ WishlistItem.create!(
 puts "✅ Seeding complete!"
 puts ""
 puts "📧 Test Accounts Created:"
-puts "  Main User: test@wishare.com / password123"
-puts "  Friend 1: friend1@wishare.com / password123 (Sarah - connected)"
-puts "  Friend 2: friend2@wishare.com / password123 (Michael - connected)"
-puts "  Family: family1@wishare.com / password123 (Emma - connected)"
-puts "  Pending: pending@wishare.com / password123 (David - has sent invitation)"
-puts "  Public: public@wishare.com / password123 (Alex - not connected, has public list)"
+puts "  Main User: test@wishare.xyz / password123"
+puts "  Friend 1: friend1@wishare.xyz / password123 (Sarah - connected)"
+puts "  Friend 2: friend2@wishare.xyz / password123 (Michael - connected)"
+puts "  Family: family1@wishare.xyz / password123 (Emma - connected)"
+puts "  Pending: pending@wishare.xyz / password123 (David - has sent invitation)"
+puts "  Public: public@wishare.xyz / password123 (Alex - not connected, has public list)"
 puts ""
 puts "🎁 Created:"
 puts "  - #{User.count} users"

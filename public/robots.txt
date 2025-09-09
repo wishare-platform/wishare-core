@@ -20,7 +20,7 @@ Allow: /terms-of-service
 Allow: /privacy-policy
 
 # Sitemap location (when implemented)
-# Sitemap: https://wishare.com/sitemap.xml
+# Sitemap: https://wishare.xyz/sitemap.xml
 
 # Crawl delay (optional)
 Crawl-delay: 1
