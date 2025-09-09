@@ -264,7 +264,7 @@
                     <h3 class="text-lg sm:text-xl font-semibold text-gray-800">
                       <%= link_to wishlist.name, wishlist_path(wishlist), class: "hover:text-purple-600 transition duration-200" %>
                     </h3>
-                    <p class="text-sm text-gray-500 mt-1">by <%= wishlist.user.display_name %></p>
+                    <p class="text-sm text-gray-500 mt-1">by <%= link_to wishlist.user.display_name, user_path(wishlist.user), class: "text-purple-600 hover:text-purple-800 transition duration-200 font-medium" %></p>
                   </div>
                   <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
@@ -352,7 +352,7 @@
                     <h3 class="text-lg sm:text-xl font-semibold text-gray-800">
                       <%= link_to wishlist.name, wishlist_path(wishlist), class: "hover:text-green-600 transition duration-200" %>
                     </h3>
-                    <p class="text-sm text-gray-500 mt-1">by <%= wishlist.user.display_name %></p>
+                    <p class="text-sm text-gray-500 mt-1">by <%= link_to wishlist.user.display_name, user_path(wishlist.user), class: "text-green-600 hover:text-green-800 transition duration-200 font-medium" %></p>
                   </div>
                   <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium"><%= t('wishlists.index.visibility.publicly_visible') %></span>
                 </div>
