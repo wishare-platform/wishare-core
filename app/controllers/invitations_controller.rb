@@ -13,7 +13,12 @@ class InvitationsController < ApplicationController
     if @invitation.save
       begin
         # Send email invitation
-        InvitationMailer.invitation(@invitation).deliver_later
+        if Rails.env.production?
+          # Use deliver_now in production for debugging
+          InvitationMailer.invitation(@invitation).deliver_now
+        else
+          InvitationMailer.invitation(@invitation).deliver_later
+        end
         redirect_to connections_path, notice: 'Invitation sent successfully! An email has been sent to your partner.'
       rescue => e
         Rails.logger.error "Failed to send invitation email: #{e.message}"

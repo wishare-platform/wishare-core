@@ -37,9 +37,8 @@ Rails.application.configure do
   # Configure mailer to use SendGrid
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
-  # Use file delivery in development to avoid SMTP issues
-  config.action_mailer.delivery_method = :file
-  config.action_mailer.file_settings = { location: Rails.root.join('tmp', 'mail') }
+  # Use test delivery to see emails in Rails log
+  config.action_mailer.delivery_method = :test
 
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
