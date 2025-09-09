@@ -68,8 +68,11 @@ Rails.application.configure do
     password: ENV['SENDGRID_API_KEY'],
     address: 'smtp.sendgrid.net',
     port: 587,
+    domain: 'wishare.xyz',
     authentication: :plain,
-    enable_starttls_auto: true
+    enable_starttls_auto: true,
+    open_timeout: 10,
+    read_timeout: 10
   }
   
   # Allow assets to be precompiled without a real secret key base during build

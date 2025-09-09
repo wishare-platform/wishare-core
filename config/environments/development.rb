@@ -37,8 +37,22 @@ Rails.application.configure do
   # Configure mailer to use SendGrid
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
-  # Use test delivery to see emails in Rails log
+  # Use test delivery to see emails in Rails log in development
   config.action_mailer.delivery_method = :test
+  
+  # Uncomment below to test SMTP in development
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
+  #   user_name: 'apikey',
+  #   password: ENV['SENDGRID_API_KEY'],
+  #   address: 'smtp.sendgrid.net',
+  #   port: 587,
+  #   domain: 'localhost',
+  #   authentication: :plain,
+  #   enable_starttls_auto: true,
+  #   open_timeout: 10,
+  #   read_timeout: 10
+  # }
 
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
