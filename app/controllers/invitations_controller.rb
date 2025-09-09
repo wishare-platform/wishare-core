@@ -11,9 +11,15 @@ class InvitationsController < ApplicationController
     @invitation = current_user.sent_invitations.build(invitation_params)
     
     if @invitation.save
-      # Send email invitation
-      InvitationMailer.invitation(@invitation).deliver_now
-      redirect_to connections_path, notice: 'Invitation sent successfully! An email has been sent to your partner.'
+      begin
+        # Send email invitation
+        InvitationMailer.invitation(@invitation).deliver_later
+        redirect_to connections_path, notice: 'Invitation sent successfully! An email has been sent to your partner.'
+      rescue => e
+        Rails.logger.error "Failed to send invitation email: #{e.message}"
+        # Still redirect successfully since the invitation was saved
+        redirect_to connections_path, notice: 'Invitation created! Email delivery may be delayed.'
+      end
     else
       render :new, status: :unprocessable_entity
     end
