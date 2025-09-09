@@ -67,6 +67,7 @@ en:
       password_placeholder: "Create a password"
       password_confirmation: "Confirm password"
       password_confirmation_placeholder: "Confirm your password"
+      agreement_text_html: "I agree to the %{terms_link} and %{privacy_link}"
       sign_up_button: "Create account"
       or: "Or"
       google_sign_up: "Continue with Google"

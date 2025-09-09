@@ -1,4 +1,26 @@
 <div class="min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-purple-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <!-- Language Switcher and Legal Links -->
+  <div class="fixed top-4 right-4 z-50">
+    <div class="flex items-center gap-4">
+      <!-- Legal Links -->
+      <div class="flex items-center gap-3 text-xs text-gray-500">
+        <%= link_to t('common.footer.terms_of_service'), terms_of_service_path, class: "hover:text-rose-600 transition duration-200" %>
+        <span class="text-gray-300">•</span>
+        <%= link_to t('common.footer.privacy_policy'), privacy_policy_path, class: "hover:text-rose-600 transition duration-200" %>
+      </div>
+      <!-- Language Switcher -->
+      <div class="flex gap-2">
+        <% available_locales.each do |locale| %>
+          <%= link_to locale_switch_url(locale[:code]), 
+                class: "flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition duration-200 bg-white/80 backdrop-blur-sm border shadow-sm #{'border-rose-200 text-rose-700 bg-rose-50/80' if I18n.locale.to_s == locale[:code]} #{'border-gray-200 text-gray-600 hover:bg-white hover:border-gray-300' unless I18n.locale.to_s == locale[:code]}" do %>
+            <span><%= locale[:flag] %></span>
+            <span class="hidden sm:inline"><%= locale[:name] %></span>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
   <div class="sm:mx-auto sm:w-full sm:max-w-md">
     <div class="flex justify-center">
       <div class="flex items-center gap-3">

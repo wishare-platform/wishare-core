@@ -67,6 +67,7 @@ pt-BR:
       password_placeholder: "Crie uma senha"
       password_confirmation: "Confirmar senha"
       password_confirmation_placeholder: "Confirme sua senha"
+      agreement_text_html: "Eu concordo com os %{terms_link} e a %{privacy_link}"
       sign_up_button: "Criar conta"
       or: "Ou"
       google_sign_up: "Continuar com Google"
