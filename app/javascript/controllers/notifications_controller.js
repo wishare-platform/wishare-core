@@ -43,8 +43,10 @@ export default class extends Controller {
 
   toggle(event) {
     console.log("Toggle clicked")
-    event.preventDefault()
-    event.stopPropagation()
+    // Only prevent default for actual click events, not touch events
+    if (event.type === 'click') {
+      event.stopPropagation()
+    }
     
     if (this.hasDropdownTarget) {
       this.dropdownTarget.classList.toggle("hidden")
