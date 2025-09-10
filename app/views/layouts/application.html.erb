@@ -351,7 +351,7 @@
                         <% current_user.notifications.recent.limit(10).each do |notification| %>
                           <div class="border-b border-gray-100 <%= 'bg-rose-50' unless notification.read? %>">
                             <% unless notification.read? %>
-                              <%= link_to notification_path(notification), 
+                              <%= link_to mark_as_read_notification_path(notification), 
                                     data: { "turbo-method": :patch },
                                     class: "block px-4 py-3 hover:bg-gray-50 transition duration-200" do %>
                                 <div class="flex items-start gap-3">
