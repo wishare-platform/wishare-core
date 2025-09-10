@@ -1,7 +1,7 @@
 class AnalyticsEvent < ApplicationRecord
   belongs_to :user, optional: true
   
-  enum event_type: {
+  enum :event_type, {
     page_view: 0,
     wishlist_created: 1,
     item_added: 2,
