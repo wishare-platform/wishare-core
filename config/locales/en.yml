@@ -325,11 +325,43 @@ en:
       no_public_wishlists: "No public wishlists available"
   
   notifications:
-    invitation_received: "%{sender} sent you a connection invitation"
-    invitation_accepted: "%{recipient} accepted your invitation"
-    item_purchased: "%{buyer} purchased %{item} from your wishlist"
-    wishlist_shared: "%{sharer} shared a wishlist with you"
-    new_item_added: "%{user} added %{item} to their wishlist"
+    title: "Notifications"
+    subtitle: "Stay updated with your connections and wishlists"
+    bell_title: "Notifications"
+    mark_all_read: "Mark all as read"
+    mark_as_read: "Mark as read"
+    view_all: "View all notifications"
+    empty_state: "No notifications yet"
+    empty_state_description: "When you receive notifications, they'll appear here"
+    unread_count:
+      one: "You have 1 unread notification"
+      other: "You have %{count} unread notifications"
+    types:
+      invitation_received: 
+        title: "New Connection Invitation"
+        message: "%{sender_name} has invited you to connect on Wishare!"
+      invitation_accepted: 
+        title: "Invitation Accepted!"
+        message: "%{acceptor_name} has accepted your connection invitation!"
+      invitation_declined:
+        title: "Invitation Declined"
+        message: "Your connection invitation was declined."
+      item_purchased: 
+        title: "Item Purchased!"
+        message: "%{buyer_name} purchased %{item_name} from your wishlist"
+      wishlist_shared: 
+        title: "Wishlist Shared"
+        message: "%{sharer_name} shared a wishlist with you"
+      new_item_added: 
+        title: "New Item Added"
+        message: "%{user_name} added %{item_name} to their wishlist"
+      connection_removed:
+        title: "Connection Removed"
+        message: "%{user_name} has disconnected from you"
+    actions:
+      accept: "Accept"
+      decline: "Decline"
+      view_invitation: "View Invitation"
   
   emails:
     invitation:

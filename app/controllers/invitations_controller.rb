@@ -11,6 +11,21 @@ class InvitationsController < ApplicationController
     @invitation = current_user.sent_invitations.build(invitation_params)
     
     if @invitation.save
+      # Create notification if recipient is an existing user
+      recipient = User.find_by(email: @invitation.recipient_email)
+      if recipient
+        recipient.notifications.create!(
+          notifiable: @invitation,
+          notification_type: 'invitation_received',
+          data: { 
+            sender_id: current_user.id, 
+            sender_name: current_user.display_name,
+            invitation_id: @invitation.id,
+            invitation_token: @invitation.token 
+          }
+        )
+      end
+      
       begin
         # Send email invitation
         if Rails.env.production?
@@ -74,6 +89,14 @@ class InvitationsController < ApplicationController
       if user_signed_in? && current_user.email == @invitation.recipient_email
         begin
           @invitation.accept!(current_user)
+          
+          # Create notification for the sender
+          @invitation.sender.notifications.create!(
+            notifiable: @invitation,
+            notification_type: 'invitation_accepted',
+            data: { acceptor_id: current_user.id, acceptor_name: current_user.display_name }
+          )
+          
           redirect_to root_path, notice: 'You are now connected! 💕'
         rescue ActiveRecord::RecordInvalid => e
           redirect_to accept_invitation_path(token: @invitation.token), alert: 'Unable to accept invitation: ' + e.message
@@ -84,6 +107,14 @@ class InvitationsController < ApplicationController
     else
       # Mark invitation as expired when declined
       @invitation.mark_as_expired!
+      
+      # Create notification for the sender
+      @invitation.sender.notifications.create!(
+        notifiable: @invitation,
+        notification_type: 'invitation_declined',
+        data: { decliner_email: @invitation.recipient_email }
+      )
+      
       redirect_to root_path, notice: 'Invitation declined.'
     end
   end

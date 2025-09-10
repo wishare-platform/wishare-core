@@ -19,8 +19,14 @@ class User < ApplicationRecord
   has_many :wishlists, dependent: :destroy
   has_many :purchased_items, class_name: 'WishlistItem', foreign_key: 'purchased_by_id', dependent: :nullify
 
+  # Notification associations
+  has_many :notifications, dependent: :destroy
+  has_one :notification_preference, dependent: :destroy
+
   validates :name, presence: true
   validates :preferred_locale, inclusion: { in: %w[en pt-BR] }
+
+  after_create :create_default_notification_preference
 
   def self.from_omniauth(auth)
     user = find_or_create_by(provider: auth.provider, uid: auth.uid) do |u|
@@ -92,5 +98,15 @@ class User < ApplicationRecord
 
   def display_name
     name.presence || email.split('@').first
+  end
+
+  def unread_notifications_count
+    notifications.unread.count
+  end
+
+  private
+
+  def create_default_notification_preference
+    build_notification_preference.save unless notification_preference
   end
 end

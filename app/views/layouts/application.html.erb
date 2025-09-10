@@ -111,6 +111,106 @@
 <%= t('navigation.invite_friend') %>
               <% end %>
               
+              <!-- Notification Bell -->
+              <div class="relative" data-controller="notifications" data-notifications-user-id-value="<%= current_user.id %>">
+                <button data-action="click->notifications#toggle" class="relative p-2 text-gray-600 hover:text-rose-600 transition duration-200">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                  </svg>
+                  <% if current_user.unread_notifications_count > 0 %>
+                    <span data-notifications-target="badge" class="absolute -top-1 -right-1 bg-rose-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
+                      <%= current_user.unread_notifications_count %>
+                    </span>
+                  <% else %>
+                    <span data-notifications-target="badge" class="hidden absolute -top-1 -right-1 bg-rose-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
+                      0
+                    </span>
+                  <% end %>
+                </button>
+                
+                <!-- Notification Dropdown -->
+                <div data-notifications-target="dropdown" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg border border-rose-100 z-50">
+                  <div class="px-4 py-3 border-b border-rose-50 flex items-center justify-between">
+                    <h3 class="font-semibold text-gray-800"><%= t('notifications.bell_title') %></h3>
+                    <% if current_user.unread_notifications_count > 0 %>
+                      <%= link_to t('notifications.mark_all_read'), mark_all_as_read_notifications_path, 
+                            data: { "turbo-method": :patch },
+                            class: "text-xs text-rose-600 hover:text-rose-700" %>
+                    <% end %>
+                  </div>
+                  
+                  <div data-notifications-target="list" class="max-h-96 overflow-y-auto">
+                    <% if current_user.notifications.recent.limit(10).any? %>
+                      <% current_user.notifications.recent.limit(10).each do |notification| %>
+                        <div class="border-b border-gray-100 <%= 'bg-rose-50' unless notification.read? %>">
+                          <% unless notification.read? %>
+                            <%= link_to mark_as_read_notification_path(notification), 
+                                  data: { "turbo-method": :patch },
+                                  class: "block px-4 py-3 hover:bg-gray-50 transition duration-200" do %>
+                              <div class="flex items-start gap-3">
+                                <div class="flex-shrink-0 w-2 h-2 mt-2 rounded-full bg-rose-500"></div>
+                                <div class="flex-1">
+                                  <p class="text-sm font-medium text-gray-800"><%= notification.localized_title %></p>
+                                  <p class="text-xs text-gray-600 mt-1"><%= notification.localized_message %></p>
+                                  <p class="text-xs text-gray-400 mt-1"><%= time_ago_in_words(notification.created_at) %> ago</p>
+                                </div>
+                              </div>
+                            <% end %>
+                            
+                            <% if notification.notification_type == 'invitation_received' && notification.data && notification.data['invitation_token'] %>
+                              <% invitation = Invitation.find_by(token: notification.data['invitation_token']) %>
+                              <% if invitation && invitation.pending? %>
+                                <div class="px-4 pb-3 flex items-center justify-end gap-1">
+                                  <%= link_to accept_invitation_path(token: notification.data['invitation_token']), 
+                                        data: { "turbo-method": :patch },
+                                        class: "p-1.5 bg-green-100 hover:bg-green-200 rounded-lg transition duration-200",
+                                        title: t('notifications.actions.accept') do %>
+                                    <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                  <% end %>
+                                  <%= link_to accept_invitation_path(token: notification.data['invitation_token'], accept: false), 
+                                        data: { "turbo-method": :patch },
+                                        class: "p-1.5 bg-red-100 hover:bg-red-200 rounded-lg transition duration-200",
+                                        title: t('notifications.actions.decline') do %>
+                                    <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                  <% end %>
+                                </div>
+                              <% end %>
+                            <% end %>
+                          <% else %>
+                            <div class="px-4 py-3">
+                              <div class="flex items-start gap-3">
+                                <div class="flex-shrink-0 w-2 h-2 mt-2 rounded-full bg-gray-300"></div>
+                                <div class="flex-1">
+                                  <p class="text-sm font-medium text-gray-800"><%= notification.localized_title %></p>
+                                  <p class="text-xs text-gray-600 mt-1"><%= notification.localized_message %></p>
+                                  <p class="text-xs text-gray-400 mt-1"><%= time_ago_in_words(notification.created_at) %> ago</p>
+                                </div>
+                              </div>
+                            </div>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    <% else %>
+                      <div class="px-4 py-8 text-center text-gray-500">
+                        <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                        </svg>
+                        <p class="text-sm"><%= t('notifications.empty_state') %></p>
+                      </div>
+                    <% end %>
+                  </div>
+                  
+                  <div class="px-4 py-2 border-t border-rose-50">
+                    <%= link_to t('notifications.view_all'), notifications_path, 
+                          class: "text-sm text-rose-600 hover:text-rose-700 font-medium" %>
+                  </div>
+                </div>
+              </div>
+              
               <%= link_to new_wishlist_path, class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-3 py-1.5 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 text-sm font-medium flex items-center gap-2 shadow-sm" do %>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>

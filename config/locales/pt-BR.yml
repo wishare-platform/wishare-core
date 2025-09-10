@@ -325,11 +325,43 @@ pt-BR:
       no_public_wishlists: "Nenhuma lista pública disponível"
   
   notifications:
-    invitation_received: "%{sender} enviou um convite de conexão"
-    invitation_accepted: "%{recipient} aceitou seu convite"
-    item_purchased: "%{buyer} comprou %{item} da sua lista"
-    wishlist_shared: "%{sharer} compartilhou uma lista com você"
-    new_item_added: "%{user} adicionou %{item} à lista"
+    title: "Notificações"
+    subtitle: "Fique atualizado com suas conexões e listas"
+    bell_title: "Notificações"
+    mark_all_read: "Marcar todas como lidas"
+    mark_as_read: "Marcar como lida"
+    view_all: "Ver todas as notificações"
+    empty_state: "Nenhuma notificação ainda"
+    empty_state_description: "Quando você receber notificações, elas aparecerão aqui"
+    unread_count:
+      one: "Você tem 1 notificação não lida"
+      other: "Você tem %{count} notificações não lidas"
+    types:
+      invitation_received: 
+        title: "Novo Convite de Conexão"
+        message: "%{sender_name} convidou você para se conectar no Wishare!"
+      invitation_accepted: 
+        title: "Convite Aceito!"
+        message: "%{acceptor_name} aceitou seu convite de conexão!"
+      invitation_declined:
+        title: "Convite Recusado"
+        message: "Seu convite de conexão foi recusado."
+      item_purchased: 
+        title: "Item Comprado!"
+        message: "%{buyer_name} comprou %{item_name} da sua lista"
+      wishlist_shared: 
+        title: "Lista Compartilhada"
+        message: "%{sharer_name} compartilhou uma lista com você"
+      new_item_added: 
+        title: "Novo Item Adicionado"
+        message: "%{user_name} adicionou %{item_name} à lista"
+      connection_removed:
+        title: "Conexão Removida"
+        message: "%{user_name} se desconectou de você"
+    actions:
+      accept: "Aceitar"
+      decline: "Recusar"
+      view_invitation: "Ver Convite"
   
   emails:
     invitation:

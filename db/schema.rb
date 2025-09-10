@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_09_074820) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_10_080031) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -36,6 +36,36 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_09_074820) do
     t.index ["recipient_email"], name: "index_invitations_on_recipient_email"
     t.index ["sender_id"], name: "index_invitations_on_sender_id"
     t.index ["token"], name: "index_invitations_on_token", unique: true
+  end
+
+  create_table "notification_preferences", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.boolean "email_invitations", default: true, null: false
+    t.boolean "email_purchases", default: true, null: false
+    t.boolean "email_new_items", default: false, null: false
+    t.boolean "email_connections", default: true, null: false
+    t.boolean "push_enabled", default: false, null: false
+    t.integer "digest_frequency", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notification_preferences_on_user_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "notifiable_type", null: false
+    t.bigint "notifiable_id", null: false
+    t.integer "notification_type"
+    t.string "title"
+    t.text "message"
+    t.boolean "read", default: false, null: false
+    t.json "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_notifications_on_created_at"
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
+    t.index ["user_id", "read"], name: "index_notifications_on_user_id_and_read"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -90,6 +120,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_09_074820) do
   add_foreign_key "connections", "users"
   add_foreign_key "connections", "users", column: "partner_id"
   add_foreign_key "invitations", "users", column: "sender_id"
+  add_foreign_key "notification_preferences", "users"
+  add_foreign_key "notifications", "users"
   add_foreign_key "wishlist_items", "users", column: "purchased_by_id"
   add_foreign_key "wishlist_items", "wishlists"
   add_foreign_key "wishlists", "users"

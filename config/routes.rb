@@ -13,6 +13,14 @@ Rails.application.routes.draw do
     # Resources for authenticated users
     resources :connections, only: [:index, :show, :update, :destroy]
     resources :invitations, only: [:new, :create, :destroy]
+    resources :notifications, only: [:index] do
+      member do
+        patch :mark_as_read
+      end
+      collection do
+        patch :mark_all_as_read
+      end
+    end
     get '/invite/:token', to: 'invitations#show', as: :accept_invitation
     patch '/invite/:token', to: 'invitations#update', as: :update_invitation
     resources :wishlists do
