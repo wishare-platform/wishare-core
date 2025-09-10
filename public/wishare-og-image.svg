@@ -9,20 +9,13 @@
   <!-- Background -->
   <rect width="1200" height="630" fill="url(#bgGradient)"/>
   
-  <!-- White gift box shape instead of emoji for better compatibility -->
-  <g transform="translate(600,315)">
-    <!-- Gift box base -->
-    <rect x="-80" y="-40" width="160" height="80" rx="8" fill="white" opacity="0.95"/>
+  <!-- Gift with ribbon emoji (💝) -->
+  <g transform="translate(600,280)">
+    <!-- White circle background for emoji contrast -->
+    <circle cx="0" cy="0" r="80" fill="white" opacity="0.1"/>
     
-    <!-- Vertical ribbon -->
-    <rect x="-8" y="-40" width="16" height="80" fill="#ec4899"/>
-    
-    <!-- Horizontal ribbon -->
-    <rect x="-80" y="-8" width="160" height="16" fill="#ec4899"/>
-    
-    <!-- Bow/heart on top -->
-    <path d="M0,-60 C-10,-70 -25,-70 -25,-50 C-25,-70 -40,-70 -50,-60 C-60,-50 -60,-30 -40,-20 L0,20 L40,-20 C60,-30 60,-50 50,-60 C40,-70 25,-70 25,-50 C25,-70 10,-70 0,-60 Z" 
-          fill="#fecaca"/>
+    <!-- Large 💝 emoji as text -->
+    <text x="0" y="25" font-size="120" text-anchor="middle" dominant-baseline="middle">💝</text>
   </g>
   
   <!-- Wishare text -->
