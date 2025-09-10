@@ -11,6 +11,11 @@ A thoughtful gifting platform that helps friends and family share wishlists for 
 - **Gift Items**: Add items with URLs, descriptions, prices, and priorities
 - **Purchase Tracking**: Mark items as purchased (hidden from wishlist owner)
 - **Public Profiles**: Share public wishlists with anyone via profile links
+- **Real-time Notifications**: In-app bell notifications with ActionCable
+- **Email Notifications**: Beautiful, localized email templates with digest options
+- **Push Notifications**: Mobile-ready FCM integration for iOS, Android, and Web
+- **Notification Preferences**: Granular control over all notification types and delivery methods
+- **Internationalization**: Complete bilingual support (English & Portuguese)
 
 ### Design & UX
 - **Rose Pink Theme**: Modern, warm color palette suitable for all occasions
@@ -29,6 +34,9 @@ A thoughtful gifting platform that helps friends and family share wishlists for 
 - **Authentication**: Devise with OmniAuth
 - **Email**: ActionMailer
 - **Background Jobs**: ActiveJob (async adapter in development)
+- **Real-time**: ActionCable for live notifications
+- **Push Notifications**: Firebase Cloud Messaging (FCM)
+- **Internationalization**: Rails I18n with English and Portuguese support
 
 ## Getting Started
 
@@ -246,19 +254,17 @@ heroku run rails db:migrate
 4. Configure environment variables in Railway dashboard
 5. Deploy with `railway up`
 
+## Recently Completed Features
+
+### ✅ Phase 1 & 1b: Complete Notification System (January 10, 2025)
+- **Real-time in-app notifications** with ActionCable bell icon and dropdown
+- **Email notification preferences** with granular user controls
+- **Push notifications** ready for mobile app with FCM integration
+- **Daily/weekly digest emails** with beautiful localized templates
+- **Complete internationalization** of all notification features
+- **Device token management** API endpoints for React Native integration
+
 ## Upcoming Features
-
-### Phase 1: Notification System
-- In-app notifications with ActionCable
-- Email notification preferences
-- Push notifications for mobile app
-- Real-time updates for gift purchases
-
-### Phase 2: Internationalization (i18n)
-- Portuguese (pt-BR) support
-- Language switcher
-- Localized email templates
-- Date/time/currency formatting
 
 ### Phase 3: React Native Mobile App
 - API authentication with JWT
