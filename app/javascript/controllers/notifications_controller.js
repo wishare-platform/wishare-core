@@ -48,6 +48,23 @@ export default class extends Controller {
     
     if (this.hasDropdownTarget) {
       this.dropdownTarget.classList.toggle("hidden")
+      
+      // Adjust positioning based on viewport space
+      if (!this.dropdownTarget.classList.contains("hidden")) {
+        const rect = this.dropdownTarget.getBoundingClientRect()
+        const windowHeight = window.innerHeight
+        const spaceBelow = windowHeight - rect.top
+        
+        // If dropdown extends below viewport, position it above the button
+        if (spaceBelow < rect.height + 20) {
+          this.dropdownTarget.classList.add("bottom-full", "mb-2")
+          this.dropdownTarget.classList.remove("mt-2")
+        } else {
+          this.dropdownTarget.classList.remove("bottom-full", "mb-2")
+          this.dropdownTarget.classList.add("mt-2")
+        }
+      }
+      
       console.log("Dropdown toggled, hidden:", this.dropdownTarget.classList.contains("hidden"))
     } else {
       console.error("No dropdown target found")
