@@ -6,6 +6,22 @@ export default class extends Controller {
 
   toggle() {
     this.menuTarget.classList.toggle("hidden")
+    
+    // Adjust positioning based on viewport space
+    if (!this.menuTarget.classList.contains("hidden")) {
+      const rect = this.menuTarget.getBoundingClientRect()
+      const windowHeight = window.innerHeight
+      const spaceBelow = windowHeight - rect.top
+      
+      // If dropdown extends below viewport, position it above the button
+      if (spaceBelow < rect.height + 20) {
+        this.menuTarget.classList.add("bottom-full", "mb-2")
+        this.menuTarget.classList.remove("mt-2")
+      } else {
+        this.menuTarget.classList.remove("bottom-full", "mb-2")
+        this.menuTarget.classList.add("mt-2")
+      }
+    }
   }
 
   hide(event) {

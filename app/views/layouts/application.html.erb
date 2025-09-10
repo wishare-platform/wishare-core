@@ -296,7 +296,7 @@
                 </button>
                 
                 <!-- Dropdown Menu -->
-                <div data-dropdown-target="menu" class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-rose-100 py-2 hidden z-50">
+                <div data-dropdown-target="menu" class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-rose-100 py-2 hidden z-50 max-h-96 overflow-y-auto">
                   <div class="px-4 py-2 border-b border-rose-50">
                     <p class="text-sm font-medium text-gray-800"><%= current_user.name || "User" %></p>
                     <p class="text-xs text-gray-500"><%= current_user.email %></p>
