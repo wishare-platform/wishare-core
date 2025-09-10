@@ -10,7 +10,11 @@ class SendgridApiDelivery
   end
   
   def deliver!(mail)
-    sg = SendGrid::API.new(api_key: settings[:api_key])
+    # Get API key from settings or ActionMailer configuration
+    api_key = settings[:api_key] || ActionMailer::Base.sendgrid_api_settings&.dig(:api_key)
+    raise "SendGrid API key not configured" unless api_key
+    
+    sg = SendGrid::API.new(api_key: api_key)
     
     from = Email.new(email: mail.from.first, name: mail[:from].display_names.first)
     subject = mail.subject

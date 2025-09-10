@@ -62,11 +62,16 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: ENV.fetch("HOST_URL", "wishare.xyz") }
 
   # Configure SendGrid API for email delivery (Railway compatible - uses HTTPS not SMTP)
-  # SendGrid API configuration is handled in config/initializers/sendgrid_api.rb
-  config.action_mailer.delivery_method = :sendgrid_api
-  config.action_mailer.sendgrid_api_settings = {
-    api_key: ENV['SENDGRID_API_KEY']
-  }
+  # Skip during asset precompilation
+  unless ENV['SECRET_KEY_BASE_DUMMY'] == '1'
+    config.action_mailer.delivery_method = :sendgrid_api
+    config.action_mailer.sendgrid_api_settings = {
+      api_key: ENV['SENDGRID_API_KEY']
+    }
+  else
+    # Use a dummy delivery method during asset precompilation
+    config.action_mailer.delivery_method = :test
+  end
   
   # Allow assets to be precompiled without a real secret key base during build
   config.require_master_key = false

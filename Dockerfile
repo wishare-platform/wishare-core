@@ -28,9 +28,14 @@ ENV RAILS_ENV="production" \
 # Throw-away build stage to reduce size of final image
 FROM base AS build
 
-# Install packages needed to build gems
+# Install packages needed to build gems and assets
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libpq-dev pkg-config && \
+    apt-get install --no-install-recommends -y build-essential git libpq-dev pkg-config curl && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Install Node.js for Tailwind CSS
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Install application gems
