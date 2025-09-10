@@ -35,6 +35,16 @@ Rails.application.routes.draw do
     # Public user profiles
     resources :users, only: [:show]
     
+    # Notification preferences
+    resource :notification_preferences, only: [:show, :update]
+    
+    # API routes for mobile app
+    namespace :api do
+      namespace :v1 do
+        resources :device_tokens, only: [:create, :index, :destroy]
+      end
+    end
+    
     authenticated :user do
       root 'dashboard#index', as: :authenticated_root
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_10_080031) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_10_091445) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -23,6 +23,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_080031) do
     t.index ["partner_id"], name: "index_connections_on_partner_id"
     t.index ["user_id", "partner_id"], name: "index_connections_on_user_id_and_partner_id", unique: true
     t.index ["user_id"], name: "index_connections_on_user_id"
+  end
+
+  create_table "device_tokens", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "token", null: false
+    t.integer "platform", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "last_used_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_device_tokens_on_active"
+    t.index ["last_used_at"], name: "index_device_tokens_on_last_used_at"
+    t.index ["user_id", "platform"], name: "index_device_tokens_on_user_id_and_platform"
+    t.index ["user_id", "token"], name: "index_device_tokens_on_user_id_and_token", unique: true
+    t.index ["user_id"], name: "index_device_tokens_on_user_id"
   end
 
   create_table "invitations", force: :cascade do |t|
@@ -62,6 +77,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_080031) do
     t.json "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "digest_processed_at"
+    t.string "digest_frequency_sent"
     t.index ["created_at"], name: "index_notifications_on_created_at"
     t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
     t.index ["user_id", "read"], name: "index_notifications_on_user_id_and_read"
@@ -119,6 +136,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_080031) do
 
   add_foreign_key "connections", "users"
   add_foreign_key "connections", "users", column: "partner_id"
+  add_foreign_key "device_tokens", "users"
   add_foreign_key "invitations", "users", column: "sender_id"
   add_foreign_key "notification_preferences", "users"
   add_foreign_key "notifications", "users"

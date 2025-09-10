@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333333;
+      margin: 0;
+      padding: 0;
+      background-color: #f8fafc;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 600;
+    }
+    .header .emoji {
+      font-size: 48px;
+      margin-bottom: 15px;
+      display: block;
+    }
+    .content {
+      padding: 40px 30px;
+    }
+    .notification-card {
+      background-color: #fef7ff;
+      border: 2px solid #ec4899;
+      border-radius: 12px;
+      padding: 25px;
+      margin: 25px 0;
+      text-align: center;
+    }
+    .notification-card h2 {
+      color: #ec4899;
+      margin: 0 0 15px 0;
+      font-size: 22px;
+      font-weight: 600;
+    }
+    .notification-card p {
+      font-size: 16px;
+      margin: 10px 0;
+      color: #4b5563;
+    }
+    .purchaser-name {
+      font-weight: 600;
+      color: #ec4899;
+    }
+    .item-name {
+      font-weight: 600;
+      color: #1f2937;
+    }
+    .wishlist-name {
+      font-style: italic;
+      color: #6b7280;
+    }
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+      color: white;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      margin: 20px 0;
+      transition: all 0.3s ease;
+    }
+    .cta-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+    }
+    .footer {
+      background-color: #f8fafc;
+      padding: 30px;
+      text-align: center;
+      color: #6b7280;
+      font-size: 14px;
+    }
+    .footer .logo {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .footer .tagline {
+      font-weight: 600;
+      background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    @media (max-width: 600px) {
+      .container {
+        margin: 0;
+        border-radius: 0;
+      }
+      .content {
+        padding: 30px 20px;
+      }
+      .header {
+        padding: 25px 20px;
+      }
+      .notification-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <span class="emoji">🎉</span>
+      <h1><%= t('emails.item_purchase.header') %></h1>
+    </div>
+    
+    <!-- Content -->
+    <div class="content">
+      <p><%= t('emails.item_purchase.greeting', name: @user.display_name) %></p>
+      
+      <div class="notification-card">
+        <h2>🛍️ <%= t('emails.item_purchase.notification_title') %></h2>
+        <p>
+          <span class="purchaser-name"><%= @purchaser_name %></span>
+          <%= t('emails.item_purchase.purchased_message') %>
+          <strong class="item-name">"<%= @item_name %>"</strong>
+          <%= t('emails.item_purchase.from_wishlist') %>
+          <span class="wishlist-name">"<%= @wishlist_name %>"</span>
+        </p>
+        <p><%= t('emails.item_purchase.celebration_message') %></p>
+      </div>
+      
+      <div style="text-align: center;">
+        <a href="<%= @wishlist_url %>" class="cta-button">
+          <%= t('emails.item_purchase.view_wishlist_button') %>
+        </a>
+      </div>
+      
+      <p><%= t('emails.item_purchase.closing_message') %></p>
+      
+      <p>
+        <%= t('emails.item_purchase.signature') %><br>
+        <strong>The Wishare Team</strong>
+      </p>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+      <div class="logo">💝</div>
+      <div class="tagline">Wishare</div>
+      <p><%= t('emails.common.tagline') %></p>
+      <p>
+        <%= t('emails.common.unsubscribe_info') %> 
+        <a href="<%= notification_preferences_url %>" style="color: #ec4899;"><%= t('emails.common.notification_preferences') %></a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

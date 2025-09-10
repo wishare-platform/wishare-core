@@ -91,11 +91,16 @@ class InvitationsController < ApplicationController
           @invitation.accept!(current_user)
           
           # Create notification for the sender
-          @invitation.sender.notifications.create!(
+          notification = @invitation.sender.notifications.create!(
             notifiable: @invitation,
             notification_type: 'invitation_accepted',
             data: { acceptor_id: current_user.id, acceptor_name: current_user.display_name }
           )
+          
+          # Send push notification if user has it enabled
+          if @invitation.sender.notification_preference&.push_enabled?
+            PushNotificationService.new.send_invitation_notification(notification)
+          end
           
           redirect_to root_path, notice: 'You are now connected! 💕'
         rescue ActiveRecord::RecordInvalid => e
@@ -109,11 +114,16 @@ class InvitationsController < ApplicationController
       @invitation.mark_as_expired!
       
       # Create notification for the sender
-      @invitation.sender.notifications.create!(
+      notification = @invitation.sender.notifications.create!(
         notifiable: @invitation,
         notification_type: 'invitation_declined',
         data: { decliner_email: @invitation.recipient_email }
       )
+      
+      # Send push notification if user has it enabled
+      if @invitation.sender.notification_preference&.push_enabled?
+        PushNotificationService.new.send_invitation_notification(notification)
+      end
       
       redirect_to root_path, notice: 'Invitation declined.'
     end

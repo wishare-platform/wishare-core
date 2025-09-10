@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333333;
+      margin: 0;
+      padding: 0;
+      background-color: #f8fafc;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 600;
+    }
+    .header .emoji {
+      font-size: 48px;
+      margin-bottom: 15px;
+      display: block;
+    }
+    .header .subtitle {
+      font-size: 16px;
+      opacity: 0.9;
+      margin-top: 10px;
+    }
+    .content {
+      padding: 40px 30px;
+    }
+    .digest-summary {
+      background-color: #fef7ff;
+      border-left: 4px solid #ec4899;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 8px;
+    }
+    .notification-group {
+      margin: 30px 0;
+      padding: 20px;
+      background-color: #f9fafb;
+      border-radius: 12px;
+    }
+    .notification-group h3 {
+      color: #ec4899;
+      margin: 0 0 15px 0;
+      font-size: 18px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .notification-item {
+      padding: 12px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .notification-item:last-child {
+      border-bottom: none;
+    }
+    .notification-item .title {
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 5px;
+    }
+    .notification-item .message {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+    .notification-item .time {
+      color: #9ca3af;
+      font-size: 12px;
+    }
+    .cta-section {
+      text-align: center;
+      margin: 30px 0;
+    }
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+      color: white;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      margin: 10px;
+      transition: all 0.3s ease;
+    }
+    .cta-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+    }
+    .cta-button.secondary {
+      background: white;
+      color: #ec4899;
+      border: 2px solid #ec4899;
+    }
+    .footer {
+      background-color: #f8fafc;
+      padding: 30px;
+      text-align: center;
+      color: #6b7280;
+      font-size: 14px;
+    }
+    .footer .logo {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .footer .tagline {
+      font-weight: 600;
+      background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    @media (max-width: 600px) {
+      .container {
+        margin: 0;
+        border-radius: 0;
+      }
+      .content {
+        padding: 30px 20px;
+      }
+      .header {
+        padding: 25px 20px;
+      }
+      .cta-button {
+        display: block;
+        margin: 10px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <span class="emoji">📬</span>
+      <h1><%= t('emails.digest.daily.header') %></h1>
+      <div class="subtitle">
+        <%= format_timeframe %>
+      </div>
+    </div>
+    
+    <!-- Content -->
+    <div class="content">
+      <p><%= t('emails.digest.greeting', name: @user.display_name) %></p>
+      
+      <div class="digest-summary">
+        <h2><%= t('emails.digest.summary_title') %></h2>
+        <p>
+          <%= t('emails.digest.daily.summary_message', count: @notification_count) %>
+        </p>
+      </div>
+      
+      <!-- Notification Groups -->
+      <% grouped_notifications.each do |notification_type, notifications| %>
+        <div class="notification-group">
+          <h3>
+            <% case notification_type %>
+            <% when 'item_purchased' %>
+              🛍️ <%= t('emails.digest.groups.item_purchased', count: notifications.count) %>
+            <% when 'invitation_received' %>
+              👋 <%= t('emails.digest.groups.invitation_received', count: notifications.count) %>
+            <% when 'invitation_accepted' %>
+              🤝 <%= t('emails.digest.groups.invitation_accepted', count: notifications.count) %>
+            <% when 'new_item_added' %>
+              ✨ <%= t('emails.digest.groups.new_item_added', count: notifications.count) %>
+            <% else %>
+              📱 <%= t('emails.digest.groups.other_notifications', count: notifications.count) %>
+            <% end %>
+          </h3>
+          
+          <% notifications.limit(5).each do |notification| %>
+            <div class="notification-item">
+              <div class="title"><%= notification.localized_title %></div>
+              <div class="message"><%= notification.localized_message %></div>
+              <div class="time"><%= time_ago_in_words(notification.created_at) %> <%= t('emails.digest.ago') %></div>
+            </div>
+          <% end %>
+          
+          <% if notifications.count > 5 %>
+            <div class="notification-item">
+              <div class="message">
+                <%= t('emails.digest.and_more', count: notifications.count - 5) %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+      
+      <!-- Call to Action -->
+      <div class="cta-section">
+        <a href="<%= notifications_url %>" class="cta-button">
+          <%= t('emails.digest.view_all_notifications') %>
+        </a>
+        <a href="<%= notification_preferences_url %>" class="cta-button secondary">
+          <%= t('emails.digest.manage_preferences') %>
+        </a>
+      </div>
+      
+      <p><%= t('emails.digest.closing_message') %></p>
+      
+      <p>
+        <%= t('emails.digest.signature') %><br>
+        <strong>The Wishare Team</strong>
+      </p>
+    </div>
+    
+    <!-- Footer -->
+    <div class="footer">
+      <div class="logo">💝</div>
+      <div class="tagline">Wishare</div>
+      <p><%= t('common.emails.tagline') %></p>
+      <p>
+        <%= t('common.emails.unsubscribe_info') %> 
+        <a href="<%= notification_preferences_url %>" style="color: #ec4899;"><%= t('common.emails.notification_preferences') %></a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

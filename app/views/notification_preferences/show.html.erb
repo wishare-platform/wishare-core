@@ -1,0 +1,227 @@
+<div class="min-h-screen bg-gray-50 py-6">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <div class="flex items-center space-x-3">
+          <div class="p-2 bg-rose-100 rounded-lg">
+            <svg class="w-6 h-6 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5-5-5h5v-12h5v12z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h5l-5-5 5-5H7v12H2V7z"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold text-gray-900">
+              <%= t('notification_preferences.title') %>
+            </h1>
+            <p class="text-sm text-gray-600 mt-1">
+              <%= t('notification_preferences.subtitle') %>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-6 py-8">
+        <%= form_with model: @notification_preference, url: notification_preferences_path, method: :patch, local: true, class: "space-y-8" do |form| %>
+          <% if @notification_preference.errors.any? %>
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+              <div class="flex">
+                <svg class="flex-shrink-0 w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                </svg>
+                <div class="ml-3">
+                  <h3 class="text-sm font-medium text-red-800">
+                    <%= t('errors.messages.form_errors', count: @notification_preference.errors.count) %>
+                  </h3>
+                  <ul class="mt-2 text-sm text-red-700 list-disc pl-5">
+                    <% @notification_preference.errors.full_messages.each do |message| %>
+                      <li><%= message %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- Email Notifications Section -->
+          <div class="bg-gray-50 rounded-lg p-6">
+            <div class="flex items-center space-x-3 mb-6">
+              <div class="p-2 bg-blue-100 rounded-lg">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900">
+                  <%= t('notification_preferences.email_notifications.title') %>
+                </h3>
+                <p class="text-sm text-gray-600">
+                  <%= t('notification_preferences.email_notifications.subtitle') %>
+                </p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="space-y-4">
+                <!-- Invitations -->
+                <div class="flex items-start space-x-3">
+                  <div class="flex items-center h-5 mt-0.5">
+                    <%= form.check_box :email_invitations, class: "w-4 h-4 text-rose-600 bg-white border-gray-300 rounded focus:ring-rose-500 focus:ring-2" %>
+                  </div>
+                  <div class="flex-1">
+                    <%= form.label :email_invitations, class: "text-sm font-medium text-gray-900 block" do %>
+                      <%= t('notification_preferences.email_invitations.label') %>
+                    <% end %>
+                    <p class="text-xs text-gray-500 mt-1">
+                      <%= t('notification_preferences.email_invitations.description') %>
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Purchases -->
+                <div class="flex items-start space-x-3">
+                  <div class="flex items-center h-5 mt-0.5">
+                    <%= form.check_box :email_purchases, class: "w-4 h-4 text-rose-600 bg-white border-gray-300 rounded focus:ring-rose-500 focus:ring-2" %>
+                  </div>
+                  <div class="flex-1">
+                    <%= form.label :email_purchases, class: "text-sm font-medium text-gray-900 block" do %>
+                      <%= t('notification_preferences.email_purchases.label') %>
+                    <% end %>
+                    <p class="text-xs text-gray-500 mt-1">
+                      <%= t('notification_preferences.email_purchases.description') %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="space-y-4">
+                <!-- New Items -->
+                <div class="flex items-start space-x-3">
+                  <div class="flex items-center h-5 mt-0.5">
+                    <%= form.check_box :email_new_items, class: "w-4 h-4 text-rose-600 bg-white border-gray-300 rounded focus:ring-rose-500 focus:ring-2" %>
+                  </div>
+                  <div class="flex-1">
+                    <%= form.label :email_new_items, class: "text-sm font-medium text-gray-900 block" do %>
+                      <%= t('notification_preferences.email_new_items.label') %>
+                    <% end %>
+                    <p class="text-xs text-gray-500 mt-1">
+                      <%= t('notification_preferences.email_new_items.description') %>
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Connections -->
+                <div class="flex items-start space-x-3">
+                  <div class="flex items-center h-5 mt-0.5">
+                    <%= form.check_box :email_connections, class: "w-4 h-4 text-rose-600 bg-white border-gray-300 rounded focus:ring-rose-500 focus:ring-2" %>
+                  </div>
+                  <div class="flex-1">
+                    <%= form.label :email_connections, class: "text-sm font-medium text-gray-900 block" do %>
+                      <%= t('notification_preferences.email_connections.label') %>
+                    <% end %>
+                    <p class="text-xs text-gray-500 mt-1">
+                      <%= t('notification_preferences.email_connections.description') %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Digest Frequency -->
+          <div class="bg-gray-50 rounded-lg p-6">
+            <div class="flex items-center space-x-3 mb-6">
+              <div class="p-2 bg-green-100 rounded-lg">
+                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900">
+                  <%= t('notification_preferences.digest_frequency.title') %>
+                </h3>
+                <p class="text-sm text-gray-600">
+                  <%= t('notification_preferences.digest_frequency.subtitle') %>
+                </p>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <% NotificationPreference.digest_frequencies.each do |frequency, value| %>
+                <div class="flex items-start space-x-3">
+                  <div class="flex items-center h-5 mt-0.5">
+                    <%= form.radio_button :digest_frequency, frequency, class: "w-4 h-4 text-rose-600 bg-white border-gray-300 focus:ring-rose-500 focus:ring-2" %>
+                  </div>
+                  <div class="flex-1">
+                    <%= form.label "digest_frequency_#{frequency}", class: "text-sm font-medium text-gray-900 block" do %>
+                      <%= t("notification_preferences.digest_frequency.#{frequency}.label") %>
+                    <% end %>
+                    <p class="text-xs text-gray-500 mt-1">
+                      <%= t("notification_preferences.digest_frequency.#{frequency}.description") %>
+                    </p>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Push Notifications -->
+          <div class="bg-gray-50 rounded-lg p-6">
+            <div class="flex items-center space-x-3 mb-6">
+              <div class="p-2 bg-purple-100 rounded-lg">
+                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900">
+                  <%= t('notification_preferences.push_notifications.title') %>
+                </h3>
+                <p class="text-sm text-gray-600">
+                  <%= t('notification_preferences.push_notifications.subtitle') %>
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-3">
+              <div class="flex items-center h-5 mt-0.5">
+                <%= form.check_box :push_enabled, class: "w-4 h-4 text-rose-600 bg-white border-gray-300 rounded focus:ring-rose-500 focus:ring-2" %>
+              </div>
+              <div class="flex-1">
+                <%= form.label :push_enabled, class: "text-sm font-medium text-gray-900 block" do %>
+                  <%= t('notification_preferences.push_enabled.label') %>
+                <% end %>
+                <p class="text-xs text-gray-500 mt-1">
+                  <%= t('notification_preferences.push_enabled.description') %>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+            <div class="flex items-center space-x-4">
+              <%= link_to edit_user_registration_path, 
+                          class: "text-sm text-gray-600 hover:text-gray-900 transition-colors duration-200" do %>
+                <svg class="inline w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                <%= t('notification_preferences.actions.back_to_profile') %>
+              <% end %>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+              <%= button_tag type: :button, 
+                            onclick: "location.reload()", 
+                            class: "px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 transition-all duration-200" do %>
+                <%= t('notification_preferences.actions.reset') %>
+              <% end %>
+              
+              <%= form.submit t('notification_preferences.actions.save_preferences'), 
+                              class: "px-6 py-2 bg-rose-600 border border-transparent rounded-lg text-sm font-medium text-white hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 transition-all duration-200 shadow-sm" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<%= t('emails.item_purchase.header') %>
+====================================
+
+<%= t('emails.item_purchase.greeting', name: @user.display_name) %>
+
+🎉 <%= t('emails.item_purchase.notification_title') %>
+
+<%= @purchaser_name %> <%= t('emails.item_purchase.purchased_message') %> "<%= @item_name %>" <%= t('emails.item_purchase.from_wishlist') %> "<%= @wishlist_name %>"
+
+<%= t('emails.item_purchase.celebration_message') %>
+
+<%= t('emails.item_purchase.view_wishlist_text') %>: <%= @wishlist_url %>
+
+<%= t('emails.item_purchase.closing_message') %>
+
+<%= t('emails.item_purchase.signature') %>
+The Wishare Team
+
+💝 Wishare - <%= t('emails.common.tagline') %>
+
+<%= t('emails.common.unsubscribe_info') %> <%= notification_preferences_url %>

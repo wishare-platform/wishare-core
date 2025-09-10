@@ -80,6 +80,14 @@ class WishlistItemsController < ApplicationController
       purchased_at: Time.current
     )
 
+    # Create notification for wishlist owner
+    NotificationService.new.create_item_purchase_notification(
+      user: @wishlist.user,
+      purchaser: current_user,
+      wishlist_item: @wishlist_item,
+      wishlist: @wishlist
+    )
+
     redirect_to @wishlist, notice: 'Item marked as purchased!'
   end
 

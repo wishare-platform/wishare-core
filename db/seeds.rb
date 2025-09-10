@@ -28,7 +28,8 @@ main_user = User.create!(
   password_confirmation: "password123",
   name: "Test User",
   date_of_birth: Date.new(1990, 3, 15),
-  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=test"
+  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=test",
+  preferred_locale: "en"
 )
 
 # Create connected friends/family
@@ -38,7 +39,8 @@ friend1 = User.create!(
   password_confirmation: "password123",
   name: "Sarah Johnson",
   date_of_birth: Date.new(1994, 6, 22),
-  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=sarah"
+  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=sarah",
+  preferred_locale: "pt-BR"
 )
 
 friend2 = User.create!(
@@ -47,7 +49,8 @@ friend2 = User.create!(
   password_confirmation: "password123",
   name: "Michael Chen",
   date_of_birth: Date.new(1988, 11, 8),
-  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=michael"
+  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=michael",
+  preferred_locale: "en"
 )
 
 family1 = User.create!(
@@ -56,7 +59,8 @@ family1 = User.create!(
   password_confirmation: "password123", 
   name: "Emma Davis",
   date_of_birth: Date.new(1985, 9, 12),
-  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=emma"
+  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=emma",
+  preferred_locale: "pt-BR"
 )
 
 # Create user with pending invitation
@@ -66,7 +70,8 @@ pending_user = User.create!(
   password_confirmation: "password123",
   name: "David Wilson",
   date_of_birth: Date.new(1992, 4, 30),
-  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=david"
+  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=david",
+  preferred_locale: "en"
 )
 
 # Create unconnected user (for public wishlist testing)
@@ -76,7 +81,8 @@ public_user = User.create!(
   password_confirmation: "password123",
   name: "Alex Thompson",
   date_of_birth: Date.new(1987, 12, 3),
-  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=alex"
+  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=alex",
+  preferred_locale: "pt-BR"
 )
 
 puts "Creating connections..."
@@ -133,6 +139,53 @@ Invitation.create!(
   token: SecureRandom.hex(16),
   status: :pending
 )
+
+puts "Creating notification preferences..."
+
+# Create notification preferences for all users
+[main_user, friend1, friend2, family1, pending_user, public_user].each do |user|
+  NotificationPreference.find_or_create_by!(user: user) do |pref|
+    pref.email_invitations = true
+    pref.email_purchases = true
+    pref.email_new_items = true
+    pref.email_connections = true
+    pref.push_enabled = true
+    pref.digest_frequency = :daily
+  end
+end
+
+# Set some users with different preferences for testing
+friend1.notification_preference.update!(
+  digest_frequency: :weekly,
+  email_new_items: false
+)
+
+public_user.notification_preference.update!(
+  digest_frequency: :instant,
+  push_enabled: false
+)
+
+puts "Creating sample notifications..."
+
+# Create some sample notifications for testing
+Notification.create!(
+  user: main_user,
+  notification_type: :invitation_received,
+  notifiable: Invitation.last,
+  data: { sender_name: "David Wilson" },
+  read: false
+)
+
+Notification.create!(
+  user: friend1,
+  notification_type: :invitation_accepted,
+  notifiable: Connection.where(user: friend1, partner: main_user).first,
+  data: { acceptor_name: "Test User" },
+  read: true,
+  created_at: 1.day.ago
+)
+
+# Skip item_purchased notification for now - will be created after items are added
 
 puts "Creating wishlists..."
 
@@ -452,21 +505,78 @@ WishlistItem.create!(
   status: :available
 )
 
+# Create item_purchased notification now that items exist
+blue_yeti_item = WishlistItem.find_by(name: "Blue Yeti Microphone")
+if blue_yeti_item
+  Notification.create!(
+    user: main_user,
+    notification_type: :item_purchased,
+    notifiable: blue_yeti_item,
+    data: { purchaser_name: "Someone", item_name: "Blue Yeti Microphone" },
+    read: false,
+    created_at: 1.hour.ago
+  )
+end
+
+puts "Creating additional notifications..."
+
+# Add more sample notifications for better testing
+Notification.create!(
+  user: friend2,
+  notification_type: :new_item_added,
+  notifiable: WishlistItem.find_by(name: "Apple AirPods Pro (2nd Gen)"),
+  data: { user_name: "Test User", item_name: "Apple AirPods Pro (2nd Gen)" },
+  read: false,
+  created_at: 2.hours.ago
+)
+
+Notification.create!(
+  user: family1,
+  notification_type: :wishlist_shared,
+  notifiable: Wishlist.find_by(name: "Christmas 2025 🎄"),
+  data: { sharer_name: "Test User" },
+  read: false,
+  created_at: 3.days.ago
+)
+
+# Create some read notifications for testing - use an existing user as notifiable
+Notification.create!(
+  user: main_user,
+  notification_type: :connection_removed,
+  notifiable: pending_user,
+  data: { user_name: "David Wilson" },
+  read: true,
+  created_at: 1.week.ago
+)
+
 puts "✅ Seeding complete!"
 puts ""
 puts "📧 Test Accounts Created:"
-puts "  Main User: test@wishare.xyz / password123"
-puts "  Friend 1: friend1@wishare.xyz / password123 (Sarah - connected)"
-puts "  Friend 2: friend2@wishare.xyz / password123 (Michael - connected)"
-puts "  Family: family1@wishare.xyz / password123 (Emma - connected)"
-puts "  Pending: pending@wishare.xyz / password123 (David - has sent invitation)"
-puts "  Public: public@wishare.xyz / password123 (Alex - not connected, has public list)"
+puts "  Main User: test@wishare.xyz / password123 (English)"
+puts "  Friend 1: friend1@wishare.xyz / password123 (Sarah - connected, Portuguese)"
+puts "  Friend 2: friend2@wishare.xyz / password123 (Michael - connected, English)"
+puts "  Family: family1@wishare.xyz / password123 (Emma - connected, Portuguese)"
+puts "  Pending: pending@wishare.xyz / password123 (David - has sent invitation, English)"
+puts "  Public: public@wishare.xyz / password123 (Alex - not connected, has public list, Portuguese)"
 puts ""
 puts "🎁 Created:"
-puts "  - #{User.count} users"
+puts "  - #{User.count} users with language preferences"
 puts "  - #{Connection.count} connections"
 puts "  - #{Invitation.count} invitations"
-puts "  - #{Wishlist.count} wishlists"
+puts "  - #{Wishlist.count} wishlists with event types"
 puts "  - #{WishlistItem.count} wishlist items"
+puts "  - #{NotificationPreference.count} notification preferences"
+puts "  - #{Notification.count} sample notifications"
+puts ""
+puts "🔔 Notification System Features:"
+puts "  - Real-time in-app notifications"
+puts "  - Email notification preferences (instant/daily/weekly)"
+puts "  - Push notification support ready"
+puts "  - Sample notifications for testing"
+puts ""
+puts "🌍 Internationalization Features:"
+puts "  - Users have mixed English/Portuguese preferences"
+puts "  - Test language switching and locale formatting"
+puts "  - Date formats: EN (MM/DD/YYYY) vs PT-BR (DD/MM/YYYY)"
 puts ""
 puts "🚀 You can now log in with any test account to explore the app!"

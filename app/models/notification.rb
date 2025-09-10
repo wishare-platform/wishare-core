@@ -52,7 +52,7 @@ class Notification < ApplicationRecord
       I18n.t('notifications.types.invitation_declined.message')
     when :item_purchased
       I18n.t('notifications.types.item_purchased.message',
-              buyer_name: data&.dig('buyer_name') || 'Someone',
+              purchaser_name: data&.dig('purchaser_name') || 'Someone',
               item_name: data&.dig('item_name') || 'an item')
     when :wishlist_shared
       I18n.t('notifications.types.wishlist_shared.message',

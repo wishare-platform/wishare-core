@@ -35,6 +35,7 @@ en:
     sign_up: "Sign up"
     view_public_profile: "View Public Profile"
     invite_friend: "Invite Friend"
+    notification_preferences: "Notification Preferences"
   
   auth:
     sign_in:
@@ -247,6 +248,52 @@ en:
       delete: "Delete"
       confirm_delete: "Are you sure you want to delete this item?"
       view_product: "View Product"
+
+  notification_preferences:
+    title: "Notification Preferences"
+    subtitle: "Manage how you receive notifications and updates from Wishare"
+    update:
+      success: "Your notification preferences have been updated successfully!"
+    email_notifications:
+      title: "Email Notifications"
+      subtitle: "Choose which events trigger email notifications"
+    email_invitations:
+      label: "Connection Invitations"
+      description: "Get notified when someone sends you a connection invitation or responds to yours"
+    email_purchases:
+      label: "Item Purchases"
+      description: "Get notified when someone purchases an item from your wishlist"
+    email_new_items:
+      label: "New Items Added"
+      description: "Get notified when friends add new items to their wishlists"
+    email_connections:
+      label: "Connection Updates"
+      description: "Get notified about connection-related activities and updates"
+    digest_frequency:
+      title: "Email Frequency"
+      subtitle: "How often would you like to receive email notifications?"
+      instant:
+        label: "Instant Notifications"
+        description: "Receive emails immediately as events happen"
+      daily:
+        label: "Daily Digest"
+        description: "Receive a summary email once per day"
+      weekly:
+        label: "Weekly Digest"
+        description: "Receive a summary email once per week"
+      never:
+        label: "Never"
+        description: "Don't send any email notifications"
+    push_notifications:
+      title: "Mobile Push Notifications"
+      subtitle: "Enable push notifications for the Wishare mobile app"
+    push_enabled:
+      label: "Enable Push Notifications"
+      description: "Receive push notifications on your mobile device when using the Wishare app"
+    actions:
+      save_preferences: "Save Preferences"
+      reset: "Reset"
+      back_to_profile: "Back to Profile"
   
   connections:
     index:
@@ -348,7 +395,7 @@ en:
         message: "Your connection invitation was declined."
       item_purchased: 
         title: "Item Purchased!"
-        message: "%{buyer_name} purchased %{item_name} from your wishlist"
+        message: "%{purchaser_name} purchased %{item_name} from your wishlist"
       wishlist_shared: 
         title: "Wishlist Shared"
         message: "%{sharer_name} shared a wishlist with you"
@@ -371,6 +418,63 @@ en:
       message_label: "Personal message:"
       action: "View Invitation"
       footer: "This invitation will expire in 7 days."
+    item_purchase:
+      subject: "Great news! %{item_name} was purchased from your wishlist"
+      header: "Item Purchased!"
+      greeting: "Hi %{name}!"
+      notification_title: "Someone bought you a gift!"
+      purchased_message: "just purchased"
+      from_wishlist: "from your wishlist"
+      celebration_message: "How exciting! Someone thought of you and got you something special."
+      view_wishlist_button: "View Your Wishlist"
+      view_wishlist_text: "View your wishlist"
+      closing_message: "We hope you love your gift when it arrives!"
+      signature: "Happy gifting!"
+    digest:
+      daily:
+        subject:
+          one: "Your daily update from Wishare (1 notification)"
+          other: "Your daily update from Wishare (%{count} notifications)"
+        header: "Daily Digest"
+        timeframe: "Here's what happened in the last 24 hours"
+        summary_message:
+          one: "You have 1 new notification from your Wishare account."
+          other: "You have %{count} new notifications from your Wishare account."
+      weekly:
+        subject:
+          one: "Your weekly summary from Wishare (1 notification)"
+          other: "Your weekly summary from Wishare (%{count} notifications)"
+        header: "Weekly Digest"
+        timeframe: "Here's what happened in the last 7 days"
+        summary_message:
+          one: "You have 1 new notification from your Wishare account this week."
+          other: "You have %{count} new notifications from your Wishare account this week."
+      greeting: "Hi %{name}!"
+      summary_title: "Activity Summary"
+      groups:
+        item_purchased:
+          one: "Items Purchased (1)"
+          other: "Items Purchased (%{count})"
+        invitation_received:
+          one: "Invitations Received (1)"
+          other: "Invitations Received (%{count})"
+        invitation_accepted:
+          one: "Invitations Accepted (1)"
+          other: "Invitations Accepted (%{count})"
+        new_item_added:
+          one: "New Items Added (1)"
+          other: "New Items Added (%{count})"
+        other_notifications:
+          one: "Other Notification (1)"
+          other: "Other Notifications (%{count})"
+      ago: "ago"
+      and_more:
+        one: "and 1 more..."
+        other: "and %{count} more..."
+      view_all_notifications: "View All Notifications"
+      manage_preferences: "Manage Email Preferences"
+      closing_message: "Thanks for using Wishare to make gifting more thoughtful!"
+      signature: "Happy gifting!"
   
   common:
     actions:
@@ -390,6 +494,10 @@ en:
       terms_of_service: "Terms of Service"
       privacy_policy: "Privacy Policy"
       copyright: "© %{year} Wishare"
+    emails:
+      tagline: "Thoughtful gifting made simple"
+      unsubscribe_info: "You can update your notification preferences at"
+      notification_preferences: "notification settings"
     status:
       loading: "Loading..."
       saving: "Saving..."

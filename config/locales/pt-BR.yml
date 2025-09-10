@@ -35,6 +35,7 @@ pt-BR:
     sign_up: "Cadastrar"
     view_public_profile: "Ver Perfil Público"
     invite_friend: "Convidar Amigo"
+    notification_preferences: "Preferências de Notificação"
   
   auth:
     sign_in:
@@ -247,6 +248,52 @@ pt-BR:
       delete: "Excluir"
       confirm_delete: "Tem certeza que deseja excluir este item?"
       view_product: "Ver Produto"
+
+  notification_preferences:
+    title: "Preferências de Notificação"
+    subtitle: "Gerencie como você recebe notificações e atualizações do Wishare"
+    update:
+      success: "Suas preferências de notificação foram atualizadas com sucesso!"
+    email_notifications:
+      title: "Notificações por E-mail"
+      subtitle: "Escolha quais eventos ativam notificações por e-mail"
+    email_invitations:
+      label: "Convites de Conexão"
+      description: "Seja notificado quando alguém te enviar um convite de conexão ou responder ao seu"
+    email_purchases:
+      label: "Compra de Itens"
+      description: "Seja notificado quando alguém comprar um item da sua lista de desejos"
+    email_new_items:
+      label: "Novos Itens Adicionados"
+      description: "Seja notificado quando amigos adicionarem novos itens às suas listas"
+    email_connections:
+      label: "Atualizações de Conexão"
+      description: "Seja notificado sobre atividades e atualizações relacionadas às conexões"
+    digest_frequency:
+      title: "Frequência de E-mails"
+      subtitle: "Com que frequência você gostaria de receber notificações por e-mail?"
+      instant:
+        label: "Notificações Instantâneas"
+        description: "Receber e-mails imediatamente quando os eventos acontecerem"
+      daily:
+        label: "Resumo Diário"
+        description: "Receber um e-mail de resumo uma vez por dia"
+      weekly:
+        label: "Resumo Semanal"
+        description: "Receber um e-mail de resumo uma vez por semana"
+      never:
+        label: "Nunca"
+        description: "Não enviar nenhuma notificação por e-mail"
+    push_notifications:
+      title: "Notificações Push para Celular"
+      subtitle: "Ativar notificações push para o aplicativo móvel Wishare"
+    push_enabled:
+      label: "Ativar Notificações Push"
+      description: "Receber notificações push no seu dispositivo móvel ao usar o aplicativo Wishare"
+    actions:
+      save_preferences: "Salvar Preferências"
+      reset: "Redefinir"
+      back_to_profile: "Voltar ao Perfil"
   
   connections:
     index:
@@ -348,7 +395,7 @@ pt-BR:
         message: "Seu convite de conexão foi recusado."
       item_purchased: 
         title: "Item Comprado!"
-        message: "%{buyer_name} comprou %{item_name} da sua lista"
+        message: "%{purchaser_name} comprou %{item_name} da sua lista"
       wishlist_shared: 
         title: "Lista Compartilhada"
         message: "%{sharer_name} compartilhou uma lista com você"
@@ -371,6 +418,63 @@ pt-BR:
       message_label: "Mensagem pessoal:"
       action: "Ver Convite"
       footer: "Este convite expira em 7 dias."
+    item_purchase:
+      subject: "Ótimas notícias! %{item_name} foi comprado da sua lista"
+      header: "Item Comprado!"
+      greeting: "Oi %{name}!"
+      notification_title: "Alguém comprou um presente para você!"
+      purchased_message: "acabou de comprar"
+      from_wishlist: "da sua lista de desejos"
+      celebration_message: "Que emocionante! Alguém pensou em você e te deu algo especial."
+      view_wishlist_button: "Ver Sua Lista"
+      view_wishlist_text: "Ver sua lista de desejos"
+      closing_message: "Esperamos que você adore seu presente quando ele chegar!"
+      signature: "Presentes felizes!"
+    digest:
+      daily:
+        subject:
+          one: "Sua atualização diária do Wishare (1 notificação)"
+          other: "Sua atualização diária do Wishare (%{count} notificações)"
+        header: "Resumo Diário"
+        timeframe: "Aqui está o que aconteceu nas últimas 24 horas"
+        summary_message:
+          one: "Você tem 1 nova notificação da sua conta Wishare."
+          other: "Você tem %{count} novas notificações da sua conta Wishare."
+      weekly:
+        subject:
+          one: "Seu resumo semanal do Wishare (1 notificação)"
+          other: "Seu resumo semanal do Wishare (%{count} notificações)"
+        header: "Resumo Semanal"
+        timeframe: "Aqui está o que aconteceu nos últimos 7 dias"
+        summary_message:
+          one: "Você tem 1 nova notificação da sua conta Wishare esta semana."
+          other: "Você tem %{count} novas notificações da sua conta Wishare esta semana."
+      greeting: "Oi %{name}!"
+      summary_title: "Resumo de Atividades"
+      groups:
+        item_purchased:
+          one: "Itens Comprados (1)"
+          other: "Itens Comprados (%{count})"
+        invitation_received:
+          one: "Convites Recebidos (1)"
+          other: "Convites Recebidos (%{count})"
+        invitation_accepted:
+          one: "Convites Aceitos (1)"
+          other: "Convites Aceitos (%{count})"
+        new_item_added:
+          one: "Novos Itens Adicionados (1)"
+          other: "Novos Itens Adicionados (%{count})"
+        other_notifications:
+          one: "Outra Notificação (1)"
+          other: "Outras Notificações (%{count})"
+      ago: "atrás"
+      and_more:
+        one: "e mais 1..."
+        other: "e mais %{count}..."
+      view_all_notifications: "Ver Todas as Notificações"
+      manage_preferences: "Gerenciar Preferências de E-mail"
+      closing_message: "Obrigado por usar o Wishare para tornar os presentes mais especiais!"
+      signature: "Presentes felizes!"
   
   common:
     actions:
@@ -390,6 +494,10 @@ pt-BR:
       terms_of_service: "Termos de Serviço"
       privacy_policy: "Política de Privacidade"
       copyright: "© %{year} Wishare"
+    emails:
+      tagline: "Presentes pensados com carinho"
+      unsubscribe_info: "Você pode atualizar suas preferências de notificação em"
+      notification_preferences: "configurações de notificação"
     status:
       loading: "Carregando..."
       saving: "Salvando..."

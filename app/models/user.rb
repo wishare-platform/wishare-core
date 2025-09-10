@@ -22,6 +22,7 @@ class User < ApplicationRecord
   # Notification associations
   has_many :notifications, dependent: :destroy
   has_one :notification_preference, dependent: :destroy
+  has_many :device_tokens, dependent: :destroy
 
   validates :name, presence: true
   validates :preferred_locale, inclusion: { in: %w[en pt-BR] }

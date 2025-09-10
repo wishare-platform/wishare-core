@@ -1,0 +1,46 @@
+<%= t('emails.digest.daily.header') %>
+====================================
+
+<%= t('emails.digest.greeting', name: @user.display_name) %>
+
+<%= t('emails.digest.summary_title') %>
+<%= t('emails.digest.daily.summary_message', count: @notification_count) %>
+
+<% grouped_notifications.each do |notification_type, notifications| %>
+
+<% case notification_type %>
+<% when 'item_purchased' %>
+🛍️  <%= t('emails.digest.groups.item_purchased', count: notifications.count) %>
+<% when 'invitation_received' %>
+👋  <%= t('emails.digest.groups.invitation_received', count: notifications.count) %>
+<% when 'invitation_accepted' %>
+🤝  <%= t('emails.digest.groups.invitation_accepted', count: notifications.count) %>
+<% when 'new_item_added' %>
+✨  <%= t('emails.digest.groups.new_item_added', count: notifications.count) %>
+<% else %>
+📱  <%= t('emails.digest.groups.other_notifications', count: notifications.count) %>
+<% end %>
+--------------------
+
+<% notifications.limit(5).each do |notification| %>
+• <%= notification.localized_title %>
+  <%= notification.localized_message %>
+  (<%= time_ago_in_words(notification.created_at) %> <%= t('emails.digest.ago') %>)
+
+<% end %>
+<% if notifications.count > 5 %>
+  ... <%= t('emails.digest.and_more', count: notifications.count - 5) %>
+<% end %>
+<% end %>
+
+<%= t('emails.digest.view_all_notifications') %>: <%= notifications_url %>
+<%= t('emails.digest.manage_preferences') %>: <%= notification_preferences_url %>
+
+<%= t('emails.digest.closing_message') %>
+
+<%= t('emails.digest.signature') %>
+The Wishare Team
+
+💝 Wishare - <%= t('common.emails.tagline') %>
+
+<%= t('common.emails.unsubscribe_info') %> <%= notification_preferences_url %>
