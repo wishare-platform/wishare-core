@@ -19,7 +19,7 @@
     <meta property="og:url" content="<%= request.original_url %>">
     <meta property="og:title" content="<%= content_for(:title) ? "#{content_for(:title)} | Wishare" : "Wishare - Share Wishlists with Friends & Family" %>">
     <meta property="og:description" content="<%= content_for(:description) || "Create and share wishlists with friends and family. Perfect for birthdays, holidays, and special occasions. Make gifting meaningful with Wishare." %>">
-    <meta property="og:image" content="<%= request.base_url %>/wishare-og-image.svg?v=<%= Date.current.strftime('%Y%m%d') %>">
+    <meta property="og:image" content="<%= request.base_url %>/wishare-og-image.png?v=<%= Date.current.strftime('%Y%m%d') %>">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="Wishare">
@@ -30,7 +30,7 @@
     <meta name="twitter:url" content="<%= request.original_url %>">
     <meta name="twitter:title" content="<%= content_for(:title) ? "#{content_for(:title)} | Wishare" : "Wishare - Share Wishlists with Friends & Family" %>">
     <meta name="twitter:description" content="<%= content_for(:description) || "Create and share wishlists with friends and family. Perfect for birthdays, holidays, and special occasions." %>">
-    <meta name="twitter:image" content="<%= request.base_url %>/wishare-og-image.png">
+    <meta name="twitter:image" content="<%= request.base_url %>/wishare-og-image.png?v=<%= Date.current.strftime('%Y%m%d') %>">
     <meta name="twitter:creator" content="@wishare">
     
     <!-- Additional SEO -->
