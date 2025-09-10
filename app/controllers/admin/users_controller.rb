@@ -25,6 +25,12 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def update
+    # Only allow role changes by super admins
+    if user_params[:role].present? && !current_user.super_admin?
+      redirect_to admin_user_path(@user), alert: 'Unauthorized: Only super admins can change user roles.'
+      return
+    end
+    
     if @user.update(user_params)
       redirect_to admin_user_path(@user), notice: 'User updated successfully.'
     else

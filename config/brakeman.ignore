@@ -1,15 +1,35 @@
 {
   "ignored_warnings": [
     {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "01a88a0a17848e70999c17f6438a636b00e01da39a2c0aa0c46f20f0685c7202",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/admin/users_controller.rb",
+      "line": 56,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:user).permit(:role)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::UsersController",
+        "method": "user_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "note": "Role updates are protected by super_admin check in update method - only super admins can change user roles"
+    },
+    {
       "warning_type": "Cross-Site Scripting",
       "warning_code": 6,
-      "fingerprint": "d202f50d38f3200b37dc56c53367e95e8fae8efb145f48ad21f3632e031d6c8a",
+      "fingerprint": "afb26d0391aad7444b717399522e6afa07104cea549218e8aa2f497aa2258550",
       "check_name": "LinkToHref",
       "message": "Potentially unsafe model attribute in `link_to` href",
       "file": "app/views/wishlists/show.html.erb",
-      "line": 166,
+      "line": 183,
       "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
-      "code": "link_to((Unresolved Model).new.safe_url, :target => \"_blank\", :rel => \"noopener noreferrer\", :class => \"flex-1 text-center bg-gray-100 text-gray-700 px-3 py-2 rounded-lg hover:bg-gray-200 transition duration-200 text-sm font-medium flex items-center justify-center gap-2\")",
+      "code": "link_to((Unresolved Model).new.safe_url, :target => \"_blank\", :rel => \"noopener noreferrer\", :data => ({ :controller => \"analytics\", :action => \"click->analytics#trackExternalLinkClick\", :\"analytics-item-name-param\" => (Unresolved Model).new.name }), :class => \"flex-1 text-center bg-gray-100 text-gray-700 px-3 py-2 rounded-lg hover:bg-gray-200 transition duration-200 text-sm font-medium flex items-center justify-center gap-2\")",
       "render_path": null,
       "location": {
         "type": "template",
@@ -22,13 +42,13 @@
     {
       "warning_type": "Cross-Site Scripting", 
       "warning_code": 6,
-      "fingerprint": "1e7ecac70841f7232c43b2957559b6fe1940cc73047df20bf3096f7b4f298235",
+      "fingerprint": "550dea306150281cea48108f815faa835b2d0e54f9395d2933e883766cfdde37",
       "check_name": "LinkToHref",
       "message": "Potentially unsafe model attribute in `link_to` href",
       "file": "app/views/wishlists/show.html.erb",
-      "line": 197,
+      "line": 222,
       "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
-      "code": "link_to((Unresolved Model).new.safe_url, :target => \"_blank\", :rel => \"noopener noreferrer\", :class => \"text-green-600 hover:text-green-700 text-xs flex items-center gap-1\")",
+      "code": "link_to((Unresolved Model).new.safe_url, :target => \"_blank\", :rel => \"noopener noreferrer\", :data => ({ :controller => \"analytics\", :action => \"click->analytics#trackExternalLinkClick\", :\"analytics-item-name-param\" => (Unresolved Model).new.name }), :class => \"text-green-600 hover:text-green-700 text-xs flex items-center gap-1\")",
       "render_path": null,
       "location": {
         "type": "template",
@@ -37,8 +57,27 @@
       "user_input": null,
       "confidence": "Weak",
       "note": "False positive - safe_url method validates URL protocol (only HTTP/HTTPS allowed) and sanitizes input before rendering"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 6,
+      "fingerprint": "b166628e07a0ac0a93afa78b6a38f50cee776384daeaefef507490edd9eea967",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/admin/wishlists/show.html.erb",
+      "line": 187,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to((Unresolved Model).new.safe_url, :target => \"_blank\", :rel => \"noopener noreferrer\", :class => \"text-sm text-rose-600 hover:text-rose-900\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "admin/wishlists/show"
+      },
+      "user_input": null,
+      "confidence": "Weak",
+      "note": "False positive - safe_url method validates URL protocol (only HTTP/HTTPS allowed) and sanitizes input before rendering"
     }
   ],
-  "updated": "2025-01-09 09:30:00 -0300",
+  "updated": "2025-09-10 20:40:00 -0300",
   "brakeman_version": "7.1.0"
 }
