@@ -36,6 +36,11 @@ pt-BR:
     view_public_profile: "Ver Perfil Público"
     invite_friend: "Convidar Amigo"
     notification_preferences: "Preferências de Notificação"
+    quick_actions: "Ações Rápidas"
+    quick_actions_descriptions:
+      create_wishlist: "Criar uma nova lista"
+      add_to_existing: "Adicionar à lista existente:"
+      connect_friends: "Conectar com amigos e família"
   
   auth:
     sign_in:
@@ -220,6 +225,7 @@ pt-BR:
       delete_item_confirm: "Tem certeza que deseja excluir '%{name}' desta lista?"
   
   items:
+    new: "Adicionar Item"
     form:
       name: "Nome do Item"
       name_placeholder: "O que você gostaria?"
