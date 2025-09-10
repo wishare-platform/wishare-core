@@ -74,15 +74,49 @@
 
         <div>
           <%= f.label :date_of_birth, t('auth.sign_up.birthday'), class: "block text-sm font-semibold text-gray-800 mb-3" %>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
+          <div class="flex gap-2 sm:gap-3" data-controller="birthday">
+            <!-- Month -->
+            <div class="flex-1">
+              <select name="birth_month" id="birth_month" 
+                class="w-full px-3 py-4 text-base border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-rose-50/50 focus:bg-white" 
+                data-action="change->birthday#updateDate">
+                <option value=""><%= t('auth.sign_up.month') %></option>
+                <% 1.upto(12) do |month| %>
+                  <option value="<%= month %>" <%= 'selected' if f.object.date_of_birth&.month == month %>>
+                    <%= Date::MONTHNAMES[month] %>
+                  </option>
+                <% end %>
+              </select>
             </div>
-            <%= f.date_field :date_of_birth, 
-                  class: "w-full pl-12 pr-4 py-4 text-base border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-rose-50/50 focus:bg-white" %>
+            
+            <!-- Day -->
+            <div class="w-20 sm:w-24">
+              <select name="birth_day" id="birth_day" 
+                class="w-full px-2 py-4 text-base border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-rose-50/50 focus:bg-white" 
+                data-action="change->birthday#updateDate">
+                <option value=""><%= t('auth.sign_up.day') %></option>
+                <% 1.upto(31) do |day| %>
+                  <option value="<%= day %>" <%= 'selected' if f.object.date_of_birth&.day == day %>><%= day %></option>
+                <% end %>
+              </select>
+            </div>
+            
+            <!-- Year -->
+            <div class="w-24 sm:w-28">
+              <select name="birth_year" id="birth_year" 
+                class="w-full px-2 py-4 text-base border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-rose-50/50 focus:bg-white" 
+                data-action="change->birthday#updateDate">
+                <option value=""><%= t('auth.sign_up.year') %></option>
+                <% (Date.current.year - 100).upto(Date.current.year - 13) do |year| %>
+                  <option value="<%= year %>" <%= 'selected' if f.object.date_of_birth&.year == year %>><%= year %></option>
+                <% end %>
+              </select>
+            </div>
           </div>
+          
+          <!-- Hidden field to store the actual date -->
+          <%= f.hidden_field :date_of_birth, data: { "birthday-target": "hiddenField" } %>
+          
           <p class="mt-2 text-xs text-gray-500">📅 <%= t('auth.sign_up.birthday_help') %></p>
         </div>
 
