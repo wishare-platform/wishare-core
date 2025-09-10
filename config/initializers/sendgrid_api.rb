@@ -1,9 +1,12 @@
 # Configure SendGrid API delivery method for ActionMailer
 # This uses SendGrid's HTTPS API instead of SMTP (which is blocked on Railway free tier)
 
-# Always add the settings attribute accessor for ActionMailer configuration compatibility
+# Add sendgrid_api_settings accessor to ActionMailer::Base
 ActionMailer::Base.class_eval do
-  attr_accessor :sendgrid_api_settings
+  # Only add the accessor if it doesn't already exist
+  unless respond_to?(:sendgrid_api_settings)
+    cattr_accessor :sendgrid_api_settings
+  end
 end
 
 # Only initialize delivery method when not in asset precompilation mode
