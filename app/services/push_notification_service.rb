@@ -6,7 +6,7 @@ class PushNotificationService
   FCM_URL = 'https://fcm.googleapis.com/fcm/send'
   
   def initialize
-    @server_key = Rails.application.credentials.fcm_server_key
+    @server_key = Rails.application.credentials.fcm_server_key rescue nil
   end
 
   def send_notification(user:, title:, body:, data: {})

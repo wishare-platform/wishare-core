@@ -98,8 +98,13 @@ class InvitationsController < ApplicationController
           )
           
           # Send push notification if user has it enabled
-          if @invitation.sender.notification_preference&.push_enabled?
-            PushNotificationService.new.send_invitation_notification(notification)
+          begin
+            if @invitation.sender.notification_preference&.push_enabled?
+              PushNotificationService.new.send_invitation_notification(notification)
+            end
+          rescue => e
+            Rails.logger.error "Failed to send push notification: #{e.message}"
+            # Don't fail the invitation acceptance for push notification errors
           end
           
           redirect_to root_path, notice: 'You are now connected! 💕'
@@ -121,8 +126,13 @@ class InvitationsController < ApplicationController
       )
       
       # Send push notification if user has it enabled
-      if @invitation.sender.notification_preference&.push_enabled?
-        PushNotificationService.new.send_invitation_notification(notification)
+      begin
+        if @invitation.sender.notification_preference&.push_enabled?
+          PushNotificationService.new.send_invitation_notification(notification)
+        end
+      rescue => e
+        Rails.logger.error "Failed to send push notification: #{e.message}"
+        # Don't fail the invitation decline for push notification errors
       end
       
       redirect_to root_path, notice: 'Invitation declined.'
