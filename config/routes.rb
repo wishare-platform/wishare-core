@@ -32,6 +32,9 @@ Rails.application.routes.draw do
       end
     end
     
+    # Utility endpoints
+    post '/wishlist_items/extract_url_metadata', to: 'wishlist_items#extract_url_metadata'
+    
     # Public user profiles
     resources :users, only: [:show]
     

@@ -1,6 +1,6 @@
 class WishlistItemsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_wishlist
+  before_action :set_wishlist, except: [:extract_url_metadata]
   before_action :set_wishlist_item, only: [:show, :edit, :update, :destroy, :purchase, :unpurchase]
 
   def show
@@ -104,6 +104,23 @@ class WishlistItemsController < ApplicationController
     )
 
     redirect_to @wishlist, notice: 'Item marked as available again.'
+  end
+
+  def extract_url_metadata
+    url = params[:url]
+    
+    if url.blank?
+      render json: { error: 'URL is required' }, status: :bad_request
+      return
+    end
+    
+    begin
+      metadata = UrlMetadataExtractor.new(url).extract
+      render json: metadata
+    rescue => e
+      Rails.logger.warn "URL metadata extraction failed for #{url}: #{e.message}"
+      render json: { error: 'Failed to extract metadata' }, status: :unprocessable_entity
+    end
   end
 
   private

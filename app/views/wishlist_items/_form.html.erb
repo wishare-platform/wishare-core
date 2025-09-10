@@ -18,56 +18,60 @@
   <% end %>
 
   <div class="mb-6">
-    <%= form.label :name, "Item Name", class: "block text-sm font-semibold text-gray-800 mb-2" %>
-    <%= form.text_field :name, class: "w-full px-4 py-3 border border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-rose-50/30 focus:bg-white", placeholder: "Yoga Mat" %>
-  </div>
-
-  <div class="mb-6">
-    <%= form.label :description, class: "block text-sm font-semibold text-gray-800 mb-2" %>
-    <%= form.text_area :description, rows: 4, class: "w-full px-4 py-3 border border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 resize-none bg-rose-50/30 focus:bg-white", placeholder: "Non-slip yoga mat for home workouts..." %>
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-    <div>
-      <%= form.label :price, class: "block text-sm font-semibold text-gray-800 mb-2" %>
-      <div class="relative">
-        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-          <span class="text-gray-500 text-lg font-medium">$</span>
-        </div>
-        <%= form.number_field :price, step: 0.01, class: "pl-10 w-full px-4 py-3 border border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-rose-50/30 focus:bg-white", placeholder: "45" %>
-      </div>
-    </div>
-
-    <div>
-      <%= form.label :priority, class: "block text-sm font-semibold text-gray-800 mb-2" %>
-      <%= form.select :priority, options_for_select([['High Priority', 'high'], ['Medium Priority', 'medium'], ['Low Priority', 'low']], wishlist_item.priority), {}, class: "w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition duration-200 bg-white" %>
-    </div>
-  </div>
-
-  <div class="mb-6">
-    <%= form.label :url, "Product URL", class: "block text-sm font-semibold text-gray-800 mb-2" %>
+    <%= form.label :url, t('wishlist_items.form.product_url'), class: "block text-sm font-semibold text-gray-800 mb-2" %>
     <div class="relative">
       <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
         <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
         </svg>
       </div>
-      <%= form.url_field :url, class: "pl-12 w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition duration-200", placeholder: "https://example.com/product" %>
-    </div>
-    <p class="mt-2 text-sm text-gray-500">Add a link to the product online</p>
-  </div>
-
-  <div class="mb-6">
-    <%= form.label :image_url, "Image URL", class: "block text-sm font-semibold text-gray-800 mb-2" %>
-    <div class="relative">
-      <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+      <%= form.url_field :url, id: "wishlist_item_url", class: "pl-12 w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition duration-200 bg-pink-50/30 focus:bg-white", placeholder: t('wishlist_items.form.product_url_placeholder') %>
+      
+      <!-- Loading indicator -->
+      <div id="url-loading" class="absolute inset-y-0 right-0 pr-4 flex items-center hidden">
+        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-pink-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
       </div>
-      <%= form.url_field :image_url, class: "pl-12 w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition duration-200", placeholder: "https://example.com/image.jpg" %>
+      
+      <!-- Success indicator -->
+      <div id="url-success" class="absolute inset-y-0 right-0 pr-4 flex items-center hidden">
+        <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
     </div>
-    <p class="mt-2 text-sm text-gray-500">Add an image URL to show a preview</p>
+    <p class="mt-2 text-sm text-gray-500"><%= t('wishlist_items.form.product_url_help') %></p>
+    
+    <!-- Status messages -->
+    <div id="url-status" class="mt-2 text-sm hidden">
+      <div id="url-fetching" class="text-blue-600 hidden">
+        <span class="inline-flex items-center gap-1">
+          <svg class="animate-spin h-3 w-3" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <%= t('wishlist_items.status.fetching') %>
+        </span>
+      </div>
+      <div id="url-populated" class="text-green-600 hidden">
+        <span class="inline-flex items-center gap-1">
+          <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <%= t('wishlist_items.status.populated') %>
+        </span>
+      </div>
+      <div id="url-error" class="text-amber-600 hidden">
+        <span class="inline-flex items-center gap-1">
+          <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+          </svg>
+          <%= t('wishlist_items.status.error') %>
+        </span>
+      </div>
+    </div>
   </div>
 
   <div class="bg-pink-50 rounded-xl p-6 mb-6">
@@ -78,20 +82,80 @@
         </svg>
       </div>
       <div>
-        <h3 class="font-semibold text-gray-800 mb-1">Pro tip</h3>
-        <p class="text-sm text-gray-600">Add a product URL and we'll try to automatically fill in the details like name, description, and image!</p>
+        <h3 class="font-semibold text-gray-800 mb-1"><%= t('wishlist_items.form.pro_tip_title') %></h3>
+        <p class="text-sm text-gray-600"><%= t('wishlist_items.form.pro_tip_message') %></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-6">
+    <%= form.label :name, t('wishlist_items.form.item_name'), class: "block text-sm font-semibold text-gray-800 mb-2" %>
+    <%= form.text_field :name, id: "wishlist_item_name", class: "w-full px-4 py-3 border border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-rose-50/30 focus:bg-white", placeholder: t('wishlist_items.form.item_name_placeholder') %>
+  </div>
+
+  <div class="mb-6">
+    <%= form.label :description, t('wishlist_items.form.description'), class: "block text-sm font-semibold text-gray-800 mb-2" %>
+    <%= form.text_area :description, rows: 4, id: "wishlist_item_description", class: "w-full px-4 py-3 border border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 resize-none bg-rose-50/30 focus:bg-white", placeholder: t('wishlist_items.form.description_placeholder') %>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <div>
+      <%= form.label :price, t('wishlist_items.form.price'), class: "block text-sm font-semibold text-gray-800 mb-2" %>
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+          <span class="text-gray-500 text-lg font-medium">$</span>
+        </div>
+        <%= form.number_field :price, step: 0.01, id: "wishlist_item_price", class: "pl-10 w-full px-4 py-3 border border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-rose-50/30 focus:bg-white", placeholder: t('wishlist_items.form.price_placeholder') %>
+      </div>
+    </div>
+
+    <div>
+      <%= form.label :priority, t('wishlist_items.form.priority'), class: "block text-sm font-semibold text-gray-800 mb-2" %>
+      <%= form.select :priority, options_for_select([
+        [t('wishlist_items.form.priority_high'), 'high'], 
+        [t('wishlist_items.form.priority_medium'), 'medium'], 
+        [t('wishlist_items.form.priority_low'), 'low']
+      ], wishlist_item.priority), {}, class: "w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition duration-200 bg-white" %>
+    </div>
+  </div>
+
+  <div class="mb-6">
+    <%= form.label :image_url, t('wishlist_items.form.image_url'), class: "block text-sm font-semibold text-gray-800 mb-2" %>
+    <div class="relative">
+      <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+        </svg>
+      </div>
+      <%= form.url_field :image_url, id: "wishlist_item_image_url", class: "pl-12 w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition duration-200", placeholder: t('wishlist_items.form.image_url_placeholder') %>
+    </div>
+    <p class="mt-2 text-sm text-gray-500"><%= t('wishlist_items.form.image_url_help') %></p>
+    
+    <!-- Image Preview -->
+    <div id="image-preview" class="mt-4 hidden">
+      <p class="text-sm font-semibold text-gray-800 mb-2"><%= t('wishlist_items.form.image_preview') %></p>
+      <div class="relative inline-block">
+        <img id="preview-image" src="" alt="Product preview" class="w-32 h-32 object-cover rounded-lg border border-gray-200 shadow-sm">
+        <div id="image-loading" class="absolute inset-0 bg-gray-100 rounded-lg flex items-center justify-center hidden">
+          <svg class="animate-spin h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </div>
+        <div id="image-error" class="absolute inset-0 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-xs text-center p-2 hidden">
+          <span>Failed to load image</span>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="flex gap-3">
-    <%= form.submit class: "bg-pink-500 text-white px-8 py-3 rounded-xl hover:bg-pink-600 transition duration-200 cursor-pointer font-semibold" %>
-    <%= link_to "Cancel", wishlist_path(wishlist), class: "bg-gray-100 text-gray-700 px-8 py-3 rounded-xl hover:bg-gray-200 transition duration-200 font-semibold" %>
+    <%= form.submit wishlist_item.persisted? ? t('wishlist_items.form.update_button') : t('wishlist_items.form.create_button'), class: "bg-pink-500 text-white px-8 py-3 rounded-xl hover:bg-pink-600 transition duration-200 cursor-pointer font-semibold" %>
+    <%= link_to t('wishlist_items.form.cancel'), wishlist_path(wishlist), class: "bg-gray-100 text-gray-700 px-8 py-3 rounded-xl hover:bg-gray-200 transition duration-200 font-semibold" %>
   </div>
 <% end %>
 
 <script>
-  // Auto-populate fields when URL is entered
   document.addEventListener('DOMContentLoaded', function() {
     const urlField = document.querySelector('#wishlist_item_url');
     const nameField = document.querySelector('#wishlist_item_name');
@@ -99,19 +163,273 @@
     const imageField = document.querySelector('#wishlist_item_image_url');
     const priceField = document.querySelector('#wishlist_item_price');
     
+    // UI elements for feedback
+    const urlLoading = document.querySelector('#url-loading');
+    const urlSuccess = document.querySelector('#url-success');
+    const urlStatus = document.querySelector('#url-status');
+    const urlFetching = document.querySelector('#url-fetching');
+    const urlPopulated = document.querySelector('#url-populated');
+    const urlError = document.querySelector('#url-error');
+    
+    function hideAllStatus() {
+      urlLoading.classList.add('hidden');
+      urlSuccess.classList.add('hidden');
+      urlStatus.classList.add('hidden');
+      urlFetching.classList.add('hidden');
+      urlPopulated.classList.add('hidden');
+      urlError.classList.add('hidden');
+    }
+    
+    function showLoading() {
+      hideAllStatus();
+      urlLoading.classList.remove('hidden');
+      urlStatus.classList.remove('hidden');
+      urlFetching.classList.remove('hidden');
+    }
+    
+    function showSuccess() {
+      hideAllStatus();
+      urlSuccess.classList.remove('hidden');
+      urlStatus.classList.remove('hidden');
+      urlPopulated.classList.remove('hidden');
+    }
+    
+    function showError() {
+      hideAllStatus();
+      urlStatus.classList.remove('hidden');
+      urlError.classList.remove('hidden');
+    }
+    
     if (urlField) {
-      let timeout;
-      urlField.addEventListener('input', function() {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-          const url = urlField.value.trim();
-          if (url && url.startsWith('http') && !nameField.value.trim()) {
-            // Basic URL metadata extraction could be implemented here
-            // For now, just suggest the user to manually fill the fields
-            console.log('URL entered:', url);
+      let currentRequest = null;
+      let lastProcessedUrl = '';
+      
+      function fetchUrlMetadata() {
+        const url = urlField.value.trim();
+        
+        // Don't fetch if URL is empty, invalid, or already processed
+        if (!url || !url.match(/^https?:\/\/.+/) || url === lastProcessedUrl) {
+          return;
+        }
+        
+        // Only auto-populate if fields are empty
+        const shouldFetch = !nameField.value.trim() && 
+                           !descriptionField.value.trim() && 
+                           !priceField.value.trim() &&
+                           !imageField.value.trim();
+        
+        if (!shouldFetch) {
+          return;
+        }
+        
+        // Cancel any ongoing request
+        if (currentRequest) {
+          currentRequest.abort();
+          currentRequest = null;
+        }
+        
+        showLoading();
+        lastProcessedUrl = url;
+        
+        // Create AbortController for request cancellation
+        const controller = new AbortController();
+        currentRequest = controller;
+        
+        // Build URL with current locale if present
+        const currentPath = window.location.pathname;
+        const localeMatch = currentPath.match(/^\/(en|pt-BR)\//);
+        const localePrefix = localeMatch ? `/${localeMatch[1]}` : '';
+        
+        fetch(`${localePrefix}/wishlist_items/extract_url_metadata`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document.querySelector('[name="csrf-token"]').getAttribute('content')
+          },
+          body: JSON.stringify({ url: url }),
+          signal: controller.signal
+        })
+        .then(response => {
+          if (!response.ok) {
+            // Log more details about the error
+            console.error('Fetch error:', response.status, response.statusText);
+            return response.text().then(text => {
+              console.error('Error response:', text);
+              throw new Error(`Failed to fetch metadata: ${response.status} ${response.statusText}`);
+            });
           }
-        }, 1000);
+          return response.json();
+        })
+        .then(data => {
+          currentRequest = null;
+          
+          let populated = false;
+          
+          if (data.title && !nameField.value.trim()) {
+            nameField.value = data.title;
+            populated = true;
+          }
+          
+          if (data.description && !descriptionField.value.trim()) {
+            descriptionField.value = data.description;
+            populated = true;
+          }
+          
+          if (data.price && !priceField.value.trim()) {
+            priceField.value = data.price;
+            populated = true;
+          }
+          
+          if (data.image && !imageField.value.trim()) {
+            imageField.value = data.image;
+            // Trigger image preview update
+            showImagePreview(data.image);
+            populated = true;
+          }
+          
+          if (populated) {
+            showSuccess();
+            // Keep success message visible - will be cleared when user changes URL
+          } else {
+            showError();
+            // Hide error message after 4 seconds - user can try again
+            setTimeout(() => {
+              if (urlError && !urlError.classList.contains('hidden')) {
+                hideAllStatus();
+              }
+            }, 4000);
+          }
+        })
+        .catch(error => {
+          if (error.name !== 'AbortError') {
+            currentRequest = null;
+            showError();
+            // Hide error message after 4 seconds - user can try again
+            setTimeout(() => {
+              if (urlError && !urlError.classList.contains('hidden')) {
+                hideAllStatus();
+              }
+            }, 4000);
+          }
+        });
+      }
+      
+      // Trigger fetch when user focuses out of the URL field
+      urlField.addEventListener('blur', function() {
+        // Small delay to ensure user has finished typing
+        setTimeout(() => {
+          if (urlField.value.trim()) {
+            fetchUrlMetadata();
+          } else {
+            hideAllStatus();
+          }
+        }, 100);
       });
+      
+      // Also trigger on Enter key press for better UX
+      urlField.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault(); // Prevent form submission
+          urlField.blur(); // Trigger blur event which will fetch metadata
+        }
+      });
+      
+      // Clear status indicators when user starts typing a new URL
+      urlField.addEventListener('input', function() {
+        const currentUrl = urlField.value.trim();
+        
+        // Only clear status if URL has meaningfully changed from the last processed URL
+        if (lastProcessedUrl && currentUrl !== lastProcessedUrl) {
+          // Check if this is a significant change (not just adding/removing characters from same URL)
+          const normalizedCurrent = currentUrl.toLowerCase().replace(/[\/\s]/g, '');
+          const normalizedLast = lastProcessedUrl.toLowerCase().replace(/[\/\s]/g, '');
+          
+          // Clear status if URLs are significantly different (more than 3 character difference)
+          const isDifferentUrl = Math.abs(normalizedCurrent.length - normalizedLast.length) > 3 ||
+                                 !normalizedCurrent.includes(normalizedLast.substring(0, Math.min(10, normalizedLast.length))) &&
+                                 !normalizedLast.includes(normalizedCurrent.substring(0, Math.min(10, normalizedCurrent.length)));
+          
+          if (isDifferentUrl) {
+            hideAllStatus();
+            lastProcessedUrl = ''; // Reset so new URL can be processed
+          }
+        }
+        
+        // Always cancel ongoing request if URL changed
+        if (currentUrl !== lastProcessedUrl && currentRequest) {
+          currentRequest.abort();
+          currentRequest = null;
+        }
+      });
+      
+      // Image preview functionality
+      const imageField = document.querySelector('#wishlist_item_image_url');
+      const imagePreview = document.querySelector('#image-preview');
+      const previewImage = document.querySelector('#preview-image');
+      const imageLoading = document.querySelector('#image-loading');
+      const imageError = document.querySelector('#image-error');
+      
+      function showImagePreview(url) {
+        if (!url || !url.match(/^https?:\/\/.+/)) {
+          imagePreview.classList.add('hidden');
+          return;
+        }
+        
+        imagePreview.classList.remove('hidden');
+        imageLoading.classList.remove('hidden');
+        imageError.classList.add('hidden');
+        previewImage.classList.add('hidden');
+        
+        // Create a new image element to test loading
+        const testImage = new Image();
+        
+        testImage.onload = function() {
+          previewImage.src = url;
+          previewImage.classList.remove('hidden');
+          imageLoading.classList.add('hidden');
+          imageError.classList.add('hidden');
+        };
+        
+        testImage.onerror = function() {
+          imageLoading.classList.add('hidden');
+          imageError.classList.remove('hidden');
+          previewImage.classList.add('hidden');
+        };
+        
+        testImage.src = url;
+      }
+      
+      if (imageField) {
+        // Show preview if there's already a URL (for edit mode)
+        if (imageField.value.trim()) {
+          showImagePreview(imageField.value.trim());
+        }
+        
+        // Update preview when URL changes
+        let imageTimeout;
+        imageField.addEventListener('input', function() {
+          clearTimeout(imageTimeout);
+          const url = imageField.value.trim();
+          
+          if (!url) {
+            imagePreview.classList.add('hidden');
+            return;
+          }
+          
+          // Debounce the preview update
+          imageTimeout = setTimeout(() => {
+            showImagePreview(url);
+          }, 500);
+        });
+        
+        // Also update on blur for immediate feedback
+        imageField.addEventListener('blur', function() {
+          const url = imageField.value.trim();
+          if (url) {
+            showImagePreview(url);
+          }
+        });
+      }
     }
   });
 </script>

@@ -4,7 +4,7 @@
       <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
       </svg>
-      Back to <%= @wishlist.name %>
+      <%= t('wishlist_items.new.back_to_wishlist', wishlist_name: @wishlist.name) %>
     <% end %>
   </div>
 
@@ -17,8 +17,8 @@
           </svg>
         </div>
         <div>
-          <h1 class="text-2xl font-bold text-gray-800">Add New Item</h1>
-          <p class="text-gray-600 text-sm">Add something you'd love to receive to <%= @wishlist.name %></p>
+          <h1 class="text-2xl font-bold text-gray-800"><%= t('wishlist_items.new.title') %></h1>
+          <p class="text-gray-600 text-sm"><%= t('wishlist_items.new.subtitle', wishlist_name: @wishlist.name) %></p>
         </div>
       </div>
     </div>

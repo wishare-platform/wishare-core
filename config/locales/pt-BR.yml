@@ -249,6 +249,43 @@ pt-BR:
       confirm_delete: "Tem certeza que deseja excluir este item?"
       view_product: "Ver Produto"
 
+  wishlist_items:
+    new:
+      title: "Adicionar Novo Item"
+      subtitle: "Adicione algo que você gostaria de receber à %{wishlist_name}"
+      back_to_wishlist: "Voltar à %{wishlist_name}"
+    edit:
+      title: "Editar Item"
+      subtitle: "Atualizar detalhes do item"
+      back_to_wishlist: "Voltar à %{wishlist_name}"
+    form:
+      product_url: "URL do Produto"
+      product_url_placeholder: "https://example.com/produto"
+      product_url_help: "Adicione um link do produto online e preencheremos automaticamente os detalhes"
+      item_name: "Nome do Item"
+      item_name_placeholder: "Tapete de Yoga"
+      description: "Descrição"
+      description_placeholder: "Tapete de yoga antiderrapante para exercícios em casa..."
+      price: "Preço"
+      price_placeholder: "45"
+      priority: "Prioridade"
+      priority_high: "Prioridade Alta"
+      priority_medium: "Prioridade Média"
+      priority_low: "Prioridade Baixa"
+      image_url: "URL da Imagem"
+      image_url_placeholder: "https://example.com/imagem.jpg"
+      image_url_help: "Adicione uma URL de imagem para mostrar uma prévia"
+      image_preview: "Prévia da Imagem"
+      create_button: "Adicionar Item"
+      update_button: "Atualizar Item"
+      cancel: "Cancelar"
+      pro_tip_title: "Dica profissional"
+      pro_tip_message: "Adicione uma URL do produto e tentaremos preencher automaticamente os detalhes como nome, descrição e imagem!"
+    status:
+      fetching: "Buscando detalhes do produto..."
+      populated: "Detalhes do produto preenchidos! Revise e ajuste conforme necessário."
+      error: "Não foi possível buscar detalhes automaticamente. Por favor, preencha manualmente."
+
   notification_preferences:
     title: "Preferências de Notificação"
     subtitle: "Gerencie como você recebe notificações e atualizações do Wishare"

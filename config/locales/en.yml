@@ -249,6 +249,43 @@ en:
       confirm_delete: "Are you sure you want to delete this item?"
       view_product: "View Product"
 
+  wishlist_items:
+    new:
+      title: "Add New Item"
+      subtitle: "Add something you'd love to receive to %{wishlist_name}"
+      back_to_wishlist: "Back to %{wishlist_name}"
+    edit:
+      title: "Edit Item"
+      subtitle: "Update item details"
+      back_to_wishlist: "Back to %{wishlist_name}"
+    form:
+      product_url: "Product URL"
+      product_url_placeholder: "https://example.com/product"
+      product_url_help: "Add a link to the product online and we'll auto-populate the details"
+      item_name: "Item Name"
+      item_name_placeholder: "Yoga Mat"
+      description: "Description"
+      description_placeholder: "Non-slip yoga mat for home workouts..."
+      price: "Price"
+      price_placeholder: "45"
+      priority: "Priority"
+      priority_high: "High Priority"
+      priority_medium: "Medium Priority"
+      priority_low: "Low Priority"
+      image_url: "Image URL"
+      image_url_placeholder: "https://example.com/image.jpg"
+      image_url_help: "Add an image URL to show a preview"
+      image_preview: "Image Preview"
+      create_button: "Add Item"
+      update_button: "Update Item"
+      cancel: "Cancel"
+      pro_tip_title: "Pro tip"
+      pro_tip_message: "Add a product URL and we'll try to automatically fill in the details like name, description, and image!"
+    status:
+      fetching: "Fetching product details..."
+      populated: "Product details populated! Review and adjust as needed."
+      error: "Couldn't fetch details automatically. Please fill in manually."
+
   notification_preferences:
     title: "Notification Preferences"
     subtitle: "Manage how you receive notifications and updates from Wishare"
