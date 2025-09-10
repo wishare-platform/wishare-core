@@ -30,29 +30,42 @@ export default class extends Controller {
       }
     )
     
-    // Close dropdown when clicking outside
-    document.addEventListener("click", this.closeOnClickOutside.bind(this))
+    // Bind the handler and store reference
+    this.boundCloseHandler = this.closeOnClickOutside.bind(this)
+    
+    // Add click outside handler with a small delay to avoid immediate closing
+    setTimeout(() => {
+      document.addEventListener("click", this.boundCloseHandler)
+    }, 100)
   }
 
   disconnect() {
     if (this.subscription) {
       this.subscription.unsubscribe()
     }
-    document.removeEventListener("click", this.closeOnClickOutside.bind(this))
+    if (this.boundCloseHandler) {
+      document.removeEventListener("click", this.boundCloseHandler)
+    }
   }
 
   toggle(event) {
     console.log("Toggle clicked")
-    // Only prevent default for actual click events, not touch events
-    if (event.type === 'click') {
-      event.stopPropagation()
-    }
+    event.stopPropagation()
+    event.preventDefault()
     
     if (this.hasDropdownTarget) {
+      const wasHidden = this.dropdownTarget.classList.contains("hidden")
       this.dropdownTarget.classList.toggle("hidden")
       
-      // Adjust positioning based on viewport space
-      if (!this.dropdownTarget.classList.contains("hidden")) {
+      // If we're opening the dropdown
+      if (wasHidden) {
+        // Mark that we just opened it to prevent immediate closing
+        this.justOpened = true
+        setTimeout(() => {
+          this.justOpened = false
+        }, 200)
+        
+        // Adjust positioning based on viewport space
         const rect = this.dropdownTarget.getBoundingClientRect()
         const windowHeight = window.innerHeight
         const spaceBelow = windowHeight - rect.top
@@ -74,6 +87,12 @@ export default class extends Controller {
   }
 
   closeOnClickOutside(event) {
+    // Don't close if we just opened it
+    if (this.justOpened) {
+      return
+    }
+    
+    // Check if click is outside the entire notifications controller element
     if (!this.element.contains(event.target) && this.hasDropdownTarget) {
       this.dropdownTarget.classList.add("hidden")
     }

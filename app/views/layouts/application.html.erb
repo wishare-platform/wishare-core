@@ -116,7 +116,7 @@
               <div class="hidden md:flex items-center gap-2">
                 <!-- Notification Bell -->
                 <div class="relative" data-controller="notifications" data-notifications-user-id-value="<%= current_user.id %>">
-                  <button data-action="click->notifications#toggle touchstart->notifications#toggle" class="relative p-2 text-gray-600 hover:text-rose-600 transition duration-200 rounded-lg hover:bg-rose-50">
+                  <button data-action="click->notifications#toggle" class="relative p-2 text-gray-600 hover:text-rose-600 transition duration-200 rounded-lg hover:bg-rose-50">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                     </svg>
@@ -320,7 +320,7 @@
                 
                 <!-- Mobile notification bell -->
                 <div class="relative" data-controller="notifications" data-notifications-user-id-value="<%= current_user.id %>">
-                  <button data-action="click->notifications#toggle touchstart->notifications#toggle" class="relative p-2 text-gray-600 hover:text-rose-600 transition duration-200 rounded-lg hover:bg-rose-50">
+                  <button data-action="click->notifications#toggle" class="relative p-2 text-gray-600 hover:text-rose-600 transition duration-200 rounded-lg hover:bg-rose-50">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                     </svg>
@@ -414,21 +414,20 @@
                   </div>
                 </div>
                 
-                <!-- User Avatar -->
-                <% if current_user.avatar_url.present? %>
-                  <img src="<%= current_user.avatar_url %>" alt="Avatar" class="w-8 h-8 rounded-full border-2 border-rose-200">
-                <% else %>
-                  <div class="bg-gradient-to-r from-rose-100 to-purple-100 rounded-full w-8 h-8 flex items-center justify-center">
-                    <span class="text-sm font-semibold text-rose-700">
-                      <%= current_user.name&.first&.upcase || current_user.email&.first&.upcase %>
-                    </span>
-                  </div>
-                <% end %>
-                
-                <!-- Menu Button -->
-                <button data-action="click->mobile-menu#toggle" class="text-gray-600 hover:text-gray-900 focus:outline-none focus:text-gray-900 p-1">
-                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                <!-- User Avatar with Menu (Mobile) -->
+                <button data-action="click->mobile-menu#toggle" class="relative flex items-center gap-1 p-1 rounded-lg hover:bg-rose-50 transition duration-200">
+                  <% if current_user.avatar_url.present? %>
+                    <img src="<%= current_user.avatar_url %>" alt="Avatar" class="w-8 h-8 rounded-full border-2 border-rose-200">
+                  <% else %>
+                    <div class="bg-gradient-to-r from-rose-100 to-purple-100 rounded-full w-8 h-8 flex items-center justify-center">
+                      <span class="text-sm font-semibold text-rose-700">
+                        <%= current_user.name&.first&.upcase || current_user.email&.first&.upcase %>
+                      </span>
+                    </div>
+                  <% end %>
+                  <!-- Chevron indicator -->
+                  <svg class="w-3 h-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                   </svg>
                 </button>
               </div>
