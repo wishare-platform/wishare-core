@@ -65,9 +65,6 @@ Rails.application.configure do
   # Skip during asset precompilation
   unless ENV['SECRET_KEY_BASE_DUMMY'] == '1'
     config.action_mailer.delivery_method = :sendgrid_api
-    config.action_mailer.sendgrid_api_settings = {
-      api_key: ENV['SENDGRID_API_KEY']
-    }
   else
     # Use a dummy delivery method during asset precompilation
     config.action_mailer.delivery_method = :test
