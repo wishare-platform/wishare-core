@@ -62,7 +62,7 @@ group :development, :test do
   gem "dotenv-rails"
 end
 
-# Email delivery
+# Email delivery - Using SendGrid API (not SMTP) for Railway compatibility
 gem "sendgrid-ruby"
 
 group :development do

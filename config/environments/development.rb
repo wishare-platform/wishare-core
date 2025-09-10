@@ -34,24 +34,17 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
-  # Configure mailer to use SendGrid
+  # Configure mailer
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
+  
   # Use test delivery to see emails in Rails log in development
   config.action_mailer.delivery_method = :test
   
-  # Uncomment below to test SMTP in development
-  # config.action_mailer.delivery_method = :smtp
-  # config.action_mailer.smtp_settings = {
-  #   user_name: 'apikey',
-  #   password: ENV['SENDGRID_API_KEY'],
-  #   address: 'smtp.sendgrid.net',
-  #   port: 587,
-  #   domain: 'localhost',
-  #   authentication: :plain,
-  #   enable_starttls_auto: true,
-  #   open_timeout: 10,
-  #   read_timeout: 10
+  # Uncomment below to test SendGrid API in development (works on Railway)
+  # config.action_mailer.delivery_method = :sendgrid_api
+  # config.action_mailer.sendgrid_api_settings = {
+  #   api_key: ENV['SENDGRID_API_KEY']
   # }
 
   # Make template changes take effect immediately.
@@ -59,18 +52,6 @@ Rails.application.configure do
 
   # Set localhost to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
-
-  # SendGrid SMTP configuration (commented out for development)
-  # Use this in production instead
-  # config.action_mailer.smtp_settings = {
-  #   address: 'smtp.sendgrid.net',
-  #   port: 587,
-  #   domain: 'localhost',
-  #   user_name: 'apikey',
-  #   password: ENV['SENDGRID_API_KEY'],
-  #   authentication: 'plain',
-  #   enable_starttls_auto: true
-  # }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

@@ -61,18 +61,11 @@ Rails.application.configure do
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: ENV.fetch("HOST_URL", "wishare.xyz") }
 
-  # Configure SendGrid for email delivery
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    user_name: 'apikey',
-    password: ENV['SENDGRID_API_KEY'],
-    address: 'smtp.sendgrid.net',
-    port: 587,
-    domain: 'wishare.xyz',
-    authentication: :plain,
-    enable_starttls_auto: true,
-    open_timeout: 10,
-    read_timeout: 10
+  # Configure SendGrid API for email delivery (Railway compatible - uses HTTPS not SMTP)
+  # SendGrid API configuration is handled in config/initializers/sendgrid_api.rb
+  config.action_mailer.delivery_method = :sendgrid_api
+  config.action_mailer.sendgrid_api_settings = {
+    api_key: ENV['SENDGRID_API_KEY']
   }
   
   # Allow assets to be precompiled without a real secret key base during build
