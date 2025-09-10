@@ -13,16 +13,31 @@ pt-BR:
     cta:
       get_started: "Começar Gratuitamente"
       sign_in: "Entrar"
+    highlights:
+      notifications: "Notificações em tempo real"
+      bilingual: "Português e Inglês"
+      mobile_ready: "Pronto para celular"
+      real_time: "Atualizações ao vivo"
     features:
       create:
         title: "Criar Listas"
         description: "Adicione itens que você gostaria de receber para qualquer ocasião"
-      share:
-        title: "Conectar e Compartilhar"
-        description: "Compartilhe com amigos e família para tornar os presentes sem esforço"
+      connect:
+        title: "Amigos e Família"
+        description: "Conecte-se com pessoas queridas e compartilhe listas privadamente"
       occasions:
-        title: "Qualquer Ocasião"
-        description: "Aniversários, feriados, casamentos e mais"
+        title: "Listas por Evento"
+        description: "Aniversários, casamentos, chá de bebê, festas e muito mais"
+      notifications:
+        title: "Mantenha-se Informado"
+        description: "Seja notificado quando amigos adicionam itens ou fazem compras"
+    events:
+      title: "Perfeito para Todas as Ocasiões"
+      birthday: "Aniversários"
+      wedding: "Casamentos"
+      baby_shower: "Chá de Bebê"
+      christmas: "Natal"
+      graduation: "Formatura"
   
   navigation:
     dashboard: "Painel"

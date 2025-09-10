@@ -13,16 +13,31 @@ en:
     cta:
       get_started: "Get Started Free"
       sign_in: "Sign In"
+    highlights:
+      notifications: "Real-time notifications"
+      bilingual: "English & Portuguese"
+      mobile_ready: "Mobile-ready"
+      real_time: "Live updates"
     features:
       create:
         title: "Create Wishlists"
         description: "Add items you'd love to receive for any occasion"
-      share:
-        title: "Connect & Share"
-        description: "Share with friends and family to make gifting effortless"
+      connect:
+        title: "Friends & Family"
+        description: "Connect with loved ones and share wishlists privately"
       occasions:
-        title: "Any Occasion"
-        description: "Birthdays, holidays, weddings, and more"
+        title: "Event-Based Lists"
+        description: "Birthdays, weddings, baby showers, holidays, and more"
+      notifications:
+        title: "Stay Informed"
+        description: "Get notified when friends add items or make purchases"
+    events:
+      title: "Perfect for Every Occasion"
+      birthday: "Birthdays"
+      wedding: "Weddings"
+      baby_shower: "Baby Showers"
+      christmas: "Christmas"
+      graduation: "Graduation"
   
   navigation:
     dashboard: "Dashboard"

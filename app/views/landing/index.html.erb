@@ -58,8 +58,30 @@
         <% end %>
       </div>
       
+      <!-- Key Highlights -->
+      <div class="bg-white/40 backdrop-blur-sm rounded-3xl p-8 mb-12 border border-rose-100">
+        <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-700">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🔔</span>
+            <span><%= t('landing.highlights.notifications') %></span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🌍</span>
+            <span><%= t('landing.highlights.bilingual') %></span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-lg">📱</span>
+            <span><%= t('landing.highlights.mobile_ready') %></span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-lg">⚡</span>
+            <span><%= t('landing.highlights.real_time') %></span>
+          </div>
+        </div>
+      </div>
+
       <!-- Features -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-12">
         <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-rose-100">
           <div class="text-3xl mb-4">🎁</div>
           <h3 class="text-lg font-semibold text-gray-800 mb-2">
@@ -71,12 +93,12 @@
         </div>
         
         <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-rose-100">
-          <div class="text-3xl mb-4">👥</div>
+          <div class="text-3xl mb-4">👨‍👩‍👧‍👦</div>
           <h3 class="text-lg font-semibold text-gray-800 mb-2">
-            <%= t('landing.features.share.title') %>
+            <%= t('landing.features.connect.title') %>
           </h3>
           <p class="text-gray-600 text-sm">
-            <%= t('landing.features.share.description') %>
+            <%= t('landing.features.connect.description') %>
           </p>
         </div>
         
@@ -88,6 +110,45 @@
           <p class="text-gray-600 text-sm">
             <%= t('landing.features.occasions.description') %>
           </p>
+        </div>
+
+        <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-rose-100">
+          <div class="text-3xl mb-4">🔔</div>
+          <h3 class="text-lg font-semibold text-gray-800 mb-2">
+            <%= t('landing.features.notifications.title') %>
+          </h3>
+          <p class="text-gray-600 text-sm">
+            <%= t('landing.features.notifications.description') %>
+          </p>
+        </div>
+      </div>
+
+      <!-- Event Types -->
+      <div class="bg-gradient-to-r from-rose-500/10 to-purple-500/10 rounded-3xl p-8 mb-12 border border-rose-200">
+        <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center">
+          <%= t('landing.events.title') %>
+        </h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 text-center">
+          <div class="flex flex-col items-center gap-2">
+            <span class="text-2xl">🎂</span>
+            <span class="text-sm text-gray-600"><%= t('landing.events.birthday') %></span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <span class="text-2xl">💒</span>
+            <span class="text-sm text-gray-600"><%= t('landing.events.wedding') %></span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <span class="text-2xl">🍼</span>
+            <span class="text-sm text-gray-600"><%= t('landing.events.baby_shower') %></span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <span class="text-2xl">🎄</span>
+            <span class="text-sm text-gray-600"><%= t('landing.events.christmas') %></span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <span class="text-2xl">🎓</span>
+            <span class="text-sm text-gray-600"><%= t('landing.events.graduation') %></span>
+          </div>
         </div>
       </div>
     </div>
