@@ -1,0 +1,314 @@
+<div class="px-4 py-6 sm:px-0">
+  <!-- Page Header -->
+  <div class="pb-5 border-b border-gray-200">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-4">
+        <%= link_to admin_users_path, class: "text-gray-500 hover:text-gray-700" do %>
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        <% end %>
+        <div class="flex items-center space-x-3">
+          <% if @user.avatar_url %>
+            <img class="h-12 w-12 rounded-full" src="<%= @user.avatar_url %>" alt="<%= @user.name %>">
+          <% else %>
+            <div class="h-12 w-12 rounded-full bg-rose-500 flex items-center justify-center text-white text-lg font-medium">
+              <%= @user.name.first.upcase %>
+            </div>
+          <% end %>
+          <div>
+            <h1 class="text-3xl font-bold leading-6 text-gray-900"><%= @user.name %></h1>
+            <p class="mt-1 text-sm text-gray-500"><%= @user.email %></p>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center space-x-3">
+        <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full 
+                     <%= @user.admin? || @user.super_admin? ? 'bg-purple-100 text-purple-800' : 'bg-gray-100 text-gray-800' %>">
+          <%= @user.role.humanize %>
+        </span>
+        <% if current_user.super_admin? %>
+          <div data-controller="dropdown" class="relative">
+            <button data-action="click->dropdown#toggle" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500">
+              Actions
+              <svg class="ml-2 -mr-0.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div data-dropdown-target="menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+              <%= form_with model: @user, url: admin_user_path(@user), method: :patch, local: true do |form| %>
+                <% if @user.user? %>
+                  <%= form.hidden_field :role, value: :admin %>
+                  <%= form.submit "Promote to Admin", class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
+                <% elsif @user.admin? %>
+                  <%= form.hidden_field :role, value: :user %>
+                  <%= form.submit "Demote to User", class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Stats Grid -->
+  <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+      <div class="p-5">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg class="h-6 w-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div class="ml-5 w-0 flex-1">
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 truncate">Wishlists Created</dt>
+              <dd class="text-lg font-medium text-gray-900"><%= @user_analytics.wishlists_created_count %></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+      <div class="p-5">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <div class="ml-5 w-0 flex-1">
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 truncate">Connections</dt>
+              <dd class="text-lg font-medium text-gray-900"><%= @user_analytics.connections_count %></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+      <div class="p-5">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </div>
+          <div class="ml-5 w-0 flex-1">
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 truncate">Items Added</dt>
+              <dd class="text-lg font-medium text-gray-900"><%= @user_analytics.items_added_count %></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+      <div class="p-5">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+            </svg>
+          </div>
+          <div class="ml-5 w-0 flex-1">
+            <dl>
+              <dt class="text-sm font-medium text-gray-500 truncate">Engagement Score</dt>
+              <dd class="text-lg font-medium text-gray-900"><%= number_with_delimiter(@user_analytics.engagement_score.round) %></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Details and Activity -->
+  <div class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+    <!-- User Details -->
+    <div class="bg-white shadow rounded-lg">
+      <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">User Details</h3>
+      </div>
+      <dl class="divide-y divide-gray-200">
+        <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Member since</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <%= @user.created_at.strftime("%B %d, %Y") %>
+          </dd>
+        </div>
+        <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Last activity</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <% if @user_analytics.last_activity_at %>
+              <%= @user_analytics.last_activity_at.strftime("%B %d, %Y at %I:%M %p") %>
+              (<%= time_ago_in_words(@user_analytics.last_activity_at) %> ago)
+            <% else %>
+              No activity recorded
+            <% end %>
+          </dd>
+        </div>
+        <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Preferred locale</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <%= @user.preferred_locale == 'pt-BR' ? 'Portuguese (Brazil)' : 'English' %>
+          </dd>
+        </div>
+        <div class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Authentication</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <% if @user.provider.present? %>
+              <%= @user.provider.humanize %> OAuth
+            <% else %>
+              Email/Password
+            <% end %>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="bg-white shadow rounded-lg">
+      <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Activity</h3>
+      </div>
+      <div class="divide-y divide-gray-200 max-h-80 overflow-y-auto">
+        <% @recent_events.each do |event| %>
+          <div class="px-4 py-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <% case event.event_type %>
+                  <% when 'wishlist_created' %>
+                    <div class="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center">
+                      <svg class="h-3 w-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                      </svg>
+                    </div>
+                  <% when 'item_added' %>
+                    <div class="h-6 w-6 rounded-full bg-blue-100 flex items-center justify-center">
+                      <svg class="h-3 w-3 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                    </div>
+                  <% else %>
+                    <div class="h-6 w-6 rounded-full bg-gray-100 flex items-center justify-center">
+                      <svg class="h-3 w-3 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="ml-3">
+                  <p class="text-sm font-medium text-gray-900">
+                    <%= event.event_type.humanize %>
+                  </p>
+                </div>
+              </div>
+              <div class="text-sm text-gray-500">
+                <%= time_ago_in_words(event.created_at) %> ago
+              </div>
+            </div>
+          </div>
+        <% end %>
+        
+        <% if @recent_events.empty? %>
+          <div class="px-4 py-8 text-center">
+            <p class="text-sm text-gray-500">No recent activity recorded</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- User's Wishlists -->
+  <div class="mt-8 bg-white shadow rounded-lg">
+    <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Wishlists (<%= @wishlists.count %>)</h3>
+    </div>
+    <div class="divide-y divide-gray-200">
+      <% @wishlists.each do |wishlist| %>
+        <div class="px-4 py-4 sm:px-6">
+          <div class="flex items-center justify-between">
+            <div class="flex-1">
+              <h4 class="text-sm font-medium text-gray-900">
+                <%= wishlist.name %>
+                <span class="ml-2 inline-flex px-2 py-1 text-xs font-semibold rounded-full 
+                           <%= case wishlist.visibility
+                               when 'private_list' then 'bg-gray-100 text-gray-800'
+                               when 'partner_only' then 'bg-purple-100 text-purple-800'
+                               when 'publicly_visible' then 'bg-green-100 text-green-800'
+                               else 'bg-gray-100 text-gray-800'
+                               end %>">
+                  <%= wishlist.visibility.humanize %>
+                </span>
+              </h4>
+              <p class="text-sm text-gray-500">
+                <%= wishlist.wishlist_items.count %> items
+                <% if wishlist.event_type != 'general_wishlist' %>
+                  • <%= wishlist.event_type.humanize %>
+                  <% if wishlist.event_date %>
+                    • <%= wishlist.event_date.strftime("%B %d, %Y") %>
+                  <% end %>
+                <% end %>
+              </p>
+            </div>
+            <div class="text-sm text-gray-500">
+              Created <%= time_ago_in_words(wishlist.created_at) %> ago
+            </div>
+          </div>
+        </div>
+      <% end %>
+      
+      <% if @wishlists.empty? %>
+        <div class="px-4 py-8 text-center">
+          <p class="text-sm text-gray-500">No wishlists created yet</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- User's Connections -->
+  <div class="mt-8 bg-white shadow rounded-lg">
+    <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Connections (<%= @connections.count %>)</h3>
+    </div>
+    <div class="divide-y divide-gray-200">
+      <% @connections.each do |connection| %>
+        <% other_user = connection.other_user(@user) %>
+        <div class="px-4 py-4 sm:px-6">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <% if other_user.avatar_url %>
+                <img class="h-8 w-8 rounded-full" src="<%= other_user.avatar_url %>" alt="<%= other_user.name %>">
+              <% else %>
+                <div class="h-8 w-8 rounded-full bg-rose-500 flex items-center justify-center text-white text-sm font-medium">
+                  <%= other_user.name.first.upcase %>
+                </div>
+              <% end %>
+              <div class="ml-3">
+                <p class="text-sm font-medium text-gray-900">
+                  <%= link_to other_user.name, admin_user_path(other_user), class: "hover:text-rose-600" %>
+                </p>
+                <p class="text-sm text-gray-500"><%= other_user.email %></p>
+              </div>
+            </div>
+            <div class="text-sm text-gray-500">
+              Connected <%= time_ago_in_words(connection.created_at) %> ago
+            </div>
+          </div>
+        </div>
+      <% end %>
+      
+      <% if @connections.empty? %>
+        <div class="px-4 py-8 text-center">
+          <p class="text-sm text-gray-500">No connections yet</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,196 @@
+<div class="px-4 py-6 sm:px-0">
+  <!-- Page Header -->
+  <div class="pb-5 border-b border-gray-200">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold leading-6 text-gray-900">Wishlist Management</h1>
+        <p class="mt-2 max-w-4xl text-sm text-gray-500">
+          Monitor and manage user wishlists across the platform
+        </p>
+      </div>
+      <div class="flex space-x-3">
+        <span class="text-sm text-gray-500">
+          Total: <%= number_with_delimiter(@total_wishlists) %> |
+          Public: <%= number_with_delimiter(@public_wishlists) %> |
+          Friends & Family: <%= number_with_delimiter(@partner_only_wishlists) %> |
+          Private: <%= number_with_delimiter(@private_wishlists) %>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters and Search -->
+  <div class="mt-6 bg-white shadow rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+      <%= form_with url: admin_wishlists_path, method: :get, local: true, class: "flex flex-wrap items-end gap-4" do |form| %>
+        <div class="flex-1 min-w-64">
+          <%= form.text_field :search, 
+                              placeholder: "Search by wishlist name or user name...", 
+                              value: params[:search],
+                              class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-rose-500 focus:border-rose-500 sm:text-sm" %>
+        </div>
+        
+        <div>
+          <%= form.select :visibility, 
+                          options_for_select([
+                            ['All Visibility', ''],
+                            ['Private', 'private_list'],
+                            ['Friends & Family', 'partner_only'],
+                            ['Public', 'publicly_visible']
+                          ], params[:visibility]),
+                          {},
+                          { class: "mt-1 block border-gray-300 rounded-md shadow-sm focus:ring-rose-500 focus:border-rose-500 sm:text-sm" } %>
+        </div>
+        
+        <div>
+          <%= form.submit "Filter", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500" %>
+        </div>
+        
+        <% if params[:search].present? || params[:visibility].present? %>
+          <div>
+            <%= link_to admin_wishlists_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500" do %>
+              Clear
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Wishlists Table -->
+  <div class="mt-6 bg-white shadow overflow-hidden sm:rounded-lg">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Wishlist
+          </th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Owner
+          </th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Visibility
+          </th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Items
+          </th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Event
+          </th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Created
+          </th>
+          <th scope="col" class="relative px-6 py-3">
+            <span class="sr-only">Actions</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <% @wishlists.each do |wishlist| %>
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4">
+              <div>
+                <div class="text-sm font-medium text-gray-900">
+                  <%= link_to wishlist.name, admin_wishlist_path(wishlist), class: "hover:text-rose-600" %>
+                  <% if wishlist.is_default %>
+                    <span class="ml-2 inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                      Default
+                    </span>
+                  <% end %>
+                </div>
+                <% if wishlist.description.present? %>
+                  <div class="text-sm text-gray-500 truncate max-w-xs">
+                    <%= wishlist.description %>
+                  </div>
+                <% end %>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <div class="flex-shrink-0 h-8 w-8">
+                  <% if wishlist.user.avatar_url %>
+                    <img class="h-8 w-8 rounded-full" src="<%= wishlist.user.avatar_url %>" alt="<%= wishlist.user.name %>">
+                  <% else %>
+                    <div class="h-8 w-8 rounded-full bg-rose-500 flex items-center justify-center text-white text-sm font-medium">
+                      <%= wishlist.user.name.first.upcase %>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="ml-3">
+                  <div class="text-sm font-medium text-gray-900">
+                    <%= link_to wishlist.user.name, admin_user_path(wishlist.user), class: "hover:text-rose-600" %>
+                  </div>
+                  <div class="text-sm text-gray-500">
+                    <%= wishlist.user.email %>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
+                         <%= case wishlist.visibility
+                             when 'private_list' then 'bg-gray-100 text-gray-800'
+                             when 'partner_only' then 'bg-purple-100 text-purple-800'
+                             when 'publicly_visible' then 'bg-green-100 text-green-800'
+                             else 'bg-gray-100 text-gray-800'
+                             end %>">
+                <%= wishlist.visibility.humanize %>
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <div>
+                <%= wishlist.wishlist_items.count %> total
+              </div>
+              <% if wishlist.wishlist_items.purchased.any? %>
+                <div class="text-xs text-gray-500">
+                  <%= wishlist.wishlist_items.purchased.count %> purchased
+                </div>
+              <% end %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <% if wishlist.event_type != 'general_wishlist' %>
+                <div><%= wishlist.event_type.humanize %></div>
+                <% if wishlist.event_date %>
+                  <div class="text-xs text-gray-500">
+                    <%= wishlist.event_date.strftime("%b %d, %Y") %>
+                  </div>
+                <% end %>
+              <% else %>
+                <span class="text-gray-400">General</span>
+              <% end %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <%= wishlist.created_at.strftime("%b %d, %Y") %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <div class="flex items-center space-x-2">
+                <%= link_to admin_wishlist_path(wishlist), class: "text-rose-600 hover:text-rose-900" do %>
+                  View
+                <% end %>
+                <% if current_user.super_admin? %>
+                  <%= link_to admin_wishlist_path(wishlist), method: :delete, 
+                              confirm: "Are you sure you want to delete this wishlist?",
+                              class: "text-red-600 hover:text-red-900" do %>
+                    Delete
+                  <% end %>
+                <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    
+    <% if @wishlists.empty? %>
+      <div class="text-center py-12">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">No wishlists found</h3>
+        <p class="mt-1 text-sm text-gray-500">
+          No wishlists match your current search criteria.
+        </p>
+      </div>
+    <% end %>
+  </div>
+</div>

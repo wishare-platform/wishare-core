@@ -65,6 +65,9 @@ end
 # Email delivery - Using SendGrid API (not SMTP) for Railway compatibility
 gem "sendgrid-ruby"
 
+# Admin panel pagination
+gem "kaminari"
+
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"

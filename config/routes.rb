@@ -48,6 +48,13 @@ Rails.application.routes.draw do
       end
     end
     
+    # Admin routes
+    namespace :admin do
+      root 'dashboard#index'
+      resources :users, only: [:index, :show, :update, :destroy]
+      resources :wishlists, only: [:index, :show, :destroy]
+    end
+    
     authenticated :user do
       root 'dashboard#index', as: :authenticated_root
     end

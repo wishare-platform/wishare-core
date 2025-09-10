@@ -24,8 +24,18 @@ class User < ApplicationRecord
   has_one :notification_preference, dependent: :destroy
   has_many :device_tokens, dependent: :destroy
 
+  # Analytics association
+  has_one :user_analytic, dependent: :destroy
+
   validates :name, presence: true
   validates :preferred_locale, inclusion: { in: %w[en pt-BR] }
+  
+  # Role-based access control
+  enum :role, {
+    user: 0,
+    admin: 1,
+    super_admin: 2
+  }, default: :user
 
   after_create :create_default_notification_preference
 

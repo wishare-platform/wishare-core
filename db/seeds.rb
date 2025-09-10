@@ -6,10 +6,17 @@ puts "🌱 Seeding database..."
 # Clear existing data (be careful in production!)
 if Rails.env.development?
   puts "Clearing existing data..."
+  # Clear in reverse dependency order to avoid foreign key violations
+  AnalyticsEvent.destroy_all
+  UserAnalytic.destroy_all
+  Notification.destroy_all
+  NotificationPreference.destroy_all
+  DeviceToken.destroy_all
   WishlistItem.destroy_all
   Wishlist.destroy_all
   Invitation.destroy_all
   Connection.destroy_all
+  CookieConsent.destroy_all if defined?(CookieConsent)
   User.destroy_all
   
   # Reset primary key sequences to avoid ID conflicts
@@ -18,6 +25,10 @@ if Rails.env.development?
   ActiveRecord::Base.connection.reset_pk_sequence!('invitations')
   ActiveRecord::Base.connection.reset_pk_sequence!('wishlists')
   ActiveRecord::Base.connection.reset_pk_sequence!('wishlist_items')
+  ActiveRecord::Base.connection.reset_pk_sequence!('analytics_events')
+  ActiveRecord::Base.connection.reset_pk_sequence!('user_analytics')
+  ActiveRecord::Base.connection.reset_pk_sequence!('notifications')
+  ActiveRecord::Base.connection.reset_pk_sequence!('notification_preferences')
 end
 
 # Create main test user (representing the Instagram story author)
@@ -785,6 +796,104 @@ if blue_yeti_item
   )
 end
 
+puts "Setting up admin users for testing admin panel..."
+
+# Set main user as admin for admin panel testing
+main_user.update!(role: :admin)
+
+# Create a super admin user for testing elevated permissions
+super_admin = User.find_or_create_by(email: "admin@wishare.xyz") do |user|
+  user.password = "password123"
+  user.password_confirmation = "password123"
+  user.name = "Super Admin"
+  user.avatar_url = "https://api.dicebear.com/7.x/avataaars/svg?seed=admin"
+  user.preferred_locale = "en"
+  user.role = :super_admin
+end
+
+# Ensure the super admin has the correct role (in case user already existed)
+super_admin.update!(role: :super_admin) unless super_admin.super_admin?
+
+puts "Creating analytics events for dashboard testing..."
+
+# Create realistic analytics events for the past 30 days
+users = [main_user, ylana, friend2, family1, pending_user, public_user, super_admin]
+event_types = [:page_view, :wishlist_created, :item_added, :invitation_sent, :connection_formed, 
+               :item_purchased, :wishlist_shared, :login_attempt, :sign_up_attempt, 
+               :invitation_accepted, :notification_clicked, :search_performed]
+
+# Generate events over the last 30 days
+30.times do |days_ago|
+  date = days_ago.days.ago
+  
+  # More activity on recent days
+  events_count = (30 - days_ago) / 3 + rand(5)
+  
+  events_count.times do
+    user = users.sample
+    event_type = event_types.sample
+    
+    AnalyticsEvent.create!(
+      user: rand(10) > 1 ? user : nil, # 10% anonymous events
+      event_type: event_type,
+      session_id: SecureRandom.hex(8),
+      ip_address: "192.168.1.#{rand(255)}",
+      user_agent: "Mozilla/5.0 (compatible; TestSeed)",
+      created_at: date + rand(24).hours,
+      metadata: {
+        test_data: true,
+        page: "/#{['wishlists', 'dashboard', 'connections', 'profile'].sample}",
+        source: "seed_data"
+      }
+    )
+  end
+end
+
+puts "Creating user analytics data for engagement scoring..."
+
+# Create user analytics for all users with realistic engagement data
+users.each do |user|
+  user_wishlists_count = user.wishlists.count
+  user_items_count = user.wishlists.joins(:wishlist_items).count
+  user_connections_count = user.accepted_connections.count
+  
+  UserAnalytic.create!(
+    user: user,
+    wishlists_created_count: user_wishlists_count,
+    items_added_count: user_items_count,
+    connections_count: user_connections_count,
+    invitations_sent_count: user.sent_invitations.count,
+    invitations_accepted_count: rand(3) + 1,
+    items_purchased_count: rand(5),
+    page_views_count: rand(100) + 50,
+    first_activity_at: user.created_at,
+    last_activity_at: rand(7).days.ago + rand(24).hours
+  )
+end
+
+# Give main users higher engagement for realistic testing
+main_user.user_analytic.update!(
+  wishlists_created_count: 6,
+  items_added_count: 25,
+  connections_count: 3,
+  invitations_sent_count: 4,
+  invitations_accepted_count: 3,
+  items_purchased_count: 8,
+  page_views_count: 250,
+  last_activity_at: 1.hour.ago
+)
+
+ylana.user_analytic.update!(
+  wishlists_created_count: 2,
+  items_added_count: 12,
+  connections_count: 1,
+  invitations_sent_count: 2,
+  invitations_accepted_count: 1,
+  items_purchased_count: 3,
+  page_views_count: 180,
+  last_activity_at: 3.hours.ago
+)
+
 puts "Creating additional notifications..."
 
 # Add more sample notifications for better testing
@@ -819,21 +928,24 @@ Notification.create!(
 puts "✅ Seeding complete!"
 puts ""
 puts "📧 Test Accounts Created (Instagram Demo Ready!):"
-puts "  👥 Main User: test@wishare.xyz / password123 (Hel Rabelo - Portuguese)"
+puts "  👥 Main User: test@wishare.xyz / password123 (Hel Rabelo - ADMIN, Portuguese)"
 puts "  💕 Partner: ylana@wishare.xyz / password123 (Ylana Moreira - connected, Portuguese)"
 puts "  🤝 Friend 2: friend2@wishare.xyz / password123 (Michael - connected, English)"
 puts "  👨‍👩‍👧‍👦 Family: family1@wishare.xyz / password123 (Emma - connected, Portuguese)"
 puts "  📨 Pending: pending@wishare.xyz / password123 (David - has sent invitation, English)"
 puts "  🌍 Public: public@wishare.xyz / password123 (Alex - not connected, has public list, Portuguese)"
+puts "  🔧 Super Admin: admin@wishare.xyz / password123 (Super Admin - full admin access, English)"
 puts ""
-puts "🎁 Created (Perfect for Instagram Demo!):"
-puts "  - #{User.count} users with language preferences"
+puts "🎁 Created (Perfect for Instagram Demo + Admin Testing!):"
+puts "  - #{User.count} users with language preferences (including 1 admin, 1 super admin)"
 puts "  - #{Connection.count} connections"
 puts "  - #{Invitation.count} invitations"
 puts "  - #{Wishlist.count} wishlists with event types (including the famous 17 running shoes & 8432 puzzles!)"
 puts "  - #{WishlistItem.count} wishlist items"
 puts "  - #{NotificationPreference.count} notification preferences"
 puts "  - #{Notification.count} sample notifications"
+puts "  - #{AnalyticsEvent.count} analytics events for dashboard metrics"
+puts "  - #{UserAnalytic.count} user analytics with engagement scoring"
 puts ""
 puts "🔔 Notification System Features:"
 puts "  - Real-time in-app notifications"
@@ -851,5 +963,12 @@ puts "  - Login as Hel Rabelo (test@wishare.xyz) for main demo"
 puts "  - Login as Ylana (ylana@wishare.xyz) to see partner perspective"
 puts "  - Features the famous '17 running shoes' and '8432 puzzles' lists!"
 puts "  - Brazilian content, pricing, and cultural references"
+puts ""
+puts "🔧 Admin Panel Testing Ready!"
+puts "  - Login as Hel Rabelo (test@wishare.xyz) then visit /admin for admin dashboard"
+puts "  - Login as Super Admin (admin@wishare.xyz) for full admin privileges"
+puts "  - Analytics dashboard with 30 days of realistic data"
+puts "  - User management with engagement scoring"
+puts "  - Wishlist content management and moderation tools"
 puts ""
 puts "🚀 Perfect for showing off the app on Instagram! 🎥"

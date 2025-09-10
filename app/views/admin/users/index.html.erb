@@ -1,0 +1,173 @@
+<div class="px-4 py-6 sm:px-0">
+  <!-- Page Header -->
+  <div class="pb-5 border-b border-gray-200">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold leading-6 text-gray-900">User Management</h1>
+        <p class="mt-2 max-w-4xl text-sm text-gray-500">
+          Manage user accounts, view analytics, and monitor user activity
+        </p>
+      </div>
+      <div class="flex space-x-3">
+        <span class="text-sm text-gray-500">
+          Total: <%= number_with_delimiter(@total_users) %> |
+          Active: <%= number_with_delimiter(@active_users) %>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters and Search -->
+  <div class="mt-6 bg-white shadow rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+      <%= form_with url: admin_users_path, method: :get, local: true, class: "flex flex-wrap items-end gap-4" do |form| %>
+        <div class="flex-1 min-w-64">
+          <%= form.text_field :search, 
+                              placeholder: "Search by name or email...", 
+                              value: params[:search],
+                              class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-rose-500 focus:border-rose-500 sm:text-sm" %>
+        </div>
+        
+        <div>
+          <%= form.select :role, 
+                          options_for_select([
+                            ['All Roles', ''],
+                            ['Regular Users', 'user'],
+                            ['Admins', 'admin'],
+                            ['Super Admins', 'super_admin']
+                          ], params[:role]),
+                          {},
+                          { class: "mt-1 block border-gray-300 rounded-md shadow-sm focus:ring-rose-500 focus:border-rose-500 sm:text-sm" } %>
+        </div>
+        
+        <div>
+          <%= form.submit "Filter", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500" %>
+        </div>
+        
+        <% if params[:search].present? || params[:role].present? %>
+          <div>
+            <%= link_to admin_users_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500" do %>
+              Clear
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Users Table -->
+  <div class="mt-6 bg-white shadow overflow-hidden sm:rounded-lg">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            User
+          </th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Role
+          </th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Activity
+          </th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Engagement
+          </th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Joined
+          </th>
+          <th scope="col" class="relative px-6 py-3">
+            <span class="sr-only">Actions</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <% @users.each do |user| %>
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <div class="flex-shrink-0 h-10 w-10">
+                  <% if user.avatar_url %>
+                    <img class="h-10 w-10 rounded-full" src="<%= user.avatar_url %>" alt="<%= user.name %>">
+                  <% else %>
+                    <div class="h-10 w-10 rounded-full bg-rose-500 flex items-center justify-center text-white font-medium">
+                      <%= user.name.first.upcase %>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="ml-4">
+                  <div class="text-sm font-medium text-gray-900">
+                    <%= link_to user.name, admin_user_path(user), class: "hover:text-rose-600" %>
+                  </div>
+                  <div class="text-sm text-gray-500">
+                    <%= user.email %>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
+                         <%= user.admin? || user.super_admin? ? 'bg-purple-100 text-purple-800' : 'bg-gray-100 text-gray-800' %>">
+                <%= user.role.humanize %>
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <% if user.user_analytic %>
+                <div>
+                  <%= user.user_analytic.wishlists_created_count %> lists,
+                  <%= user.user_analytic.connections_count %> connections
+                </div>
+                <div class="text-xs text-gray-500">
+                  <% if user.user_analytic.last_activity_at %>
+                    Last active <%= time_ago_in_words(user.user_analytic.last_activity_at) %> ago
+                  <% else %>
+                    No activity recorded
+                  <% end %>
+                </div>
+              <% else %>
+                <span class="text-gray-400">No data</span>
+              <% end %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <% if user.user_analytic %>
+                <div class="flex items-center">
+                  <div class="text-sm font-medium text-gray-900">
+                    <%= number_with_delimiter(user.user_analytic.engagement_score.round) %>
+                  </div>
+                  <div class="ml-2 w-16 bg-gray-200 rounded-full h-2">
+                    <% max_score = 500 # Approximate high engagement score %>
+                    <% percentage = [((user.user_analytic.engagement_score / max_score) * 100).round, 100].min %>
+                    <div class="bg-rose-500 h-2 rounded-full" style="width: <%= percentage %>%"></div>
+                  </div>
+                </div>
+              <% else %>
+                <span class="text-gray-400">-</span>
+              <% end %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <%= user.created_at.strftime("%b %d, %Y") %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <%= link_to admin_user_path(user), class: "text-rose-600 hover:text-rose-900" do %>
+                View
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    
+    <% if @users.empty? %>
+      <div class="text-center py-12">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">No users found</h3>
+        <p class="mt-1 text-sm text-gray-500">
+          No users match your current search criteria.
+        </p>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Pagination would go here if using kaminari -->
+</div>
