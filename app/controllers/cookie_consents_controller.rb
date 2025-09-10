@@ -16,21 +16,26 @@ class CookieConsentsController < ApplicationController
       request: request
     )
       
-      # Track consent given
+      # Track consent given (make this optional to avoid 500 errors)
       if @consent.analytics_enabled?
-        AnalyticsJob.perform_later(
-          'consent_given',
-          current_user&.id,
-          CookieConsent.extract_session_id(request),
-          {
-            remote_ip: request.remote_ip,
-            user_agent: request.user_agent,
-            path: request.path,
-            referer: request.referer
-          },
-          consent_type: 'analytics',
-          consent_version: CookieConsent::CURRENT_VERSION
-        )
+        begin
+          AnalyticsJob.perform_later(
+            'consent_given',
+            current_user&.id,
+            CookieConsent.extract_session_id(request),
+            {
+              remote_ip: request.remote_ip,
+              user_agent: request.user_agent,
+              path: request.path,
+              referer: request.referer
+            },
+            consent_type: 'analytics',
+            consent_version: CookieConsent::CURRENT_VERSION
+          )
+        rescue => e
+          Rails.logger.warn "Failed to queue analytics job: #{e.message}"
+          # Don't fail the consent flow if analytics job fails
+        end
       end
       
       respond_to do |format|
