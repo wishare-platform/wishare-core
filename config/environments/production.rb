@@ -51,7 +51,8 @@ Rails.application.configure do
 
   # Replace the default in-process and non-durable queuing backend for Active Job.
   config.active_job.queue_adapter = :solid_queue
-  config.solid_queue.connects_to = { database: { writing: :queue } }
+  # Use the same database connection as the primary database
+  # config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Raise email delivery errors to catch SendGrid issues
   config.action_mailer.raise_delivery_errors = true
