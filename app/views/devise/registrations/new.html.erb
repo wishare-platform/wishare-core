@@ -27,7 +27,7 @@
     </div>
   </div>
 
-  <div class="mx-auto w-full max-w-sm sm:max-w-md">
+  <div class="mx-auto w-full max-w-sm sm:max-w-md" data-controller="terms-agreement">
     <div class="bg-white/80 backdrop-blur-sm py-8 px-6 shadow-xl rounded-3xl sm:px-10 border border-rose-100">
       <h2 class="text-2xl font-bold text-gray-800 text-center mb-2"><%= t('auth.sign_up.title') %> ✨</h2>
       <% if params[:email].present? %>
@@ -40,7 +40,7 @@
         <p class="text-gray-600 text-center mb-8"><%= t('auth.sign_up.subtitle') %></p>
       <% end %>
       
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-5", data: { controller: "terms-agreement" } }) do |f| %>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-5" }) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
 
         <div>
