@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ec4899;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  
+  <!-- White gift box shape instead of emoji for better compatibility -->
+  <g transform="translate(600,315)">
+    <!-- Gift box base -->
+    <rect x="-80" y="-40" width="160" height="80" rx="8" fill="white" opacity="0.95"/>
+    
+    <!-- Vertical ribbon -->
+    <rect x="-8" y="-40" width="16" height="80" fill="#ec4899"/>
+    
+    <!-- Horizontal ribbon -->
+    <rect x="-80" y="-8" width="160" height="16" fill="#ec4899"/>
+    
+    <!-- Bow/heart on top -->
+    <path d="M0,-60 C-10,-70 -25,-70 -25,-50 C-25,-70 -40,-70 -50,-60 C-60,-50 -60,-30 -40,-20 L0,20 L40,-20 C60,-30 60,-50 50,-60 C40,-70 25,-70 25,-50 C25,-70 10,-70 0,-60 Z" 
+          fill="#fecaca"/>
+  </g>
+  
+  <!-- Wishare text -->
+  <text x="600" y="450" font-size="64" font-weight="bold" text-anchor="middle" fill="white" font-family="Arial, sans-serif">Wishare</text>
+  
+  <!-- Tagline -->
+  <text x="600" y="520" font-size="28" text-anchor="middle" fill="white" fill-opacity="0.9" font-family="Arial, sans-serif">Thoughtful Gifting Made Simple</text>
+</svg>
