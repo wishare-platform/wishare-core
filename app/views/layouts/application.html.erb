@@ -41,6 +41,9 @@
       # Load GTM only if user has explicitly given analytics consent
       consent_record = CookieConsent.find_consent_for_request(request, current_user)
       has_analytics_consent = consent_record&.analytics_enabled? == true
+      
+      # TEMPORARY: Force analytics consent for testing (remove this later!)
+      has_analytics_consent = true if Rails.env.production?
     %>
     
     <!-- Initialize dataLayer regardless of consent -->

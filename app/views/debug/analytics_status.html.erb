@@ -1,0 +1,164 @@
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-8">
+  <h1 class="text-2xl font-bold mb-6 text-gray-900">GTM/GA Analytics Debug Status</h1>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <!-- Consent Status -->
+    <div class="bg-gray-50 p-4 rounded-lg">
+      <h2 class="text-lg font-semibold mb-3 text-gray-800">Cookie Consent Status</h2>
+      <div class="space-y-2 text-sm">
+        <p><strong>Has Analytics Consent:</strong> 
+          <span class="<%= @has_analytics_consent ? 'text-green-600' : 'text-red-600' %>">
+            <%= @has_analytics_consent ? '✅ YES' : '❌ NO' %>
+          </span>
+        </p>
+        <p><strong>Session ID:</strong> <code class="bg-gray-200 px-1 rounded"><%= @session_id %></code></p>
+        <p><strong>User Signed In:</strong> <%= user_signed_in? ? '✅ YES' : '❌ NO' %></p>
+        <% if current_user %>
+          <p><strong>User ID:</strong> <%= current_user.id %></p>
+        <% end %>
+      </div>
+    </div>
+    
+    <!-- GTM Status -->
+    <div class="bg-gray-50 p-4 rounded-lg">
+      <h2 class="text-lg font-semibold mb-3 text-gray-800">GTM Configuration</h2>
+      <div class="space-y-2 text-sm">
+        <p><strong>GTM ID:</strong> <code class="bg-gray-200 px-1 rounded"><%= @gtm_id %></code></p>
+        <p><strong>GTM Should Load:</strong> 
+          <span class="<%= @has_analytics_consent ? 'text-green-600' : 'text-red-600' %>">
+            <%= @has_analytics_consent ? '✅ YES' : '❌ NO' %>
+          </span>
+        </p>
+        <p><strong>DataLayer Initialized:</strong> 
+          <span id="dataLayerStatus" class="text-gray-600">⏳ Checking...</span>
+        </p>
+        <p><strong>GTM Script Loaded:</strong> 
+          <span id="gtmScriptStatus" class="text-gray-600">⏳ Checking...</span>
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Consent Record Details -->
+  <% if @consent_record %>
+  <div class="bg-blue-50 p-4 rounded-lg mb-6">
+    <h2 class="text-lg font-semibold mb-3 text-gray-800">Consent Record Details</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+      <div>
+        <strong>Analytics:</strong> <%= @consent_record.analytics_enabled? ? '✅' : '❌' %>
+      </div>
+      <div>
+        <strong>Marketing:</strong> <%= @consent_record.marketing_enabled? ? '✅' : '❌' %>
+      </div>
+      <div>
+        <strong>Functional:</strong> <%= @consent_record.functional_enabled? ? '✅' : '❌' %>
+      </div>
+      <div>
+        <strong>Version:</strong> <%= @consent_record.consent_version %>
+      </div>
+    </div>
+    <p class="mt-2 text-xs text-gray-600">
+      <strong>Created:</strong> <%= @consent_record.consent_date.strftime('%Y-%m-%d %H:%M:%S') %>
+    </p>
+  </div>
+  <% else %>
+  <div class="bg-yellow-50 p-4 rounded-lg mb-6">
+    <h2 class="text-lg font-semibold mb-2 text-gray-800">No Consent Record Found</h2>
+    <p class="text-sm text-gray-600">No cookie consent record exists for this session/user.</p>
+  </div>
+  <% end %>
+  
+  <!-- Action Buttons -->
+  <div class="flex flex-wrap gap-4 mb-6">
+    <%= link_to debug_toggle_consent_path, 
+        method: :post,
+        class: "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors" do %>
+      Toggle Analytics Consent
+    <% end %>
+    
+    <button id="testGtmEvent" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors">
+      Test GTM Event
+    </button>
+    
+    <button id="checkConsent" class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors">
+      Check Client-Side Consent
+    </button>
+  </div>
+  
+  <!-- Console Output -->
+  <div class="bg-black text-green-400 p-4 rounded-lg">
+    <h2 class="text-lg font-semibold mb-2 text-white">Debug Console</h2>
+    <div id="debugConsole" class="text-xs font-mono h-32 overflow-y-auto">
+      <p>Debug console ready...</p>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const console = document.getElementById('debugConsole');
+  
+  function log(message) {
+    const p = document.createElement('p');
+    p.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+    console.appendChild(p);
+    console.scrollTop = console.scrollHeight;
+  }
+  
+  // Check dataLayer
+  if (window.dataLayer) {
+    document.getElementById('dataLayerStatus').innerHTML = '✅ YES';
+    document.getElementById('dataLayerStatus').className = 'text-green-600';
+    log(`DataLayer found with ${window.dataLayer.length} entries`);
+  } else {
+    document.getElementById('dataLayerStatus').innerHTML = '❌ NO';
+    document.getElementById('dataLayerStatus').className = 'text-red-600';
+    log('DataLayer not found');
+  }
+  
+  // Check GTM script
+  const gtmScripts = document.querySelectorAll('script[src*="googletagmanager.com"]');
+  if (gtmScripts.length > 0) {
+    document.getElementById('gtmScriptStatus').innerHTML = '✅ YES';
+    document.getElementById('gtmScriptStatus').className = 'text-green-600';
+    log(`Found ${gtmScripts.length} GTM scripts`);
+  } else {
+    document.getElementById('gtmScriptStatus').innerHTML = '❌ NO';
+    document.getElementById('gtmScriptStatus').className = 'text-red-600';
+    log('No GTM scripts found');
+  }
+  
+  // Log current status
+  log(`Current consent status: <%= @has_analytics_consent %>`);
+  log(`GTM pending consent: ${window.gtmPendingConsent || false}`);
+  log(`GTM ID: ${window.gtmId || 'not set'}`);
+  
+  // Test GTM event button
+  document.getElementById('testGtmEvent').addEventListener('click', function() {
+    if (window.dataLayer) {
+      window.dataLayer.push({
+        event: 'debug_test',
+        event_category: 'debug',
+        event_action: 'test_event',
+        event_label: 'manual_test'
+      });
+      log('Test event pushed to dataLayer');
+    } else {
+      log('ERROR: dataLayer not available for test event');
+    }
+  });
+  
+  // Check consent button
+  document.getElementById('checkConsent').addEventListener('click', function() {
+    fetch('<%= debug_analytics_status_path %>.json')
+      .then(response => response.json())
+      .then(data => {
+        log(`Server consent status: ${data.has_consent}`);
+        log(`Client WishareAnalytics.consentGiven: ${window.WishareAnalytics?.consentGiven || 'not set'}`);
+      })
+      .catch(error => {
+        log(`Error checking consent: ${error.message}`);
+      });
+  });
+});
+</script>

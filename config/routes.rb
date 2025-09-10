@@ -62,6 +62,12 @@ Rails.application.routes.draw do
     # Legal pages
     get '/terms-of-service', to: 'legal#terms_of_service', as: :terms_of_service
     get '/privacy-policy', to: 'legal#privacy_policy', as: :privacy_policy
+    
+    # Debug routes (development only)
+    if Rails.env.development?
+      get '/debug/analytics-status', to: 'debug#analytics_status', as: :debug_analytics_status
+      post '/debug/toggle-consent', to: 'debug#toggle_consent', as: :debug_toggle_consent
+    end
   end
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
