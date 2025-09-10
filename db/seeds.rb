@@ -20,26 +20,26 @@ if Rails.env.development?
   ActiveRecord::Base.connection.reset_pk_sequence!('wishlist_items')
 end
 
-# Create main test user
+# Create main test user (representing the Instagram story author)
 puts "Creating test users..."
 main_user = User.create!(
   email: "test@wishare.xyz",
   password: "password123",
   password_confirmation: "password123",
-  name: "Test User",
+  name: "Hel Rabelo",
   date_of_birth: Date.new(1990, 3, 15),
-  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=test",
-  preferred_locale: "en"
+  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=helena",
+  preferred_locale: "pt-BR"
 )
 
-# Create connected friends/family
-friend1 = User.create!(
-  email: "friend1@wishare.xyz", 
+# Create Ylana (the partner mentioned in the stories)
+ylana = User.create!(
+  email: "ylana@wishare.xyz", 
   password: "password123",
   password_confirmation: "password123",
-  name: "Sarah Johnson",
-  date_of_birth: Date.new(1994, 6, 22),
-  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=sarah",
+  name: "Ylana Moreira",
+  date_of_birth: Date.new(1992, 8, 14),
+  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=ylana",
   preferred_locale: "pt-BR"
 )
 
@@ -90,12 +90,12 @@ puts "Creating connections..."
 # Create accepted connections
 Connection.create!(
   user: main_user,
-  partner: friend1,
+  partner: ylana,
   status: :accepted
 )
 
 Connection.create!(
-  user: friend1,
+  user: ylana,
   partner: main_user,
   status: :accepted
 )
@@ -143,7 +143,7 @@ Invitation.create!(
 puts "Creating notification preferences..."
 
 # Create notification preferences for all users
-[main_user, friend1, friend2, family1, pending_user, public_user].each do |user|
+[main_user, ylana, friend2, family1, pending_user, public_user].each do |user|
   NotificationPreference.find_or_create_by!(user: user) do |pref|
     pref.email_invitations = true
     pref.email_purchases = true
@@ -155,7 +155,7 @@ puts "Creating notification preferences..."
 end
 
 # Set some users with different preferences for testing
-friend1.notification_preference.update!(
+ylana.notification_preference.update!(
   digest_frequency: :weekly,
   email_new_items: false
 )
@@ -177,10 +177,10 @@ Notification.create!(
 )
 
 Notification.create!(
-  user: friend1,
+  user: ylana,
   notification_type: :invitation_accepted,
-  notifiable: Connection.where(user: friend1, partner: main_user).first,
-  data: { acceptor_name: "Test User" },
+  notifiable: Connection.where(user: ylana, partner: main_user).first,
+  data: { acceptor_name: "Hel Rabelo" },
   read: true,
   created_at: 1.day.ago
 )
@@ -189,21 +189,30 @@ Notification.create!(
 
 puts "Creating wishlists..."
 
-# Main user's wishlists
+# Main user's wishlists - reflecting the Instagram story examples
+running_shoes_list = Wishlist.create!(
+  user: main_user,
+  name: "Tênis de Corrida 👟",
+  description: "Todos os 17 pares que quero ganhar (conforme mencionado no Instagram!)",
+  event_type: "none",
+  is_default: true,
+  visibility: :partner_only
+)
+
 birthday_list = Wishlist.create!(
   user: main_user,
-  name: "Birthday Wishlist 🎂",
-  description: "Things I'd love for my birthday coming up in March!",
+  name: "Aniversário 2025 🎂",
+  description: "Coisas que adoraria ganhar no meu aniversário em março!",
   event_type: "birthday",
   event_date: Date.new(2025, 3, 15),
-  is_default: true,
+  is_default: false,
   visibility: :partner_only
 )
 
 christmas_list = Wishlist.create!(
   user: main_user,
-  name: "Christmas 2025 🎄",
-  description: "Holiday gift ideas for family and friends",
+  name: "Natal 2025 🎄",
+  description: "Ideias de presentes para família e amigos",
   event_type: "christmas",
   event_date: Date.new(2025, 12, 25),
   is_default: false,
@@ -228,25 +237,34 @@ private_list = Wishlist.create!(
   visibility: :private_list
 )
 
-# Friend's wishlists
-friend1_birthday = Wishlist.create!(
-  user: friend1,
-  name: "Sarah's Birthday List",
-  description: "Turning 31 this year! 🎉",
-  event_type: "birthday",
-  event_date: Date.new(2025, 6, 22),
+# Fun event wishlist (as mentioned in Instagram - "até wishlists pra eventos: Natal, casamento, divórcio")
+fun_event_list = Wishlist.create!(
+  user: main_user,
+  name: "Lista do Divórcio 😅",
+  description: "Porque até isso vira evento, né? (Brincadeira!)",
+  event_type: "other",
+  is_default: false,
+  visibility: :publicly_visible
+)
+
+# Ylana's wishlists - reflecting the Instagram story examples
+ylana_puzzles = Wishlist.create!(
+  user: ylana,
+  name: "Quebra-cabeças 🧩",
+  description: "Meus 8432 quebra-cabeças favoritos (como mencionado no Instagram!)",
+  event_type: "none",
   is_default: true,
   visibility: :partner_only
 )
 
-friend1_baby = Wishlist.create!(
-  user: friend1,
-  name: "Baby Shower Registry",
-  description: "Items for our upcoming arrival 👶",
-  event_type: "baby_shower",
-  event_date: Date.new(2025, 4, 15),
+ylana_birthday = Wishlist.create!(
+  user: ylana,
+  name: "Aniversário Ylana 🎉",
+  description: "Lista para o meu aniversário em agosto!",
+  event_type: "birthday",
+  event_date: Date.new(2025, 8, 14),
   is_default: false,
-  visibility: :publicly_visible
+  visibility: :partner_only
 )
 
 # Friend 2's wishlist
@@ -282,77 +300,195 @@ public_user_list = Wishlist.create!(
 
 puts "Creating wishlist items..."
 
+# Running shoes list (Instagram story example - "todos os 17 pares que quero ganhar")
+WishlistItem.create!(
+  wishlist: running_shoes_list,
+  name: "Nike Alphafly Next% 3",
+  description: "Para quebrar recordes pessoais",
+  url: "https://www.nike.com.br/tenis-alphafly-next-3-081573.html",
+  price: 2999.99,
+  priority: :high,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: running_shoes_list,
+  name: "Adidas Adizero Adios Pro 4",
+  description: "Tecnologia de ponta para maratonas",
+  url: "https://www.adidas.com.br/tenis-adizero-adios-pro-4/JR1094.html",
+  price: 1899.99,
+  priority: :high,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: running_shoes_list,
+  name: "Hoka Cielo X1 2.0",
+  description: "Máximo retorno de energia",
+  url: "https://www.tf.com.br/tenis-unissex--hoka-cielo-x1-2-0-colorido/p",
+  price: 1699.99,
+  priority: :high,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: running_shoes_list,
+  name: "ON Cloudboom Strike",
+  description: "Inovação suíça em corrida",
+  url: "https://www.on.com/pt-br/products/cloudboom-strike-3me3048/mens/white-black-shoes-3ME30480462",
+  price: 1299.99,
+  priority: :medium,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: running_shoes_list,
+  name: "Saucony Endorphin Elite",
+  description: "Para competições sérias",
+  url: "https://www.tf.com.br/tenis-saucony-endorphin-elite-masculino-branco-laranja/p",
+  price: 1599.99,
+  priority: :high,
+  status: :purchased
+)
+
+# More running shoes to reach the "17 pairs" mentioned in Instagram
+WishlistItem.create!(
+  wishlist: running_shoes_list,
+  name: "Nike Vaporfly Next% 3",
+  description: "O clássico dos recordes",
+  url: "https://www.nike.com.br/",
+  price: 2199.99,
+  priority: :high,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: running_shoes_list,
+  name: "Adidas Ultraboost 23",
+  description: "Conforto supremo para treinos longos",
+  url: "https://www.adidas.com.br/",
+  price: 899.99,
+  priority: :medium,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: running_shoes_list,
+  name: "Hoka Mach 5",
+  description: "Versatilidade para todos os treinos",
+  url: "https://www.tf.com.br/",
+  price: 799.99,
+  priority: :medium,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: running_shoes_list,
+  name: "New Balance SC Elite v4",
+  description: "Placa de carbono para velocidade",
+  url: "https://www.newbalance.com.br/",
+  price: 1899.99,
+  priority: :high,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: running_shoes_list,
+  name: "Asics Magic Speed 3",
+  description: "Perfeito para tempo runs",
+  url: "https://www.asics.com.br/",
+  price: 1099.99,
+  priority: :medium,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: running_shoes_list,
+  name: "Mizuno Wave Rebellion Pro",
+  description: "Inovação japonesa em running",
+  url: "https://www.mizuno.com.br/",
+  price: 1399.99,
+  priority: :medium,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: running_shoes_list,
+  name: "Brooks Hyperion Elite 4",
+  description: "Para corredores sérios",
+  url: "https://www.brooksrunning.com.br/",
+  price: 1699.99,
+  priority: :high,
+  status: :available
+)
+
 # Birthday list items
 WishlistItem.create!(
   wishlist: birthday_list,
   name: "Apple AirPods Pro (2nd Gen)",
-  description: "For my daily commute and workouts",
-  url: "https://www.apple.com/airpods-pro/",
-  price: 249.00,
+  description: "Para o dia a dia e treinos",
+  url: "https://www.apple.com/br/airpods-pro/",
+  price: 2899.00,
   priority: :high,
-  status: :available,
-  image_url: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQD83?wid=1144&hei=1144"
+  status: :available
 )
 
 WishlistItem.create!(
   wishlist: birthday_list,
   name: "Kindle Paperwhite Signature Edition",
-  description: "Want to read more this year!",
-  url: "https://www.amazon.com/dp/B08KTZ8249",
-  price: 189.99,
+  description: "Quero ler mais este ano!",
+  url: "https://www.amazon.com.br/dp/B08KTZ8249",
+  price: 899.99,
   priority: :high,
-  status: :available,
-  image_url: "https://m.media-amazon.com/images/I/61HyrxVbsGL._AC_SX679_.jpg"
+  status: :available
 )
 
 WishlistItem.create!(
   wishlist: birthday_list,
-  name: "LEGO Architecture Statue of Liberty",
-  description: "Love architecture sets!",
-  url: "https://www.lego.com/en-us/product/statue-of-liberty-21042",
-  price: 119.99,
+  name: "LEGO Architecture Estátua da Liberdade",
+  description: "Adoro sets de arquitetura!",
+  url: "https://www.lego.com/pt-br/product/statue-of-liberty-21042",
+  price: 699.99,
   priority: :medium,
-  status: :available,
-  image_url: "https://www.lego.com/cdn/cs/set/assets/blt5c5b2e3f8f7c5d2a/21042.jpg"
+  status: :available
 )
 
 WishlistItem.create!(
   wishlist: birthday_list,
-  name: "Moleskine Classic Notebook Set",
-  description: "For journaling and sketching",
-  url: "https://www.moleskine.com/",
-  price: 45.00,
+  name: "Kit Moleskine Classic",
+  description: "Para journaling e desenhos",
+  url: "https://www.moleskine.com/pt-br/",
+  price: 199.90,
   priority: :low,
   status: :available
 )
 
-# Christmas list items
+# Christmas list items (Brazilian pricing)
 WishlistItem.create!(
   wishlist: christmas_list,
   name: "Nintendo Switch OLED",
-  description: "Time to upgrade from my old Switch",
-  url: "https://www.nintendo.com/us/switch/oled/",
-  price: 349.99,
+  description: "Hora de fazer upgrade do meu Switch antigo",
+  url: "https://www.nintendo.com.br/",
+  price: 2499.99,
   priority: :high,
-  status: :available,
-  image_url: "https://assets.nintendo.com/image/upload/f_auto/q_auto/dpr_1.5/c_scale,w_500/ncom/en_US/switch/oled-model/hero"
+  status: :available
 )
 
 WishlistItem.create!(
   wishlist: christmas_list,
-  name: "Instant Pot Duo Plus",
-  description: "For meal prep Sundays",
-  url: "https://www.instantpot.com/",
-  price: 129.99,
+  name: "Panela Elétrica de Pressão Mondial",
+  description: "Para meal prep dos domingos",
+  url: "https://www.mondial.com.br/",
+  price: 299.99,
   priority: :medium,
   status: :available
 )
 
 WishlistItem.create!(
   wishlist: christmas_list,
-  name: "Fuzzy Socks Collection",
-  description: "Can never have too many cozy socks!",
-  price: 25.00,
+  name: "Coleção de Meias Fofas",
+  description: "Nunca é demais ter meias quentinhas!",
+  price: 79.90,
   priority: :low,
   status: :available
 )
@@ -393,49 +529,180 @@ WishlistItem.create!(
 WishlistItem.create!(
   wishlist: private_list,
   name: "Arduino Starter Kit",
-  description: "Want to learn electronics",
-  price: 89.99,
+  description: "Quero aprender eletrônica",
+  price: 299.99,
   priority: :medium,
   status: :available
 )
 
-# Friend 1's birthday items
+# Fun "divorce" event items (humor from Instagram story)
 WishlistItem.create!(
-  wishlist: friend1_birthday,
-  name: "Yoga Mat - Manduka PRO",
-  description: "Need a good quality mat for daily practice",
-  url: "https://www.manduka.com/",
-  price: 120.00,
+  wishlist: fun_event_list,
+  name: "Livro: Como Ser Solteiro e Feliz",
+  description: "Porque informação nunca é demais! 😂",
+  price: 39.90,
+  priority: :low,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: fun_event_list,
+  name: "Kit Spa em Casa",
+  description: "Self-care é fundamental sempre",
+  price: 159.99,
   priority: :high,
   status: :available
 )
 
 WishlistItem.create!(
-  wishlist: friend1_birthday,
-  name: "Cookbook: Salt, Fat, Acid, Heat",
-  description: "Want to improve my cooking skills",
-  price: 35.00,
+  wishlist: fun_event_list,
+  name: "Curso Online: Culinária para Um",
+  description: "Aprendendo a cozinhar porções individuais",
+  price: 89.90,
   priority: :medium,
   status: :available
 )
 
-# Friend 1's baby shower items
+# Ylana's puzzle collection (Instagram story example - "8432 quebra-cabeças") - Real Grow puzzles!
 WishlistItem.create!(
-  wishlist: friend1_baby,
-  name: "Baby Monitor with Camera",
-  description: "Peace of mind for the nursery",
-  price: 199.99,
+  wishlist: ylana_puzzles,
+  name: "Quebra-cabeça 2000 peças - Porto Colorido",
+  description: "Paisagem encantadora de um porto europeu",
+  url: "https://www.lojagrow.com.br/quebra-cabeca-2000-pecas-porto-colorido/p",
+  price: 89.90,
   priority: :high,
   status: :available
 )
 
 WishlistItem.create!(
-  wishlist: friend1_baby,
-  name: "Diaper Bag Backpack",
-  description: "Hands-free and stylish",
-  price: 79.99,
+  wishlist: ylana_puzzles,
+  name: "Quebra-cabeça 2000 peças - Villaggio D'Italia",
+  description: "Charme italiano em cada peça",
+  url: "https://www.lojagrow.com.br/quebra-cabeca-2000-pecas-villaggio-d-italia/p",
+  price: 89.90,
+  priority: :high,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: ylana_puzzles,
+  name: "Quebra-cabeça 2000 peças - Ateliê",
+  description: "Um ateliê artístico cheio de detalhes",
+  url: "https://www.lojagrow.com.br/quebra-cabeca-2000-pecas-atelie/p",
+  price: 89.90,
+  priority: :medium,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: ylana_puzzles,
+  name: "Quebra-cabeça 2000 peças - Estante de Cachorros",
+  description: "Para os amantes de pets e livros!",
+  url: "https://www.lojagrow.com.br/quebra-cabeca-2000-pecas-estante-de-cachorros/p",
+  price: 89.90,
   priority: :high,
   status: :purchased
+)
+
+WishlistItem.create!(
+  wishlist: ylana_puzzles,
+  name: "Quebra-cabeça 2000 peças - Entardecer em Paris",
+  description: "O romantismo parisiense em quebra-cabeça",
+  url: "https://www.lojagrow.com.br/quebra-cabeca-2000-pecas-entardecer-em-paris/p",
+  price: 89.90,
+  priority: :high,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: ylana_puzzles,
+  name: "Quebra-cabeça 2000 peças - Rua Americana",
+  description: "Nostalgia americana dos anos 50",
+  url: "https://www.lojagrow.com.br/quebra-cabeca-2000-pecas-rua-americana/p",
+  price: 89.90,
+  priority: :medium,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: ylana_puzzles,
+  name: "Quebra-cabeça 2000 peças - Vilarejo Italiano",
+  description: "A beleza da Itália rural",
+  url: "https://www.lojagrow.com.br/quebra---cabeca-2000-pecas-vilarejo-italiano/p",
+  price: 89.90,
+  priority: :medium,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: ylana_puzzles,
+  name: "Quebra-cabeça 2000 peças - Vilarejo das Fadas",
+  description: "Um mundo mágico e encantado",
+  url: "https://www.lojagrow.com.br/quebra-cabeca-2000-pecas-vilarejo-das-fadas/p",
+  price: 89.90,
+  priority: :high,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: ylana_puzzles,
+  name: "Quebra-cabeça 2000 peças - Casa na Praia",
+  description: "Tranquilidade litorânea em 2000 peças",
+  url: "https://www.lojagrow.com.br/quebra-cabeca-2000-pecas-casa-na-praia/p",
+  price: 89.90,
+  priority: :medium,
+  status: :purchased
+)
+
+# Adding more puzzles to get closer to the "8432" joke
+WishlistItem.create!(
+  wishlist: ylana_puzzles,
+  name: "Quebra-cabeça 1000 peças - Biblioteca Antiga",
+  description: "Para quem ama livros e mistérios",
+  url: "https://www.lojagrow.com.br/quebra-cabeca-1000-pecas-biblioteca-antiga/p",
+  price: 59.90,
+  priority: :medium,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: ylana_puzzles,
+  name: "Quebra-cabeça 3000 peças - Mapa Múndi Vintage",
+  description: "Desafio máximo para exploradores!",
+  url: "https://www.lojagrow.com.br/quebra-cabeca-3000-pecas-mapa-mundi-vintage/p",
+  price: 139.90,
+  priority: :high,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: ylana_puzzles,
+  name: "Quebra-cabeça 500 peças - Jardim Secreto",
+  description: "Perfeito para relaxar no fim de semana",
+  url: "https://www.lojagrow.com.br/quebra-cabeca-500-pecas-jardim-secreto/p",
+  price: 39.90,
+  priority: :low,
+  status: :available
+)
+
+# Ylana's birthday items
+WishlistItem.create!(
+  wishlist: ylana_birthday,
+  name: "Kit de Chás Premium",
+  description: "Coleção de chás especiais do mundo",
+  url: "https://www.tea.com.br/",
+  price: 189.99,
+  priority: :high,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: ylana_birthday,
+  name: "Livro: O Poder do Agora",
+  description: "Leitura para mindfulness",
+  price: 45.90,
+  priority: :medium,
+  status: :available
 )
 
 # Friend 2's tech items
@@ -525,7 +792,7 @@ Notification.create!(
   user: friend2,
   notification_type: :new_item_added,
   notifiable: WishlistItem.find_by(name: "Apple AirPods Pro (2nd Gen)"),
-  data: { user_name: "Test User", item_name: "Apple AirPods Pro (2nd Gen)" },
+  data: { user_name: "Hel Rabelo", item_name: "Apple AirPods Pro (2nd Gen)" },
   read: false,
   created_at: 2.hours.ago
 )
@@ -533,8 +800,8 @@ Notification.create!(
 Notification.create!(
   user: family1,
   notification_type: :wishlist_shared,
-  notifiable: Wishlist.find_by(name: "Christmas 2025 🎄"),
-  data: { sharer_name: "Test User" },
+  notifiable: Wishlist.find_by(name: "Natal 2025 🎄"),
+  data: { sharer_name: "Hel Rabelo" },
   read: false,
   created_at: 3.days.ago
 )
@@ -551,19 +818,19 @@ Notification.create!(
 
 puts "✅ Seeding complete!"
 puts ""
-puts "📧 Test Accounts Created:"
-puts "  Main User: test@wishare.xyz / password123 (English)"
-puts "  Friend 1: friend1@wishare.xyz / password123 (Sarah - connected, Portuguese)"
-puts "  Friend 2: friend2@wishare.xyz / password123 (Michael - connected, English)"
-puts "  Family: family1@wishare.xyz / password123 (Emma - connected, Portuguese)"
-puts "  Pending: pending@wishare.xyz / password123 (David - has sent invitation, English)"
-puts "  Public: public@wishare.xyz / password123 (Alex - not connected, has public list, Portuguese)"
+puts "📧 Test Accounts Created (Instagram Demo Ready!):"
+puts "  👥 Main User: test@wishare.xyz / password123 (Hel Rabelo - Portuguese)"
+puts "  💕 Partner: ylana@wishare.xyz / password123 (Ylana Moreira - connected, Portuguese)"
+puts "  🤝 Friend 2: friend2@wishare.xyz / password123 (Michael - connected, English)"
+puts "  👨‍👩‍👧‍👦 Family: family1@wishare.xyz / password123 (Emma - connected, Portuguese)"
+puts "  📨 Pending: pending@wishare.xyz / password123 (David - has sent invitation, English)"
+puts "  🌍 Public: public@wishare.xyz / password123 (Alex - not connected, has public list, Portuguese)"
 puts ""
-puts "🎁 Created:"
+puts "🎁 Created (Perfect for Instagram Demo!):"
 puts "  - #{User.count} users with language preferences"
 puts "  - #{Connection.count} connections"
 puts "  - #{Invitation.count} invitations"
-puts "  - #{Wishlist.count} wishlists with event types"
+puts "  - #{Wishlist.count} wishlists with event types (including the famous 17 running shoes & 8432 puzzles!)"
 puts "  - #{WishlistItem.count} wishlist items"
 puts "  - #{NotificationPreference.count} notification preferences"
 puts "  - #{Notification.count} sample notifications"
@@ -575,8 +842,14 @@ puts "  - Push notification support ready"
 puts "  - Sample notifications for testing"
 puts ""
 puts "🌍 Internationalization Features:"
-puts "  - Users have mixed English/Portuguese preferences"
+puts "  - Brazilian Portuguese content and pricing (R$)"
 puts "  - Test language switching and locale formatting"
-puts "  - Date formats: EN (MM/DD/YYYY) vs PT-BR (DD/MM/YYYY)"
+puts "  - Date formats: PT-BR (DD/MM/YYYY)"
 puts ""
-puts "🚀 You can now log in with any test account to explore the app!"
+puts "📱 Instagram Stories Ready!"
+puts "  - Login as Hel Rabelo (test@wishare.xyz) for main demo"
+puts "  - Login as Ylana (ylana@wishare.xyz) to see partner perspective"
+puts "  - Features the famous '17 running shoes' and '8432 puzzles' lists!"
+puts "  - Brazilian content, pricing, and cultural references"
+puts ""
+puts "🚀 Perfect for showing off the app on Instagram! 🎥"

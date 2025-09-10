@@ -20,10 +20,11 @@ class WishlistItem < ApplicationRecord
     
     begin
       uri = URI.parse(url.strip)
-      # Remove query parameters, fragments, and normalize
-      normalized = "#{uri.scheme}://#{uri.host.downcase}#{uri.path}"
+      # Only normalize scheme and host case, keep the full path
+      # Remove query parameters and fragments for comparison
+      normalized = "#{uri.scheme.downcase}://#{uri.host.downcase}#{uri.path}"
       # Remove trailing slash unless it's the root path
-      normalized = normalized.chomp('/') unless normalized.end_with?(':///')
+      normalized = normalized.chomp('/') unless uri.path == '/'
       normalized
     rescue URI::InvalidURIError
       url.strip
