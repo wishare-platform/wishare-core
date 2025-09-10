@@ -34,13 +34,8 @@
       <%= form_for(resource, as: resource_name, url: session_path(resource_name), 
                    html: { 
                      class: "space-y-5",
-                     data: { 
-                       controller: "analytics",
-                       action: "submit->analytics#trackEvent",
-                       analytics_event_value: "login_attempt",
-                       analytics_category_value: "authentication",
-                       analytics_action_value: "sign_in"
-                     }
+                     "data-controller" => "analytics",
+                     "data-action" => "submit->analytics#trackUserLogin"
                    }) do |f| %>
         <div>
           <%= f.label :email, t('auth.sign_in.email'), class: "block text-sm font-semibold text-gray-800 mb-3" %>

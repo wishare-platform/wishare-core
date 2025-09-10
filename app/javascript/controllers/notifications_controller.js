@@ -72,7 +72,7 @@ export default class extends Controller {
   }
 
   closeOnClickOutside(event) {
-    if (!this.element.contains(event.target)) {
+    if (!this.element.contains(event.target) && this.hasDropdownTarget) {
       this.dropdownTarget.classList.add("hidden")
     }
   }

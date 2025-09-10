@@ -1,7 +1,7 @@
 <%= form_with(model: wishlist, local: true, 
               data: { 
                 controller: "analytics",
-                action: "submit->analytics#trackWishlistCreated"
+                action: "submit->analytics##{wishlist.persisted? ? 'trackWishlistEdited' : 'trackWishlistCreated'}"
               }) do |form| %>
   <% if wishlist.errors.any? %>
     <div class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl mb-6">

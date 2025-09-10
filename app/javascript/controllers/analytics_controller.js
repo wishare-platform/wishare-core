@@ -37,12 +37,28 @@ export default class extends Controller {
   
   // Track wishlist creation
   trackWishlistCreated(event) {
+    const formData = new FormData(event.target);
     this.pushToDataLayer({
       event: 'wishlist_created',
-      wishlist_id: event.params?.wishlistId,
-      wishlist_name: event.params?.wishlistName,
-      event_type: event.params?.eventType,
-      visibility: event.params?.visibility
+      event_category: 'wishlist',
+      event_action: 'create',
+      wishlist_name: formData.get('wishlist[name]') || 'Untitled',
+      event_type: formData.get('wishlist[event_type]') || 'general',
+      visibility: formData.get('wishlist[visibility]') || 'private',
+      has_event_date: formData.get('wishlist[event_date]') ? true : false
+    });
+  }
+
+  // Track wishlist editing
+  trackWishlistEdited(event) {
+    const formData = new FormData(event.target);
+    this.pushToDataLayer({
+      event: 'wishlist_edited',
+      event_category: 'wishlist',
+      event_action: 'edit',
+      wishlist_name: formData.get('wishlist[name]') || 'Untitled',
+      event_type: formData.get('wishlist[event_type]') || 'general',
+      visibility: formData.get('wishlist[visibility]') || 'private'
     });
   }
   
@@ -106,8 +122,64 @@ export default class extends Controller {
   trackNotificationClicked(event) {
     this.pushToDataLayer({
       event: 'notification_clicked',
+      event_category: 'engagement',
+      event_action: 'notification_click',
       notification_type: event.params?.notificationType,
       notification_id: event.params?.notificationId
+    });
+  }
+
+  // Track user registration
+  trackUserRegistration(event) {
+    const formData = new FormData(event.target);
+    this.pushToDataLayer({
+      event: 'sign_up',
+      event_category: 'authentication',
+      event_action: 'register',
+      method: event.target.querySelector('input[name="user[provider]"]')?.value || 'email',
+      has_invitation: formData.get('invitation_token') ? true : false
+    });
+  }
+
+  // Track user login
+  trackUserLogin(event) {
+    this.pushToDataLayer({
+      event: 'login',
+      event_category: 'authentication', 
+      event_action: 'sign_in',
+      method: event.target.querySelector('input[name="user[provider]"]')?.value || 'email'
+    });
+  }
+
+  // Track invitation sent
+  trackInvitationSent(event) {
+    const formData = new FormData(event.target);
+    this.pushToDataLayer({
+      event: 'invitation_sent',
+      event_category: 'social',
+      event_action: 'invite_friend',
+      invitation_type: 'email',
+      has_message: formData.get('invitation[message]') ? true : false
+    });
+  }
+
+  // Track invitation accepted
+  trackInvitationAccepted() {
+    this.pushToDataLayer({
+      event: 'invitation_accepted',
+      event_category: 'social',
+      event_action: 'accept_invitation'
+    });
+  }
+
+  // Track wishlist sharing
+  trackWishlistShared(event) {
+    this.pushToDataLayer({
+      event: 'share',
+      event_category: 'social',
+      event_action: 'share_wishlist',
+      content_type: 'wishlist',
+      share_method: event.params?.shareMethod || 'link'
     });
   }
   
