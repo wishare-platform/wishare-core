@@ -64,12 +64,42 @@ export default class extends Controller {
   
   // Track item added to wishlist
   trackItemAdded(event) {
+    const formData = new FormData(event.target);
     this.pushToDataLayer({
-      event: 'item_added_to_wishlist',
-      wishlist_id: event.params?.wishlistId,
-      item_name: event.params?.itemName,
-      item_price: event.params?.itemPrice,
-      item_priority: event.params?.itemPriority
+      event: 'add_to_wishlist',
+      event_category: 'item',
+      event_action: 'add_item',
+      item_name: formData.get('wishlist_item[name]') || 'Untitled Item',
+      item_price: formData.get('wishlist_item[price]') || null,
+      item_url: formData.get('wishlist_item[url]') || null,
+      priority: formData.get('wishlist_item[priority]') || 'medium',
+      has_description: formData.get('wishlist_item[description]') ? true : false,
+      has_image: formData.get('wishlist_item[image]') ? true : false
+    });
+  }
+
+  // Track item edited
+  trackItemEdited(event) {
+    const formData = new FormData(event.target);
+    this.pushToDataLayer({
+      event: 'item_edited', 
+      event_category: 'item',
+      event_action: 'edit_item',
+      item_name: formData.get('wishlist_item[name]') || 'Untitled Item',
+      priority: formData.get('wishlist_item[priority]') || 'medium',
+      has_price_change: formData.get('wishlist_item[price]') ? true : false
+    });
+  }
+
+  // Track item removed from wishlist
+  trackItemRemoved(event) {
+    this.pushToDataLayer({
+      event: 'remove_from_wishlist',
+      event_category: 'item', 
+      event_action: 'remove_item',
+      item_id: event.params?.itemId,
+      item_name: event.params?.itemName || 'Item',
+      removal_reason: 'manual_delete'
     });
   }
   
@@ -180,6 +210,120 @@ export default class extends Controller {
       event_action: 'share_wishlist',
       content_type: 'wishlist',
       share_method: event.params?.shareMethod || 'link'
+    });
+  }
+
+  // Track wishlist deletion
+  trackWishlistDeleted(event) {
+    this.pushToDataLayer({
+      event: 'wishlist_deleted',
+      event_category: 'wishlist',
+      event_action: 'delete',
+      wishlist_id: event.params?.wishlistId,
+      wishlist_name: event.params?.wishlistName || 'Wishlist',
+      items_count: event.params?.itemsCount || 0,
+      deletion_method: 'manual'
+    });
+  }
+
+  // Track wishlist visibility change
+  trackVisibilityChanged(event) {
+    this.pushToDataLayer({
+      event: 'wishlist_visibility_changed',
+      event_category: 'wishlist',
+      event_action: 'change_visibility',
+      old_visibility: event.params?.oldVisibility,
+      new_visibility: event.params?.newVisibility
+    });
+  }
+
+  // Track item marked as purchased
+  trackItemPurchased(event) {
+    this.pushToDataLayer({
+      event: 'purchase_item',
+      event_category: 'item',
+      event_action: 'mark_purchased',
+      item_id: event.params?.itemId,
+      item_name: event.params?.itemName || 'Item',
+      item_price: event.params?.itemPrice,
+      purchased_by: event.params?.purchasedBy || 'owner'
+    });
+  }
+
+  // Track external product link clicks
+  trackExternalLinkClick(event) {
+    const link = event.target.closest('a');
+    this.pushToDataLayer({
+      event: 'click',
+      event_category: 'external_link',
+      event_action: 'product_link_click',
+      link_url: link?.href,
+      link_text: link?.textContent?.trim().substring(0, 50),
+      item_name: event.params?.itemName,
+      outbound: true
+    });
+  }
+
+  // Track profile updates
+  trackProfileUpdate(event) {
+    const formData = new FormData(event.target);
+    this.pushToDataLayer({
+      event: 'profile_updated',
+      event_category: 'user',
+      event_action: 'update_profile',
+      has_name_change: formData.get('user[name]') ? true : false,
+      has_email_change: formData.get('user[email]') ? true : false,
+      has_password_change: formData.get('user[password]') ? true : false
+    });
+  }
+
+  // Track search actions
+  trackSearch(event) {
+    const searchTerm = event.target.value.trim();
+    if (searchTerm.length > 2) {
+      this.pushToDataLayer({
+        event: 'search',
+        event_category: 'engagement',
+        event_action: 'search',
+        search_term: searchTerm.toLowerCase().substring(0, 50),
+        search_category: event.params?.category || 'general'
+      });
+    }
+  }
+
+  // Track filter usage
+  trackFilterUsed(event) {
+    this.pushToDataLayer({
+      event: 'filter_used',
+      event_category: 'engagement',
+      event_action: 'apply_filter',
+      filter_type: event.params?.filterType,
+      filter_value: event.params?.filterValue,
+      results_count: event.params?.resultsCount
+    });
+  }
+
+  // Track notification preferences update
+  trackNotificationPreferences(event) {
+    const formData = new FormData(event.target);
+    this.pushToDataLayer({
+      event: 'notification_preferences_updated',
+      event_category: 'user',
+      event_action: 'update_preferences',
+      email_notifications: formData.get('email_notifications') === 'true',
+      push_notifications: formData.get('push_notifications') === 'true',
+      digest_frequency: formData.get('digest_frequency') || 'weekly'
+    });
+  }
+
+  // Track connection removal
+  trackConnectionRemoved(event) {
+    this.pushToDataLayer({
+      event: 'connection_removed',
+      event_category: 'social',
+      event_action: 'remove_connection',
+      connection_id: event.params?.connectionId,
+      removal_reason: 'manual_disconnect'
     });
   }
   

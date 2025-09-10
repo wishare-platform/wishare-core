@@ -22,11 +22,10 @@
             🍪
           </div>
           <div class="flex-1">
-            <h3 class="font-semibold text-gray-800 mb-1">We use cookies to improve your experience</h3>
+            <h3 class="font-semibold text-gray-800 mb-1"><%= t('cookie_consent.banner.title') %></h3>
             <p class="text-sm text-gray-600 leading-relaxed">
-              We use cookies and similar technologies to help personalize content, analyze traffic, and improve your experience. 
-              By clicking "Accept All", you consent to our use of cookies.
-              <a href="<%= privacy_policy_path %>" class="text-rose-600 hover:text-rose-700 underline">Learn more</a>
+              <%= t('cookie_consent.banner.description') %>
+              <a href="<%= privacy_policy_path %>" class="text-rose-600 hover:text-rose-700 underline"><%= t('cookie_consent.banner.learn_more') %></a>
             </p>
           </div>
         </div>
@@ -35,15 +34,15 @@
         <div class="flex flex-col sm:flex-row gap-2 w-full lg:w-auto">
           <button data-action="click->cookie-consent#showPreferences" 
                   class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200 whitespace-nowrap">
-            Cookie Settings
+            <%= t('cookie_consent.buttons.settings') %>
           </button>
           <button data-action="click->cookie-consent#acceptEssential"
                   class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 bg-gray-100 hover:bg-gray-200 rounded-lg transition duration-200 whitespace-nowrap">
-            Essential Only
+            <%= t('cookie_consent.buttons.essential_only') %>
           </button>
           <button data-action="click->cookie-consent#acceptAll"
                   class="px-6 py-2 text-sm font-medium text-white bg-rose-500 hover:bg-rose-600 rounded-lg transition duration-200 whitespace-nowrap">
-            Accept All
+            <%= t('cookie_consent.buttons.accept_all') %>
           </button>
         </div>
       </div>

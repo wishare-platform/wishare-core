@@ -642,3 +642,13 @@ en:
     mothers_day: "Mother's Day"
     fathers_day: "Father's Day"
     other_special_event: "Other Special Event"
+
+  cookie_consent:
+    banner:
+      title: "We use cookies to improve your experience"
+      description: "We use cookies and similar technologies to help personalize content, analyze traffic, and improve your experience. By clicking \"Accept All\", you consent to our use of cookies."
+      learn_more: "Learn more"
+    buttons:
+      settings: "Cookie Settings"
+      essential_only: "Essential Only"
+      accept_all: "Accept All"

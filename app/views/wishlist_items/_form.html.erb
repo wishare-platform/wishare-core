@@ -1,4 +1,8 @@
-<%= form_with(model: [wishlist, wishlist_item], local: true) do |form| %>
+<%= form_with(model: [wishlist, wishlist_item], local: true,
+              data: {
+                controller: "analytics",
+                action: "submit->analytics##{wishlist_item.persisted? ? 'trackItemEdited' : 'trackItemAdded'}"
+              }) do |form| %>
   <% if wishlist_item.errors.any? %>
     <div class="bg-rose-50 border border-rose-200 text-rose-600 px-4 py-3 rounded-xl mb-6">
       <div class="flex items-start gap-3">

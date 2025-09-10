@@ -688,3 +688,13 @@ pt-BR:
     mothers_day: "Dia das Mães"
     fathers_day: "Dia dos Pais"
     other_special_event: "Outro Evento Especial"
+
+  cookie_consent:
+    banner:
+      title: "Usamos cookies para melhorar sua experiência"
+      description: "Usamos cookies e tecnologias similares para personalizar conteúdo, analisar tráfego e melhorar sua experiência. Ao clicar em \"Aceitar Todos\", você consente com o uso de cookies."
+      learn_more: "Saiba mais"
+    buttons:
+      settings: "Configurações de Cookies"
+      essential_only: "Apenas Essenciais"
+      accept_all: "Aceitar Todos"
