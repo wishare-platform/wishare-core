@@ -35,6 +35,18 @@ class WishlistItem < ApplicationRecord
     self.class.normalize_url(url)
   end
 
+  # Safe URL for rendering in views (prevents XSS)
+  def safe_url
+    return nil if url.blank?
+    
+    # Only allow http and https protocols
+    uri = URI.parse(url)
+    return url if %w[http https].include?(uri.scheme&.downcase)
+    nil
+  rescue URI::InvalidURIError
+    nil
+  end
+
   private
 
   def extract_metadata_from_url

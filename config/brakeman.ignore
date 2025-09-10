@@ -1,0 +1,44 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 6,
+      "fingerprint": "d202f50d38f3200b37dc56c53367e95e8fae8efb145f48ad21f3632e031d6c8a",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/wishlists/show.html.erb",
+      "line": 166,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to((Unresolved Model).new.safe_url, :target => \"_blank\", :rel => \"noopener noreferrer\", :class => \"flex-1 text-center bg-gray-100 text-gray-700 px-3 py-2 rounded-lg hover:bg-gray-200 transition duration-200 text-sm font-medium flex items-center justify-center gap-2\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "wishlists/show"
+      },
+      "user_input": null,
+      "confidence": "Weak",
+      "note": "False positive - safe_url method validates URL protocol (only HTTP/HTTPS allowed) and sanitizes input before rendering"
+    },
+    {
+      "warning_type": "Cross-Site Scripting", 
+      "warning_code": 6,
+      "fingerprint": "1e7ecac70841f7232c43b2957559b6fe1940cc73047df20bf3096f7b4f298235",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/wishlists/show.html.erb",
+      "line": 197,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to((Unresolved Model).new.safe_url, :target => \"_blank\", :rel => \"noopener noreferrer\", :class => \"text-green-600 hover:text-green-700 text-xs flex items-center gap-1\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "wishlists/show"
+      },
+      "user_input": null,
+      "confidence": "Weak",
+      "note": "False positive - safe_url method validates URL protocol (only HTTP/HTTPS allowed) and sanitizes input before rendering"
+    }
+  ],
+  "updated": "2025-01-09 09:30:00 -0300",
+  "brakeman_version": "7.1.0"
+}

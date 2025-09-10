@@ -30,7 +30,9 @@ module LocaleHelper
   
   def locale_switch_url(locale_code)
     # Get current URL and replace or add locale parameter
-    current_params = params.permit!.to_h
+    # Only permit known params to avoid mass assignment vulnerability
+    allowed_params = [:controller, :action, :id, :locale, :invitation_token, :wishlist_id, :user_id]
+    current_params = params.permit(*allowed_params).to_h
     current_params[:locale] = locale_code
     url_for(current_params)
   end
