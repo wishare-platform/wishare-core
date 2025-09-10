@@ -1,11 +1,11 @@
 class NotificationDigestJob < ApplicationJob
   queue_as :default
 
-  def perform(frequency = 'daily')
+  def perform(frequency = "daily")
     case frequency
-    when 'daily'
+    when "daily"
       process_daily_digests
-    when 'weekly'
+    when "weekly"
       process_weekly_digests
     else
       Rails.logger.error "Invalid digest frequency: #{frequency}"
@@ -20,7 +20,7 @@ class NotificationDigestJob < ApplicationJob
       next if notifications.empty?
 
       NotificationDigestMailer.daily_digest(user, notifications).deliver_now
-      mark_notifications_as_processed(notifications, 'daily')
+      mark_notifications_as_processed(notifications, "daily")
     end
   end
 
@@ -30,18 +30,18 @@ class NotificationDigestJob < ApplicationJob
       next if notifications.empty?
 
       NotificationDigestMailer.weekly_digest(user, notifications).deliver_now
-      mark_notifications_as_processed(notifications, 'weekly')
+      mark_notifications_as_processed(notifications, "weekly")
     end
   end
 
   def users_for_daily_digest
     User.joins(:notification_preference)
-        .where(notification_preferences: { digest_frequency: 'daily' })
+        .where(notification_preferences: { digest_frequency: "daily" })
   end
 
   def users_for_weekly_digest
     User.joins(:notification_preference)
-        .where(notification_preferences: { digest_frequency: 'weekly' })
+        .where(notification_preferences: { digest_frequency: "weekly" })
   end
 
   def unprocessed_notifications_for_user(user, since)

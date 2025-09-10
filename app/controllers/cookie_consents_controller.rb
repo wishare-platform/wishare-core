@@ -1,6 +1,6 @@
 class CookieConsentsController < ApplicationController
-  before_action :set_consent, only: [:show, :update]
-  
+  before_action :set_consent, only: [ :show, :update ]
+
   def show
     # Show current consent preferences
     @consent = @consent || CookieConsent.find_or_create_for_request(request, current_user)
@@ -8,19 +8,19 @@ class CookieConsentsController < ApplicationController
 
   def create
     @consent = CookieConsent.find_or_create_for_request(request, current_user)
-    
+
     if @consent.update_consent!(
-      analytics: params[:analytics_enabled] == 'true',
-      marketing: params[:marketing_enabled] == 'true', 
-      functional: params[:functional_enabled] != 'false',
+      analytics: params[:analytics_enabled] == "true",
+      marketing: params[:marketing_enabled] == "true",
+      functional: params[:functional_enabled] != "false",
       request: request
     )
-      
+
       # Track consent given (make this optional to avoid 500 errors)
       if @consent.analytics_enabled?
         begin
           AnalyticsJob.perform_later(
-            'consent_given',
+            "consent_given",
             current_user&.id,
             CookieConsent.extract_session_id(request),
             {
@@ -29,7 +29,7 @@ class CookieConsentsController < ApplicationController
               path: request.path,
               referer: request.referer
             },
-            consent_type: 'analytics',
+            consent_type: "analytics",
             consent_version: CookieConsent::CURRENT_VERSION
           )
         rescue => e
@@ -37,31 +37,31 @@ class CookieConsentsController < ApplicationController
           # Don't fail the consent flow if analytics job fails
         end
       end
-      
+
       respond_to do |format|
-        format.json { 
-          render json: { 
-            success: true, 
+        format.json {
+          render json: {
+            success: true,
             consent: @consent.consent_summary,
-            message: 'Cookie preferences saved successfully'
+            message: "Cookie preferences saved successfully"
           }
         }
-        format.html { 
-          redirect_back(fallback_location: root_path, 
-                       notice: 'Cookie preferences saved successfully') 
+        format.html {
+          redirect_back(fallback_location: root_path,
+                       notice: "Cookie preferences saved successfully")
         }
       end
     else
       respond_to do |format|
-        format.json { 
-          render json: { 
-            success: false, 
-            errors: @consent.errors.full_messages 
-          }, status: :unprocessable_entity 
+        format.json {
+          render json: {
+            success: false,
+            errors: @consent.errors.full_messages
+          }, status: :unprocessable_entity
         }
-        format.html { 
-          redirect_back(fallback_location: root_path, 
-                       alert: 'Unable to save cookie preferences') 
+        format.html {
+          redirect_back(fallback_location: root_path,
+                       alert: "Unable to save cookie preferences")
         }
       end
     end
@@ -69,47 +69,47 @@ class CookieConsentsController < ApplicationController
 
   def update
     if @consent.update_consent!(
-      analytics: params[:analytics_enabled] == 'true',
-      marketing: params[:marketing_enabled] == 'true',
-      functional: params[:functional_enabled] != 'false',
+      analytics: params[:analytics_enabled] == "true",
+      marketing: params[:marketing_enabled] == "true",
+      functional: params[:functional_enabled] != "false",
       request: request
     )
-      
+
       respond_to do |format|
-        format.json { 
-          render json: { 
-            success: true, 
+        format.json {
+          render json: {
+            success: true,
             consent: @consent.consent_summary,
-            message: 'Cookie preferences updated successfully'
+            message: "Cookie preferences updated successfully"
           }
         }
-        format.html { 
-          redirect_to cookie_consent_path, 
-                     notice: 'Cookie preferences updated successfully' 
+        format.html {
+          redirect_to cookie_consent_path,
+                     notice: "Cookie preferences updated successfully"
         }
       end
     else
       respond_to do |format|
-        format.json { 
-          render json: { 
-            success: false, 
-            errors: @consent.errors.full_messages 
-          }, status: :unprocessable_entity 
+        format.json {
+          render json: {
+            success: false,
+            errors: @consent.errors.full_messages
+          }, status: :unprocessable_entity
         }
-        format.html { 
-          render :show, 
-                 alert: 'Unable to update cookie preferences' 
+        format.html {
+          render :show,
+                 alert: "Unable to update cookie preferences"
         }
       end
     end
   end
-  
+
   def privacy_policy
     # Show privacy policy page
   end
-  
+
   private
-  
+
   def set_consent
     @consent = CookieConsent.find_consent_for_request(request, current_user)
   end

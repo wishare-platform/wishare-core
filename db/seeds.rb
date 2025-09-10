@@ -18,7 +18,7 @@ if Rails.env.development?
   Connection.destroy_all
   CookieConsent.destroy_all if defined?(CookieConsent)
   User.destroy_all
-  
+
   # Reset primary key sequences to avoid ID conflicts
   ActiveRecord::Base.connection.reset_pk_sequence!('users')
   ActiveRecord::Base.connection.reset_pk_sequence!('connections')
@@ -45,7 +45,7 @@ main_user = User.create!(
 
 # Create Ylana (the partner mentioned in the stories)
 ylana = User.create!(
-  email: "ylana@wishare.xyz", 
+  email: "ylana@wishare.xyz",
   password: "password123",
   password_confirmation: "password123",
   name: "Ylana Moreira",
@@ -56,7 +56,7 @@ ylana = User.create!(
 
 friend2 = User.create!(
   email: "friend2@wishare.xyz",
-  password: "password123", 
+  password: "password123",
   password_confirmation: "password123",
   name: "Michael Chen",
   date_of_birth: Date.new(1988, 11, 8),
@@ -67,7 +67,7 @@ friend2 = User.create!(
 family1 = User.create!(
   email: "family1@wishare.xyz",
   password: "password123",
-  password_confirmation: "password123", 
+  password_confirmation: "password123",
   name: "Emma Davis",
   date_of_birth: Date.new(1985, 9, 12),
   avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=emma",
@@ -154,7 +154,7 @@ Invitation.create!(
 puts "Creating notification preferences..."
 
 # Create notification preferences for all users
-[main_user, ylana, friend2, family1, pending_user, public_user].each do |user|
+[ main_user, ylana, friend2, family1, pending_user, public_user ].each do |user|
   NotificationPreference.find_or_create_by!(user: user) do |pref|
     pref.email_invitations = true
     pref.email_purchases = true
@@ -817,22 +817,22 @@ super_admin.update!(role: :super_admin) unless super_admin.super_admin?
 puts "Creating analytics events for dashboard testing..."
 
 # Create realistic analytics events for the past 30 days
-users = [main_user, ylana, friend2, family1, pending_user, public_user, super_admin]
-event_types = [:page_view, :wishlist_created, :item_added, :invitation_sent, :connection_formed, 
-               :item_purchased, :wishlist_shared, :login_attempt, :sign_up_attempt, 
-               :invitation_accepted, :notification_clicked, :search_performed]
+users = [ main_user, ylana, friend2, family1, pending_user, public_user, super_admin ]
+event_types = [ :page_view, :wishlist_created, :item_added, :invitation_sent, :connection_formed,
+               :item_purchased, :wishlist_shared, :login_attempt, :sign_up_attempt,
+               :invitation_accepted, :notification_clicked, :search_performed ]
 
 # Generate events over the last 30 days
 30.times do |days_ago|
   date = days_ago.days.ago
-  
+
   # More activity on recent days
   events_count = (30 - days_ago) / 3 + rand(5)
-  
+
   events_count.times do
     user = users.sample
     event_type = event_types.sample
-    
+
     AnalyticsEvent.create!(
       user: rand(10) > 1 ? user : nil, # 10% anonymous events
       event_type: event_type,
@@ -842,7 +842,7 @@ event_types = [:page_view, :wishlist_created, :item_added, :invitation_sent, :co
       created_at: date + rand(24).hours,
       metadata: {
         test_data: true,
-        page: "/#{['wishlists', 'dashboard', 'connections', 'profile'].sample}",
+        page: "/#{[ 'wishlists', 'dashboard', 'connections', 'profile' ].sample}",
         source: "seed_data"
       }
     )
@@ -856,7 +856,7 @@ users.each do |user|
   user_wishlists_count = user.wishlists.count
   user_items_count = user.wishlists.joins(:wishlist_items).count
   user_connections_count = user.accepted_connections.count
-  
+
   UserAnalytic.create!(
     user: user,
     wishlists_created_count: user_wishlists_count,

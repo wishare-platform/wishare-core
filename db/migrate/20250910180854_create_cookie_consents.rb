@@ -13,7 +13,7 @@ class CreateCookieConsents < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
-    
+
     add_index :cookie_consents, :user_id, name: 'index_cookie_consents_on_user_id_custom'
     add_index :cookie_consents, :session_id
     add_index :cookie_consents, :consent_date

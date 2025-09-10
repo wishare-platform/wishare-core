@@ -1,10 +1,10 @@
-require 'net/http'
-require 'uri'
-require 'json'
+require "net/http"
+require "uri"
+require "json"
 
 class PushNotificationService
-  FCM_URL = 'https://fcm.googleapis.com/fcm/send'
-  
+  FCM_URL = "https://fcm.googleapis.com/fcm/send"
+
   def initialize
     @server_key = Rails.application.credentials.fcm_server_key rescue nil
   end
@@ -32,20 +32,20 @@ class PushNotificationService
     data = notification.data
 
     I18n.with_locale(user.preferred_locale || I18n.default_locale) do
-      title = I18n.t('notifications.types.item_purchased.title')
-      body = I18n.t('notifications.types.item_purchased.message',
-                    purchaser_name: data['purchaser_name'] || 'Someone',
-                    item_name: data['item_name'] || 'an item')
+      title = I18n.t("notifications.types.item_purchased.title")
+      body = I18n.t("notifications.types.item_purchased.message",
+                    purchaser_name: data["purchaser_name"] || "Someone",
+                    item_name: data["item_name"] || "an item")
 
       send_notification(
         user: user,
         title: title,
         body: body,
         data: {
-          notification_type: 'item_purchased',
+          notification_type: "item_purchased",
           notification_id: notification.id,
-          wishlist_id: data['wishlist_id'],
-          item_id: data['item_id']
+          wishlist_id: data["wishlist_id"],
+          item_id: data["item_id"]
         }
       )
     end
@@ -57,17 +57,17 @@ class PushNotificationService
 
     I18n.with_locale(user.preferred_locale || I18n.default_locale) do
       case notification.notification_type
-      when 'invitation_received'
-        title = I18n.t('notifications.types.invitation_received.title')
-        body = I18n.t('notifications.types.invitation_received.message',
-                      sender_name: data['sender_name'] || 'Someone')
-      when 'invitation_accepted'
-        title = I18n.t('notifications.types.invitation_accepted.title')
-        body = I18n.t('notifications.types.invitation_accepted.message',
-                      acceptor_name: data['acceptor_name'] || 'Someone')
-      when 'invitation_declined'
-        title = I18n.t('notifications.types.invitation_declined.title')
-        body = I18n.t('notifications.types.invitation_declined.message')
+      when "invitation_received"
+        title = I18n.t("notifications.types.invitation_received.title")
+        body = I18n.t("notifications.types.invitation_received.message",
+                      sender_name: data["sender_name"] || "Someone")
+      when "invitation_accepted"
+        title = I18n.t("notifications.types.invitation_accepted.title")
+        body = I18n.t("notifications.types.invitation_accepted.message",
+                      acceptor_name: data["acceptor_name"] || "Someone")
+      when "invitation_declined"
+        title = I18n.t("notifications.types.invitation_declined.title")
+        body = I18n.t("notifications.types.invitation_declined.message")
       end
 
       send_notification(
@@ -77,7 +77,7 @@ class PushNotificationService
         data: {
           notification_type: notification.notification_type,
           notification_id: notification.id,
-          invitation_token: data['invitation_token']
+          invitation_token: data["invitation_token"]
         }
       )
     end
@@ -99,12 +99,12 @@ class PushNotificationService
     http.use_ssl = true
 
     request = Net::HTTP::Post.new(uri)
-    request['Content-Type'] = 'application/json'
-    request['Authorization'] = "key=#{@server_key}"
+    request["Content-Type"] = "application/json"
+    request["Authorization"] = "key=#{@server_key}"
     request.body = payload.to_json
 
     response = http.request(request)
-    
+
     handle_response(response, token)
   end
 
@@ -115,29 +115,29 @@ class PushNotificationService
     }
 
     case platform.to_s
-    when 'ios'
+    when "ios"
       payload[:notification] = {
         title: title,
         body: body,
-        sound: 'default',
+        sound: "default",
         badge: 1
       }
-      payload[:priority] = 'high'
+      payload[:priority] = "high"
       payload[:content_available] = true
-    when 'android'
+    when "android"
       payload[:notification] = {
         title: title,
         body: body,
-        sound: 'default',
-        icon: 'ic_notification',
-        color: '#EC4899'
+        sound: "default",
+        icon: "ic_notification",
+        color: "#EC4899"
       }
-      payload[:priority] = 'high'
-    when 'web'
+      payload[:priority] = "high"
+    when "web"
       payload[:notification] = {
         title: title,
         body: body,
-        icon: '/icon-192x192.png',
+        icon: "/icon-192x192.png",
         click_action: Rails.application.routes.url_helpers.notifications_url
       }
     end
@@ -149,8 +149,8 @@ class PushNotificationService
     case response.code.to_i
     when 200
       result = JSON.parse(response.body)
-      
-      if result['failure'] > 0
+
+      if result["failure"] > 0
         Rails.logger.warn "FCM push notification failed for token #{token}: #{result}"
         # TODO: Handle invalid tokens by marking them as inactive
       else

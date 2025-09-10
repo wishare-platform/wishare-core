@@ -1,6 +1,6 @@
 class ConnectionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_connection, only: [:show, :update, :destroy]
+  before_action :set_connection, only: [ :show, :update, :destroy ]
 
   def index
     @connections = current_user.accepted_connections.includes(:user, :partner)
@@ -12,7 +12,7 @@ class ConnectionsController < ApplicationController
 
   def update
     if @connection.update(connection_params)
-      redirect_to connections_path, notice: 'Connection updated successfully.'
+      redirect_to connections_path, notice: "Connection updated successfully."
     else
       render :show, status: :unprocessable_entity
     end
@@ -20,7 +20,7 @@ class ConnectionsController < ApplicationController
 
   def destroy
     @connection.destroy
-    redirect_to connections_path, notice: 'Connection removed successfully.'
+    redirect_to connections_path, notice: "Connection removed successfully."
   end
 
   private
@@ -28,7 +28,7 @@ class ConnectionsController < ApplicationController
   def set_connection
     @connection = current_user.all_connections.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    redirect_to connections_path, alert: 'Connection not found.'
+    redirect_to connections_path, alert: "Connection not found."
   end
 
   def connection_params

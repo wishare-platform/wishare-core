@@ -1,5 +1,5 @@
 class Invitation < ApplicationRecord
-  belongs_to :sender, class_name: 'User'
+  belongs_to :sender, class_name: "User"
 
   enum :status, { pending: 0, accepted: 1, expired: 2 }
 
@@ -12,7 +12,7 @@ class Invitation < ApplicationRecord
   before_validation :generate_token, on: :create
 
   scope :pending_invitations, -> { where(status: :pending) }
-  scope :not_expired, -> { where('created_at > ?', 7.days.ago) }
+  scope :not_expired, -> { where("created_at > ?", 7.days.ago) }
 
   def expired?
     return false if created_at.nil?
@@ -27,7 +27,7 @@ class Invitation < ApplicationRecord
     transaction do
       # Check if connection already exists
       existing_connection = Connection.between_users(sender, recipient_user)
-      
+
       if existing_connection
         # Update existing connection to accepted
         existing_connection.update!(status: :accepted)
@@ -39,7 +39,7 @@ class Invitation < ApplicationRecord
           status: :accepted
         )
       end
-      
+
       # Mark invitation as accepted
       update_columns(
         status: :accepted,
@@ -67,7 +67,7 @@ class Invitation < ApplicationRecord
 
   def cannot_invite_existing_partner
     return unless sender && recipient_email
-    
+
     recipient = User.find_by(email: recipient_email)
     if recipient && sender.connected_to?(recipient)
       errors.add(:recipient_email, "is already your partner")

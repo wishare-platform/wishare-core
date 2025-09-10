@@ -1,6 +1,6 @@
 class WishlistItem < ApplicationRecord
   belongs_to :wishlist
-  belongs_to :purchased_by, class_name: 'User', optional: true
+  belongs_to :purchased_by, class_name: "User", optional: true
 
   enum :priority, { low: 0, medium: 1, high: 2 }
   enum :status, { available: 0, purchased: 1, reserved: 2 }
@@ -17,14 +17,14 @@ class WishlistItem < ApplicationRecord
   # Class method to normalize URLs for comparison
   def self.normalize_url(url)
     return nil if url.blank?
-    
+
     begin
       uri = URI.parse(url.strip)
       # Only normalize scheme and host case, keep the full path
       # Remove query parameters and fragments for comparison
       normalized = "#{uri.scheme.downcase}://#{uri.host.downcase}#{uri.path}"
       # Remove trailing slash unless it's the root path
-      normalized = normalized.chomp('/') unless uri.path == '/'
+      normalized = normalized.chomp("/") unless uri.path == "/"
       normalized
     rescue URI::InvalidURIError
       url.strip
@@ -39,7 +39,7 @@ class WishlistItem < ApplicationRecord
   # Safe URL for rendering in views (prevents XSS)
   def safe_url
     return nil if url.blank?
-    
+
     # Only allow http and https protocols
     uri = URI.parse(url)
     return url if %w[http https].include?(uri.scheme&.downcase)
@@ -52,7 +52,7 @@ class WishlistItem < ApplicationRecord
 
   def extract_metadata_from_url
     return if url.blank?
-    
+
     metadata = UrlMetadataExtractor.new(url).extract
     self.name = metadata[:title] if name.blank? && metadata[:title].present?
     self.description = metadata[:description] if description.blank? && metadata[:description].present?
@@ -62,15 +62,15 @@ class WishlistItem < ApplicationRecord
 
   def unique_normalized_url
     return if url.blank?
-    
+
     normalized = normalized_url
     return if normalized.blank?
-    
+
     # Check if any other item in the same wishlist has the same normalized URL
     existing = wishlist.wishlist_items
                       .where.not(id: id) # Exclude current record for updates
-                      .where.not(url: [nil, '']) # Only check items with URLs
-    
+                      .where.not(url: [ nil, "" ]) # Only check items with URLs
+
     existing.find_each do |item|
       if self.class.normalize_url(item.url) == normalized
         errors.add(:url, "This item has already been added to your wishlist")

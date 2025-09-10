@@ -1,6 +1,6 @@
 class Connection < ApplicationRecord
   belongs_to :user
-  belongs_to :partner, class_name: 'User'
+  belongs_to :partner, class_name: "User"
 
   enum :status, { pending: 0, accepted: 1, declined: 2 }
 

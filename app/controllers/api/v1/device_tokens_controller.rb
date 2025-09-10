@@ -1,6 +1,6 @@
 class Api::V1::DeviceTokensController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_device_token, only: [:show, :destroy]
+  before_action :set_device_token, only: [ :show, :destroy ]
 
   # POST /api/v1/device_tokens
   def create
@@ -12,8 +12,8 @@ class Api::V1::DeviceTokensController < ApplicationController
 
     if @device_token.persisted?
       render json: {
-        status: 'success',
-        message: 'Device token registered successfully',
+        status: "success",
+        message: "Device token registered successfully",
         device_token: {
           id: @device_token.id,
           platform: @device_token.platform,
@@ -23,8 +23,8 @@ class Api::V1::DeviceTokensController < ApplicationController
       }, status: :created
     else
       render json: {
-        status: 'error',
-        message: 'Failed to register device token',
+        status: "error",
+        message: "Failed to register device token",
         errors: @device_token.errors.full_messages
       }, status: :unprocessable_entity
     end
@@ -35,7 +35,7 @@ class Api::V1::DeviceTokensController < ApplicationController
     @device_tokens = current_user.device_tokens.active.order(last_used_at: :desc)
 
     render json: {
-      status: 'success',
+      status: "success",
       device_tokens: @device_tokens.map do |token|
         {
           id: token.id,
@@ -53,8 +53,8 @@ class Api::V1::DeviceTokensController < ApplicationController
     @device_token.deactivate!
 
     render json: {
-      status: 'success',
-      message: 'Device token deactivated successfully'
+      status: "success",
+      message: "Device token deactivated successfully"
     }
   end
 
@@ -64,8 +64,8 @@ class Api::V1::DeviceTokensController < ApplicationController
     @device_token = current_user.device_tokens.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render json: {
-      status: 'error',
-      message: 'Device token not found'
+      status: "error",
+      message: "Device token not found"
     }, status: :not_found
   end
 

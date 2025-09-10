@@ -3,11 +3,11 @@ class NotificationDigestMailer < ApplicationMailer
     @user = user
     @notifications = notifications
     @notification_count = @notifications.count
-    
+
     I18n.with_locale(@user.preferred_locale || I18n.default_locale) do
       mail(
         to: @user.email,
-        subject: t('emails.digest.daily.subject', count: @notification_count)
+        subject: t("emails.digest.daily.subject", count: @notification_count)
       )
     end
   end
@@ -16,11 +16,11 @@ class NotificationDigestMailer < ApplicationMailer
     @user = user
     @notifications = notifications
     @notification_count = @notifications.count
-    
+
     I18n.with_locale(@user.preferred_locale || I18n.default_locale) do
       mail(
         to: @user.email,
-        subject: t('emails.digest.weekly.subject', count: @notification_count)
+        subject: t("emails.digest.weekly.subject", count: @notification_count)
       )
     end
   end
@@ -34,10 +34,10 @@ class NotificationDigestMailer < ApplicationMailer
 
   def format_timeframe
     case action_name
-    when 'daily_digest'
-      I18n.t('emails.digest.daily.timeframe')
-    when 'weekly_digest'
-      I18n.t('emails.digest.weekly.timeframe')
+    when "daily_digest"
+      I18n.t("emails.digest.daily.timeframe")
+    when "weekly_digest"
+      I18n.t("emails.digest.weekly.timeframe")
     end
   end
   helper_method :format_timeframe

@@ -12,7 +12,7 @@ class Admin::DashboardController < Admin::BaseController
     {
       total_users: User.count,
       active_users_30d: User.joins(:user_analytic)
-                           .where('user_analytics.last_activity_at > ?', 30.days.ago)
+                           .where("user_analytics.last_activity_at > ?", 30.days.ago)
                            .count,
       total_wishlists: Wishlist.count,
       total_connections: Connection.accepted_connections.count,
@@ -24,7 +24,7 @@ class Admin::DashboardController < Admin::BaseController
   def growth_metrics
     current_month = Date.current.beginning_of_month
     last_month = 1.month.ago.beginning_of_month
-    
+
     {
       new_users_this_month: User.where(created_at: current_month..).count,
       new_users_last_month: User.where(created_at: last_month..current_month).count,

@@ -14,7 +14,7 @@ class CreateUserAnalytics < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
-    
+
     add_index :user_analytics, :user_id, unique: true, name: 'index_user_analytics_on_user_id_unique'
     add_index :user_analytics, :last_activity_at
   end

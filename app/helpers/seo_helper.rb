@@ -1,14 +1,14 @@
 module SeoHelper
   def seo_title(title = nil)
     return @seo_title if @seo_title && title.nil?
-    
+
     base_title = "Wishare - Share Wishlists with Friends & Family"
     @seo_title = title ? "#{title} | Wishare" : base_title
   end
 
   def seo_description(description = nil)
     return @seo_description if @seo_description && description.nil?
-    
+
     default_description = "Create and share wishlists with friends and family. Perfect for birthdays, holidays, and special occasions. Make gifting meaningful with Wishare."
     @seo_description = description || default_description
   end
@@ -18,12 +18,12 @@ module SeoHelper
       wishlist gifts birthday holiday gift-sharing family
       present-ideas gift-registry occasions thoughtful-giving
     ]
-    
-    (base_keywords + Array(additional_keywords)).join(', ')
+
+    (base_keywords + Array(additional_keywords)).join(", ")
   end
 
   def seo_image_url(image_path = nil)
-    image_path ||= '/wishare-og-image.png'
+    image_path ||= "/wishare-og-image.png"
     "#{request.base_url}#{image_path}"
   end
 

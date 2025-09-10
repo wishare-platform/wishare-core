@@ -29,7 +29,7 @@ Rails.application.configure do
   config.cache_store = :memory_store
 
   # Devise mailer configuration
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
@@ -37,10 +37,10 @@ Rails.application.configure do
   # Configure mailer
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
-  
+
   # Use test delivery to see emails in Rails log in development
   config.action_mailer.delivery_method = :test
-  
+
   # Uncomment below to test SendGrid API in development (works on Railway)
   # config.action_mailer.delivery_method = :sendgrid_api
   # config.action_mailer.sendgrid_api_settings = {

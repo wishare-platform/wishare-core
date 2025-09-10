@@ -1,10 +1,10 @@
 namespace :solid_queue do
   desc "Load Solid Queue schema into the database"
-  task :load_schema => :environment do
+  task load_schema: :environment do
     puts "Loading Solid Queue schema..."
-    
-    queue_schema_path = Rails.root.join('db', 'queue_schema.rb')
-    
+
+    queue_schema_path = Rails.root.join("db", "queue_schema.rb")
+
     if File.exist?(queue_schema_path)
       # Switch to queue database connection
       ActiveRecord::Base.connected_to(role: :writing, shard: :queue) do
@@ -17,18 +17,18 @@ namespace :solid_queue do
       exit 1
     end
   end
-  
+
   desc "Create Solid Queue tables in production"
-  task :setup => :environment do
+  task setup: :environment do
     puts "Setting up Solid Queue for production..."
-    
+
     begin
       # Check if solid_queue_jobs table exists in the primary database
-      unless ActiveRecord::Base.connection.table_exists?('solid_queue_jobs')
+      unless ActiveRecord::Base.connection.table_exists?("solid_queue_jobs")
         puts "Creating Solid Queue tables..."
-        
+
         # Load the queue schema directly into the primary database
-        queue_schema_path = Rails.root.join('db', 'queue_schema.rb')
+        queue_schema_path = Rails.root.join("db", "queue_schema.rb")
         if File.exist?(queue_schema_path)
           load queue_schema_path
           puts "Solid Queue tables created successfully!"

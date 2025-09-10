@@ -64,13 +64,13 @@ Rails.application.configure do
 
   # Configure SendGrid API for email delivery (Railway compatible - uses HTTPS not SMTP)
   # Skip during asset precompilation
-  unless ENV['SECRET_KEY_BASE_DUMMY'] == '1'
+  unless ENV["SECRET_KEY_BASE_DUMMY"] == "1"
     config.action_mailer.delivery_method = :sendgrid_api
   else
     # Use a dummy delivery method during asset precompilation
     config.action_mailer.delivery_method = :test
   end
-  
+
   # Allow assets to be precompiled without a real secret key base during build
   config.require_master_key = false
 

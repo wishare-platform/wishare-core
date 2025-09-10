@@ -4,7 +4,7 @@ class NotificationsController < ApplicationController
   def index
     @notifications = current_user.notifications.recent.includes(:notifiable)
     @unread_count = current_user.unread_notifications_count
-    
+
     respond_to do |format|
       format.html
       format.json { render json: @notifications }
@@ -14,7 +14,7 @@ class NotificationsController < ApplicationController
   def mark_as_read
     notification = current_user.notifications.find(params[:id])
     notification.update(read: true)
-    
+
     redirect_back(fallback_location: notifications_path)
   end
 

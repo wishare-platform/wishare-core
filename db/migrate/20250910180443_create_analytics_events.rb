@@ -13,10 +13,10 @@ class CreateAnalyticsEvents < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
-    
+
     add_index :analytics_events, :event_type
     add_index :analytics_events, :created_at
-    add_index :analytics_events, [:user_id, :event_type]
+    add_index :analytics_events, [ :user_id, :event_type ]
     add_index :analytics_events, :session_id
   end
 end

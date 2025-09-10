@@ -8,13 +8,13 @@ class NotificationsChannel < ApplicationCable::Channel
   end
 
   def mark_as_read(data)
-    notification = current_user.notifications.find(data['notification_id'])
+    notification = current_user.notifications.find(data["notification_id"])
     notification.update(read: true)
-    
+
     NotificationsChannel.broadcast_to(
       current_user,
       {
-        action: 'update_count',
+        action: "update_count",
         count: current_user.unread_notifications_count
       }
     )

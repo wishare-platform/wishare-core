@@ -3,21 +3,21 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :omniauthable,
-         omniauth_providers: [:google_oauth2]
+         omniauth_providers: [ :google_oauth2 ]
 
   # Connection associations
   has_many :connections, dependent: :destroy
-  has_many :inverse_connections, class_name: 'Connection', foreign_key: 'partner_id', dependent: :destroy
+  has_many :inverse_connections, class_name: "Connection", foreign_key: "partner_id", dependent: :destroy
   has_many :partners, through: :connections, source: :partner
   has_many :inverse_partners, through: :inverse_connections, source: :user
 
   # Invitation associations
-  has_many :sent_invitations, class_name: 'Invitation', foreign_key: 'sender_id', dependent: :destroy
-  has_many :received_invitations, class_name: 'Invitation', foreign_key: 'recipient_email', primary_key: 'email', dependent: :destroy
+  has_many :sent_invitations, class_name: "Invitation", foreign_key: "sender_id", dependent: :destroy
+  has_many :received_invitations, class_name: "Invitation", foreign_key: "recipient_email", primary_key: "email", dependent: :destroy
 
   # Wishlist associations
   has_many :wishlists, dependent: :destroy
-  has_many :purchased_items, class_name: 'WishlistItem', foreign_key: 'purchased_by_id', dependent: :nullify
+  has_many :purchased_items, class_name: "WishlistItem", foreign_key: "purchased_by_id", dependent: :nullify
 
   # Notification associations
   has_many :notifications, dependent: :destroy
@@ -29,7 +29,7 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :preferred_locale, inclusion: { in: %w[en pt-BR] }
-  
+
   # Role-based access control
   enum :role, {
     user: 0,
@@ -45,7 +45,7 @@ class User < ApplicationRecord
       u.password = Devise.friendly_token[0, 20]
       u.name = auth.info.name
       u.avatar_url = auth.info.image
-      
+
       # Try to extract birthday from Google+ extra_info or raw_info
       # Note: Google has restricted birthday access, but we can try
       if auth.extra && auth.extra.raw_info && auth.extra.raw_info.birthday
@@ -56,12 +56,12 @@ class User < ApplicationRecord
         end
       end
     end
-    
+
     # Update avatar_url, name and potentially birthday for existing users
     update_fields = {}
     update_fields[:avatar_url] = auth.info.image if user.avatar_url != auth.info.image
     update_fields[:name] = auth.info.name if user.name != auth.info.name
-    
+
     # Try to update birthday if we don't have one yet
     if user.date_of_birth.nil? && auth.extra && auth.extra.raw_info && auth.extra.raw_info.birthday
       begin
@@ -70,9 +70,9 @@ class User < ApplicationRecord
         # Ignore if birthday format is invalid
       end
     end
-    
+
     user.update(update_fields) if user.persisted? && update_fields.any?
-    
+
     user
   end
 
@@ -87,19 +87,19 @@ class User < ApplicationRecord
   def partner
     accepted_connection = accepted_connections.first
     return nil unless accepted_connection
-    
+
     accepted_connection.other_user(self)
   end
 
   def connected_to?(other_user)
     return false if other_user.nil?
-    
+
     Connection.between_users(self, other_user)&.accepted?
   end
 
   def connection_with(other_user)
     return nil if other_user.nil?
-    
+
     Connection.between_users(self, other_user)
   end
 
@@ -108,7 +108,7 @@ class User < ApplicationRecord
   end
 
   def display_name
-    name.presence || email.split('@').first
+    name.presence || email.split("@").first
   end
 
   def unread_notifications_count

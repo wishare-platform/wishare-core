@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show]
+  before_action :set_user, only: [ :show ]
 
   def show
     @public_wishlists = @user.wishlists.public_lists.includes(:wishlist_items)

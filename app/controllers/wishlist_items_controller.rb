@@ -1,18 +1,18 @@
 class WishlistItemsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_wishlist, except: [:extract_url_metadata]
-  before_action :set_wishlist_item, only: [:show, :edit, :update, :destroy, :purchase, :unpurchase]
+  before_action :set_wishlist, except: [ :extract_url_metadata ]
+  before_action :set_wishlist_item, only: [ :show, :edit, :update, :destroy, :purchase, :unpurchase ]
 
   def show
     unless can_view_wishlist?(@wishlist)
-      redirect_to wishlists_path, alert: 'You do not have permission to view this wishlist.'
-      return
+      redirect_to wishlists_path, alert: "You do not have permission to view this wishlist."
+      nil
     end
   end
 
   def new
     unless can_edit_wishlist?(@wishlist)
-      redirect_to wishlists_path, alert: 'You do not have permission to add items to this wishlist.'
+      redirect_to wishlists_path, alert: "You do not have permission to add items to this wishlist."
       return
     end
 
@@ -23,7 +23,7 @@ class WishlistItemsController < ApplicationController
 
   def create
     unless can_edit_wishlist?(@wishlist)
-      redirect_to wishlists_path, alert: 'You do not have permission to add items to this wishlist.'
+      redirect_to wishlists_path, alert: "You do not have permission to add items to this wishlist."
       return
     end
 
@@ -32,7 +32,7 @@ class WishlistItemsController < ApplicationController
     @wishlist_item.status = :available
 
     if @wishlist_item.save
-      redirect_to @wishlist, notice: 'Item was successfully added to your wishlist.'
+      redirect_to @wishlist, notice: "Item was successfully added to your wishlist."
     else
       render :new, status: :unprocessable_entity
     end
@@ -40,19 +40,19 @@ class WishlistItemsController < ApplicationController
 
   def edit
     unless can_edit_wishlist?(@wishlist)
-      redirect_to wishlists_path, alert: 'You do not have permission to edit this item.'
-      return
+      redirect_to wishlists_path, alert: "You do not have permission to edit this item."
+      nil
     end
   end
 
   def update
     unless can_edit_wishlist?(@wishlist)
-      redirect_to wishlists_path, alert: 'You do not have permission to edit this item.'
+      redirect_to wishlists_path, alert: "You do not have permission to edit this item."
       return
     end
 
     if @wishlist_item.update(wishlist_item_params)
-      redirect_to @wishlist, notice: 'Item was successfully updated.'
+      redirect_to @wishlist, notice: "Item was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -60,17 +60,17 @@ class WishlistItemsController < ApplicationController
 
   def destroy
     unless can_edit_wishlist?(@wishlist)
-      redirect_to wishlists_path, alert: 'You do not have permission to delete this item.'
+      redirect_to wishlists_path, alert: "You do not have permission to delete this item."
       return
     end
 
     @wishlist_item.destroy
-    redirect_to @wishlist, notice: 'Item was successfully removed from the wishlist.'
+    redirect_to @wishlist, notice: "Item was successfully removed from the wishlist."
   end
 
   def purchase
     unless can_purchase_item?(@wishlist_item)
-      redirect_to @wishlist, alert: 'You do not have permission to purchase this item.'
+      redirect_to @wishlist, alert: "You do not have permission to purchase this item."
       return
     end
 
@@ -88,12 +88,12 @@ class WishlistItemsController < ApplicationController
       wishlist: @wishlist
     )
 
-    redirect_to @wishlist, notice: 'Item marked as purchased!'
+    redirect_to @wishlist, notice: "Item marked as purchased!"
   end
 
   def unpurchase
     unless can_unpurchase_item?(@wishlist_item)
-      redirect_to @wishlist, alert: 'You do not have permission to unpurchase this item.'
+      redirect_to @wishlist, alert: "You do not have permission to unpurchase this item."
       return
     end
 
@@ -103,23 +103,23 @@ class WishlistItemsController < ApplicationController
       purchased_at: nil
     )
 
-    redirect_to @wishlist, notice: 'Item marked as available again.'
+    redirect_to @wishlist, notice: "Item marked as available again."
   end
 
   def extract_url_metadata
     url = params[:url]
-    
+
     if url.blank?
-      render json: { error: 'URL is required' }, status: :bad_request
+      render json: { error: "URL is required" }, status: :bad_request
       return
     end
-    
+
     begin
       metadata = UrlMetadataExtractor.new(url).extract
       render json: metadata
     rescue => e
       Rails.logger.warn "URL metadata extraction failed for #{url}: #{e.message}"
-      render json: { error: 'Failed to extract metadata' }, status: :unprocessable_entity
+      render json: { error: "Failed to extract metadata" }, status: :unprocessable_entity
     end
   end
 
@@ -141,7 +141,7 @@ class WishlistItemsController < ApplicationController
     return true if wishlist.user == current_user
     return false if wishlist.private_list?
     return false unless current_user.connected_to?(wishlist.user)
-    
+
     wishlist.partner_only?
   end
 
@@ -154,7 +154,7 @@ class WishlistItemsController < ApplicationController
     return false if item.wishlist.user == current_user
     return false unless current_user.connected_to?(item.wishlist.user)
     return false unless item.available?
-    
+
     true
   end
 
