@@ -10,9 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_10_124516) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_10_180854) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "analytics_events", force: :cascade do |t|
+    t.bigint "user_id"
+    t.integer "event_type", null: false
+    t.json "metadata"
+    t.string "session_id"
+    t.inet "ip_address"
+    t.text "user_agent"
+    t.string "page_path"
+    t.string "page_title"
+    t.string "referrer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_analytics_events_on_created_at"
+    t.index ["event_type"], name: "index_analytics_events_on_event_type"
+    t.index ["session_id"], name: "index_analytics_events_on_session_id"
+    t.index ["user_id", "event_type"], name: "index_analytics_events_on_user_id_and_event_type"
+    t.index ["user_id"], name: "index_analytics_events_on_user_id"
+  end
 
   create_table "connections", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -23,6 +42,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_124516) do
     t.index ["partner_id"], name: "index_connections_on_partner_id"
     t.index ["user_id", "partner_id"], name: "index_connections_on_user_id_and_partner_id", unique: true
     t.index ["user_id"], name: "index_connections_on_user_id"
+  end
+
+  create_table "cookie_consents", force: :cascade do |t|
+    t.bigint "user_id"
+    t.boolean "analytics_enabled", default: false
+    t.boolean "marketing_enabled", default: false
+    t.boolean "functional_enabled", default: true
+    t.datetime "consent_date", null: false
+    t.inet "ip_address"
+    t.string "session_id"
+    t.string "consent_version", default: "1.0"
+    t.text "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["consent_date"], name: "index_cookie_consents_on_consent_date"
+    t.index ["session_id"], name: "index_cookie_consents_on_session_id"
+    t.index ["user_id"], name: "index_cookie_consents_on_user_id"
+    t.index ["user_id"], name: "index_cookie_consents_on_user_id_custom"
   end
 
   create_table "device_tokens", force: :cascade do |t|
@@ -93,6 +130,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_124516) do
     t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
   end
 
+  create_table "user_analytics", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "wishlists_created_count", default: 0
+    t.integer "items_added_count", default: 0
+    t.integer "connections_count", default: 0
+    t.integer "invitations_sent_count", default: 0
+    t.integer "invitations_accepted_count", default: 0
+    t.integer "items_purchased_count", default: 0
+    t.integer "page_views_count", default: 0
+    t.datetime "last_activity_at"
+    t.datetime "first_activity_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["last_activity_at"], name: "index_user_analytics_on_last_activity_at"
+    t.index ["user_id"], name: "index_user_analytics_on_user_id"
+    t.index ["user_id"], name: "index_user_analytics_on_user_id_unique", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -142,12 +197,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_124516) do
     t.index ["user_id"], name: "index_wishlists_on_user_id"
   end
 
+  add_foreign_key "analytics_events", "users"
   add_foreign_key "connections", "users"
   add_foreign_key "connections", "users", column: "partner_id"
+  add_foreign_key "cookie_consents", "users"
   add_foreign_key "device_tokens", "users"
   add_foreign_key "invitations", "users", column: "sender_id"
   add_foreign_key "notification_preferences", "users"
   add_foreign_key "notifications", "users"
+  add_foreign_key "user_analytics", "users"
   add_foreign_key "wishlist_items", "users", column: "purchased_by_id"
   add_foreign_key "wishlist_items", "wishlists"
   add_foreign_key "wishlists", "users"

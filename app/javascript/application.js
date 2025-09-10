@@ -2,3 +2,5 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import "channels"
+import "analytics"
+import "gtm_init"

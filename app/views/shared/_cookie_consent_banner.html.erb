@@ -1,0 +1,130 @@
+<% 
+  # Check if user has given consent - be strict about this
+  consent_record = CookieConsent.find_consent_for_request(request, current_user)
+  has_valid_consent = consent_record&.current_version? && consent_record&.consent_date.present?
+  show_banner = !has_valid_consent
+%>
+
+<% if show_banner %>
+<div data-controller="cookie-consent" 
+     data-cookie-consent-show-banner-value="<%= show_banner %>"
+     data-cookie-consent-has-consent-value="<%= has_valid_consent %>"
+     data-cookie-consent-consent-url-value="<%= create_cookie_consent_path(locale: I18n.locale) %>">
+  
+  <!-- Cookie Consent Banner -->
+  <div data-cookie-consent-target="banner" 
+       class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-lg z-50 p-4 md:p-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col lg:flex-row items-start lg:items-center gap-4">
+        <!-- Cookie Icon & Message -->
+        <div class="flex items-start gap-3 flex-1">
+          <div class="flex-shrink-0 w-8 h-8 bg-rose-100 rounded-full flex items-center justify-center">
+            🍪
+          </div>
+          <div class="flex-1">
+            <h3 class="font-semibold text-gray-800 mb-1">We use cookies to improve your experience</h3>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              We use cookies and similar technologies to help personalize content, analyze traffic, and improve your experience. 
+              By clicking "Accept All", you consent to our use of cookies.
+              <a href="<%= privacy_policy_path %>" class="text-rose-600 hover:text-rose-700 underline">Learn more</a>
+            </p>
+          </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-2 w-full lg:w-auto">
+          <button data-action="click->cookie-consent#showPreferences" 
+                  class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200 whitespace-nowrap">
+            Cookie Settings
+          </button>
+          <button data-action="click->cookie-consent#acceptEssential"
+                  class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 bg-gray-100 hover:bg-gray-200 rounded-lg transition duration-200 whitespace-nowrap">
+            Essential Only
+          </button>
+          <button data-action="click->cookie-consent#acceptAll"
+                  class="px-6 py-2 text-sm font-medium text-white bg-rose-500 hover:bg-rose-600 rounded-lg transition duration-200 whitespace-nowrap">
+            Accept All
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Detailed Preferences Form -->
+  <div data-cookie-consent-target="form" 
+       class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div class="p-6">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-bold text-gray-800">Cookie Preferences</h2>
+          <button data-action="click->cookie-consent#hideBanner"
+                  class="text-gray-400 hover:text-gray-600 p-1">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="space-y-6">
+          <!-- Essential Cookies -->
+          <div class="border border-gray-200 rounded-lg p-4">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-semibold text-gray-800">Essential Cookies</h3>
+              <div class="bg-gray-100 px-3 py-1 rounded-full">
+                <span class="text-sm font-medium text-gray-600">Always Active</span>
+              </div>
+            </div>
+            <p class="text-sm text-gray-600 mb-2">
+              These cookies are necessary for the website to function and cannot be switched off. They are usually only set in response to actions made by you which amount to a request for services.
+            </p>
+            <input data-cookie-consent-target="functionalToggle" type="checkbox" checked disabled class="hidden">
+          </div>
+          
+          <!-- Analytics Cookies -->
+          <div class="border border-gray-200 rounded-lg p-4">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-semibold text-gray-800">Analytics Cookies</h3>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input data-cookie-consent-target="analyticsToggle" 
+                       type="checkbox" 
+                       class="sr-only peer">
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-rose-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-rose-500"></div>
+              </label>
+            </div>
+            <p class="text-sm text-gray-600">
+              These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously. This helps us improve the user experience.
+            </p>
+          </div>
+          
+          <!-- Marketing Cookies -->
+          <div class="border border-gray-200 rounded-lg p-4">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-semibold text-gray-800">Marketing Cookies</h3>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input data-cookie-consent-target="marketingToggle" 
+                       type="checkbox" 
+                       class="sr-only peer">
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-rose-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-rose-500"></div>
+              </label>
+            </div>
+            <p class="text-sm text-gray-600">
+              These cookies may be set by our advertising partners. They may be used to build a profile of your interests and show you relevant adverts on other sites.
+            </p>
+          </div>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row gap-3 mt-8 pt-6 border-t border-gray-200">
+          <button data-action="click->cookie-consent#acceptEssential"
+                  class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200">
+            Essential Only
+          </button>
+          <button data-action="click->cookie-consent#submitPreferences"
+                  class="flex-1 px-6 py-2 text-sm font-medium text-white bg-rose-500 hover:bg-rose-600 rounded-lg transition duration-200">
+            Save Preferences
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

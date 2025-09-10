@@ -54,6 +54,11 @@ Rails.application.routes.draw do
     
     root 'landing#index'
     
+    # Cookie consent management
+    get '/cookie-preferences', to: 'cookie_consents#show', as: :cookie_consent
+    post '/cookie-consent', to: 'cookie_consents#create', as: :create_cookie_consent
+    patch '/cookie-consent', to: 'cookie_consents#update', as: :update_cookie_consent
+    
     # Legal pages
     get '/terms-of-service', to: 'legal#terms_of_service', as: :terms_of_service
     get '/privacy-policy', to: 'legal#privacy_policy', as: :privacy_policy
