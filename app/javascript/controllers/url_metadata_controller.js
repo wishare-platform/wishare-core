@@ -15,6 +15,21 @@ export default class extends Controller {
     }
   }
 
+  hasUrlMeaningfullyChanged(oldUrl, newUrl) {
+    if (!oldUrl || !newUrl) return true
+    
+    try {
+      const url1 = new URL(oldUrl)
+      const url2 = new URL(newUrl)
+      
+      // Different domain or different path means meaningful change
+      return url1.hostname !== url2.hostname || url1.pathname !== url2.pathname
+    } catch (e) {
+      // If URLs can't be parsed, consider it a meaningful change
+      return true
+    }
+  }
+
   urlBlurred() {
     console.log("URL field blurred, processing...")
     // Small delay to ensure user has finished typing
@@ -88,20 +103,29 @@ export default class extends Controller {
     
     console.log("Fetching metadata for URL:", url)
     
-    // Don't fetch if URL is empty, invalid, or already processed
-    if (!url || !url.match(/^https?:\/\/.+/) || url === this.lastProcessedUrl) {
-      console.log("Skipping fetch - invalid or already processed URL")
+    // Don't fetch if URL is empty or invalid
+    if (!url || !url.match(/^https?:\/\/.+/)) {
+      console.log("Skipping fetch - invalid URL")
       return
     }
     
-    // Only auto-populate if fields are empty
-    const shouldFetch = !this.nameTarget.value.trim() && 
+    // Check if this is the same URL we just processed
+    if (url === this.lastProcessedUrl) {
+      console.log("Skipping fetch - same URL already processed")
+      return
+    }
+    
+    // Check if URL has meaningfully changed (different domain or path)
+    const urlChanged = this.hasUrlMeaningfullyChanged(this.lastProcessedUrl, url)
+    
+    // Only auto-populate if fields are empty OR if URL has meaningfully changed
+    const fieldsEmpty = !this.nameTarget.value.trim() && 
                        !this.descriptionTarget.value.trim() && 
                        !this.priceTarget.value.trim() &&
                        !this.imageTarget.value.trim()
     
-    if (!shouldFetch) {
-      console.log("Skipping fetch - fields already have values")
+    if (!fieldsEmpty && !urlChanged) {
+      console.log("Skipping fetch - fields already have values and URL hasn't meaningfully changed")
       return
     }
     
@@ -151,24 +175,28 @@ export default class extends Controller {
       console.log("Received metadata:", data)
       this.currentRequest = null
       
+      // Check if URL has meaningfully changed from what was previously processed
+      const urlChanged = this.hasUrlMeaningfullyChanged(this.lastProcessedUrl, url)
       let populated = false
       
-      if (data.title && !this.nameTarget.value.trim()) {
+      // If URL has meaningfully changed, replace all fields with new data
+      // Otherwise, only populate empty fields
+      if (data.title && (!this.nameTarget.value.trim() || urlChanged)) {
         this.nameTarget.value = data.title
         populated = true
       }
       
-      if (data.description && !this.descriptionTarget.value.trim()) {
+      if (data.description && (!this.descriptionTarget.value.trim() || urlChanged)) {
         this.descriptionTarget.value = data.description
         populated = true
       }
       
-      if (data.price && !this.priceTarget.value.trim()) {
+      if (data.price && (!this.priceTarget.value.trim() || urlChanged)) {
         this.priceTarget.value = data.price
         populated = true
       }
 
-      if (data.currency && this.hasCurrencyTarget) {
+      if (data.currency && this.hasCurrencyTarget && (!this.currencyTarget.value || urlChanged)) {
         this.currencyTarget.value = data.currency
         // Trigger the currency selector update to show correct symbol
         const event = new Event('change', { bubbles: true })
@@ -176,7 +204,7 @@ export default class extends Controller {
         populated = true
       }
       
-      if (data.image && !this.imageTarget.value.trim()) {
+      if (data.image && (!this.imageTarget.value.trim() || urlChanged)) {
         this.imageTarget.value = data.image
         // Trigger image preview update
         this.showImagePreview(data.image)

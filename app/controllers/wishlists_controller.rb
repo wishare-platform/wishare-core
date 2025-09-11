@@ -44,6 +44,11 @@ class WishlistsController < ApplicationController
   def create
     @wishlist = current_user.wishlists.build(wishlist_params)
     @wishlist.visibility = :partner_only unless @wishlist.visibility.present?
+    
+    # If this is the user's first wishlist, make it default
+    if current_user.wishlists.empty?
+      @wishlist.is_default = true
+    end
 
     if @wishlist.save
       redirect_to @wishlist, notice: 'Wishlist was successfully created.'

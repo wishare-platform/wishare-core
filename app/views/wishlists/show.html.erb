@@ -96,9 +96,97 @@
   </div>
 
   <% if @wishlist_items.any? %>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+    <!-- Filter and Sort Controls -->
+    <div class="mb-6" data-controller="wishlist-items-filter">
+      <!-- Sort and Filter Bar -->
+      <div class="bg-white rounded-xl border border-gray-200 p-4 mb-4">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <!-- Filter Pills -->
+          <div class="flex flex-wrap gap-2">
+            <button data-action="click->wishlist-items-filter#filter"
+                    data-filter="all"
+                    data-wishlist-items-filter-target="filterButton"
+                    class="px-3 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 bg-pink-500 text-white border-pink-500">
+              <%= t('wishlists.show.filters.all') %>
+            </button>
+            <button data-action="click->wishlist-items-filter#filter"
+                    data-filter="available"
+                    data-wishlist-items-filter-target="filterButton"
+                    class="px-3 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 bg-white text-gray-700 border-gray-300 hover:bg-gray-50">
+              <%= t('wishlists.show.filters.available') %>
+            </button>
+            <button data-action="click->wishlist-items-filter#filter"
+                    data-filter="purchased"
+                    data-wishlist-items-filter-target="filterButton"
+                    class="px-3 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 bg-white text-gray-700 border-gray-300 hover:bg-gray-50">
+              <%= t('wishlists.show.filters.purchased') %>
+            </button>
+            <div class="border-l border-gray-300 mx-1"></div>
+            <button data-action="click->wishlist-items-filter#filter"
+                    data-filter="high_priority"
+                    data-wishlist-items-filter-target="filterButton"
+                    class="px-3 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 bg-white text-gray-700 border-gray-300 hover:bg-gray-50">
+              <%= t('wishlists.show.filters.high_priority') %>
+            </button>
+            <button data-action="click->wishlist-items-filter#filter"
+                    data-filter="medium_priority"
+                    data-wishlist-items-filter-target="filterButton"
+                    class="px-3 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 bg-white text-gray-700 border-gray-300 hover:bg-gray-50">
+              <%= t('wishlists.show.filters.medium_priority') %>
+            </button>
+            <button data-action="click->wishlist-items-filter#filter"
+                    data-filter="low_priority"
+                    data-wishlist-items-filter-target="filterButton"
+                    class="px-3 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 bg-white text-gray-700 border-gray-300 hover:bg-gray-50">
+              <%= t('wishlists.show.filters.low_priority') %>
+            </button>
+          </div>
+          
+          <!-- Sort Dropdown -->
+          <div class="flex items-center gap-2">
+            <label for="sort-select" class="text-sm text-gray-600 whitespace-nowrap"><%= t('wishlists.show.sort.label') %>:</label>
+            <select id="sort-select"
+                    data-action="change->wishlist-items-filter#sort"
+                    data-wishlist-items-filter-target="sortSelect"
+                    class="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500">
+              <option value="newest"><%= t('wishlists.show.sort.newest') %></option>
+              <option value="oldest"><%= t('wishlists.show.sort.oldest') %></option>
+              <option value="price_high"><%= t('wishlists.show.sort.price_high') %></option>
+              <option value="price_low"><%= t('wishlists.show.sort.price_low') %></option>
+              <option value="priority_high"><%= t('wishlists.show.sort.priority_high') %></option>
+              <option value="priority_low"><%= t('wishlists.show.sort.priority_low') %></option>
+              <option value="name_az"><%= t('wishlists.show.sort.name_az') %></option>
+              <option value="name_za"><%= t('wishlists.show.sort.name_za') %></option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Item Count -->
+        <div class="mt-3 text-sm text-gray-600">
+          <span id="filtered-item-count"><%= @wishlist_items.count %> <%= @wishlist_items.count == 1 ? 'item' : 'items' %></span>
+        </div>
+      </div>
+
+      <!-- No Results Message -->
+      <div data-wishlist-items-filter-target="noResults" class="hidden bg-gray-50 rounded-xl p-8 text-center">
+        <svg class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <p class="text-gray-600"><%= t('wishlists.show.no_results') %></p>
+        <button data-action="click->wishlist-items-filter#reset" class="mt-3 text-pink-600 hover:text-pink-700 font-medium">
+          <%= t('wishlists.show.clear_filters') %>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
       <% @wishlist_items.each do |item| %>
-        <div class="bg-white rounded-xl border border-gray-100 hover:border-pink-200 transition duration-200 overflow-hidden <%= 'opacity-75' if item.purchased? %>">
+        <div class="bg-white rounded-xl border border-gray-100 hover:border-pink-200 transition duration-200 overflow-hidden <%= 'opacity-75' if item.purchased? %>"
+             data-wishlist-items-filter-target="item"
+             data-name="<%= item.name %>"
+             data-price="<%= item.formatted_price %>"
+             data-priority="<%= item.priority %>"
+             data-status="<%= item.purchased? ? 'purchased' : 'available' %>"
+             data-created-at="<%= item.created_at.to_i %>">
           <% if item.image_url.present? %>
             <div class="relative">
               <img src="<%= item.image_url %>" alt="<%= item.name %>" class="w-full h-48 object-cover">
@@ -172,8 +260,8 @@
                 <span class="text-sm text-gray-500"><%= t('wishlists.show.price_not_set') %></span>
               <% end %>
               
-              <span class="text-xs px-2 sm:px-3 py-1 rounded-full font-medium self-start sm:self-auto <%= item.priority == 'high' ? 'bg-red-100 text-red-700' : item.priority == 'medium' ? 'bg-pink-100 text-pink-700' : 'bg-gray-100 text-gray-600' %>">
-                <%= t("items.form.priority_display.#{item.priority}") %> <%= t('wishlists.show.priority') %>
+              <span class="text-xs px-2 sm:px-3 py-1 rounded-full font-semibold self-start sm:self-auto <%= item.priority == 'high' ? 'bg-pink-500 text-white border border-pink-600' : item.priority == 'medium' ? 'bg-pink-100 text-pink-700 border border-pink-200' : 'bg-gray-100 text-gray-600 border border-gray-200' %>">
+                <%= t("items.form.priority_display.#{item.priority}") %>
               </span>
             </div>
             
@@ -240,6 +328,7 @@
           </div>
         </div>
       <% end %>
+      </div>
     </div>
   <% else %>
     <div class="bg-pink-50 rounded-xl p-12 text-center">

@@ -241,6 +241,25 @@ en:
       edit_item: "Edit item"
       delete_item: "Delete item"
       delete_item_confirm: "Are you sure you want to delete '%{name}' from this wishlist?"
+      filters:
+        all: "All"
+        available: "Available"
+        purchased: "Purchased"
+        high_priority: "High Priority"
+        medium_priority: "Medium Priority"
+        low_priority: "Low Priority"
+      sort:
+        label: "Sort by"
+        newest: "Newest First"
+        oldest: "Oldest First"
+        price_high: "Price: High to Low"
+        price_low: "Price: Low to High"
+        priority_high: "Priority: High to Low"
+        priority_low: "Priority: Low to High"
+        name_az: "Name: A to Z"
+        name_za: "Name: Z to A"
+      no_results: "No items match your filters"
+      clear_filters: "Clear all filters"
   
   items:
     new: "Add Item"
@@ -259,9 +278,9 @@ en:
         medium: "Would love"
         high: "Really want"
       priority_display:
-        low: "low"
-        medium: "medium"
-        high: "high"
+        low: "Low priority"
+        medium: "Medium priority"
+        high: "High priority"
       save_button: "Save Item"
       cancel_button: "Cancel"
     card:

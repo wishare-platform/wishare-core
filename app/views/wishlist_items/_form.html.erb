@@ -176,8 +176,8 @@
           id: "priority_high",
           data: { action: "change->priority-selector#updateSelection" } %>
       <%= form.label :priority, 'high', for: "priority_high", 
-          class: "px-4 py-2 bg-red-100 text-red-700 border-2 border-red-200 rounded-full cursor-pointer hover:bg-red-200 hover:border-red-300 transition-all duration-200 peer-checked:bg-red-500 peer-checked:text-white peer-checked:border-red-500 peer-checked:shadow-md text-sm font-medium" do %>
-        High
+          class: "px-4 py-2 bg-pink-50 text-pink-700 border-2 border-pink-100 rounded-full cursor-pointer hover:bg-pink-100 hover:border-pink-200 transition-all duration-200 peer-checked:bg-pink-500 peer-checked:text-white peer-checked:border-pink-500 peer-checked:shadow-md text-sm font-medium" do %>
+        <%= t('wishlist_items.form.priority_high') %>
       <% end %>
 
       <!-- Medium Priority -->
@@ -186,8 +186,8 @@
           id: "priority_medium",
           data: { action: "change->priority-selector#updateSelection" } %>
       <%= form.label :priority, 'medium', for: "priority_medium",
-          class: "px-4 py-2 bg-yellow-100 text-yellow-700 border-2 border-yellow-200 rounded-full cursor-pointer hover:bg-yellow-200 hover:border-yellow-300 transition-all duration-200 peer-checked:bg-yellow-500 peer-checked:text-white peer-checked:border-yellow-500 peer-checked:shadow-md text-sm font-medium" do %>
-        Medium
+          class: "px-4 py-2 bg-pink-50 text-pink-600 border-2 border-pink-100 rounded-full cursor-pointer hover:bg-pink-100 hover:border-pink-200 transition-all duration-200 peer-checked:bg-pink-400 peer-checked:text-white peer-checked:border-pink-400 peer-checked:shadow-md text-sm font-medium" do %>
+        <%= t('wishlist_items.form.priority_medium') %>
       <% end %>
 
       <!-- Low Priority -->
@@ -196,8 +196,8 @@
           id: "priority_low",
           data: { action: "change->priority-selector#updateSelection" } %>
       <%= form.label :priority, 'low', for: "priority_low",
-          class: "px-4 py-2 bg-green-100 text-green-700 border-2 border-green-200 rounded-full cursor-pointer hover:bg-green-200 hover:border-green-300 transition-all duration-200 peer-checked:bg-green-500 peer-checked:text-white peer-checked:border-green-500 peer-checked:shadow-md text-sm font-medium" do %>
-        Low
+          class: "px-4 py-2 bg-gray-50 text-gray-600 border-2 border-gray-100 rounded-full cursor-pointer hover:bg-gray-100 hover:border-gray-200 transition-all duration-200 peer-checked:bg-gray-400 peer-checked:text-white peer-checked:border-gray-400 peer-checked:shadow-md text-sm font-medium" do %>
+        <%= t('wishlist_items.form.priority_low') %>
       <% end %>
     </div>
   </div>

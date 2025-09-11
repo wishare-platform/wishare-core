@@ -160,14 +160,14 @@
                       <% end %>
                       
                       <% if item.priority.present? %>
-                        <span class="inline-flex px-2 py-1 text-xs rounded-full
+                        <span class="inline-flex px-2 py-1 text-xs rounded-full font-semibold border
                                    <%= case item.priority
-                                       when 'high' then 'bg-red-100 text-red-800'
-                                       when 'medium' then 'bg-yellow-100 text-yellow-800'
-                                       when 'low' then 'bg-green-100 text-green-800'
-                                       else 'bg-gray-100 text-gray-800'
+                                       when 'high' then 'bg-pink-500 text-white border-pink-600'
+                                       when 'medium' then 'bg-pink-100 text-pink-700 border-pink-200'
+                                       when 'low' then 'bg-gray-100 text-gray-600 border-gray-200'
+                                       else 'bg-gray-100 text-gray-800 border-gray-200'
                                        end %>">
-                          <%= item.priority.humanize %> priority
+                          <%= t("items.form.priority_display.#{item.priority}") %>
                         </span>
                       <% end %>
                       
