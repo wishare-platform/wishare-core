@@ -45,7 +45,7 @@ pt-BR:
               - "Contenha conteúdo adulto ou seja inadequado para todas as audiências"
         privacy:
           title: "5. Privacidade e Dados"
-          content: "Sua privacidade é importante para nós. Nossa coleta e uso de informações pessoais são regidos por nossa Política de Privacidade, que está incorporada a estes Termos por referência."
+          content: "Sua privacidade é importante para nós. Nossa coleta e uso de informações pessoais são regidos por nossa Política de Privacidade, que está incorporada a estes Termos por referência. <br><br><strong>Informações de Endereço:</strong> Os usuários podem fornecer opcionalmente endereços para correspondência para facilitar a entrega de presentes. A visibilidade do endereço é controlada pelas configurações de privacidade do usuário: Privado (visível apenas para você), Amigos e Família (visível para usuários conectados), ou Público (visível no perfil público). Os usuários são responsáveis pela precisão e considerações de segurança das informações de endereço compartilhadas."
         intellectual_property:
           title: "6. Propriedade Intelectual"
           content: "O Wishare e seu conteúdo original, recursos e funcionalidades são de propriedade do Wishare e são protegidos por leis internacionais de direitos autorais, marcas registradas, patentes, segredos comerciais e outras leis de propriedade intelectual. Nossas marcas registradas e trade dress não podem ser usadas sem nosso consentimento prévio por escrito."
@@ -91,6 +91,7 @@ pt-BR:
             list:
               - "**Informações da Conta:** Nome, endereço de e-mail e senha (criptografada)"
               - "**Dados do Perfil:** Avatar/foto do perfil (quando fornecida via Google OAuth)"
+              - "**Informações de Endereço:** Endereço, cidade, estado/UF, CEP e país (opcional - coletado apenas quando fornecido pelo usuário)"
               - "**Dados OAuth:** Quando você entra com o Google, recebemos seu ID do Google, e-mail, nome e foto do perfil"
           content:
             title: "Dados de Conteúdo e Uso"

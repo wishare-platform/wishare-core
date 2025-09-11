@@ -30,12 +30,22 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :preferred_locale, inclusion: { in: %w[en pt-BR] }
   
+  # Address field validations - all required except apartment_unit
+  validate :address_completeness
+  
   # Role-based access control
   enum :role, {
     user: 0,
     admin: 1,
     super_admin: 2
   }, default: :user
+
+  # Address visibility control
+  enum :address_visibility, {
+    private: 0,           # Only visible to user
+    connected_users: 1,   # Visible to friends & family
+    public: 2            # Visible on public profile
+  }, default: :private, prefix: true
 
   after_create :create_default_notification_preference
 
@@ -144,7 +154,91 @@ class User < ApplicationRecord
     notifications.unread.count
   end
 
+  def has_address?
+    street_address.present? || city.present? || postal_code.present? || street_number.present?
+  end
+
+  def full_address
+    return nil unless has_address?
+    
+    parts = []
+    
+    # Build street line: number + street + apartment
+    street_line = []
+    street_line << street_number if street_number.present?
+    street_line << street_address if street_address.present?
+    street_parts = street_line.join(' ')
+    street_parts += " #{apartment_unit}" if apartment_unit.present?
+    parts << street_parts if street_parts.present?
+    
+    # City, state line
+    parts << "#{city}, #{state}" if city.present? && state.present?
+    parts << city if city.present? && state.blank?
+    
+    # Postal code
+    parts << "#{postal_code}" if postal_code.present?
+    
+    # Country
+    parts << country_name if country.present?
+    
+    parts.join(', ')
+  end
+
+  def country_name
+    return nil unless country.present?
+    
+    # ISO country code to name mapping for most common countries
+    country_mapping = {
+      'US' => 'United States',
+      'BR' => 'Brazil',
+      'CA' => 'Canada',
+      'GB' => 'United Kingdom',
+      'AU' => 'Australia',
+      'DE' => 'Germany',
+      'FR' => 'France',
+      'ES' => 'Spain',
+      'IT' => 'Italy',
+      'MX' => 'Mexico',
+      'AR' => 'Argentina'
+    }
+    
+    country_mapping[country] || country
+  end
+
+  def can_view_address?(viewer)
+    return false unless has_address?
+    return true if viewer == self
+    
+    case address_visibility.to_sym
+    when :address_private
+      false
+    when :connected_users
+      viewer && connected_to?(viewer)
+    when :address_public
+      true
+    else
+      false
+    end
+  end
+
   private
+  
+  def address_completeness
+    # If user is providing any address information, require all fields except apartment_unit
+    if address_fields_present?
+      required_address_fields = [:street_number, :street_address, :city, :state, :postal_code, :country]
+      
+      required_address_fields.each do |field|
+        if send(field).blank?
+          errors.add(field, :blank)
+        end
+      end
+    end
+  end
+  
+  def address_fields_present?
+    [street_number, street_address, city, state, postal_code, country, apartment_unit].any?(&:present?)
+  end
 
   def create_default_notification_preference
     build_notification_preference.save unless notification_preference

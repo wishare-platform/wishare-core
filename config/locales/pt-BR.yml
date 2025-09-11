@@ -457,6 +457,14 @@ pt-BR:
       title: "Perfil Wishare de %{name}"
       public_wishlists: "Listas Públicas"
       no_public_wishlists: "Nenhuma lista pública disponível"
+
+  users:
+    public_profile:
+      mailing_address: "Endereço para Correspondência"
+      address_provided_separately: "Endereço será fornecido separadamente na seleção do presente"
+      address_visibility:
+        public: "Público"
+        friends_family: "Apenas Amigos e Família"
   
   notifications:
     title: "Notificações"
@@ -639,6 +647,39 @@ pt-BR:
         cancel: "Cancelar"
         delete_account: "Excluir Conta"
         delete_confirm: "Tem certeza absoluta? Isso excluirá permanentemente sua conta e todas suas listas de desejos."
+      address:
+        title: "Informações de Endereço"
+        description: "Adicione seu endereço para correspondência para receber presentes de amigos e familiares. Perfeito para influenciadores e listas públicas."
+        visibility_label: "Quem pode ver seu endereço?"
+        country: "País"
+        select_country: "Selecione o País"
+        postal_code: "CEP/Código Postal"
+        postal_code_placeholder: "12345-678"
+        postal_code_help: "Digite seu CEP, depois clique em buscar para preencher automaticamente seu endereço"
+        lookup_button: "Buscar Endereço"
+        street_number: "Número"
+        street_number_placeholder: "123"
+        apartment_unit: "Apartamento/Complemento"
+        apartment_unit_placeholder: "Apto 4B, Sala 101"
+        street_address: "Logradouro"
+        street_address_placeholder: "Rua das Flores, Avenida Paulista"
+        city: "Cidade"
+        city_placeholder: "São Paulo"
+        state: "Estado/UF"
+        state_placeholder: "SP"
+        visibility:
+          private:
+            title: "Privado"
+            description: "Apenas você pode ver seu endereço. Mantenha suas informações completamente privadas."
+          connected_users:
+            title: "Amigos e Família"
+            description: "Seus amigos e familiares conectados podem ver seu endereço para lhe enviarem presentes."
+          public:
+            title: "Público"
+            description: "Qualquer pessoa vendo seu perfil público pode ver seu endereço. Ótimo para influenciadores e registros."
+        privacy_notice:
+          title: "Privacidade e Segurança"
+          description: "Considere usar uma caixa postal ou endereço comercial para visibilidade pública. Sempre seja cauteloso ao compartilhar informações pessoais online."
       avatar:
         google_source: "Foto do perfil do Google"
         click_to_change: "Clique para alterar avatar"
@@ -946,3 +987,8 @@ pt-BR:
       settings: "Configurações de Cookies"
       essential_only: "Apenas Essenciais"
       accept_all: "Aceitar Todos"
+
+  address_lookup:
+    errors:
+      postal_code_required: "CEP é obrigatório"
+      lookup_failed: "Falha na busca do endereço"

@@ -65,6 +65,9 @@ end
 # Email delivery - Using SendGrid API (not SMTP) for Railway compatibility
 gem "sendgrid-ruby"
 
+# HTTP requests for address lookup services
+gem "httparty"
+
 # Admin panel pagination
 gem "kaminari"
 

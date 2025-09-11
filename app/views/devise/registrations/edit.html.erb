@@ -155,6 +155,208 @@
           </div>
         </div>
 
+        <!-- Address Information -->
+        <div class="space-y-6 pt-6 border-t border-gray-200" 
+             data-controller="address-lookup" 
+             data-address-lookup-lookup-url-value="<%= address_lookups_lookup_path %>"
+             data-address-lookup-csrf-token-value="<%= form_authenticity_token %>">
+          <h3 class="text-lg font-semibold text-gray-800 flex items-center gap-2">
+            <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            <%= t('profile.edit.address.title') %>
+          </h3>
+
+          <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+            <p class="text-sm text-blue-800">
+              <%= t('profile.edit.address.description') %>
+            </p>
+          </div>
+
+          <div class="grid gap-6">
+            <!-- Address Visibility Setting -->
+            <div>
+              <%= f.label :address_visibility, t('profile.edit.address.visibility_label'), class: "block text-sm font-medium text-gray-700 mb-2" %>
+              <div class="space-y-3">
+                <% User.address_visibilities.each do |visibility, value| %>
+                  <% clean_visibility = visibility.gsub('address_', '') %>
+                  <label class="flex items-start gap-3 p-3 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-rose-300 transition <%= 'border-rose-300 bg-rose-50' if f.object.address_visibility == visibility %>">
+                    <%= f.radio_button :address_visibility, visibility, class: "mt-1 text-rose-500 focus:ring-rose-500" %>
+                    <div>
+                      <span class="font-medium text-gray-800">
+                        <%= t("profile.edit.address.visibility.#{clean_visibility}.title") %>
+                      </span>
+                      <p class="text-sm text-gray-600 mt-1">
+                        <%= t("profile.edit.address.visibility.#{clean_visibility}.description") %>
+                      </p>
+                    </div>
+                  </label>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Country Selection -->
+            <div class="max-w-xs">
+              <%= f.label :country, t('profile.edit.address.country'), class: "block text-sm font-medium text-gray-700 mb-2" %>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <%= f.select :country, options_for_select([
+                  ['🇺🇸 United States', 'US'],
+                  ['🇧🇷 Brazil', 'BR'],
+                  ['🇨🇦 Canada', 'CA'],
+                  ['🇬🇧 United Kingdom', 'GB'],
+                  ['🇩🇪 Germany', 'DE'],
+                  ['🇫🇷 France', 'FR'],
+                  ['🇮🇹 Italy', 'IT'],
+                  ['🇪🇸 Spain', 'ES'],
+                  ['🇦🇺 Australia', 'AU'],
+                  ['🇲🇽 Mexico', 'MX']
+                ], f.object.country), 
+                { include_blank: t('profile.edit.address.select_country') },
+                { required: true,
+                  class: "w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition",
+                  data: { address_lookup_target: "country" } } %>
+              </div>
+            </div>
+
+            <!-- Postal Code with Lookup -->
+            <div>
+              <%= f.label :postal_code, t('profile.edit.address.postal_code'), class: "block text-sm font-medium text-gray-700 mb-2" %>
+              <div class="flex gap-3 max-w-md">
+                <div class="relative flex-1">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+                    </svg>
+                  </div>
+                  <%= f.text_field :postal_code, 
+                      required: true,
+                      class: "w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition",
+                      placeholder: t('profile.edit.address.postal_code_placeholder'),
+                      data: { address_lookup_target: "postalCode" } %>
+                </div>
+                <button type="button" 
+                        class="px-4 py-3 bg-rose-500 text-white rounded-xl hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 transition text-sm font-medium whitespace-nowrap shadow-sm flex items-center gap-1.5"
+                        data-address-lookup-target="lookupButton"
+                        data-action="click->address-lookup#lookupAddress">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                  </svg>
+                  <span class="hidden sm:inline"><%= t('profile.edit.address.lookup_button') %></span>
+                  <span class="sm:hidden">Buscar</span>
+                </button>
+              </div>
+              <p class="mt-2 text-xs text-gray-500">📍 <%= t('profile.edit.address.postal_code_help') %></p>
+            </div>
+
+            <!-- Address Fields -->
+            <div class="space-y-6">
+              <!-- Street Number and Apartment/Unit -->
+              <div class="grid gap-4 sm:grid-cols-3">
+                <div>
+                  <%= f.label :street_number, t('profile.edit.address.street_number'), class: "block text-sm font-medium text-gray-700 mb-2" %>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                      </svg>
+                    </div>
+                    <%= f.text_field :street_number,
+                        required: true,
+                        class: "w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition",
+                        placeholder: t('profile.edit.address.street_number_placeholder') %>
+                  </div>
+                </div>
+                
+                <div class="sm:col-span-2">
+                  <%= f.label :apartment_unit, t('profile.edit.address.apartment_unit'), class: "block text-sm font-medium text-gray-700 mb-2" %>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                      </svg>
+                    </div>
+                    <%= f.text_field :apartment_unit,
+                        class: "w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition",
+                        placeholder: t('profile.edit.address.apartment_unit_placeholder') %>
+                  </div>
+                  <p class="mt-1 text-xs text-gray-500">💡 <%= t('profile.edit.address.apartment_optional') if I18n.exists?('profile.edit.address.apartment_optional') %></p>
+                </div>
+              </div>
+
+              <div>
+                <%= f.label :street_address, t('profile.edit.address.street_address'), class: "block text-sm font-medium text-gray-700 mb-2" %>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                  </div>
+                  <%= f.text_area :street_address, rows: 2,
+                      required: true,
+                      class: "w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition resize-none",
+                      placeholder: t('profile.edit.address.street_address_placeholder'),
+                      data: { address_lookup_target: "streetAddress" } %>
+                </div>
+              </div>
+
+              <!-- City and State -->
+              <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <%= f.label :city, t('profile.edit.address.city'), class: "block text-sm font-medium text-gray-700 mb-2" %>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                      </svg>
+                    </div>
+                    <%= f.text_field :city,
+                        required: true,
+                        class: "w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition",
+                        placeholder: t('profile.edit.address.city_placeholder'),
+                        data: { address_lookup_target: "city" } %>
+                  </div>
+                </div>
+
+                <div>
+                  <%= f.label :state, t('profile.edit.address.state'), class: "block text-sm font-medium text-gray-700 mb-2" %>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+                      </svg>
+                    </div>
+                    <%= f.text_field :state,
+                        required: true,
+                        class: "w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition",
+                        placeholder: t('profile.edit.address.state_placeholder'),
+                        data: { address_lookup_target: "state" } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.704-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                </svg>
+                <div>
+                  <h4 class="text-sm font-semibold text-amber-800"><%= t('profile.edit.address.privacy_notice.title') %></h4>
+                  <p class="text-sm text-amber-700 mt-1">
+                    <%= t('profile.edit.address.privacy_notice.description') %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Security Settings -->
         <div class="space-y-6 pt-6 border-t border-gray-200">
           <h3 class="text-lg font-semibold text-gray-800 flex items-center gap-2">

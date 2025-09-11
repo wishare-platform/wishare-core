@@ -45,7 +45,7 @@ en:
               - "Contains adult content or is inappropriate for all audiences"
         privacy:
           title: "5. Privacy and Data"
-          content: "Your privacy is important to us. Our collection and use of personal information is governed by our Privacy Policy, which is incorporated into these Terms by reference."
+          content: "Your privacy is important to us. Our collection and use of personal information is governed by our Privacy Policy, which is incorporated into these Terms by reference. <br><br><strong>Address Information:</strong> Users may optionally provide mailing addresses to facilitate gift delivery. Address visibility is controlled by user privacy settings: Private (only visible to you), Friends & Family (visible to connected users), or Public (visible on public profile). Users are responsible for the accuracy and safety considerations of shared address information."
         intellectual_property:
           title: "6. Intellectual Property"
           content: "Wishare and its original content, features, and functionality are owned by Wishare and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws. Our trademarks and trade dress may not be used without our prior written consent."
@@ -91,6 +91,7 @@ en:
             list:
               - "**Account Information:** Name, email address, and password (encrypted)"
               - "**Profile Data:** Avatar/profile picture (when provided via Google OAuth)"
+              - "**Address Information:** Street address, city, state/province, postal code, and country (optional - only collected when provided by user)"
               - "**OAuth Data:** When you sign in with Google, we receive your Google ID, email, name, and profile picture"
           content:
             title: "Content and Usage Data"

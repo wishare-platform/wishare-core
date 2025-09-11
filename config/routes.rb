@@ -34,6 +34,7 @@ Rails.application.routes.draw do
     
     # Utility endpoints
     post '/wishlist_items/extract_url_metadata', to: 'wishlist_items#extract_url_metadata'
+    post '/address_lookups/lookup', to: 'address_lookups#lookup'
     
     # Public user profiles
     resources :users, only: [:show]

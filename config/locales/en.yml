@@ -456,6 +456,14 @@ en:
     public:
       title: "%{name}'s Wishare Profile"
       public_wishlists: "Public Wishlists"
+
+  users:
+    public_profile:
+      mailing_address: "Mailing Address"
+      address_provided_separately: "Address will be provided separately upon gift selection"
+      address_visibility:
+        public: "Public"
+        friends_family: "Friends & Family Only"
       no_public_wishlists: "No public wishlists available"
   
   notifications:
@@ -639,6 +647,39 @@ en:
         cancel: "Cancel"
         delete_account: "Delete Account"
         delete_confirm: "Are you absolutely sure? This will permanently delete your account and all your wishlists."
+      address:
+        title: "Address Information"
+        description: "Add your mailing address to receive gifts from friends and family. Perfect for influencers and public wishlists."
+        visibility_label: "Who can see your address?"
+        country: "Country"
+        select_country: "Select Country"
+        postal_code: "ZIP/Postal Code"
+        postal_code_placeholder: "12345 or 12345-6789"
+        postal_code_help: "Enter your ZIP or postal code, then click lookup to auto-fill your address"
+        lookup_button: "Lookup Address"
+        street_number: "Street Number"
+        street_number_placeholder: "123"
+        apartment_unit: "Apartment/Unit"
+        apartment_unit_placeholder: "Apt 4B, Suite 101"
+        street_address: "Street Address"
+        street_address_placeholder: "Main Street, Oak Avenue"
+        city: "City"
+        city_placeholder: "New York"
+        state: "State/Province"
+        state_placeholder: "NY"
+        visibility:
+          private:
+            title: "Private"
+            description: "Only you can see your address. Keep your information completely private."
+          connected_users:
+            title: "Friends & Family"
+            description: "Your connected friends and family can see your address to send you gifts."
+          public:
+            title: "Public"
+            description: "Anyone viewing your public profile can see your address. Great for influencers and registries."
+        privacy_notice:
+          title: "Privacy & Safety"
+          description: "Consider using a PO Box or workplace address for public visibility. Always be cautious about sharing personal information online."
       avatar:
         google_source: "Profile picture from Google"
         click_to_change: "Click to change avatar"
@@ -900,3 +941,8 @@ en:
       settings: "Cookie Settings"
       essential_only: "Essential Only"
       accept_all: "Accept All"
+
+  address_lookup:
+    errors:
+      postal_code_required: "Postal code is required"
+      lookup_failed: "Address lookup failed"
