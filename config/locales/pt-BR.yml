@@ -457,6 +457,21 @@ pt-BR:
       title: "Perfil Wishare de %{name}"
       public_wishlists: "Listas Públicas"
       no_public_wishlists: "Nenhuma lista pública disponível"
+      sharing_gift_ideas: "Compartilhando ideias de presentes no Wishare"
+      member_since: "Membro desde %{date}"
+      public_wishlists_title: "Listas Públicas"
+      public_wishlist_count:
+        one: "1 lista pública"
+        other: "%{count} listas públicas"
+      default: "Padrão"
+      public: "Público"
+      recent_items: "Itens Recentes:"
+      more_items: "+%{count} mais itens"
+      no_items_yet: "Nenhum item ainda"
+      no_public_wishlists_yet: "Nenhuma Lista Pública Ainda"
+      no_public_wishlists_description: "%{name} ainda não compartilhou listas públicas. Volte mais tarde para ver ideias de presentes!"
+      view_wishlist: "Ver Lista"
+      back_to_dashboard: "Voltar ao Dashboard"
 
   users:
     public_profile:

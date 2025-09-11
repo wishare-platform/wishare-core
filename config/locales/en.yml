@@ -435,26 +435,6 @@ en:
       invitation_expired: "This invitation has expired"
       invitation_invalid: "This invitation is invalid"
   
-  profile:
-    edit:
-      title: "Edit Profile"
-      subtitle: "Manage your account settings"
-      personal_info: "Personal Information"
-      name: "Name"
-      email: "Email"
-      date_of_birth: "Date of Birth"
-      date_of_birth_help: "Used for birthday reminders for your connections"
-      preferred_language: "Preferred Language"
-      password_section: "Change Password"
-      current_password: "Current password"
-      new_password: "New password"
-      confirm_password: "Confirm new password"
-      password_help: "Leave blank if you don't want to change it"
-      current_password_help: "We need your current password to confirm your changes"
-      save_button: "Save Changes"
-      cancel_button: "Cancel"
-    public:
-      title: "%{name}'s Wishare Profile"
       public_wishlists: "Public Wishlists"
 
   users:
@@ -465,6 +445,21 @@ en:
         public: "Public"
         friends_family: "Friends & Family Only"
       no_public_wishlists: "No public wishlists available"
+      sharing_gift_ideas: "Sharing gift ideas on Wishare"
+      member_since: "Member since %{date}"
+      public_wishlists_title: "Public Wishlists"
+      public_wishlist_count:
+        one: "1 public wishlist"
+        other: "%{count} public wishlists"
+      default: "Default"
+      public: "Public"
+      recent_items: "Recent Items:"
+      more_items: "+%{count} more items"
+      no_items_yet: "No items yet"
+      no_public_wishlists_yet: "No Public Wishlists Yet"
+      no_public_wishlists_description: "%{name} hasn't shared any public wishlists yet. Check back later for gift ideas!"
+      view_wishlist: "View Wishlist"
+      back_to_dashboard: "Back to Dashboard"
   
   notifications:
     title: "Notifications"
@@ -571,42 +566,6 @@ en:
       closing_message: "Thanks for using Wishare to make gifting more thoughtful!"
       signature: "Happy gifting!"
   
-  common:
-    actions:
-      save: "Save"
-      cancel: "Cancel"
-      delete: "Delete"
-      edit: "Edit"
-      back: "Back"
-      continue: "Continue"
-      confirm: "Confirm"
-      view_all: "View All"
-      invite: "Invite"
-      new: "New"
-      back_to_my_wishlists: "Back to My Wishlists"
-    footer:
-      tagline: "Share joy, give thoughtfully"
-      terms_of_service: "Terms of Service"
-      privacy_policy: "Privacy Policy"
-      copyright: "© %{year} Wishare"
-    emails:
-      tagline: "Thoughtful gifting made simple"
-      unsubscribe_info: "You can update your notification preferences at"
-      notification_preferences: "notification settings"
-    status:
-      loading: "Loading..."
-      saving: "Saving..."
-      success: "Success!"
-      error: "Something went wrong"
-      pending: "Pending"
-    time:
-      just_now: "Just now"
-      minutes_ago: "%{count} minutes ago"
-      hours_ago: "%{count} hours ago"
-      days_ago: "%{count} days ago"
-      weeks_ago: "%{count} weeks ago"
-      today: "TODAY!"
-      ago: "ago"
 
   profile:
     edit:

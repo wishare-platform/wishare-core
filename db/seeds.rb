@@ -38,12 +38,20 @@ main_user = User.create!(
   password: "password123",
   password_confirmation: "password123",
   name: "Hel Rabelo",
-  date_of_birth: Date.new(1990, 3, 15),
+  date_of_birth: Date.new(1991, 3, 15),
   avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=helena",
-  preferred_locale: "pt-BR"
+  preferred_locale: "pt-BR",
+  # Famous address in São Paulo - Copacabana Palace area (luxury hotel district)
+  street_number: "1702",
+  street_address: "Avenida Atlântica",
+  city: "Rio de Janeiro",
+  state: "RJ",
+  postal_code: "22021001",
+  country: "BR",
+  address_visibility: :public
 )
 
-# Create Ylana (the partner mentioned in the stories)
+# Create Ylana (the partner mentioned in the stories)  
 ylana = User.create!(
   email: "ylana@wishare.xyz", 
   password: "password123",
@@ -51,7 +59,15 @@ ylana = User.create!(
   name: "Ylana Moreira",
   date_of_birth: Date.new(1992, 8, 14),
   avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=ylana",
-  preferred_locale: "pt-BR"
+  preferred_locale: "pt-BR",
+  # Famous address in São Paulo - Rua Oscar Freire (luxury shopping district)
+  street_number: "909",
+  street_address: "Rua Oscar Freire",
+  city: "São Paulo",
+  state: "SP", 
+  postal_code: "01426001",
+  country: "BR",
+  address_visibility: :connected_users
 )
 
 friend2 = User.create!(
@@ -61,7 +77,15 @@ friend2 = User.create!(
   name: "Michael Chen",
   date_of_birth: Date.new(1988, 11, 8),
   avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=michael",
-  preferred_locale: "en"
+  preferred_locale: "en",
+  # Famous address in Brasília - Palácio da Alvorada area (presidential district)
+  street_number: "1",
+  street_address: "Palácio da Alvorada",
+  city: "Brasília",
+  state: "DF",
+  postal_code: "70150900",
+  country: "BR",
+  address_visibility: :connected_users
 )
 
 family1 = User.create!(
@@ -71,7 +95,15 @@ family1 = User.create!(
   name: "Emma Davis",
   date_of_birth: Date.new(1985, 9, 12),
   avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=emma",
-  preferred_locale: "pt-BR"
+  preferred_locale: "pt-BR",
+  # Famous address in Salvador - Pelourinho (historic center)
+  street_number: "6",
+  street_address: "Largo do Pelourinho",
+  city: "Salvador",
+  state: "BA",
+  postal_code: "40026280",
+  country: "BR",
+  address_visibility: :connected_users
 )
 
 # Create user with pending invitation
@@ -93,7 +125,15 @@ public_user = User.create!(
   name: "Alex Thompson",
   date_of_birth: Date.new(1987, 12, 3),
   avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=alex",
-  preferred_locale: "pt-BR"
+  preferred_locale: "pt-BR",
+  # Famous address in Florianópolis - Jurerê Internacional (luxury beach area)
+  street_number: "1470",
+  street_address: "Avenida dos Búzios",
+  city: "Florianópolis",
+  state: "SC",
+  postal_code: "88053700",
+  country: "BR",
+  address_visibility: :public
 )
 
 puts "Creating connections..."
@@ -204,7 +244,7 @@ puts "Creating wishlists..."
 running_shoes_list = Wishlist.create!(
   user: main_user,
   name: "Tênis de Corrida 👟",
-  description: "Todos os 17 pares que quero ganhar (conforme mencionado no Instagram!)",
+  description: "Todos os 17 pares que quero ganhar porque sou PÉSSIMA pra saber o que quero! Ylana, se você está lendo isso, pode escolher qualquer um que eu fico feliz... desde que não seja chinelo 😂",
   event_type: "none",
   is_default: true,
   visibility: :partner_only
@@ -213,7 +253,7 @@ running_shoes_list = Wishlist.create!(
 birthday_list = Wishlist.create!(
   user: main_user,
   name: "Aniversário 2025 🎂",
-  description: "Coisas que adoraria ganhar no meu aniversário em março!",
+  description: "Coisas que adoraria ganhar no meu aniversário em março! Aproveitei e já deixei uma lista pronta porque vocês sabem como sou ruim pra decidir na hora 🤷‍♀️",
   event_type: "birthday",
   event_date: Date.new(2025, 3, 15),
   is_default: false,
@@ -248,11 +288,11 @@ private_list = Wishlist.create!(
   visibility: :private_list
 )
 
-# Fun event wishlist (as mentioned in Instagram - "até wishlists pra eventos: Natal, casamento, divórcio")
+# Fun event wishlist - German Spitz chaos management
 fun_event_list = Wishlist.create!(
   user: main_user,
-  name: "Lista do Divórcio 😅",
-  description: "Porque até isso vira evento, né? (Brincadeira!)",
+  name: "Sobrevivência com 4 German Spitz 🐕",
+  description: "Itens para sobreviver à tirania da Cacao e ao caos da Olivia. Linda e Oliver são anjos, mas as outras duas... que Deus me ajude 😅 (Sim Ylana, você pode mostrar essa lista pra elas, elas já sabem que mandam na casa mesmo)",
   event_type: "other",
   is_default: false,
   visibility: :publicly_visible
@@ -262,7 +302,7 @@ fun_event_list = Wishlist.create!(
 ylana_puzzles = Wishlist.create!(
   user: ylana,
   name: "Quebra-cabeças 🧩",
-  description: "Meus 8432 quebra-cabeças favoritos (como mencionado no Instagram!)",
+  description: "Meus 8432 quebra-cabeças favoritos! Hel sempre exagera nos números, mas confesso que tenho uns 9... ou 10... ok, talvez mais 😅 Vocês sabem como é, não consigo resistir a um quebra-cabeça bonito!",
   event_type: "none",
   is_default: true,
   visibility: :partner_only
@@ -315,7 +355,7 @@ puts "Creating wishlist items..."
 WishlistItem.create!(
   wishlist: running_shoes_list,
   name: "Nike Alphafly Next% 3",
-  description: "Para quebrar recordes pessoais",
+  description: "Para quebrar recordes pessoais (que atualmente é conseguir correr 1km sem parar pra tirar selfie 🤳)",
   url: "https://www.nike.com.br/tenis-alphafly-next-3-081573.html",
   price: 2999.99,
   currency: 'BRL',
@@ -326,7 +366,7 @@ WishlistItem.create!(
 WishlistItem.create!(
   wishlist: running_shoes_list,
   name: "Adidas Adizero Adios Pro 4",
-  description: "Tecnologia de ponta para maratonas",
+  description: "Tecnologia de ponta para maratonas (ou para correr atrás do Uber que passou direto 🚗💨)",
   url: "https://www.adidas.com.br/tenis-adizero-adios-pro-4/JR1094.html",
   price: 1899.99,
   currency: 'BRL',
@@ -569,22 +609,12 @@ WishlistItem.create!(
   status: :available
 )
 
-# Fun "divorce" event items (humor from Instagram story)
+# German Spitz survival items (chaos management)
 WishlistItem.create!(
   wishlist: fun_event_list,
-  name: "Livro: Como Ser Solteiro e Feliz",
-  description: "Porque informação nunca é demais! 😂",
+  name: "Livro: Como Treinar Seu Dragão (versão canina)",
+  description: "Porque a Cacao literalmente é um dragão de 3kg que acha que manda na casa toda. Spoiler: ela manda mesmo 🐉",
   price: 39.90,
-  currency: 'BRL',
-  priority: :low,
-  status: :available
-)
-
-WishlistItem.create!(
-  wishlist: fun_event_list,
-  name: "Kit Spa em Casa",
-  description: "Self-care é fundamental sempre",
-  price: 159.99,
   currency: 'BRL',
   priority: :high,
   status: :available
@@ -592,11 +622,41 @@ WishlistItem.create!(
 
 WishlistItem.create!(
   wishlist: fun_event_list,
-  name: "Curso Online: Culinária para Um",
-  description: "Aprendendo a cozinhar porções individuais",
-  price: 89.90,
+  name: "Protetor Auricular Profissional",
+  description: "Para quando a Cacao decide que 6h da manhã é hora perfeita para seus discursos motivacionais (aka latidos sem parar) 🔊😴",
+  price: 89.99,
+  currency: 'BRL',
+  priority: :high,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: fun_event_list,
+  name: "Aspirador de Pó Industrial",
+  description: "Porque com a Olivia espalhando pelos por toda casa, meu Roomba teve uma crise existencial e pediu demissão 🤖💔",
+  price: 399.90,
   currency: 'BRL',
   priority: :medium,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: fun_event_list,
+  name: "Curso de Meditação e Paciência",
+  description: "Para quando a Linda faz aquela carinha de 'não entendi nada' depois que expliquei 47 vezes que não pode subir no sofá 🧘‍♂️",
+  price: 197.50,
+  currency: 'BRL',
+  priority: :medium,
+  status: :available
+)
+
+WishlistItem.create!(
+  wishlist: fun_event_list,
+  name: "Terapia para Oliver (Complexo de Édipo Canino)",
+  description: "O menino precisa entender que a Ylana não é SÓ dele. Ele me olha com ciúme quando eu dou beijo nela 🐕💔",
+  price: 250.00,
+  currency: 'BRL',
+  priority: :low,
   status: :available
 )
 
@@ -604,7 +664,7 @@ WishlistItem.create!(
 WishlistItem.create!(
   wishlist: ylana_puzzles,
   name: "Quebra-cabeça 2000 peças - Porto Colorido",
-  description: "Paisagem encantadora de um porto europeu",
+  description: "Paisagem encantadora de um porto europeu - vai ocupar a mesa da sala por uns 3 meses, mas vale a pena!",
   url: "https://www.lojagrow.com.br/quebra-cabeca-2000-pecas-porto-colorido/p",
   price: 89.90,
   currency: 'BRL',
@@ -637,7 +697,7 @@ WishlistItem.create!(
 WishlistItem.create!(
   wishlist: ylana_puzzles,
   name: "Quebra-cabeça 2000 peças - Estante de Cachorros",
-  description: "Para os amantes de pets e livros!",
+  description: "Para os amantes de pets e livros! Hel já comprou esse aqui (obrigada amor! ❤️) e agora fico olhando pros pedacinhos achando que tenho cachorro de verdade 🐶",
   url: "https://www.lojagrow.com.br/quebra-cabeca-2000-pecas-estante-de-cachorros/p",
   price: 89.90,
   currency: 'BRL',
@@ -974,48 +1034,47 @@ Notification.create!(
 
 puts "✅ Seeding complete!"
 puts ""
-puts "📧 Test Accounts Created (Instagram Demo Ready!):"
-puts "  👥 Main User: test@wishare.xyz / password123 (Hel Rabelo - ADMIN, Portuguese)"
-puts "  💕 Partner: ylana@wishare.xyz / password123 (Ylana Moreira - connected, Portuguese)"
-puts "  🤝 Friend 2: friend2@wishare.xyz / password123 (Michael - connected, English)"
-puts "  👨‍👩‍👧‍👦 Family: family1@wishare.xyz / password123 (Emma - connected, Portuguese)"
-puts "  📨 Pending: pending@wishare.xyz / password123 (David - has sent invitation, English)"
-puts "  🌍 Public: public@wishare.xyz / password123 (Alex - not connected, has public list, Portuguese)"
-puts "  🔧 Super Admin: admin@wishare.xyz / password123 (Super Admin - full admin access, English)"
+puts "🎉 Welcome to Wishare - Where Being Bad at Choosing Gifts is Finally an Advantage! 🎁"
 puts ""
-puts "🎁 Created (Perfect for Instagram Demo + Admin Testing!):"
-puts "  - #{User.count} users with language preferences (including 1 admin, 1 super admin)"
-puts "  - #{Connection.count} connections"
-puts "  - #{Invitation.count} invitations"
-puts "  - #{Wishlist.count} wishlists with event types (including the famous 17 running shoes & 8432 puzzles!)"
-puts "  - #{WishlistItem.count} wishlist items"
-puts "  - #{NotificationPreference.count} notification preferences"
-puts "  - #{Notification.count} sample notifications"
-puts "  - #{AnalyticsEvent.count} analytics events for dashboard metrics"
-puts "  - #{UserAnalytic.count} user analytics with engagement scoring"
+puts "📧 Test Accounts Created (Instagram Story Demo Ready!):"
+puts "  👑 Hel Rabelo (Main): test@wishare.xyz / password123 - The Running Shoe Addict (ADMIN, Portuguese) 👟"
+puts "      Lives at: Copacabana Palace area, Rio de Janeiro (because why not dream big? 😎)"
+puts "  🧩 Ylana Moreira (The Puzzle Queen): ylana@wishare.xyz / password123 - Has 'only' 9 puzzles (Portuguese)"
+puts "      Lives at: Rua Oscar Freire, São Paulo (shopping district for obvious reasons 🛍️)"
+puts "  🏛️ Michael Chen: friend2@wishare.xyz / password123 - Lives at the Palácio da Alvorada, Brasília (English)"
+puts "  📚 Emma Davis: family1@wishare.xyz / password123 - Lives in the historic Pelourinho, Salvador (Portuguese)" 
+puts "  ⏳ David Wilson: pending@wishare.xyz / password123 - Has sent invitation (English)"
+puts "  🏖️ Alex Thompson: public@wishare.xyz / password123 - Beach life in Jurerê Internacional, Florianópolis (Portuguese)"
+puts "  🔧 Super Admin: admin@wishare.xyz / password123 - The Boss of Everything (English)"
 puts ""
-puts "🔔 Notification System Features:"
-puts "  - Real-time in-app notifications"
-puts "  - Email notification preferences (instant/daily/weekly)"
-puts "  - Push notification support ready"
-puts "  - Sample notifications for testing"
+puts "🎁 What We've Created (Time to Flex on Instagram!):"
+puts "  - #{User.count} users living in Brazil's most exclusive addresses 🏠✨"
+puts "  - #{Connection.count} connections (because networking is everything)"
+puts "  - #{Invitation.count} invitations (some people are still deciding... 🤷‍♀️)"
+puts "  - #{Wishlist.count} wishlists including THE LEGENDARY 17 running shoes, Ylana's 'modest' 9+ puzzle collection & the German Spitz survival guide 🧩👟🐕"
+puts "  - #{WishlistItem.count} wishlist items with hilarious descriptions (some may cause laughter-induced snorting)"
+puts "  - #{NotificationPreference.count} notification preferences (because we're fancy like that)"
+puts "  - #{Notification.count} sample notifications (with Brazilian charm 🇧🇷)"
+puts "  - #{AnalyticsEvent.count} analytics events (we see everything... EVERYTHING 👁️)"
+puts "  - #{UserAnalytic.count} user analytics (stalking made professional)"
 puts ""
-puts "🌍 Internationalization Features:"
-puts "  - Brazilian Portuguese content and pricing (R$)"
-puts "  - Test language switching and locale formatting"
-puts "  - Date formats: PT-BR (DD/MM/YYYY)"
+puts "🏠 Famous Brazilian Addresses Included:"
+puts "  - Copacabana Palace area (because Hel deserves luxury 👑)"
+puts "  - Rua Oscar Freire luxury shopping (perfect for Ylana's puzzle addiction)"
+puts "  - Palácio da Alvorada (Michael living the presidential life)"
+puts "  - Historic Pelourinho (Emma keeping it cultural)"
+puts "  - Jurerê Internacional beach life (Alex living the dream)"
 puts ""
-puts "📱 Instagram Stories Ready!"
-puts "  - Login as Hel Rabelo (test@wishare.xyz) for main demo"
-puts "  - Login as Ylana (ylana@wishare.xyz) to see partner perspective"
-puts "  - Features the famous '17 running shoes' and '8432 puzzles' lists!"
-puts "  - Brazilian content, pricing, and cultural references"
+puts "🤣 Comedy Gold Features:"
+puts "  - Sarcastic wishlist descriptions that'll make your audience laugh"
+puts "  - Self-aware humor about being bad at choosing gifts"
+puts "  - Brazilian cultural references and pricing (R$)"
+puts "  - The legendary 'German Spitz Survival Guide' wishlist (Cacao is basically a tiny dictator 👑🐕)"
 puts ""
-puts "🔧 Admin Panel Testing Ready!"
-puts "  - Login as Hel Rabelo (test@wishare.xyz) then visit /admin for admin dashboard"
-puts "  - Login as Super Admin (admin@wishare.xyz) for full admin privileges"
-puts "  - Analytics dashboard with 30 days of realistic data"
-puts "  - User management with engagement scoring"
-puts "  - Wishlist content management and moderation tools"
+puts "📱 Instagram Story Content Ready:"
+puts "  '🎬 DEMO TIME: Login as Hel (test@wishare.xyz) to see my chaotic wishlist life'"
+puts "  '🧩 Or login as Ylana (ylana@wishare.xyz) to witness the puzzle empire'"
+puts "  '🔧 Admin panel at /admin shows off the technical skills (impress the nerds)'"
 puts ""
-puts "🚀 Perfect for showing off the app on Instagram! 🎥"
+puts "🎉 NOW GO MAKE THAT VIRAL INSTAGRAM STORY! 🚀"
+puts "🎯 Your audience will love the humor, relate to the gift-giving struggles, and see your coding skills!"
