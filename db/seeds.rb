@@ -318,6 +318,7 @@ WishlistItem.create!(
   description: "Para quebrar recordes pessoais",
   url: "https://www.nike.com.br/tenis-alphafly-next-3-081573.html",
   price: 2999.99,
+  currency: 'BRL',
   priority: :high,
   status: :available
 )
@@ -328,6 +329,7 @@ WishlistItem.create!(
   description: "Tecnologia de ponta para maratonas",
   url: "https://www.adidas.com.br/tenis-adizero-adios-pro-4/JR1094.html",
   price: 1899.99,
+  currency: 'BRL',
   priority: :high,
   status: :available
 )
@@ -338,6 +340,7 @@ WishlistItem.create!(
   description: "Máximo retorno de energia",
   url: "https://www.tf.com.br/tenis-unissex--hoka-cielo-x1-2-0-colorido/p",
   price: 1699.99,
+  currency: 'BRL',
   priority: :high,
   status: :available
 )
@@ -348,6 +351,7 @@ WishlistItem.create!(
   description: "Inovação suíça em corrida",
   url: "https://www.on.com/pt-br/products/cloudboom-strike-3me3048/mens/white-black-shoes-3ME30480462",
   price: 1299.99,
+  currency: 'BRL',
   priority: :medium,
   status: :available
 )
@@ -358,6 +362,7 @@ WishlistItem.create!(
   description: "Para competições sérias",
   url: "https://www.tf.com.br/tenis-saucony-endorphin-elite-masculino-branco-laranja/p",
   price: 1599.99,
+  currency: 'BRL',
   priority: :high,
   status: :purchased
 )
@@ -369,6 +374,7 @@ WishlistItem.create!(
   description: "O clássico dos recordes",
   url: "https://www.nike.com.br/",
   price: 2199.99,
+  currency: 'BRL',
   priority: :high,
   status: :available
 )
@@ -379,6 +385,7 @@ WishlistItem.create!(
   description: "Conforto supremo para treinos longos",
   url: "https://www.adidas.com.br/",
   price: 899.99,
+  currency: 'BRL',
   priority: :medium,
   status: :available
 )
@@ -389,6 +396,7 @@ WishlistItem.create!(
   description: "Versatilidade para todos os treinos",
   url: "https://www.tf.com.br/",
   price: 799.99,
+  currency: 'BRL',
   priority: :medium,
   status: :available
 )
@@ -399,6 +407,7 @@ WishlistItem.create!(
   description: "Placa de carbono para velocidade",
   url: "https://www.newbalance.com.br/",
   price: 1899.99,
+  currency: 'BRL',
   priority: :high,
   status: :available
 )
@@ -409,6 +418,7 @@ WishlistItem.create!(
   description: "Perfeito para tempo runs",
   url: "https://www.asics.com.br/",
   price: 1099.99,
+  currency: 'BRL',
   priority: :medium,
   status: :available
 )
@@ -419,6 +429,7 @@ WishlistItem.create!(
   description: "Inovação japonesa em running",
   url: "https://www.mizuno.com.br/",
   price: 1399.99,
+  currency: 'BRL',
   priority: :medium,
   status: :available
 )
@@ -429,6 +440,7 @@ WishlistItem.create!(
   description: "Para corredores sérios",
   url: "https://www.brooksrunning.com.br/",
   price: 1699.99,
+  currency: 'BRL',
   priority: :high,
   status: :available
 )
@@ -440,6 +452,7 @@ WishlistItem.create!(
   description: "Para o dia a dia e treinos",
   url: "https://www.apple.com/br/airpods-pro/",
   price: 2899.00,
+  currency: 'BRL',
   priority: :high,
   status: :available
 )
@@ -450,6 +463,7 @@ WishlistItem.create!(
   description: "Quero ler mais este ano!",
   url: "https://www.amazon.com.br/dp/B08KTZ8249",
   price: 899.99,
+  currency: 'BRL',
   priority: :high,
   status: :available
 )
@@ -460,6 +474,7 @@ WishlistItem.create!(
   description: "Adoro sets de arquitetura!",
   url: "https://www.lego.com/pt-br/product/statue-of-liberty-21042",
   price: 699.99,
+  currency: 'BRL',
   priority: :medium,
   status: :available
 )
@@ -470,6 +485,7 @@ WishlistItem.create!(
   description: "Para journaling e desenhos",
   url: "https://www.moleskine.com/pt-br/",
   price: 199.90,
+  currency: 'BRL',
   priority: :low,
   status: :available
 )
@@ -481,6 +497,7 @@ WishlistItem.create!(
   description: "Hora de fazer upgrade do meu Switch antigo",
   url: "https://www.nintendo.com.br/",
   price: 2499.99,
+  currency: 'BRL',
   priority: :high,
   status: :available
 )
@@ -491,6 +508,7 @@ WishlistItem.create!(
   description: "Para meal prep dos domingos",
   url: "https://www.mondial.com.br/",
   price: 299.99,
+  currency: 'BRL',
   priority: :medium,
   status: :available
 )
@@ -500,6 +518,7 @@ WishlistItem.create!(
   name: "Coleção de Meias Fofas",
   description: "Nunca é demais ter meias quentinhas!",
   price: 79.90,
+  currency: 'BRL',
   priority: :low,
   status: :available
 )
@@ -511,6 +530,7 @@ WishlistItem.create!(
   description: "The ultimate ergonomic office chair",
   url: "https://www.hermanmiller.com/products/seating/office-chairs/aeron-chairs/",
   price: 1795.00,
+  currency: 'USD',
   priority: :high,
   status: :available,
   image_url: "https://www.hermanmiller.com/content/dam/hmicom/page_assets/products/aeron_chairs/mh_prd_ovw_aeron_chairs.jpg"
@@ -522,6 +542,7 @@ WishlistItem.create!(
   description: "For better productivity with multiple windows",
   url: "https://www.lg.com/us/monitors",
   price: 599.99,
+  currency: 'USD',
   priority: :high,
   status: :available
 )
@@ -532,6 +553,7 @@ WishlistItem.create!(
   description: "For video calls and recordings",
   url: "https://www.bluemic.com/en-us/products/yeti/",
   price: 99.99,
+  currency: 'USD',
   priority: :medium,
   status: :purchased
 )
@@ -542,6 +564,7 @@ WishlistItem.create!(
   name: "Arduino Starter Kit",
   description: "Quero aprender eletrônica",
   price: 299.99,
+  currency: 'BRL',
   priority: :medium,
   status: :available
 )
@@ -552,6 +575,7 @@ WishlistItem.create!(
   name: "Livro: Como Ser Solteiro e Feliz",
   description: "Porque informação nunca é demais! 😂",
   price: 39.90,
+  currency: 'BRL',
   priority: :low,
   status: :available
 )
@@ -561,6 +585,7 @@ WishlistItem.create!(
   name: "Kit Spa em Casa",
   description: "Self-care é fundamental sempre",
   price: 159.99,
+  currency: 'BRL',
   priority: :high,
   status: :available
 )
@@ -570,6 +595,7 @@ WishlistItem.create!(
   name: "Curso Online: Culinária para Um",
   description: "Aprendendo a cozinhar porções individuais",
   price: 89.90,
+  currency: 'BRL',
   priority: :medium,
   status: :available
 )
@@ -581,6 +607,7 @@ WishlistItem.create!(
   description: "Paisagem encantadora de um porto europeu",
   url: "https://www.lojagrow.com.br/quebra-cabeca-2000-pecas-porto-colorido/p",
   price: 89.90,
+  currency: 'BRL',
   priority: :high,
   status: :available
 )
@@ -591,6 +618,7 @@ WishlistItem.create!(
   description: "Charme italiano em cada peça",
   url: "https://www.lojagrow.com.br/quebra-cabeca-2000-pecas-villaggio-d-italia/p",
   price: 89.90,
+  currency: 'BRL',
   priority: :high,
   status: :available
 )
@@ -601,6 +629,7 @@ WishlistItem.create!(
   description: "Um ateliê artístico cheio de detalhes",
   url: "https://www.lojagrow.com.br/quebra-cabeca-2000-pecas-atelie/p",
   price: 89.90,
+  currency: 'BRL',
   priority: :medium,
   status: :available
 )
@@ -611,6 +640,7 @@ WishlistItem.create!(
   description: "Para os amantes de pets e livros!",
   url: "https://www.lojagrow.com.br/quebra-cabeca-2000-pecas-estante-de-cachorros/p",
   price: 89.90,
+  currency: 'BRL',
   priority: :high,
   status: :purchased
 )
@@ -621,6 +651,7 @@ WishlistItem.create!(
   description: "O romantismo parisiense em quebra-cabeça",
   url: "https://www.lojagrow.com.br/quebra-cabeca-2000-pecas-entardecer-em-paris/p",
   price: 89.90,
+  currency: 'BRL',
   priority: :high,
   status: :available
 )
@@ -631,6 +662,7 @@ WishlistItem.create!(
   description: "Nostalgia americana dos anos 50",
   url: "https://www.lojagrow.com.br/quebra-cabeca-2000-pecas-rua-americana/p",
   price: 89.90,
+  currency: 'BRL',
   priority: :medium,
   status: :available
 )
@@ -641,6 +673,7 @@ WishlistItem.create!(
   description: "A beleza da Itália rural",
   url: "https://www.lojagrow.com.br/quebra---cabeca-2000-pecas-vilarejo-italiano/p",
   price: 89.90,
+  currency: 'BRL',
   priority: :medium,
   status: :available
 )
@@ -651,6 +684,7 @@ WishlistItem.create!(
   description: "Um mundo mágico e encantado",
   url: "https://www.lojagrow.com.br/quebra-cabeca-2000-pecas-vilarejo-das-fadas/p",
   price: 89.90,
+  currency: 'BRL',
   priority: :high,
   status: :available
 )
@@ -661,6 +695,7 @@ WishlistItem.create!(
   description: "Tranquilidade litorânea em 2000 peças",
   url: "https://www.lojagrow.com.br/quebra-cabeca-2000-pecas-casa-na-praia/p",
   price: 89.90,
+  currency: 'BRL',
   priority: :medium,
   status: :purchased
 )
@@ -672,6 +707,7 @@ WishlistItem.create!(
   description: "Para quem ama livros e mistérios",
   url: "https://www.lojagrow.com.br/quebra-cabeca-1000-pecas-biblioteca-antiga/p",
   price: 59.90,
+  currency: 'BRL',
   priority: :medium,
   status: :available
 )
@@ -682,6 +718,7 @@ WishlistItem.create!(
   description: "Desafio máximo para exploradores!",
   url: "https://www.lojagrow.com.br/quebra-cabeca-3000-pecas-mapa-mundi-vintage/p",
   price: 139.90,
+  currency: 'BRL',
   priority: :high,
   status: :available
 )
@@ -692,6 +729,7 @@ WishlistItem.create!(
   description: "Perfeito para relaxar no fim de semana",
   url: "https://www.lojagrow.com.br/quebra-cabeca-500-pecas-jardim-secreto/p",
   price: 39.90,
+  currency: 'BRL',
   priority: :low,
   status: :available
 )
@@ -703,6 +741,7 @@ WishlistItem.create!(
   description: "Coleção de chás especiais do mundo",
   url: "https://www.tea.com.br/",
   price: 189.99,
+  currency: 'BRL',
   priority: :high,
   status: :available
 )
@@ -712,6 +751,7 @@ WishlistItem.create!(
   name: "Livro: O Poder do Agora",
   description: "Leitura para mindfulness",
   price: 45.90,
+  currency: 'BRL',
   priority: :medium,
   status: :available
 )
@@ -723,6 +763,7 @@ WishlistItem.create!(
   description: "For my home automation projects",
   url: "https://www.raspberrypi.com/products/raspberry-pi-5/",
   price: 80.00,
+  currency: 'USD',
   priority: :high,
   status: :available
 )
@@ -732,6 +773,7 @@ WishlistItem.create!(
   name: "Mechanical Keyboard - Keychron K2",
   description: "Wireless mechanical keyboard for coding",
   price: 99.00,
+  currency: 'USD',
   priority: :medium,
   status: :available
 )
@@ -742,6 +784,7 @@ WishlistItem.create!(
   name: "The Midnight Library by Matt Haig",
   description: "Heard great things about this book",
   price: 16.99,
+  currency: 'USD',
   priority: :high,
   status: :available
 )
@@ -751,6 +794,7 @@ WishlistItem.create!(
   name: "Project Hail Mary by Andy Weir",
   description: "Love sci-fi novels!",
   price: 18.99,
+  currency: 'USD',
   priority: :high,
   status: :purchased
 )
@@ -760,6 +804,7 @@ WishlistItem.create!(
   name: "Book Light for Reading in Bed",
   description: "Don't want to disturb anyone",
   price: 12.99,
+  currency: 'USD',
   priority: :low,
   status: :available
 )
@@ -770,6 +815,7 @@ WishlistItem.create!(
   name: "Photography Course - Online",
   description: "Want to improve my photography skills",
   price: 199.00,
+  currency: 'USD',
   priority: :high,
   status: :available
 )
@@ -779,6 +825,7 @@ WishlistItem.create!(
   name: "Camera Lens - 50mm f/1.8",
   description: "For portrait photography",
   price: 125.00,
+  currency: 'USD',
   priority: :medium,
   status: :available
 )

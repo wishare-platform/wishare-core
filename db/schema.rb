@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_10_223006) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_11_102521) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -184,6 +184,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_10_223006) do
     t.datetime "purchased_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "currency", limit: 3, default: "USD"
+    t.index ["currency"], name: "index_wishlist_items_on_currency"
     t.index ["purchased_by_id"], name: "index_wishlist_items_on_purchased_by_id"
     t.index ["wishlist_id"], name: "index_wishlist_items_on_wishlist_id"
   end

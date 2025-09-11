@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["url", "name", "description", "price", "image", "loading", "success", "error", "fetching", "populated", "errorMessage", "imagePreview", "previewImage", "imageLoading", "imageError"]
+  static targets = ["url", "name", "description", "price", "currency", "image", "loading", "success", "error", "fetching", "populated", "errorMessage", "imagePreview", "previewImage", "imageLoading", "imageError"]
   
   connect() {
     this.lastProcessedUrl = ''
@@ -165,6 +165,14 @@ export default class extends Controller {
       
       if (data.price && !this.priceTarget.value.trim()) {
         this.priceTarget.value = data.price
+        populated = true
+      }
+
+      if (data.currency && this.hasCurrencyTarget) {
+        this.currencyTarget.value = data.currency
+        // Trigger the currency selector update to show correct symbol
+        const event = new Event('change', { bubbles: true })
+        this.currencyTarget.dispatchEvent(event)
         populated = true
       }
       

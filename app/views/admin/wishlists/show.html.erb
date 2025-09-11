@@ -155,7 +155,7 @@
                     <div class="mt-2 flex items-center space-x-4 text-sm text-gray-500">
                       <% if item.price.present? %>
                         <span class="font-medium text-gray-900">
-                          <%= number_to_currency(item.price) %>
+                          <%= item.formatted_price %>
                         </span>
                       <% end %>
                       

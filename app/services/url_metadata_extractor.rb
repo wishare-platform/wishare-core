@@ -7,6 +7,59 @@ class UrlMetadataExtractor
   TIMEOUT = 10
   MAX_REDIRECTS = 5
 
+  CURRENCY_PATTERNS = {
+    # Amazon domains and their currencies
+    'amazon.com' => 'USD',
+    'amazon.com.br' => 'BRL',
+    'amazon.co.uk' => 'GBP',
+    'amazon.de' => 'EUR',
+    'amazon.fr' => 'EUR',
+    'amazon.it' => 'EUR',
+    'amazon.es' => 'EUR',
+    'amazon.ca' => 'CAD',
+    'amazon.com.au' => 'AUD',
+    'amazon.co.jp' => 'JPY',
+    'amazon.in' => 'INR',
+    
+    # Major retailers
+    'shopify.com' => 'USD',
+    'etsy.com' => 'USD',
+    'ebay.com' => 'USD',
+    'ebay.co.uk' => 'GBP',
+    'ebay.de' => 'EUR',
+    'mercadolivre.com.br' => 'BRL',
+    'magazineluiza.com.br' => 'BRL',
+    'americanas.com.br' => 'BRL',
+    'casasbahia.com.br' => 'BRL',
+    'zalando.de' => 'EUR',
+    'zalando.co.uk' => 'GBP',
+    'asos.com' => 'GBP',
+    'hm.com' => 'USD',
+    'zara.com' => 'USD',
+    'target.com' => 'USD',
+    'walmart.com' => 'USD',
+    'bestbuy.com' => 'USD',
+    'apple.com' => 'USD',
+    'nike.com.br' => 'BRL',
+    'nike.com' => 'USD',
+    'adidas.com.br' => 'BRL',
+    'adidas.com' => 'USD'
+  }.freeze
+
+  CURRENCY_REGEX_PATTERNS = [
+    # Price patterns with currency symbols
+    /\$\s*([0-9,]+\.?[0-9]*)/i,           # $99.99 or $1,299
+    /R\$\s*([0-9.,]+)/i,                  # R$ 99,99
+    /€\s*([0-9,]+\.?[0-9]*)/i,            # €99.99
+    /£\s*([0-9,]+\.?[0-9]*)/i,            # £99.99
+    /¥\s*([0-9,]+)/i,                     # ¥9999
+    /₹\s*([0-9,]+\.?[0-9]*)/i,            # ₹999.99
+    # Text-based currency patterns
+    /([0-9,]+\.?[0-9]*)\s*(USD|BRL|EUR|GBP|JPY|INR|CAD|AUD)/i,
+    # Meta property patterns
+    /content=["']([A-Z]{3}):([0-9.]+)["']/i
+  ].freeze
+
   def initialize(url)
     @url = url
     @metadata = {}
@@ -68,6 +121,7 @@ class UrlMetadataExtractor
     extract_description(doc)
     extract_image(doc)
     extract_price(doc)
+    extract_currency(doc, html)
     extract_open_graph_data(doc)
     extract_json_ld_data(doc)
   end
@@ -127,6 +181,39 @@ class UrlMetadataExtractor
     end
   end
 
+  def extract_currency(doc, html_content)
+    # Method 1: Domain-based detection
+    domain_currency = detect_currency_from_domain
+    if domain_currency
+      @metadata[:currency] = domain_currency
+      return
+    end
+
+    # Method 2: Meta tags
+    meta_currency = extract_currency_from_meta_tags(doc)
+    if meta_currency
+      @metadata[:currency] = meta_currency
+      return
+    end
+
+    # Method 3: Content analysis
+    content_currency = detect_currency_from_content(html_content)
+    if content_currency
+      @metadata[:currency] = content_currency
+      return
+    end
+
+    # Method 4: URL analysis (for country-specific subdomains)
+    url_currency = detect_currency_from_url_structure
+    if url_currency
+      @metadata[:currency] = url_currency
+      return
+    end
+
+    # Default fallback
+    @metadata[:currency] = 'USD'
+  end
+
   def extract_open_graph_data(doc)
     # Extract additional Open Graph data
     doc.css('meta[property^="og:"]').each do |meta|
@@ -167,6 +254,9 @@ class UrlMetadataExtractor
         if offers['price']
           @metadata[:price] ||= offers['price'].to_f
         end
+        if offers['priceCurrency'] && WishlistItem::CURRENCIES.key?(offers['priceCurrency'].upcase)
+          @metadata[:currency] ||= offers['priceCurrency'].upcase
+        end
       end
       
       if data['image']
@@ -206,5 +296,140 @@ class UrlMetadataExtractor
       # Fallback: just extract the first number
       text.scan(/[\d.,]+/).first&.to_f
     end
+  end
+
+  def detect_currency_from_domain
+    return nil if @url.blank?
+    
+    uri = URI.parse(@url)
+    domain = uri.host.downcase
+    
+    # Sort patterns by length (longest first) to match more specific domains first
+    sorted_patterns = CURRENCY_PATTERNS.sort_by { |pattern, _| -pattern.length }
+    
+    sorted_patterns.each do |pattern, currency|
+      # Use exact match or ends_with for more precise matching
+      if domain == pattern || domain.end_with?(".#{pattern}") || domain.end_with?(pattern)
+        return currency
+      end
+    end
+    
+    nil
+  rescue
+    nil
+  end
+
+  def extract_currency_from_meta_tags(doc)
+    # OpenGraph currency
+    currency = doc.at_css('meta[property="product:price:currency"]')&.[]('content')
+    return currency.upcase if currency && WishlistItem::CURRENCIES.key?(currency.upcase)
+
+    # Schema.org microdata
+    currency = doc.at_css('[itemprop="priceCurrency"]')&.[]('content')
+    return currency.upcase if currency && WishlistItem::CURRENCIES.key?(currency.upcase)
+
+    # JSON-LD structured data
+    scripts = doc.css('script[type="application/ld+json"]')
+    scripts.each do |script|
+      begin
+        data = JSON.parse(script.content)
+        currency = extract_currency_from_json_ld(data)
+        return currency if currency
+      rescue JSON::ParserError
+        next
+      end
+    end
+
+    nil
+  end
+
+  def extract_currency_from_json_ld(data)
+    return nil unless data.is_a?(Hash)
+
+    # Handle arrays
+    if data.is_a?(Array)
+      data.each do |item|
+        currency = extract_currency_from_json_ld(item)
+        return currency if currency
+      end
+      return nil
+    end
+
+    # Look for price currency in product schema
+    if data['@type'] == 'Product' && data['offers']
+      offers = data['offers'].is_a?(Array) ? data['offers'] : [data['offers']]
+      offers.each do |offer|
+        currency = offer['priceCurrency']
+        return currency.upcase if currency && WishlistItem::CURRENCIES.key?(currency.upcase)
+      end
+    end
+
+    # Recursively search nested objects
+    data.each_value do |value|
+      if value.is_a?(Hash) || value.is_a?(Array)
+        currency = extract_currency_from_json_ld(value)
+        return currency if currency
+      end
+    end
+
+    nil
+  end
+
+  def detect_currency_from_content(html_content)
+    # Look for currency symbols and patterns in the content
+    CURRENCY_REGEX_PATTERNS.each do |pattern|
+      match = html_content.match(pattern)
+      next unless match
+
+      case pattern.source
+      when /\\\$/
+        return 'USD'
+      when /R\\\$/
+        return 'BRL'
+      when /€/
+        return 'EUR'
+      when /£/
+        return 'GBP'
+      when /¥/
+        # Could be JPY or CNY, default to JPY
+        return 'JPY'
+      when /₹/
+        return 'INR'
+      when /([A-Z]{3})/
+        currency = match[2] || match[1]
+        return currency.upcase if WishlistItem::CURRENCIES.key?(currency.upcase)
+      end
+    end
+
+    nil
+  end
+
+  def detect_currency_from_url_structure
+    return nil if @url.blank?
+    
+    uri = URI.parse(@url)
+    
+    # Country code in subdomain (e.g., br.site.com, uk.site.com)
+    subdomain = uri.host.split('.').first
+    
+    country_to_currency = {
+      'br' => 'BRL',
+      'uk' => 'GBP',
+      'de' => 'EUR',
+      'fr' => 'EUR',
+      'it' => 'EUR',
+      'es' => 'EUR',
+      'ca' => 'CAD',
+      'au' => 'AUD',
+      'jp' => 'JPY',
+      'in' => 'INR',
+      'mx' => 'MXN',
+      'kr' => 'KRW',
+      'cn' => 'CNY'
+    }
+
+    country_to_currency[subdomain]
+  rescue
+    nil
   end
 end

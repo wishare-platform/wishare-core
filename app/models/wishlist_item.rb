@@ -5,12 +5,38 @@ class WishlistItem < ApplicationRecord
   enum :priority, { low: 0, medium: 1, high: 2 }
   enum :status, { available: 0, purchased: 1, reserved: 2 }
 
+  CURRENCIES = {
+    'BRL' => { symbol: 'R$', name: 'Brazilian Real' },
+    'USD' => { symbol: '$', name: 'US Dollar' },
+    'EUR' => { symbol: '€', name: 'Euro' },
+    'GBP' => { symbol: '£', name: 'British Pound' },
+    'JPY' => { symbol: '¥', name: 'Japanese Yen' },
+    'CAD' => { symbol: 'C$', name: 'Canadian Dollar' },
+    'AUD' => { symbol: 'A$', name: 'Australian Dollar' },
+    'CHF' => { symbol: 'CHF', name: 'Swiss Franc' },
+    'CNY' => { symbol: '¥', name: 'Chinese Yuan' },
+    'INR' => { symbol: '₹', name: 'Indian Rupee' },
+    'KRW' => { symbol: '₩', name: 'South Korean Won' },
+    'MXN' => { symbol: 'MX$', name: 'Mexican Peso' },
+    'SGD' => { symbol: 'S$', name: 'Singapore Dollar' },
+    'NOK' => { symbol: 'kr', name: 'Norwegian Krone' },
+    'SEK' => { symbol: 'kr', name: 'Swedish Krona' },
+    'DKK' => { symbol: 'kr', name: 'Danish Krone' },
+    'PLN' => { symbol: 'zł', name: 'Polish Zloty' },
+    'CZK' => { symbol: 'Kč', name: 'Czech Koruna' },
+    'HUF' => { symbol: 'Ft', name: 'Hungarian Forint' },
+    'RUB' => { symbol: '₽', name: 'Russian Ruble' }
+  }.freeze
+
+  PRIORITY_CURRENCIES = %w[BRL USD EUR GBP JPY CAD AUD].freeze
+
   validates :name, presence: true
   validates :priority, presence: true
   validates :status, presence: true
   validates :url, format: URI::DEFAULT_PARSER.make_regexp(%w[http https]), allow_blank: true
   validate :unique_normalized_url, if: :url?
   validates :price, numericality: { greater_than_or_equal_to: 0 }, allow_blank: true
+  validates :currency, inclusion: { in: CURRENCIES.keys }
 
   before_validation :extract_metadata_from_url, if: :url_changed?
 
@@ -48,7 +74,44 @@ class WishlistItem < ApplicationRecord
     nil
   end
 
+  def currency_symbol
+    CURRENCIES[currency || 'USD'][:symbol]
+  end
+
+  def currency_name
+    CURRENCIES[currency || 'USD'][:name]
+  end
+
+  def formatted_price
+    return I18n.t('wishlists.show.price_not_set', default: 'Price not set') unless price.present?
+    
+    # Format price based on currency conventions
+    case currency
+    when 'BRL'
+      # Brazilian format: R$ 1.234,56
+      "R$ #{number_with_delimiter(price.to_f.round(2), delimiter: '.', separator: ',')}"
+    when 'EUR'
+      # Euro format: €1,234.56 or 1.234,56 € (using US format for consistency)
+      "€#{number_with_delimiter(price.to_f.round(2), delimiter: ',', separator: '.')}"
+    when 'GBP'
+      # British format: £1,234.56
+      "£#{number_with_delimiter(price.to_f.round(2), delimiter: ',', separator: '.')}"
+    when 'JPY', 'KRW'
+      # Japanese/Korean format: ¥1,234 (no decimals)
+      "#{currency_symbol}#{number_with_delimiter(price.to_i, delimiter: ',')}"
+    else
+      # Default format (USD, CAD, AUD, etc.): $1,234.56
+      "#{currency_symbol}#{number_with_delimiter(price.to_f.round(2), delimiter: ',', separator: '.')}"
+    end
+  end
+  
   private
+  
+  def number_with_delimiter(number, delimiter: ',', separator: '.')
+    parts = number.to_s.split('.')
+    parts[0].gsub!(/(\d)(?=(\d\d\d)+(?!\d))/, "\\1#{delimiter}")
+    parts.join(separator)
+  end
 
   def extract_metadata_from_url
     return if url.blank?
@@ -58,6 +121,7 @@ class WishlistItem < ApplicationRecord
     self.description = metadata[:description] if description.blank? && metadata[:description].present?
     self.image_url = metadata[:image] if image_url.blank? && metadata[:image].present?
     self.price = metadata[:price] if price.blank? && metadata[:price].present?
+    self.currency = metadata[:currency] if currency.blank? && metadata[:currency].present? && CURRENCIES.key?(metadata[:currency])
   end
 
   def unique_normalized_url

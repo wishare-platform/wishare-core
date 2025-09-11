@@ -134,7 +134,7 @@ class WishlistItemsController < ApplicationController
   end
 
   def wishlist_item_params
-    params.require(:wishlist_item).permit(:name, :description, :price, :url, :image_url, :priority)
+    params.require(:wishlist_item).permit(:name, :description, :price, :currency, :url, :image_url, :priority)
   end
 
   def can_view_wishlist?(wishlist)

@@ -101,7 +101,7 @@
                         </span>
                         <% if item.price.present? %>
                           <span class="text-xs text-gray-500">
-                            $<%= number_with_precision(item.price, precision: 0) %>
+                            <%= item.formatted_price %>
                           </span>
                         <% end %>
                       </div>

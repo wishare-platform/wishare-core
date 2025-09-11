@@ -167,7 +167,7 @@
             
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-4">
               <% if item.price.present? %>
-                <span class="text-lg sm:text-xl font-bold text-gray-800">$<%= item.price %></span>
+                <span class="text-lg sm:text-xl font-bold text-gray-800"><%= item.formatted_price %></span>
               <% else %>
                 <span class="text-sm text-gray-500"><%= t('wishlists.show.price_not_set') %></span>
               <% end %>
