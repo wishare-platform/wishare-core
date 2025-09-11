@@ -638,15 +638,17 @@
           <div class="flex items-center gap-2 text-center md:text-left">
             <span class="text-xl">💝</span>
             <div>
-              <div class="font-bold bg-gradient-to-r from-rose-500 to-purple-600 bg-clip-text text-transparent">
+              <div class="font-display font-semibold bg-gradient-to-r from-rose-500 to-purple-600 bg-clip-text text-transparent text-lg">
                 Wishare
               </div>
-              <div class="text-xs text-gray-500"><%= t('common.footer.tagline') %></div>
+              <div class="text-xs text-gray-500 font-inter">
+                <%= t('common.footer.tagline') %>
+              </div>
             </div>
           </div>
           
           <!-- Legal links -->
-          <div class="flex flex-wrap items-center justify-center gap-4 text-sm text-gray-600">
+          <div class="flex flex-wrap items-center justify-center gap-4 text-sm text-gray-600 font-inter">
             <%= link_to t('common.footer.terms_of_service'), terms_of_service_path, class: "hover:text-rose-600 transition duration-200" %>
             <span class="text-gray-300">•</span>
             <%= link_to t('common.footer.privacy_policy'), privacy_policy_path, class: "hover:text-rose-600 transition duration-200" %>

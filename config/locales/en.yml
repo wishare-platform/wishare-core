@@ -815,6 +815,11 @@ en:
     actions:
       accept: "Accept"
       decline: "Decline"
+    footer:
+      tagline: "Share joy, give thoughtfully"
+      terms_of_service: "Terms of Service"
+      privacy_policy: "Privacy Policy"
+      copyright: "© %{year} Wishare"
   
   activerecord:
     errors:

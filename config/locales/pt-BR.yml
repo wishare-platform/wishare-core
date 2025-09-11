@@ -815,6 +815,11 @@ pt-BR:
     actions:
       accept: "Aceitar"
       decline: "Recusar"
+    footer:
+      tagline: "Compartilhe alegria, presenteie com carinho"
+      terms_of_service: "Termos de Serviço"
+      privacy_policy: "Política de Privacidade"
+      copyright: "© %{year} Wishare"
   
   activerecord:
     errors:
