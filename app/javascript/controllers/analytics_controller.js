@@ -74,7 +74,7 @@ export default class extends Controller {
       item_url: formData.get('wishlist_item[url]') || null,
       priority: formData.get('wishlist_item[priority]') || 'medium',
       has_description: formData.get('wishlist_item[description]') ? true : false,
-      has_image: formData.get('wishlist_item[image]') ? true : false
+      has_image: formData.get('wishlist_item[image_url]') ? true : false
     });
   }
 
@@ -103,41 +103,6 @@ export default class extends Controller {
     });
   }
   
-  // Track wishlist shared
-  trackWishlistShared(event) {
-    this.pushToDataLayer({
-      event: 'wishlist_shared',
-      wishlist_id: event.params?.wishlistId,
-      share_method: event.params?.method // 'link', 'email', 'social'
-    });
-  }
-  
-  // Track invitation sent
-  trackInvitationSent(event) {
-    this.pushToDataLayer({
-      event: 'invitation_sent',
-      recipient_email: event.params?.recipientEmail // Be careful with PII
-    });
-  }
-  
-  // Track invitation accepted
-  trackInvitationAccepted(event) {
-    this.pushToDataLayer({
-      event: 'invitation_accepted',
-      connection_id: event.params?.connectionId
-    });
-  }
-  
-  // Track item marked as purchased
-  trackItemPurchased(event) {
-    this.pushToDataLayer({
-      event: 'item_purchased_externally',
-      wishlist_id: event.params?.wishlistId,
-      item_id: event.params?.itemId,
-      item_name: event.params?.itemName,
-      item_price: event.params?.itemPrice
-    });
-  }
   
   // Track user connection formed
   trackConnectionFormed(event) {
@@ -166,7 +131,7 @@ export default class extends Controller {
       event: 'sign_up',
       event_category: 'authentication',
       event_action: 'register',
-      method: event.target.querySelector('input[name="user[provider]"]')?.value || 'email',
+      method: window.location.href.includes('google') ? 'google' : 'email',
       has_invitation: formData.get('invitation_token') ? true : false
     });
   }
@@ -177,7 +142,7 @@ export default class extends Controller {
       event: 'login',
       event_category: 'authentication', 
       event_action: 'sign_in',
-      method: event.target.querySelector('input[name="user[provider]"]')?.value || 'email'
+      method: window.location.href.includes('google') ? 'google' : 'email'
     });
   }
 
