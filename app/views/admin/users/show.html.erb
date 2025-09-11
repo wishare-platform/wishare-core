@@ -1,8 +1,8 @@
 <div class="px-4 py-6 sm:px-0">
   <!-- Page Header -->
   <div class="pb-5 border-b border-gray-200">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center space-x-4">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div class="flex items-center space-x-2 sm:space-x-4">
         <%= link_to admin_users_path, class: "text-gray-500 hover:text-gray-700" do %>
           <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -17,12 +17,12 @@
             </div>
           <% end %>
           <div>
-            <h1 class="text-3xl font-bold leading-6 text-gray-900"><%= @user.name %></h1>
-            <p class="mt-1 text-sm text-gray-500"><%= @user.email %></p>
+            <h1 class="text-xl sm:text-3xl font-bold leading-6 text-gray-900"><%= @user.name %></h1>
+            <p class="mt-1 text-xs sm:text-sm text-gray-500 break-all"><%= @user.email %>
           </div>
         </div>
       </div>
-      <div class="flex items-center space-x-3">
+      <div class="flex items-center space-x-2 sm:space-x-3">
         <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full 
                      <%= @user.admin? || @user.super_admin? ? 'bg-purple-100 text-purple-800' : 'bg-gray-100 text-gray-800' %>">
           <%= @user.role.humanize %>
@@ -53,7 +53,7 @@
   </div>
 
   <!-- User Stats Grid -->
-  <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+  <div class="mt-4 sm:mt-6 grid grid-cols-2 gap-3 sm:gap-5 sm:grid-cols-2 lg:grid-cols-4">
     <div class="bg-white overflow-hidden shadow rounded-lg">
       <div class="p-5">
         <div class="flex items-center">
@@ -176,7 +176,7 @@
       <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
         <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Activity</h3>
       </div>
-      <div class="divide-y divide-gray-200 max-h-80 overflow-y-auto">
+      <div class="divide-y divide-gray-200 max-h-60 sm:max-h-80 overflow-y-auto">
         <% @recent_events.each do |event| %>
           <div class="px-4 py-4">
             <div class="flex items-center justify-between">

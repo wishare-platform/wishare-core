@@ -15,7 +15,7 @@
 
   <body class="bg-gray-50 min-h-screen">
     <!-- Admin Navigation -->
-    <nav class="bg-white shadow-sm border-b border-gray-200">
+    <nav class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
           <div class="flex items-center">
@@ -29,6 +29,7 @@
           </div>
           
           <div class="flex items-center space-x-4">
+            <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center space-x-4">
               <%= link_to admin_root_path, class: "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium #{'bg-gray-100 text-gray-900' if current_page?(admin_root_path)}" do %>
                 Dashboard
@@ -41,7 +42,7 @@
               <% end %>
             </div>
             
-            <!-- User Menu -->
+            <!-- User Menu (All screen sizes) -->
             <div class="relative" data-controller="dropdown">
               <button data-action="click->dropdown#toggle" class="flex items-center space-x-2 text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500">
                 <% if current_user.avatar_url %>
@@ -51,18 +52,58 @@
                     <%= current_user.name.first.upcase %>
                   </div>
                 <% end %>
-                <span class="text-gray-700"><%= current_user.name %></span>
+                <span class="hidden md:inline text-gray-700"><%= current_user.name %></span>
                 <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
               
               <div data-dropdown-target="menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                <!-- Mobile-only admin navigation -->
+                <div class="md:hidden">
+                  <%= link_to admin_root_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 #{'bg-gray-50 font-medium' if current_page?(admin_root_path)}" do %>
+                    <div class="flex items-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                      </svg>
+                      Dashboard
+                    </div>
+                  <% end %>
+                  <%= link_to admin_users_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 #{'bg-gray-50 font-medium' if current_page?(admin_users_path)}" do %>
+                    <div class="flex items-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                      </svg>
+                      Users
+                    </div>
+                  <% end %>
+                  <%= link_to admin_wishlists_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 #{'bg-gray-50 font-medium' if current_page?(admin_wishlists_path)}" do %>
+                    <div class="flex items-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                      </svg>
+                      Wishlists
+                    </div>
+                  <% end %>
+                  <div class="border-t border-gray-200 my-1"></div>
+                </div>
+                
+                <!-- Common menu items -->
                 <%= link_to root_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" do %>
-                  <%= t('navigation.view_site') %>
+                  <div class="flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    <%= t('navigation.view_site') %>
+                  </div>
                 <% end %>
                 <%= link_to destroy_user_session_path, method: :delete, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" do %>
-                  <%= t('navigation.sign_out') %>
+                  <div class="flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    <%= t('navigation.sign_out') %>
+                  </div>
                 <% end %>
               </div>
             </div>
@@ -85,7 +126,7 @@
     <% end %>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
       <%= yield %>
     </main>
   </body>
