@@ -20,9 +20,43 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+  def update
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
+
+    # Check if user has a password set (OAuth-only users might not)
+    has_password = resource.encrypted_password.present?
+    
+    # If user has no password (OAuth only) and isn't setting one, update without password
+    if !has_password && params[resource_name][:password].blank?
+      resource_updated = update_resource_without_password(resource, account_update_params)
+    else
+      resource_updated = update_resource(resource, account_update_params)
+    end
+
+    yield resource if block_given?
+    if resource_updated
+      set_flash_message_for_update(resource, prev_unconfirmed_email)
+      bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
+
+      respond_with resource, location: after_update_path_for(resource)
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
+    end
+  end
+
+  private
+
+  def update_resource_without_password(resource, params)
+    # Remove password fields if blank
+    params.delete(:password)
+    params.delete(:password_confirmation)
+    params.delete(:current_password)
+    
+    resource.update(params)
+  end
 
   # DELETE /resource
   # def destroy

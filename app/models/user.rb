@@ -40,40 +40,69 @@ class User < ApplicationRecord
   after_create :create_default_notification_preference
 
   def self.from_omniauth(auth)
-    user = find_or_create_by(provider: auth.provider, uid: auth.uid) do |u|
-      u.email = auth.info.email
-      u.password = Devise.friendly_token[0, 20]
-      u.name = auth.info.name
-      u.avatar_url = auth.info.image
+    # First, try to find by provider and uid (existing OAuth user)
+    user = find_by(provider: auth.provider, uid: auth.uid)
+    
+    # If not found, try to find by email (could be an existing email/password user)
+    if user.nil?
+      user = find_by(email: auth.info.email)
       
-      # Try to extract birthday from Google+ extra_info or raw_info
-      # Note: Google has restricted birthday access, but we can try
-      if auth.extra && auth.extra.raw_info && auth.extra.raw_info.birthday
+      if user
+        # User exists with this email, link the OAuth account
+        user.update(
+          provider: auth.provider,
+          uid: auth.uid,
+          avatar_url: auth.info.image || user.avatar_url,
+          name: user.name.presence || auth.info.name
+        )
+      else
+        # Create new user
+        user = create do |u|
+          u.email = auth.info.email
+          u.password = Devise.friendly_token[0, 20]
+          u.name = auth.info.name
+          u.avatar_url = auth.info.image
+          u.provider = auth.provider
+          u.uid = auth.uid
+          
+          # Try to extract birthday from Google+ extra_info or raw_info
+          # Note: Google has restricted birthday access, but we can try
+          if auth.extra && auth.extra.raw_info && auth.extra.raw_info.birthday
+            begin
+              u.date_of_birth = Date.parse(auth.extra.raw_info.birthday)
+            rescue Date::Error
+              # Ignore if birthday format is invalid
+            end
+          end
+        end
+      end
+    else
+      # Existing OAuth user - update their info
+      update_fields = {}
+      update_fields[:avatar_url] = auth.info.image if auth.info.image && user.avatar_url != auth.info.image
+      update_fields[:name] = auth.info.name if auth.info.name && user.name != auth.info.name
+      
+      # Try to update birthday if we don't have one yet
+      if user.date_of_birth.nil? && auth.extra && auth.extra.raw_info && auth.extra.raw_info.birthday
         begin
-          u.date_of_birth = Date.parse(auth.extra.raw_info.birthday)
+          update_fields[:date_of_birth] = Date.parse(auth.extra.raw_info.birthday)
         rescue Date::Error
           # Ignore if birthday format is invalid
         end
       end
+      
+      user.update(update_fields) if update_fields.any?
     end
-    
-    # Update avatar_url, name and potentially birthday for existing users
-    update_fields = {}
-    update_fields[:avatar_url] = auth.info.image if user.avatar_url != auth.info.image
-    update_fields[:name] = auth.info.name if user.name != auth.info.name
-    
-    # Try to update birthday if we don't have one yet
-    if user.date_of_birth.nil? && auth.extra && auth.extra.raw_info && auth.extra.raw_info.birthday
-      begin
-        update_fields[:date_of_birth] = Date.parse(auth.extra.raw_info.birthday)
-      rescue Date::Error
-        # Ignore if birthday format is invalid
-      end
-    end
-    
-    user.update(update_fields) if user.persisted? && update_fields.any?
     
     user
+  end
+
+  def has_password?
+    encrypted_password.present?
+  end
+
+  def oauth_only?
+    provider.present? && !has_password?
   end
 
   def all_connections
