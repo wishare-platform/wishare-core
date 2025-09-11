@@ -91,7 +91,7 @@
                 <div class="flex gap-2" data-controller="birthday">
                   <!-- Month -->
                   <div class="flex-1">
-                    <select name="birth_month" id="birth_month" 
+                    <select id="birth_month" 
                       class="w-full px-3 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition" 
                       data-action="change->birthday#updateDate">
                       <option value=""><%= t('profile.edit.form.month') %></option>
@@ -105,7 +105,7 @@
                   
                   <!-- Day -->
                   <div class="w-20">
-                    <select name="birth_day" id="birth_day" 
+                    <select id="birth_day" 
                       class="w-full px-2 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition" 
                       data-action="change->birthday#updateDate">
                       <option value=""><%= t('profile.edit.form.day') %></option>
@@ -117,7 +117,7 @@
                   
                   <!-- Year -->
                   <div class="w-24">
-                    <select name="birth_year" id="birth_year" 
+                    <select id="birth_year" 
                       class="w-full px-2 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition" 
                       data-action="change->birthday#updateDate">
                       <option value=""><%= t('profile.edit.form.year') %></option>
@@ -129,7 +129,7 @@
                 </div>
                 
                 <!-- Hidden field to store the actual date -->
-                <%= f.hidden_field :date_of_birth, data: { "birthday-target": "hiddenField" } %>
+                <%= f.hidden_field :date_of_birth, data: { birthday_target: "hiddenField" } %>
                 
                 <p class="mt-1 text-xs text-gray-500">📅 <%= t('profile.edit.form.birthday_help') %></p>
               </div>

@@ -27,8 +27,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
     # Check if user has a password set (OAuth-only users might not)
     has_password = resource.encrypted_password.present?
     
+    # Check if user is trying to change password/email
+    changing_password = params[resource_name][:password].present?
+    changing_email = params[resource_name][:email].present? && params[resource_name][:email] != resource.email
+    
     # If user has no password (OAuth only) and isn't setting one, update without password
-    if !has_password && params[resource_name][:password].blank?
+    # OR if user is not changing password/email, allow update without current password
+    if (!has_password && !changing_password) || (!changing_password && !changing_email)
       resource_updated = update_resource_without_password(resource, account_update_params)
     else
       resource_updated = update_resource(resource, account_update_params)
@@ -55,7 +60,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
     params.delete(:password_confirmation)
     params.delete(:current_password)
     
-    resource.update(params)
+    Rails.logger.info "Updating user without password with params: #{params.inspect}"
+    result = resource.update(params)
+    Rails.logger.info "Update result: #{result}, errors: #{resource.errors.full_messages}"
+    result
   end
 
   # DELETE /resource
