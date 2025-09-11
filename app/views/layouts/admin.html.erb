@@ -24,7 +24,7 @@
                 <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
               </svg>
               <span class="text-xl font-bold text-gray-900">Wishare</span>
-              <span class="text-sm bg-rose-100 text-rose-800 px-2 py-1 rounded-full">Admin</span>
+              <span class="text-sm bg-rose-100 text-rose-800 px-2 py-1 rounded-full"><%= t('admin.navigation.admin') %></span>
             <% end %>
           </div>
           
@@ -32,13 +32,13 @@
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center space-x-4">
               <%= link_to admin_root_path, class: "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium #{'bg-gray-100 text-gray-900' if current_page?(admin_root_path)}" do %>
-                Dashboard
+                <%= t('admin.navigation.dashboard') %>
               <% end %>
               <%= link_to admin_users_path, class: "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium #{'bg-gray-100 text-gray-900' if current_page?(admin_users_path)}" do %>
-                Users
+                <%= t('admin.navigation.users') %>
               <% end %>
               <%= link_to admin_wishlists_path, class: "text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium #{'bg-gray-100 text-gray-900' if current_page?(admin_wishlists_path)}" do %>
-                Wishlists
+                <%= t('admin.navigation.wishlists') %>
               <% end %>
             </div>
             

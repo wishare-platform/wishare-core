@@ -6,8 +6,8 @@
   <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
     <div>
       <% if @focus_partner %>
-        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800"><%= @partner.name || "Friend" %>'s Wishlists</h1>
-        <p class="text-gray-600 mt-1 text-sm sm:text-base">Browse items they would love to receive</p>
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800"><%= @partner.name || t('common.user_fallbacks.friend') %>'s Wishlists</h1>
+        <p class="text-gray-600 mt-1 text-sm sm:text-base"><%= t('wishlists.show.items_they_love') %></p>
       <% else %>
         <h1 class="text-2xl sm:text-3xl font-bold text-gray-800"><%= t('wishlists.index.your_wishlists') %></h1>
         <p class="text-gray-600 mt-1 text-sm sm:text-base"><%= t('wishlists.index.subtitle') %></p>
@@ -459,8 +459,8 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
           </div>
-          <h3 class="text-xl font-semibold text-gray-800 mb-2">No Public Wishlists</h3>
-          <p class="text-gray-600 mb-6">There are no public wishlists available at the moment. Check back later to discover wishlists from the community.</p>
+          <h3 class="text-xl font-semibold text-gray-800 mb-2"><%= t('common.empty_states.no_public_wishlists') %></h3>
+          <p class="text-gray-600 mb-6"><%= t('common.empty_states.no_public_wishlists_description') %></p>
         </div>
       <% end %>
     </div>
