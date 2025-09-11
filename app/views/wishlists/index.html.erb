@@ -6,16 +6,16 @@
   <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
     <div>
       <% if @focus_partner %>
-        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800"><%= @partner.name || t('common.user_fallbacks.friend') %>'s Wishlists</h1>
-        <p class="text-gray-600 mt-1 text-sm sm:text-base"><%= t('wishlists.show.items_they_love') %></p>
+        <h1 class="heading-page text-gray-800"><%= @partner.name || t('common.user_fallbacks.friend') %>'s Wishlists</h1>
+        <p class="text-body text-gray-600 mt-1"><%= t('wishlists.show.items_they_love') %></p>
       <% else %>
-        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800"><%= t('wishlists.index.your_wishlists') %></h1>
-        <p class="text-gray-600 mt-1 text-sm sm:text-base"><%= t('wishlists.index.subtitle') %></p>
+        <h1 class="heading-page text-gray-800"><%= t('wishlists.index.your_wishlists') %></h1>
+        <p class="text-body text-gray-600 mt-1"><%= t('wishlists.index.subtitle') %></p>
       <% end %>
     </div>
     <div class="flex gap-3">
       <% unless @focus_partner %>
-        <%= link_to new_wishlist_path, class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-3 sm:px-4 py-2 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 flex items-center gap-2 text-sm sm:text-base shadow-lg" do %>
+        <%= link_to new_wishlist_path, class: "btn-primary bg-gradient-to-r from-rose-500 to-rose-600 text-white px-3 sm:px-4 py-2 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 flex items-center gap-2 shadow-lg" do %>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
           </svg>
@@ -40,7 +40,7 @@
       <% unless @focus_partner %>
         <!-- Filter Buttons -->
         <div class="flex flex-wrap gap-2 mb-6">
-          <button data-wishlist-filter-target="filterButton" data-filter="my-wishlists" data-action="click->wishlist-filter#filterBy" class="bg-rose-500 text-white border border-rose-500 shadow-md px-4 py-2 rounded-xl font-medium transition duration-200 flex items-center gap-2">
+          <button data-wishlist-filter-target="filterButton" data-filter="my-wishlists" data-action="click->wishlist-filter#filterBy" class="btn-primary bg-rose-500 text-white border border-rose-500 shadow-md px-4 py-2 rounded-xl transition duration-200 flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
             </svg>
@@ -48,7 +48,7 @@
           </button>
           
           <% if @connected_wishlists.any? %>
-            <button data-wishlist-filter-target="filterButton" data-filter="friends-family" data-action="click->wishlist-filter#filterBy" class="bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 px-4 py-2 rounded-xl font-medium transition duration-200 flex items-center gap-2">
+            <button data-wishlist-filter-target="filterButton" data-filter="friends-family" data-action="click->wishlist-filter#filterBy" class="btn-secondary bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 px-4 py-2 rounded-xl transition duration-200 flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
               </svg>
@@ -57,7 +57,7 @@
           <% end %>
           
           <% if @connected_wishlists.any? || @public_wishlists.any? %>
-            <button data-wishlist-filter-target="filterButton" data-filter="public" data-action="click->wishlist-filter#filterBy" class="bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 px-4 py-2 rounded-xl font-medium transition duration-200 flex items-center gap-2">
+            <button data-wishlist-filter-target="filterButton" data-filter="public" data-action="click->wishlist-filter#filterBy" class="btn-secondary bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 px-4 py-2 rounded-xl transition duration-200 flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
@@ -65,7 +65,7 @@
             </button>
           <% end %>
           
-          <button data-wishlist-filter-target="filterButton" data-filter="all" data-action="click->wishlist-filter#filterBy" class="bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 px-4 py-2 rounded-xl font-medium transition duration-200 flex items-center gap-2">
+          <button data-wishlist-filter-target="filterButton" data-filter="all" data-action="click->wishlist-filter#filterBy" class="btn-secondary bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 px-4 py-2 rounded-xl transition duration-200 flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
             </svg>
@@ -81,7 +81,7 @@
             <div class="bg-white rounded-xl border border-purple-100 hover:border-purple-200 transition duration-200 overflow-hidden">
               <div class="p-6">
                 <div class="flex justify-between items-start mb-3">
-                  <h3 class="text-xl font-semibold text-gray-800">
+                  <h3 class="heading-card text-gray-800">
                     <%= link_to wishlist.name, wishlist_path(wishlist), class: "hover:text-purple-600 transition duration-200" %>
                   </h3>
                   <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -123,7 +123,7 @@
             <div data-wishlist-filter-target="wishlistCard" data-categories="my-wishlists all" class="bg-white/90 backdrop-blur-sm rounded-3xl border border-rose-100 hover:border-rose-200 hover:shadow-xl transition duration-300 overflow-hidden">
               <div class="p-4 sm:p-6">
                 <div class="flex justify-between items-start mb-3">
-                  <h3 class="text-lg sm:text-xl font-semibold text-gray-800 pr-2">
+                  <h3 class="heading-card text-gray-800 pr-2">
                     <%= link_to wishlist.name, wishlist_path(wishlist), class: "hover:text-rose-600 transition duration-200" %>
                   </h3>
                   <div class="flex items-center gap-2 flex-shrink-0">
@@ -261,10 +261,10 @@
               <div class="p-4 sm:p-6">
                 <div class="flex justify-between items-start mb-3">
                   <div>
-                    <h3 class="text-lg sm:text-xl font-semibold text-gray-800">
+                    <h3 class="heading-card text-gray-800">
                       <%= link_to wishlist.name, wishlist_path(wishlist), class: "hover:text-purple-600 transition duration-200" %>
                     </h3>
-                    <p class="text-sm text-gray-500 mt-1">by <%= link_to wishlist.user.display_name, user_path(wishlist.user), class: "text-purple-600 hover:text-purple-800 transition duration-200 font-medium" %></p>
+                    <p class="text-body-sm text-gray-500 mt-1">by <%= link_to wishlist.user.display_name, user_path(wishlist.user), class: "text-purple-600 hover:text-purple-800 transition duration-200 font-medium" %></p>
                   </div>
                   <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
@@ -349,10 +349,10 @@
               <div class="p-4 sm:p-6">
                 <div class="flex justify-between items-start mb-3">
                   <div>
-                    <h3 class="text-lg sm:text-xl font-semibold text-gray-800">
+                    <h3 class="heading-card text-gray-800">
                       <%= link_to wishlist.name, wishlist_path(wishlist), class: "hover:text-green-600 transition duration-200" %>
                     </h3>
-                    <p class="text-sm text-gray-500 mt-1">by <%= link_to wishlist.user.display_name, user_path(wishlist.user), class: "text-green-600 hover:text-green-800 transition duration-200 font-medium" %></p>
+                    <p class="text-body-sm text-gray-500 mt-1">by <%= link_to wishlist.user.display_name, user_path(wishlist.user), class: "text-green-600 hover:text-green-800 transition duration-200 font-medium" %></p>
                   </div>
                   <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium"><%= t('wishlists.index.visibility.publicly_visible') %></span>
                 </div>
@@ -437,8 +437,8 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
             </svg>
           </div>
-          <h3 class="text-xl font-semibold text-gray-800 mb-2"><%= t('wishlists.index.empty_state.title') %></h3>
-          <p class="text-gray-600 mb-6"><%= t('wishlists.index.empty_state.subtitle') %></p>
+          <h3 class="heading-section text-gray-800 mb-2"><%= t('wishlists.index.empty_state.title') %></h3>
+          <p class="text-body text-gray-600 mb-6"><%= t('wishlists.index.empty_state.subtitle') %></p>
           <%= link_to t('wishlists.index.empty_state.get_started'), new_wishlist_path, class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-6 py-3 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 font-medium shadow-lg" %>
         </div>
         
@@ -448,8 +448,8 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
             </svg>
           </div>
-          <h3 class="text-xl font-semibold text-gray-800 mb-2"><%= t('wishlists.index.no_connections.title') %></h3>
-          <p class="text-gray-600 mb-6"><%= t('wishlists.index.no_connections.subtitle') %></p>
+          <h3 class="heading-section text-gray-800 mb-2"><%= t('wishlists.index.no_connections.title') %></h3>
+          <p class="text-body text-gray-600 mb-6"><%= t('wishlists.index.no_connections.subtitle') %></p>
           <%= link_to t('wishlists.index.no_connections.send_invitation'), new_invitation_path, class: "bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-3 rounded-xl hover:from-purple-600 hover:to-purple-700 transition duration-200 font-medium shadow-lg" %>
         </div>
         
@@ -459,8 +459,8 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
           </div>
-          <h3 class="text-xl font-semibold text-gray-800 mb-2"><%= t('common.empty_states.no_public_wishlists') %></h3>
-          <p class="text-gray-600 mb-6"><%= t('common.empty_states.no_public_wishlists_description') %></p>
+          <h3 class="heading-section text-gray-800 mb-2"><%= t('common.empty_states.no_public_wishlists') %></h3>
+          <p class="text-body text-gray-600 mb-6"><%= t('common.empty_states.no_public_wishlists_description') %></p>
         </div>
       <% end %>
     </div>
