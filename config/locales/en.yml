@@ -230,6 +230,7 @@ en:
       delete_wishlist: "Delete Wishlist"
       delete_confirm: "Are you sure you want to delete '%{name}'? This will also delete all items in this wishlist."
       gift_ideas: "Gift Ideas"
+      gift_placeholder: "Gift Idea"
       items_you_love: "Items you would love to receive"
       items_they_love: "Items they would love to receive"
       purchased: "Purchased"
@@ -287,6 +288,10 @@ en:
         low: "Low priority"
         medium: "Medium priority"
         high: "High priority"
+      priority_label:
+        low: "Low"
+        medium: "Medium"
+        high: "High"
       save_button: "Save Item"
       cancel_button: "Cancel"
     card:
@@ -311,6 +316,7 @@ en:
       product_url: "Product URL"
       product_url_placeholder: "https://example.com/product"
       product_url_help: "Add a link to the product online and we'll auto-populate the details"
+      magic_tip_label: "Magic Tip"
       item_name: "Item Name"
       item_name_placeholder: "Yoga Mat"
       description: "Description"

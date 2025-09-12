@@ -8,6 +8,7 @@ export default class extends Controller {
     this.currentFilter = "all"
     this.currentSort = "newest"
     this.initializeItemData()
+    this.initializeButtonStates()
   }
 
   initializeItemData() {
@@ -25,6 +26,28 @@ export default class extends Controller {
       const priority = item.dataset.priority || "low"
       item.dataset.priorityNumeric = priority === "high" ? 3 : priority === "medium" ? 2 : 1
     })
+  }
+
+  initializeButtonStates() {
+    // Set initial button states based on current filter
+    this.filterButtonTargets.forEach(button => {
+      if (button.dataset.filter === this.currentFilter) {
+        this.setActiveButtonState(button)
+      } else {
+        this.setInactiveButtonState(button)
+      }
+    })
+  }
+
+  setActiveButtonState(button) {
+    button.classList.add("bg-rose-500", "text-white", "border-rose-500")
+    button.classList.remove("bg-white", "bg-gray-700", "text-gray-700", "text-gray-300", "border-gray-300", "border-gray-600")
+  }
+
+  setInactiveButtonState(button) {
+    button.classList.remove("bg-rose-500", "text-white", "border-rose-500")
+    button.classList.add("bg-white", "text-gray-700", "border-gray-300")
+    // Let Tailwind CSS handle dark mode variants through the template classes
   }
 
   // Sorting functionality
@@ -78,11 +101,9 @@ export default class extends Controller {
     // Update active button state
     this.filterButtonTargets.forEach(button => {
       if (button.dataset.filter === filterType) {
-        button.classList.add("bg-pink-500", "text-white", "border-pink-500")
-        button.classList.remove("bg-white", "text-gray-700", "border-gray-300", "hover:bg-gray-50")
+        this.setActiveButtonState(button)
       } else {
-        button.classList.remove("bg-pink-500", "text-white", "border-pink-500")
-        button.classList.add("bg-white", "text-gray-700", "border-gray-300", "hover:bg-gray-50")
+        this.setInactiveButtonState(button)
       }
     })
     

@@ -230,6 +230,7 @@ pt-BR:
       delete_wishlist: "Excluir Lista"
       delete_confirm: "Tem certeza que deseja excluir '%{name}'? Isso também excluirá todos os itens desta lista."
       gift_ideas: "Ideias de Presente"
+      gift_placeholder: "Ideia de Presente"
       items_you_love: "Itens que você adoraria receber"
       items_they_love: "Itens que eles adorariam receber"
       purchased: "Comprado"
@@ -287,6 +288,10 @@ pt-BR:
         low: "Prioridade baixa"
         medium: "Prioridade média"
         high: "Prioridade alta"
+      priority_label:
+        low: "Baixa"
+        medium: "Média"
+        high: "Alta"
       save_button: "Salvar Item"
       cancel_button: "Cancelar"
     card:
@@ -311,6 +316,7 @@ pt-BR:
       product_url: "URL do Produto"
       product_url_placeholder: "https://example.com/produto"
       product_url_help: "Adicione um link do produto online e preencheremos automaticamente os detalhes"
+      magic_tip_label: "Dica Mágica"
       item_name: "Nome do Item"
       item_name_placeholder: "Tapete de Yoga"
       description: "Descrição"
