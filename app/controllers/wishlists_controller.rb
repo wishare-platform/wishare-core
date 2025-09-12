@@ -69,6 +69,11 @@ class WishlistsController < ApplicationController
   end
 
   def destroy
+    unless @wishlist.user == current_user
+      redirect_to wishlists_path, alert: 'You can only delete your own wishlists.'
+      return
+    end
+    
     @wishlist.destroy
     redirect_to wishlists_path, notice: 'Wishlist was successfully deleted.'
   end

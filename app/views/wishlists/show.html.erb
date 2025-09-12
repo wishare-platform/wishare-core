@@ -74,8 +74,8 @@
                     <%= t('wishlists.show.edit_wishlist') %>
                   </div>
                 <% end %>
-                <%= link_to @wishlist, method: :delete, 
-                    data: { 
+                <%= link_to @wishlist, data: { 
+                      "turbo-method": "delete",
                       confirm: t('wishlists.show.delete_confirm', name: @wishlist.name),
                       controller: "analytics",
                       action: "click->analytics#trackWishlistDeleted",
