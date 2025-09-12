@@ -12,7 +12,7 @@ if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
   ./bin/rails solid_queue:setup
   
   # Auto-seed in development environment only
-  if [ "$RAILS_ENV" == "development" ] && [ "$AUTO_SEED_ON_DEPLOY" == "true" ]; then
+  if [ "$RAILWAY_ENVIRONMENT_NAME" == "development" ] && [ "$AUTO_SEED_ON_DEPLOY" == "true" ]; then
     echo "🌱 Auto-seeding development database..."
     ./bin/rails db:seed
     echo "✅ Development database seeded!"
