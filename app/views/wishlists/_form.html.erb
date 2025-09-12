@@ -4,13 +4,13 @@
                 action: "submit->analytics##{wishlist.persisted? ? 'trackWishlistEdited' : 'trackWishlistCreated'}"
               }) do |form| %>
   <% if wishlist.errors.any? %>
-    <div class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl mb-6">
+    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-4 py-3 rounded-xl mb-6">
       <div class="flex items-start gap-3">
         <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
         <div>
-          <h3 class="font-semibold mb-2"><%= t('activerecord.errors.template.header', count: wishlist.errors.count, model: t('activerecord.models.wishlist', default: 'Wishlist')) %></h3>
+          <h3 class="font-semibold mb-2 text-red-700 dark:text-red-300"><%= t('activerecord.errors.template.header', count: wishlist.errors.count, model: t('activerecord.models.wishlist', default: 'Wishlist')) %></h3>
           <ul class="list-disc list-inside space-y-1">
             <% wishlist.errors.full_messages.each do |message| %>
               <li><%= message %></li>
@@ -22,30 +22,30 @@
   <% end %>
 
   <div class="mb-6">
-    <%= form.label :name, class: "block text-sm font-semibold text-gray-800 mb-2" %>
-    <%= form.text_field :name, class: "w-full px-4 py-3 border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-rose-50/30 focus:bg-white", placeholder: t('wishlists.form.name_placeholder') %>
+    <%= form.label :name, class: "block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2" %>
+    <%= form.text_field :name, class: "w-full px-4 py-3 border-2 border-rose-200 dark:border-rose-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 dark:focus:ring-rose-500 focus:border-rose-400 dark:focus:border-rose-500 transition duration-200 bg-rose-50/30 dark:bg-rose-900/20 focus:bg-white dark:focus:bg-gray-700 text-gray-900 dark:text-gray-100", placeholder: t('wishlists.form.name_placeholder') %>
   </div>
 
   <div class="mb-6">
-    <%= form.label :description, class: "block text-sm font-semibold text-gray-800 mb-2" %>
-    <%= form.text_area :description, rows: 4, class: "w-full px-4 py-3 border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 resize-none bg-rose-50/30 focus:bg-white", placeholder: t('wishlists.form.description_placeholder') %>
+    <%= form.label :description, class: "block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2" %>
+    <%= form.text_area :description, rows: 4, class: "w-full px-4 py-3 border-2 border-rose-200 dark:border-rose-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 dark:focus:ring-rose-500 focus:border-rose-400 dark:focus:border-rose-500 transition duration-200 resize-none bg-rose-50/30 dark:bg-rose-900/20 focus:bg-white dark:focus:bg-gray-700 text-gray-900 dark:text-gray-100", placeholder: t('wishlists.form.description_placeholder') %>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
     <div>
-      <%= form.label :event_type, t('wishlists.form.event_type'), class: "block text-sm font-semibold text-gray-800 mb-2" %>
+      <%= form.label :event_type, t('wishlists.form.event_type'), class: "block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2" %>
       <%= form.select :event_type, options_for_select(Wishlist::EVENT_TYPES.map { |k, v| [v, k] }, wishlist.event_type || 'none'), {}, 
-          { class: "w-full px-4 py-3 border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-white",
+          { class: "w-full px-4 py-3 border-2 border-rose-200 dark:border-rose-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 dark:focus:ring-rose-500 focus:border-rose-400 dark:focus:border-rose-500 transition duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100",
             data: { controller: "event-type", action: "change->event-type#toggleDateField" } } %>
-      <div class="mt-2 text-xs text-gray-500">
+      <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
         <p><%= t('wishlists.form.event_type_help') %></p>
       </div>
     </div>
 
     <div data-event-type-target="dateField" class="<%= 'hidden' if wishlist.event_type.nil? || wishlist.event_type == 'none' %>">
-      <%= form.label :event_date, t('wishlists.form.event_date'), class: "block text-sm font-semibold text-gray-800 mb-2" %>
-      <%= form.date_field :event_date, class: "w-full px-4 py-3 border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-white" %>
-      <div class="mt-2 text-xs text-gray-500">
+      <%= form.label :event_date, t('wishlists.form.event_date'), class: "block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2" %>
+      <%= form.date_field :event_date, class: "w-full px-4 py-3 border-2 border-rose-200 dark:border-rose-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 dark:focus:ring-rose-500 focus:border-rose-400 dark:focus:border-rose-500 transition duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100" %>
+      <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
         <p><%= t('wishlists.form.event_date_help') %></p>
       </div>
     </div>
@@ -53,9 +53,9 @@
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
     <div>
-      <%= form.label :visibility, class: "block text-sm font-semibold text-gray-800 mb-2" %>
-      <%= form.select :visibility, options_for_select([[t('wishlists.form.visibility_labels.publicly_visible'), 'publicly_visible'], [t('wishlists.form.visibility_labels.friends_and_family'), 'partner_only'], [t('wishlists.form.visibility_labels.private'), 'private_list']], wishlist.visibility), {}, class: "w-full px-4 py-3 border-2 border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 transition duration-200 bg-white" %>
-      <div class="mt-2 text-xs text-gray-500">
+      <%= form.label :visibility, class: "block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2" %>
+      <%= form.select :visibility, options_for_select([[t('wishlists.form.visibility_labels.publicly_visible'), 'publicly_visible'], [t('wishlists.form.visibility_labels.friends_and_family'), 'partner_only'], [t('wishlists.form.visibility_labels.private'), 'private_list']], wishlist.visibility), {}, class: "w-full px-4 py-3 border-2 border-rose-200 dark:border-rose-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 dark:focus:ring-rose-500 focus:border-rose-400 dark:focus:border-rose-500 transition duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100" %>
+      <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
         <p><strong><%= t('wishlists.index.visibility.publicly_visible') %>:</strong> <%= t('wishlists.form.visibility_help.publicly_visible') %></p>
         <p><strong><%= t('wishlists.index.visibility.friends_and_family') %>:</strong> <%= t('wishlists.form.visibility_help.friends_and_family') %></p>
         <p><strong><%= t('wishlists.index.visibility.private') %>:</strong> <%= t('wishlists.form.visibility_help.private') %></p>
@@ -63,12 +63,12 @@
     </div>
 
     <div class="flex items-center">
-      <div class="bg-gradient-to-r from-rose-50 to-amber-50 p-4 rounded-xl w-full">
+      <div class="bg-gradient-to-r from-rose-50 to-amber-50 dark:from-rose-900/20 dark:to-amber-900/20 p-4 rounded-xl w-full">
         <div class="flex items-start gap-3">
-          <%= form.check_box :is_default, class: "h-4 w-4 text-rose-600 focus:ring-rose-500 border-rose-300 rounded mt-0.5" %>
+          <%= form.check_box :is_default, class: "h-4 w-4 text-rose-600 focus:ring-rose-500 border-rose-300 dark:border-rose-700 dark:bg-gray-700 rounded mt-0.5" %>
           <div>
-            <%= form.label :is_default, t('wishlists.form.make_default'), class: "text-sm font-medium text-gray-700" %>
-            <p class="text-xs text-gray-500 mt-1"><%= t('wishlists.form.default_help') %></p>
+            <%= form.label :is_default, t('wishlists.form.make_default'), class: "text-sm font-medium text-gray-700 dark:text-gray-300" %>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1"><%= t('wishlists.form.default_help') %></p>
           </div>
         </div>
       </div>
@@ -77,6 +77,6 @@
 
   <div class="flex gap-3 pt-4">
     <%= form.submit t('wishlists.form.save_button'), class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-8 py-3 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 cursor-pointer font-medium shadow-lg" %>
-    <%= link_to t('wishlists.form.cancel_button'), wishlists_path, class: "bg-gray-100 text-gray-700 px-8 py-3 rounded-xl hover:bg-gray-200 transition duration-200 font-medium" %>
+    <%= link_to t('wishlists.form.cancel_button'), wishlists_path, class: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-8 py-3 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-200 font-medium" %>
   </div>
 <% end %>
