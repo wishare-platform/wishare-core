@@ -900,6 +900,22 @@ pt-BR:
     actions:
       accept: "Aceitar"
       decline: "Recusar"
+    share:
+      button: "Compartilhar"
+      whatsapp: "Compartilhar no WhatsApp"
+      twitter: "Compartilhar no Twitter"
+      facebook: "Compartilhar no Facebook"
+      linkedin: "Compartilhar no LinkedIn"
+      telegram: "Compartilhar no Telegram"
+      copy_link: "Copiar Link"
+      copy: "Copiar"
+      default_description: "Confira esta lista incrível no Wishare!"
+      user_profile_title: "Perfil de %{name} no Wishare"
+      user_profile_description: "Veja as listas públicas e ideias de presentes de %{name} no Wishare"
+      wishlist_title: "%{name} - %{wishlist_name}"
+      wishlist_description: "Confira esta lista para %{event} no Wishare"
+      item_title: "%{item_name} da lista %{wishlist_name}"
+      item_description: "Este item está na lista de %{name} para %{event}"
     footer:
       tagline: "Compartilhe alegria, presenteie com carinho"
       terms_of_service: "Termos de Serviço"

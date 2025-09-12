@@ -20,8 +20,11 @@
     <meta property="og:title" content="<%= content_for(:title) ? "#{content_for(:title)} | Wishare" : "Wishare - Share Wishlists with Friends & Family" %>">
     <meta property="og:description" content="<%= content_for(:description) || "Create and share wishlists with friends and family. Perfect for birthdays, holidays, and special occasions. Make gifting meaningful with Wishare." %>">
     <meta property="og:image" content="<%= request.base_url %>/wishare-og-image.png?v=<%= Date.current.strftime('%Y%m%d') %>">
+    <meta property="og:image:secure_url" content="<%= request.base_url %>/wishare-og-image.png?v=<%= Date.current.strftime('%Y%m%d') %>">
+    <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Wishare - Thoughtful Gifting Made Simple">
     <meta property="og:site_name" content="Wishare">
     <meta property="og:locale" content="<%= I18n.locale == :'pt-BR' ? 'pt_BR' : 'en_US' %>">
     

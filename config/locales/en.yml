@@ -827,6 +827,22 @@ en:
     actions:
       accept: "Accept"
       decline: "Decline"
+    share:
+      button: "Share"
+      whatsapp: "Share on WhatsApp"
+      twitter: "Share on Twitter"
+      facebook: "Share on Facebook"
+      linkedin: "Share on LinkedIn"
+      telegram: "Share on Telegram"
+      copy_link: "Copy Link"
+      copy: "Copy"
+      default_description: "Check out this amazing wishlist on Wishare!"
+      user_profile_title: "%{name}'s Profile on Wishare"
+      user_profile_description: "View %{name}'s public wishlists and gift ideas on Wishare"
+      wishlist_title: "%{name} - %{wishlist_name}"
+      wishlist_description: "Check out this wishlist for %{event} on Wishare"
+      item_title: "%{item_name} from %{wishlist_name}"
+      item_description: "This item is on %{name}'s wishlist for %{event}"
     footer:
       tagline: "Share joy, give thoughtfully"
       terms_of_service: "Terms of Service"

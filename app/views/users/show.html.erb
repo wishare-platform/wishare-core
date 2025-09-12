@@ -30,6 +30,17 @@
             <%= t('users.public_profile.member_since', date: @user.created_at.strftime("%B %Y")) %>
           </p>
         </div>
+        
+        <!-- Share Button -->
+        <div class="flex-shrink-0">
+          <%= share_modal_button(
+                t('common.share.user_profile_title', name: @user.name),
+                request.original_url,
+                t('common.share.user_profile_description', name: @user.name),
+                t('common.share.button'),
+                "inline-flex items-center gap-2 px-4 py-2 bg-rose-500 hover:bg-rose-600 dark:bg-rose-600 dark:hover:bg-rose-700 text-white rounded-lg transition duration-200 shadow-sm"
+              ) %>
+        </div>
       </div>
 
       <!-- Mailing Address Section (if visible to current user) -->
