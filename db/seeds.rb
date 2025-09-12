@@ -3,6 +3,13 @@
 
 puts "🌱 Seeding database..."
 
+# Check if seed data already exists
+if User.exists?(email: "test@wishare.xyz") && !Rails.env.development?
+  puts "✅ Seed data already exists! Skipping seeding to avoid duplicates."
+  puts "🎉 Your Wishare database is ready to go!"
+  exit 0
+end
+
 # Clear existing data (be careful in production!)
 if Rails.env.development?
   puts "Clearing existing data..."
@@ -33,163 +40,173 @@ end
 
 # Create main test user (representing the Instagram story author)
 puts "Creating test users..."
-main_user = User.create!(
-  email: "test@wishare.xyz",
-  password: "password123",
-  password_confirmation: "password123",
-  name: "Hel Rabelo",
-  date_of_birth: Date.new(1991, 3, 15),
-  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=helena",
-  preferred_locale: "pt-BR",
+main_user = User.find_or_create_by(email: "test@wishare.xyz") do |user|
+  user.password = "password123"
+  user.password_confirmation = "password123"
+  user.name = "Hel Rabelo"
+  user.date_of_birth = Date.new(1991, 3, 15)
+  user.avatar_url = "https://api.dicebear.com/7.x/avataaars/svg?seed=helena"
+  user.preferred_locale = "pt-BR"
   # Famous address in São Paulo - Copacabana Palace area (luxury hotel district)
-  street_number: "1702",
-  street_address: "Avenida Atlântica",
-  city: "Rio de Janeiro",
-  state: "RJ",
-  postal_code: "22021001",
-  country: "BR",
-  address_visibility: :public
-)
+  user.street_number = "1702"
+  user.street_address = "Avenida Atlântica"
+  user.city = "Rio de Janeiro"
+  user.state = "RJ"
+  user.postal_code = "22021001"
+  user.country = "BR"
+  user.address_visibility = :public
+end
 
 # Create Ylana (the partner mentioned in the stories)  
-ylana = User.create!(
-  email: "ylana@wishare.xyz", 
-  password: "password123",
-  password_confirmation: "password123",
-  name: "Ylana Moreira",
-  date_of_birth: Date.new(1992, 8, 14),
-  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=ylana",
-  preferred_locale: "pt-BR",
+ylana = User.find_or_create_by(email: "ylana@wishare.xyz") do |user|
+  user.password = "password123"
+  user.password_confirmation = "password123"
+  user.name = "Ylana Moreira"
+  user.date_of_birth = Date.new(1992, 8, 14)
+  user.avatar_url = "https://api.dicebear.com/7.x/avataaars/svg?seed=ylana"
+  user.preferred_locale = "pt-BR"
   # Famous address in São Paulo - Rua Oscar Freire (luxury shopping district)
-  street_number: "909",
-  street_address: "Rua Oscar Freire",
-  city: "São Paulo",
-  state: "SP", 
-  postal_code: "01426001",
-  country: "BR",
-  address_visibility: :connected_users
-)
+  user.street_number = "909"
+  user.street_address = "Rua Oscar Freire"
+  user.city = "São Paulo"
+  user.state = "SP"
+  user.postal_code = "01426001"
+  user.country = "BR"
+  user.address_visibility = :connected_users
+end
 
-friend2 = User.create!(
-  email: "friend2@wishare.xyz",
-  password: "password123", 
-  password_confirmation: "password123",
-  name: "Michael Chen",
-  date_of_birth: Date.new(1988, 11, 8),
-  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=michael",
-  preferred_locale: "en",
+friend2 = User.find_or_create_by(email: "friend2@wishare.xyz") do |user|
+  user.password = "password123"
+  user.password_confirmation = "password123"
+  user.name = "Michael Chen"
+  user.date_of_birth = Date.new(1988, 11, 8)
+  user.avatar_url = "https://api.dicebear.com/7.x/avataaars/svg?seed=michael"
+  user.preferred_locale = "en"
   # Famous address in Brasília - Palácio da Alvorada area (presidential district)
-  street_number: "1",
-  street_address: "Palácio da Alvorada",
-  city: "Brasília",
-  state: "DF",
-  postal_code: "70150900",
-  country: "BR",
-  address_visibility: :connected_users
-)
+  user.street_number = "1"
+  user.street_address = "Palácio da Alvorada"
+  user.city = "Brasília"
+  user.state = "DF"
+  user.postal_code = "70150900"
+  user.country = "BR"
+  user.address_visibility = :connected_users
+end
 
-family1 = User.create!(
-  email: "family1@wishare.xyz",
-  password: "password123",
-  password_confirmation: "password123", 
-  name: "Emma Davis",
-  date_of_birth: Date.new(1985, 9, 12),
-  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=emma",
-  preferred_locale: "pt-BR",
+family1 = User.find_or_create_by(email: "family1@wishare.xyz") do |user|
+  user.password = "password123"
+  user.password_confirmation = "password123"
+  user.name = "Emma Davis"
+  user.date_of_birth = Date.new(1985, 9, 12)
+  user.avatar_url = "https://api.dicebear.com/7.x/avataaars/svg?seed=emma"
+  user.preferred_locale = "pt-BR"
   # Famous address in Salvador - Pelourinho (historic center)
-  street_number: "6",
-  street_address: "Largo do Pelourinho",
-  city: "Salvador",
-  state: "BA",
-  postal_code: "40026280",
-  country: "BR",
-  address_visibility: :connected_users
-)
+  user.street_number = "6"
+  user.street_address = "Largo do Pelourinho"
+  user.city = "Salvador"
+  user.state = "BA"
+  user.postal_code = "40026280"
+  user.country = "BR"
+  user.address_visibility = :connected_users
+end
 
 # Create user with pending invitation
-pending_user = User.create!(
-  email: "pending@wishare.xyz",
-  password: "password123",
-  password_confirmation: "password123",
-  name: "David Wilson",
-  date_of_birth: Date.new(1992, 4, 30),
-  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=david",
-  preferred_locale: "en"
-)
+pending_user = User.find_or_create_by(email: "pending@wishare.xyz") do |user|
+  user.password = "password123"
+  user.password_confirmation = "password123"
+  user.name = "David Wilson"
+  user.date_of_birth = Date.new(1992, 4, 30)
+  user.avatar_url = "https://api.dicebear.com/7.x/avataaars/svg?seed=david"
+  user.preferred_locale = "en"
+end
 
 # Create unconnected user (for public wishlist testing)
-public_user = User.create!(
-  email: "public@wishare.xyz",
-  password: "password123",
-  password_confirmation: "password123",
-  name: "Alex Thompson",
-  date_of_birth: Date.new(1987, 12, 3),
-  avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=alex",
-  preferred_locale: "pt-BR",
+public_user = User.find_or_create_by(email: "public@wishare.xyz") do |user|
+  user.password = "password123"
+  user.password_confirmation = "password123"
+  user.name = "Alex Thompson"
+  user.date_of_birth = Date.new(1987, 12, 3)
+  user.avatar_url = "https://api.dicebear.com/7.x/avataaars/svg?seed=alex"
+  user.preferred_locale = "pt-BR"
   # Famous address in Florianópolis - Jurerê Internacional (luxury beach area)
-  street_number: "1470",
-  street_address: "Avenida dos Búzios",
-  city: "Florianópolis",
-  state: "SC",
-  postal_code: "88053700",
-  country: "BR",
-  address_visibility: :public
-)
+  user.street_number = "1470"
+  user.street_address = "Avenida dos Búzios"
+  user.city = "Florianópolis"
+  user.state = "SC"
+  user.postal_code = "88053700"
+  user.country = "BR"
+  user.address_visibility = :public
+end
 
 puts "Creating connections..."
 
-# Create accepted connections
-Connection.create!(
-  user: main_user,
-  partner: ylana,
-  status: :accepted
-)
+# Only create connections if they don't already exist
+unless Connection.exists?(user: main_user, partner: ylana)
+  Connection.create!(
+    user: main_user,
+    partner: ylana,
+    status: :accepted
+  )
+end
 
-Connection.create!(
-  user: ylana,
-  partner: main_user,
-  status: :accepted
-)
+unless Connection.exists?(user: ylana, partner: main_user)
+  Connection.create!(
+    user: ylana,
+    partner: main_user,
+    status: :accepted
+  )
+end
 
-Connection.create!(
-  user: main_user,
-  partner: friend2,
-  status: :accepted
-)
+unless Connection.exists?(user: main_user, partner: friend2)
+  Connection.create!(
+    user: main_user,
+    partner: friend2,
+    status: :accepted
+  )
+end
 
-Connection.create!(
-  user: friend2,
-  partner: main_user,
-  status: :accepted
-)
+unless Connection.exists?(user: friend2, partner: main_user)
+  Connection.create!(
+    user: friend2,
+    partner: main_user,
+    status: :accepted
+  )
+end
 
-Connection.create!(
-  user: main_user,
-  partner: family1,
-  status: :accepted
-)
+unless Connection.exists?(user: main_user, partner: family1)
+  Connection.create!(
+    user: main_user,
+    partner: family1,
+    status: :accepted
+  )
+end
 
-Connection.create!(
-  user: family1,
-  partner: main_user,
-  status: :accepted
-)
+unless Connection.exists?(user: family1, partner: main_user)
+  Connection.create!(
+    user: family1,
+    partner: main_user,
+    status: :accepted
+  )
+end
 
 # Create pending invitation
-invitation = Invitation.create!(
-  sender: main_user,
-  recipient_email: "newuser@example.com",
-  token: SecureRandom.hex(16),
-  status: :pending
-)
+unless Invitation.exists?(sender: main_user, recipient_email: "newuser@example.com")
+  invitation = Invitation.create!(
+    sender: main_user,
+    recipient_email: "newuser@example.com",
+    token: SecureRandom.hex(16),
+    status: :pending
+  )
+end
 
 # Create another pending invitation from different user
-Invitation.create!(
-  sender: pending_user,
-  recipient_email: main_user.email,
-  token: SecureRandom.hex(16),
-  status: :pending
-)
+unless Invitation.exists?(sender: pending_user, recipient_email: main_user.email)
+  Invitation.create!(
+    sender: pending_user,
+    recipient_email: main_user.email,
+    token: SecureRandom.hex(16),
+    status: :pending
+  )
+end
 
 puts "Creating notification preferences..."
 
@@ -240,8 +257,23 @@ Notification.create!(
 
 puts "Creating wishlists..."
 
-# Main user's wishlists - reflecting the Instagram story examples
-running_shoes_list = Wishlist.create!(
+# Skip wishlist creation if main user already has wishlists
+if main_user.wishlists.any?
+  puts "Main user already has wishlists, skipping wishlist creation..."
+  running_shoes_list = main_user.wishlists.find_by(name: "Tênis de Corrida 👟")
+  birthday_list = main_user.wishlists.find_by(name: "Aniversário 2025 🎂")
+  christmas_list = main_user.wishlists.find_by(name: "Natal 2025 🎄")
+  public_list = main_user.wishlists.find_by(name: "Home Office Upgrade")
+  private_list = main_user.wishlists.find_by(name: "Secret Project Ideas")
+  fun_event_list = main_user.wishlists.find_by(name: "Sobrevivência com 4 German Spitz 🐕")
+  ylana_puzzles = ylana.wishlists.find_by(name: "Quebra-cabeças 🧩")
+  ylana_birthday = ylana.wishlists.find_by(name: "Aniversário Ylana 🎉")
+  friend2_list = friend2.wishlists.find_by(name: "Michael's Tech Wishlist")
+  family1_list = family1.wishlists.find_by(name: "Emma's Reading List")
+  public_user_list = public_user.wishlists.find_by(name: "Alex's Wedding Registry")
+else
+  # Main user's wishlists - reflecting the Instagram story examples
+  running_shoes_list = Wishlist.create!(
   user: main_user,
   name: "Tênis de Corrida 👟",
   description: "Todos os 17 pares que quero ganhar porque sou PÉSSIMA pra saber o que quero! Ylana, se você está lendo isso, pode escolher qualquer um que eu fico feliz... desde que não seja chinelo 😂",
@@ -348,11 +380,16 @@ public_user_list = Wishlist.create!(
   is_default: true,
   visibility: :publicly_visible
 )
+end
 
 puts "Creating wishlist items..."
 
-# Running shoes list (Instagram story example - "todos os 17 pares que quero ganhar")
-WishlistItem.create!(
+# Skip item creation if wishlist items already exist
+if running_shoes_list&.wishlist_items&.any?
+  puts "Wishlist items already exist, skipping item creation..."
+else
+  # Running shoes list (Instagram story example - "todos os 17 pares que quero ganhar")
+  WishlistItem.create!(
   wishlist: running_shoes_list,
   name: "Nike Alphafly Next% 3",
   description: "Para quebrar recordes pessoais (que atualmente é conseguir correr 1km sem parar pra tirar selfie 🤳)",
@@ -920,6 +957,7 @@ end
 
 # Ensure the super admin has the correct role (in case user already existed)
 super_admin.update!(role: :super_admin) unless super_admin.super_admin?
+end
 
 puts "Creating analytics events for dashboard testing..."
 
