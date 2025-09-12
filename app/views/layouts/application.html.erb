@@ -48,6 +48,16 @@
       window.dataLayer = window.dataLayer || [];
     </script>
     
+    <!-- Theme Detection Script - Prevent flash of wrong theme -->
+    <script>
+      (function() {
+        const savedTheme = localStorage.getItem('theme') || '<%= user_signed_in? ? current_user.theme_preference : (session[:theme_preference] || "system") %>';
+        if (savedTheme === 'dark' || (savedTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+    
     <% if has_analytics_consent %>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -94,7 +104,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-gradient-to-br from-rose-50 via-amber-50 to-purple-50 min-h-screen flex flex-col">
+  <body class="bg-gradient-to-br from-rose-50 via-amber-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-screen flex flex-col">
     <% if has_analytics_consent %>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-53FTHDK7"
@@ -504,6 +514,25 @@
                     <% end %>
                   </div>
                   
+                  <!-- Theme Switcher -->
+                  <div class="border-t border-rose-50 px-4 py-2">
+                    <p class="text-xs text-gray-500 mb-2 uppercase tracking-wide"><%= t('theme.toggle') %></p>
+                    <div 
+                      data-controller="theme"
+                      data-theme-current-value="<%= user_signed_in? ? current_user.theme_preference : (session[:theme_preference] || 'system') %>"
+                      data-theme-authenticated-value="<%= user_signed_in? %>"
+                    >
+                      <button 
+                        data-action="click->theme#toggle"
+                        data-theme-target="toggle"
+                        class="flex items-center gap-2 px-2 py-1.5 text-sm rounded-lg transition duration-200 text-gray-600 hover:bg-gray-50 w-full"
+                      >
+                        <span data-theme-target="icon" class="text-base">🔄</span>
+                        <span data-theme-target="text"><%= t('theme.system') %></span>
+                      </button>
+                    </div>
+                  </div>
+                  
                   <div class="border-t border-rose-50"></div>
                   
                   <%= link_to destroy_user_session_path, 
@@ -587,6 +616,26 @@
                           <% end %>
                         <% end %>
                       <% end %>
+                    </div>
+                  </div>
+                  
+                  <!-- Mobile Theme Switcher -->
+                  <div class="mb-4">
+                    <p class="text-xs text-gray-500 mb-2 uppercase tracking-wide"><%= t('theme.toggle') %></p>
+                    <div 
+                      data-controller="theme"
+                      data-theme-current-value="<%= user_signed_in? ? current_user.theme_preference : (session[:theme_preference] || 'system') %>"
+                      data-theme-authenticated-value="<%= user_signed_in? %>"
+                      class="flex gap-2"
+                    >
+                      <button 
+                        data-action="click->theme#toggle"
+                        data-theme-target="toggle"
+                        class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition duration-200 text-gray-600 hover:bg-gray-50 border border-gray-200"
+                      >
+                        <span data-theme-target="icon" class="text-base">🔄</span>
+                        <span data-theme-target="text"><%= t('theme.system') %></span>
+                      </button>
                     </div>
                   </div>
                   

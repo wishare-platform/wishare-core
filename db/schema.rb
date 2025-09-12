@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_11_225112) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_12_065809) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -173,6 +173,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_11_225112) do
     t.integer "address_visibility", default: 0, null: false
     t.string "street_number"
     t.string "apartment_unit"
+    t.string "theme_preference", default: "system"
     t.index ["address_visibility"], name: "index_users_on_address_visibility"
     t.index ["country"], name: "index_users_on_country"
     t.index ["email"], name: "index_users_on_email", unique: true

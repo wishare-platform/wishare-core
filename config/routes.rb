@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  patch '/theme', to: 'theme#update'
   # OAuth callbacks must be outside of locale scope
   devise_for :users, only: :omniauth_callbacks, controllers: { 
     omniauth_callbacks: 'users/omniauth_callbacks'

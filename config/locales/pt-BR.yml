@@ -57,6 +57,12 @@ pt-BR:
       add_to_existing: "Adicionar à lista existente:"
       connect_friends: "Conectar com amigos e família"
   
+  theme:
+    toggle: "Alternar tema"
+    light: "Modo claro"
+    dark: "Modo escuro"
+    system: "Preferência do sistema"
+  
   auth:
     sign_in:
       title: "Bem-vindo de volta ao Wishare"

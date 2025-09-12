@@ -57,6 +57,12 @@ en:
       add_to_existing: "Add to existing wishlist:"
       connect_friends: "Connect with friends & family"
   
+  theme:
+    toggle: "Toggle theme"
+    light: "Light mode"
+    dark: "Dark mode"
+    system: "System preference"
+  
   auth:
     sign_in:
       title: "Welcome back to Wishare"

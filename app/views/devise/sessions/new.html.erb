@@ -1,10 +1,28 @@
 <% content_for :title, t('auth.sign_in.title') %>
 <% content_for :description, "Sign in to your Wishare account to create and manage wishlists, connect with friends and family, and make gifting more meaningful." %>
 
-<div class="min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-purple-50 flex flex-col justify-center px-4 py-8 sm:px-6 lg:px-8">
-  <!-- Language Switcher -->
+<div class="min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col justify-center px-4 py-8 sm:px-6 lg:px-8">
+  <!-- Theme & Language Switcher -->
   <div class="fixed top-4 right-4 z-50">
     <div class="flex gap-2">
+      <!-- Theme Toggle -->
+      <div 
+        data-controller="theme"
+        data-theme-current-value="<%= session[:theme_preference] || 'system' %>"
+        data-theme-authenticated-value="false"
+      >
+        <button 
+          data-action="click->theme#toggle"
+          data-theme-target="toggle"
+          class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition duration-200 bg-white/80 backdrop-blur-sm border shadow-sm border-gray-200 text-gray-600 hover:bg-white hover:border-gray-300"
+          title="<%= t('theme.toggle') %>"
+        >
+          <span data-theme-target="icon" class="text-base">🔄</span>
+          <span data-theme-target="text" class="hidden sm:inline"><%= t('theme.system') %></span>
+        </button>
+      </div>
+      
+      <!-- Language Switcher -->
       <% available_locales.each do |locale| %>
         <%= link_to locale_switch_url(locale[:code]), 
               class: "flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition duration-200 bg-white/80 backdrop-blur-sm border shadow-sm #{'border-rose-200 text-rose-700 bg-rose-50/80' if I18n.locale.to_s == locale[:code]} #{'border-gray-200 text-gray-600 hover:bg-white hover:border-gray-300' unless I18n.locale.to_s == locale[:code]}" do %>
@@ -21,15 +39,15 @@
         <span class="text-4xl">💝</span>
         <div>
           <h1 class="heading-card bg-gradient-to-r from-rose-500 to-purple-600 bg-clip-text text-transparent">Wishare</h1>
-          <p class="text-body-sm text-gray-600"><%= t('app.tagline') %></p>
+          <p class="text-body-sm text-gray-600 dark:text-gray-300"><%= t('app.tagline') %></p>
         </div>
       <% end %>
     </div>
   </div>
 
   <div class="mx-auto w-full max-w-sm sm:max-w-md">
-    <div class="bg-white/80 backdrop-blur-sm py-8 px-6 shadow-xl rounded-3xl sm:px-10 border border-rose-100">
-      <h2 class="heading-section text-gray-800 text-center mb-8"><%= t('auth.sign_in.title') %> ✨</h2>
+    <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm py-8 px-6 shadow-xl rounded-3xl sm:px-10 border border-rose-100 dark:border-gray-700">
+      <h2 class="heading-section text-gray-800 dark:text-gray-100 text-center mb-8"><%= t('auth.sign_in.title') %> ✨</h2>
       
       <%= form_for(resource, as: resource_name, url: session_path(resource_name), 
                    html: { 

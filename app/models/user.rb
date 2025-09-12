@@ -29,6 +29,7 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :preferred_locale, inclusion: { in: %w[en pt-BR] }
+  validates :theme_preference, inclusion: { in: %w[light dark system] }
   
   # Address field validations - all required except apartment_unit
   validate :address_completeness
