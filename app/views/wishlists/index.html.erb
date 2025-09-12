@@ -48,7 +48,7 @@
           </button>
           
           <% if @connected_wishlists.any? %>
-            <button data-wishlist-filter-target="filterButton" data-filter="friends-family" data-action="click->wishlist-filter#filterBy" class="btn-secondary bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 px-4 py-2 rounded-xl transition duration-200 flex items-center gap-2">
+            <button data-wishlist-filter-target="filterButton" data-filter="friends-family" data-action="click->wishlist-filter#filterBy" class="btn-secondary bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 px-4 py-2 rounded-xl transition duration-200 flex items-center gap-2 cursor-pointer">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
               </svg>
@@ -57,7 +57,7 @@
           <% end %>
           
           <% if @connected_wishlists.any? || @public_wishlists.any? %>
-            <button data-wishlist-filter-target="filterButton" data-filter="public" data-action="click->wishlist-filter#filterBy" class="btn-secondary bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 px-4 py-2 rounded-xl transition duration-200 flex items-center gap-2">
+            <button data-wishlist-filter-target="filterButton" data-filter="public" data-action="click->wishlist-filter#filterBy" class="btn-secondary bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 px-4 py-2 rounded-xl transition duration-200 flex items-center gap-2 cursor-pointer">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
@@ -65,7 +65,7 @@
             </button>
           <% end %>
           
-          <button data-wishlist-filter-target="filterButton" data-filter="all" data-action="click->wishlist-filter#filterBy" class="btn-secondary bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 px-4 py-2 rounded-xl transition duration-200 flex items-center gap-2">
+          <button data-wishlist-filter-target="filterButton" data-filter="all" data-action="click->wishlist-filter#filterBy" class="btn-secondary bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 px-4 py-2 rounded-xl transition duration-200 flex items-center gap-2 cursor-pointer">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
             </svg>
@@ -90,7 +90,7 @@
                 </div>
                 
                 <% if wishlist.description.present? %>
-                  <p class="text-gray-600 text-sm mb-4"><%= truncate(wishlist.description, length: 100) %></p>
+                  <p class="text-gray-600 text-sm mb-4"><%= truncate(wishlist.description, length: 200) %></p>
                 <% end %>
                 
                 <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
@@ -149,7 +149,7 @@
                             <%= t('wishlists.show.edit') %> <%= t('navigation.wishlists').singularize || 'Lista' %>
                           </div>
                         <% end %>
-                        <%= link_to wishlist, method: :delete, data: { confirm: t('wishlists.index.delete_confirmation', name: wishlist.name) }, class: "block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition duration-200" do %>
+                        <%= link_to wishlist, method: :delete, data: { confirm: t('wishlists.index.delete_confirmation', name: wishlist.name) }, class: "block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition duration-200 cursor-pointer" do %>
                           <div class="flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
@@ -163,7 +163,7 @@
                 </div>
                 
                 <% if wishlist.description.present? %>
-                  <p class="text-gray-600 dark:text-gray-400 text-sm mb-4"><%= truncate(wishlist.description, length: 80) %></p>
+                  <p class="text-gray-600 dark:text-gray-400 text-sm mb-4"><%= truncate(wishlist.description, length: 180) %></p>
                 <% end %>
                 
                 <!-- Event Type and Countdown -->
@@ -272,7 +272,7 @@
                 </div>
                 
                 <% if wishlist.description.present? %>
-                  <p class="text-gray-600 dark:text-gray-400 text-sm mb-4"><%= truncate(wishlist.description, length: 80) %></p>
+                  <p class="text-gray-600 dark:text-gray-400 text-sm mb-4"><%= truncate(wishlist.description, length: 180) %></p>
                 <% end %>
                 
                 <!-- Event Type and Countdown for Friends' Lists -->
@@ -358,7 +358,7 @@
                 </div>
                 
                 <% if wishlist.description.present? %>
-                  <p class="text-gray-600 dark:text-gray-400 text-sm mb-4"><%= truncate(wishlist.description, length: 80) %></p>
+                  <p class="text-gray-600 dark:text-gray-400 text-sm mb-4"><%= truncate(wishlist.description, length: 180) %></p>
                 <% end %>
                 
                 <!-- Event Type and Countdown for Public Lists -->

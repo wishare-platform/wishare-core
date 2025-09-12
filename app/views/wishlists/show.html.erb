@@ -74,7 +74,7 @@
                       "analytics-wishlist-name-param": @wishlist.name,
                       "analytics-items-count-param": @wishlist.wishlist_items.count
                     }, 
-                    class: "block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition duration-200" do %>
+                    class: "block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition duration-200 cursor-pointer" do %>
                   <div class="flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
@@ -112,32 +112,32 @@
             <button data-action="click->wishlist-items-filter#filter"
                     data-filter="available"
                     data-wishlist-items-filter-target="filterButton"
-                    class="px-3 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    class="px-3 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer">
               <%= t('wishlists.show.filters.available') %>
             </button>
             <button data-action="click->wishlist-items-filter#filter"
                     data-filter="purchased"
                     data-wishlist-items-filter-target="filterButton"
-                    class="px-3 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    class="px-3 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer">
               <%= t('wishlists.show.filters.purchased') %>
             </button>
             <div class="border-l border-gray-300 dark:border-gray-600 mx-1"></div>
             <button data-action="click->wishlist-items-filter#filter"
                     data-filter="high_priority"
                     data-wishlist-items-filter-target="filterButton"
-                    class="px-3 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    class="px-3 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer">
               <%= t('wishlists.show.filters.high_priority') %>
             </button>
             <button data-action="click->wishlist-items-filter#filter"
                     data-filter="medium_priority"
                     data-wishlist-items-filter-target="filterButton"
-                    class="px-3 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    class="px-3 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer">
               <%= t('wishlists.show.filters.medium_priority') %>
             </button>
             <button data-action="click->wishlist-items-filter#filter"
                     data-filter="low_priority"
                     data-wishlist-items-filter-target="filterButton"
-                    class="px-3 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    class="px-3 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer">
               <%= t('wishlists.show.filters.low_priority') %>
             </button>
           </div>
@@ -240,7 +240,7 @@
                         "analytics-item-id-param": item.id,
                         "analytics-item-name-param": item.name
                       },
-                      class: "text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 transition duration-200 border-none bg-transparent p-1", 
+                      class: "text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 transition duration-200 border-none bg-transparent p-1 cursor-pointer", 
                       title: t('wishlists.show.delete_item')
                     } do %>
                     <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -252,7 +252,7 @@
             </div>
             
             <% if item.description.present? %>
-              <p class="text-gray-600 dark:text-gray-400 text-sm mb-3"><%= truncate(item.description, length: 80) %></p>
+              <p class="text-gray-600 dark:text-gray-400 text-sm mb-3"><%= truncate(item.description, length: 150) %></p>
             <% end %>
             
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-4">
