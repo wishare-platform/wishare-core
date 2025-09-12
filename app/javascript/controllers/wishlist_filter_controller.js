@@ -30,11 +30,35 @@ export default class extends Controller {
       const isActive = filter === this.activeFilterValue
       
       if (isActive) {
-        button.classList.remove("bg-white", "text-gray-600", "border-gray-200", "hover:bg-gray-50")
-        button.classList.add("bg-rose-500", "text-white", "border-rose-500", "shadow-md")
+        // Remove inactive classes (including dark mode variants)
+        button.classList.remove(
+          "bg-white", "dark:bg-gray-700", 
+          "text-gray-600", "dark:text-gray-300", 
+          "border-gray-200", "dark:border-gray-600", 
+          "hover:bg-gray-50", "dark:hover:bg-gray-600"
+        )
+        // Add active classes (including dark mode variants)
+        button.classList.add(
+          "bg-rose-500", "dark:bg-rose-600", 
+          "text-white", 
+          "border-rose-500", "dark:border-rose-600", 
+          "shadow-md"
+        )
       } else {
-        button.classList.remove("bg-rose-500", "text-white", "border-rose-500", "shadow-md")
-        button.classList.add("bg-white", "text-gray-600", "border-gray-200", "hover:bg-gray-50")
+        // Remove active classes (including dark mode variants)
+        button.classList.remove(
+          "bg-rose-500", "dark:bg-rose-600", 
+          "text-white", 
+          "border-rose-500", "dark:border-rose-600", 
+          "shadow-md"
+        )
+        // Add inactive classes (including dark mode variants)
+        button.classList.add(
+          "bg-white", "dark:bg-gray-700", 
+          "text-gray-600", "dark:text-gray-300", 
+          "border-gray-200", "dark:border-gray-600", 
+          "hover:bg-gray-50", "dark:hover:bg-gray-600"
+        )
       }
 
       // Update count
