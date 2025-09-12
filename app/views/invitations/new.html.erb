@@ -1,6 +1,6 @@
 <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <div class="mb-6">
-    <%= link_to wishlists_path, class: "inline-flex items-center text-gray-600 hover:text-gray-900 transition duration-200" do %>
+    <%= link_to wishlists_path, class: "inline-flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition duration-200" do %>
       <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
       </svg>
@@ -8,17 +8,17 @@
     <% end %>
   </div>
 
-  <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
-    <div class="bg-pink-50 px-8 py-6">
+  <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+    <div class="bg-pink-50 dark:bg-pink-900/20 px-8 py-6">
       <div class="flex items-center gap-3">
-        <div class="bg-white rounded-lg p-3">
-          <svg class="w-8 h-8 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white dark:bg-gray-700 rounded-lg p-3">
+          <svg class="w-8 h-8 text-pink-500 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
           </svg>
         </div>
         <div>
-          <h1 class="text-2xl font-bold text-gray-800"><%= t('invitations.new.title') %></h1>
-          <p class="text-gray-600 text-sm"><%= t('invitations.new.subtitle') %></p>
+          <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100"><%= t('invitations.new.title') %></h1>
+          <p class="text-gray-600 dark:text-gray-300 text-sm"><%= t('invitations.new.subtitle') %></p>
         </div>
       </div>
     </div>
@@ -30,9 +30,9 @@
                       action: "submit->analytics#trackInvitationSent"
                     }) do |form| %>
         <% if @invitation.errors.any? %>
-          <div class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl mb-6">
+          <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-4 py-3 rounded-xl mb-6">
             <div class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-5 h-5 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
               <div>
@@ -48,38 +48,38 @@
         <% end %>
 
         <div class="mb-8">
-          <%= form.label :recipient_email, t('invitations.new.email'), class: "block text-sm font-semibold text-gray-800 mb-3" %>
+          <%= form.label :recipient_email, t('invitations.new.email'), class: "block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-3" %>
           <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-5 h-5 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
               </svg>
             </div>
-            <%= form.email_field :recipient_email, class: "w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition duration-200 text-lg", placeholder: t('invitations.new.email_placeholder') %>
+            <%= form.email_field :recipient_email, class: "w-full pl-12 pr-4 py-4 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 dark:focus:ring-pink-400 focus:border-pink-500 dark:focus:border-pink-400 transition duration-200 text-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400", placeholder: t('invitations.new.email_placeholder') %>
           </div>
-          <p class="mt-3 text-sm text-gray-500"><%= t('invitations.new.email_help') %></p>
+          <p class="mt-3 text-sm text-gray-500 dark:text-gray-400"><%= t('invitations.new.email_help') %></p>
         </div>
 
-        <div class="bg-pink-50 rounded-xl p-6 mb-8">
+        <div class="bg-pink-50 dark:bg-pink-900/20 rounded-xl p-6 mb-8 border dark:border-pink-800/30">
           <div class="flex items-start gap-3">
-            <div class="bg-pink-100 rounded-full p-2 flex-shrink-0">
-              <svg class="w-5 h-5 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="bg-pink-100 dark:bg-pink-900/40 rounded-full p-2 flex-shrink-0">
+              <svg class="w-5 h-5 text-pink-500 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
             </div>
             <div>
-              <h3 class="font-semibold text-gray-800 mb-2"><%= t('invitations.new.how_it_works') %></h3>
-              <ol class="text-sm text-gray-600 space-y-2">
+              <h3 class="font-semibold text-gray-800 dark:text-gray-100 mb-2"><%= t('invitations.new.how_it_works') %></h3>
+              <ol class="text-sm text-gray-600 dark:text-gray-300 space-y-2">
                 <li class="flex items-start gap-2">
-                  <span class="bg-pink-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+                  <span class="bg-pink-500 dark:bg-pink-600 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
                   <span><%= t('invitations.new.step_1') %></span>
                 </li>
                 <li class="flex items-start gap-2">
-                  <span class="bg-pink-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+                  <span class="bg-pink-500 dark:bg-pink-600 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
                   <span><%= t('invitations.new.step_2') %></span>
                 </li>
                 <li class="flex items-start gap-2">
-                  <span class="bg-pink-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+                  <span class="bg-pink-500 dark:bg-pink-600 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
                   <span><%= t('invitations.new.step_3') %></span>
                 </li>
               </ol>
@@ -88,8 +88,8 @@
         </div>
 
         <div class="flex gap-3">
-          <%= form.submit t('invitations.new.send_button'), class: "bg-pink-500 text-white px-8 py-4 rounded-xl hover:bg-pink-600 transition duration-200 cursor-pointer font-semibold text-lg" %>
-          <%= link_to t('invitations.new.cancel_button'), wishlists_path, class: "bg-gray-100 text-gray-700 px-8 py-4 rounded-xl hover:bg-gray-200 transition duration-200 font-semibold text-lg" %>
+          <%= form.submit t('invitations.new.send_button'), class: "bg-pink-500 hover:bg-pink-600 dark:bg-pink-600 dark:hover:bg-pink-500 text-white px-8 py-4 rounded-xl transition duration-200 cursor-pointer font-semibold text-lg" %>
+          <%= link_to t('invitations.new.cancel_button'), wishlists_path, class: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-8 py-4 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-200 font-semibold text-lg" %>
         </div>
       <% end %>
     </div>

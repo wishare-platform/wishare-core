@@ -1,42 +1,42 @@
-<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
   <div class="max-w-md mx-auto">
     <div class="text-center mb-8">
-      <div class="bg-white rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center shadow-sm">
-        <svg class="w-8 h-8 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div class="bg-white dark:bg-gray-800 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center shadow-sm border dark:border-gray-700">
+        <svg class="w-8 h-8 text-pink-500 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
         </svg>
       </div>
       <div class="flex items-center justify-center gap-2 mb-2">
-        <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-6 h-6 text-pink-500 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046-.151-1.5-.454a2.704 2.704 0 01-1.042-.918 2.704 2.704 0 01-.454-1.5V8.546c0-.523.151-1.046.454-1.5.303-.454.631-.813 1.042-.918.453-.303.977-.454 1.5-.454s1.046.151 1.5.454c.411.105.739.464 1.042.918.303.454.454.977.454 1.5v4.128c0 .523-.151 1.046-.454 1.5a2.704 2.704 0 01-1.042.918c-.454.303-.977.454-1.5.454zM12 21a9 9 0 100-18 9 9 0 000 18z"></path>
         </svg>
-        <h1 class="text-2xl font-bold text-gray-900">Wishare</h1>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Wishare</h1>
       </div>
-      <p class="text-gray-600">Someone wants to share wishlists with you</p>
+      <p class="text-gray-600 dark:text-gray-300">Someone wants to share wishlists with you</p>
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
       <div class="px-6 py-6">
         <div class="text-center mb-6">
-          <div class="bg-pink-100 rounded-full w-12 h-12 mx-auto mb-3 flex items-center justify-center">
-            <span class="text-lg font-semibold text-pink-600">
+          <div class="bg-pink-100 dark:bg-pink-900/30 rounded-full w-12 h-12 mx-auto mb-3 flex items-center justify-center">
+            <span class="text-lg font-semibold text-pink-600 dark:text-pink-400">
               <%= @invitation.sender.name&.first&.upcase || @invitation.sender.email&.first&.upcase %>
             </span>
           </div>
-          <h2 class="text-xl font-bold text-gray-900 mb-1">
+          <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">
             <%= @invitation.sender.name || "Someone" %>
           </h2>
-          <p class="text-gray-600 text-sm">
+          <p class="text-gray-600 dark:text-gray-300 text-sm">
             <%= @invitation.sender.email %>
           </p>
         </div>
 
-        <div class="bg-pink-50 rounded-xl p-4 mb-6">
+        <div class="bg-pink-50 dark:bg-pink-900/20 rounded-xl p-4 mb-6 border dark:border-pink-800/30">
           <div class="text-center">
-            <p class="text-gray-700 mb-4">
+            <p class="text-gray-700 dark:text-gray-200 mb-4">
               <strong><%= @invitation.sender.name || @invitation.sender.email %></strong> has invited you to connect and share wishlists together!
             </p>
-            <p class="text-sm text-gray-600">
+            <p class="text-sm text-gray-600 dark:text-gray-300">
               Once connected, you'll be able to see each other's gift ideas and make gift-giving stress-free and more thoughtful.
             </p>
           </div>
@@ -45,7 +45,7 @@
         <div class="space-y-3">
           <%= form_with url: update_invitation_path(@invitation.token), method: :patch, local: true do |form| %>
             <%= form.hidden_field :accept, value: true %>
-            <%= form.submit "Accept Invitation", class: "w-full bg-pink-500 text-white py-4 px-6 rounded-xl hover:bg-pink-600 transition duration-200 cursor-pointer font-semibold text-lg flex items-center justify-center gap-2" do %>
+            <%= form.submit "Accept Invitation", class: "w-full bg-pink-500 hover:bg-pink-600 dark:bg-pink-600 dark:hover:bg-pink-500 text-white py-4 px-6 rounded-xl transition duration-200 cursor-pointer font-semibold text-lg flex items-center justify-center gap-2" do %>
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
               </svg>
@@ -55,16 +55,16 @@
           
           <%= form_with url: update_invitation_path(@invitation.token), method: :patch, local: true do |form| %>
             <%= form.hidden_field :accept, value: false %>
-            <%= form.submit "Decline", class: "w-full bg-gray-100 text-gray-700 py-3 px-6 rounded-xl hover:bg-gray-200 transition duration-200 cursor-pointer font-medium" %>
+            <%= form.submit "Decline", class: "w-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 py-3 px-6 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-200 cursor-pointer font-medium" %>
           <% end %>
         </div>
       </div>
     </div>
 
     <div class="text-center mt-6">
-      <p class="text-sm text-gray-500">
+      <p class="text-sm text-gray-500 dark:text-gray-400">
         Don't have an account? 
-        <%= link_to "Sign up first", new_user_registration_path(email: @invitation.recipient_email), class: "text-pink-500 hover:text-pink-600 font-medium" %>
+        <%= link_to "Sign up first", new_user_registration_path(email: @invitation.recipient_email), class: "text-pink-500 dark:text-pink-400 hover:text-pink-600 dark:hover:text-pink-300 font-medium" %>
       </p>
     </div>
   </div>

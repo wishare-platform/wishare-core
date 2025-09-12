@@ -4,8 +4,8 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
     <div>
-      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800"><%= t('connections.index.title') %></h1>
-      <p class="text-gray-600 mt-1 text-sm sm:text-base"><%= t('connections.index.subtitle') %></p>
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-gray-100"><%= t('connections.index.title') %></h1>
+      <p class="text-gray-600 dark:text-gray-300 mt-1 text-sm sm:text-base"><%= t('connections.index.subtitle') %></p>
     </div>
     <%= link_to new_invitation_path, class: "bg-gradient-to-r from-rose-500 to-rose-600 text-white px-3 sm:px-4 py-1.5 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 flex items-center gap-2 text-sm font-medium shadow-sm self-start" do %>
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -19,44 +19,44 @@
   <!-- Connected Friends -->
   <% if @connections.any? %>
     <div class="mb-8">
-      <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
-        <div class="bg-pink-50 px-4 sm:px-6 py-4">
+      <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+        <div class="bg-pink-50 dark:bg-pink-900/20 px-4 sm:px-6 py-4">
           <div class="flex items-center gap-3">
-            <div class="bg-white rounded-lg p-2">
-              <svg class="w-5 h-5 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="bg-white dark:bg-gray-700 rounded-lg p-2">
+              <svg class="w-5 h-5 text-pink-500 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
               </svg>
             </div>
-            <h2 class="text-lg sm:text-xl font-semibold text-gray-800"><%= t('connections.index.connected') %></h2>
-            <span class="bg-pink-100 text-pink-700 text-xs px-2 py-1 rounded-full font-medium">
+            <h2 class="text-lg sm:text-xl font-semibold text-gray-800 dark:text-gray-100"><%= t('connections.index.connected') %></h2>
+            <span class="bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 text-xs px-2 py-1 rounded-full font-medium">
               <%= t('connections.index.connections_count', count: @connections.count) %>
             </span>
           </div>
         </div>
-        <div class="divide-y divide-gray-100">
+        <div class="divide-y divide-gray-100 dark:divide-gray-700">
           <% @connections.each do |connection| %>
             <% partner = connection.other_user(current_user) %>
             <div class="p-4 sm:p-6">
               <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div class="flex items-center gap-4">
-                  <div class="bg-pink-100 rounded-full w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center flex-shrink-0">
-                    <span class="text-sm sm:text-lg font-semibold text-pink-600">
+                  <div class="bg-pink-100 dark:bg-pink-900/30 rounded-full w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center flex-shrink-0">
+                    <span class="text-sm sm:text-lg font-semibold text-pink-600 dark:text-pink-400">
                       <%= partner.name&.first&.upcase || partner.email&.first&.upcase %>
                     </span>
                   </div>
                   <div class="min-w-0">
-                    <h3 class="text-base sm:text-lg font-semibold text-gray-800 truncate">
+                    <h3 class="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-100 truncate">
                       <%= partner.name || "Friend" %>
                     </h3>
-                    <p class="text-gray-600 text-sm truncate"><%= partner.email %></p>
-                    <p class="text-gray-500 text-xs"><%= t('connections.index.connected_since', date: l(connection.created_at, format: :long)) %></p>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm truncate"><%= partner.email %></p>
+                    <p class="text-gray-500 dark:text-gray-400 text-xs"><%= t('connections.index.connected_since', date: l(connection.created_at, format: :long)) %></p>
                   </div>
                 </div>
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
-                  <%= link_to t('connections.index.view_wishlists'), user_path(partner), class: "bg-pink-500 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-pink-600 transition duration-200 text-sm font-medium text-center" %>
+                  <%= link_to t('connections.index.view_wishlists'), user_path(partner), class: "bg-pink-500 hover:bg-pink-600 dark:bg-pink-600 dark:hover:bg-pink-500 text-white px-3 sm:px-4 py-2 rounded-lg transition duration-200 text-sm font-medium text-center" %>
                   <%= button_to t('connections.index.disconnect'), connection_path(connection), method: :delete, 
                         data: { confirm: t('connections.index.confirm_disconnect', name: partner.name || partner.email) },
-                        class: "bg-red-100 text-red-600 px-3 sm:px-4 py-2 rounded-lg hover:bg-red-200 transition duration-200 text-sm font-medium" %>
+                        class: "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-3 sm:px-4 py-2 rounded-lg hover:bg-red-200 dark:hover:bg-red-800/50 transition duration-200 text-sm font-medium" %>
                 </div>
               </div>
             </div>
@@ -72,42 +72,42 @@
 
   <% if received_invitations.any? %>
     <div class="mb-8">
-      <div class="bg-white rounded-xl border border-purple-200 overflow-hidden">
-        <div class="bg-purple-50 px-4 sm:px-6 py-4">
+      <div class="bg-white dark:bg-gray-800 rounded-xl border border-purple-200 dark:border-purple-800/50 overflow-hidden">
+        <div class="bg-purple-50 dark:bg-purple-900/20 px-4 sm:px-6 py-4">
           <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
             <div class="flex items-center gap-3">
-              <div class="bg-white rounded-lg p-2">
-                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="bg-white dark:bg-gray-700 rounded-lg p-2">
+                <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                 </svg>
               </div>
-              <h2 class="text-base sm:text-lg font-semibold text-gray-800"><%= t('connections.index.pending_invitations') %></h2>
+              <h2 class="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-100"><%= t('connections.index.pending_invitations') %></h2>
             </div>
-            <span class="text-sm text-purple-600"><%= t('connections.index.invitation_message') %></span>
+            <span class="text-sm text-purple-600 dark:text-purple-400"><%= t('connections.index.invitation_message') %></span>
           </div>
         </div>
-        <div class="divide-y divide-gray-100">
+        <div class="divide-y divide-gray-100 dark:divide-gray-700">
           <% received_invitations.each do |invitation| %>
             <div class="p-4 sm:p-6">
               <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div class="flex items-center gap-4">
-                  <div class="bg-purple-100 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">
-                    <span class="text-sm font-semibold text-purple-700">
+                  <div class="bg-purple-100 dark:bg-purple-900/30 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0">
+                    <span class="text-sm font-semibold text-purple-700 dark:text-purple-300">
                       <%= invitation.sender.name&.first&.upcase || invitation.sender.email&.first&.upcase %>
                     </span>
                   </div>
                   <div class="min-w-0">
-                    <h3 class="font-semibold text-gray-800 truncate">
+                    <h3 class="font-semibold text-gray-800 dark:text-gray-100 truncate">
                       <%= invitation.sender.name || "Someone" %>
                     </h3>
-                    <p class="text-gray-600 text-sm truncate"><%= invitation.sender.email %></p>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm truncate"><%= invitation.sender.email %></p>
                   </div>
                 </div>
                 <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                   <%= link_to t('invitations.show.accept_button'), update_invitation_path(invitation.token, accept: true), method: :patch,
-                        class: "bg-pink-500 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-pink-600 transition duration-200 text-sm font-medium text-center" %>
+                        class: "bg-pink-500 hover:bg-pink-600 dark:bg-pink-600 dark:hover:bg-pink-500 text-white px-3 sm:px-4 py-2 rounded-lg transition duration-200 text-sm font-medium text-center" %>
                   <%= link_to t('invitations.show.decline_button'), update_invitation_path(invitation.token, accept: false), method: :patch,
-                        class: "bg-gray-100 text-gray-600 px-3 sm:px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200 text-sm font-medium text-center" %>
+                        class: "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-3 sm:px-4 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-200 text-sm font-medium text-center" %>
                 </div>
               </div>
             </div>
@@ -119,33 +119,33 @@
 
   <% if sent_invitations.any? %>
     <div class="mb-8">
-      <div class="bg-white rounded-xl border border-pink-200 overflow-hidden">
-        <div class="bg-pink-50 px-4 sm:px-6 py-4">
+      <div class="bg-white dark:bg-gray-800 rounded-xl border border-pink-200 dark:border-pink-800/50 overflow-hidden">
+        <div class="bg-pink-50 dark:bg-pink-900/20 px-4 sm:px-6 py-4">
           <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
             <div class="flex items-center gap-3">
-              <div class="bg-white rounded-lg p-2">
-                <svg class="w-5 h-5 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="bg-white dark:bg-gray-700 rounded-lg p-2">
+                <svg class="w-5 h-5 text-pink-500 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                 </svg>
               </div>
-              <h2 class="text-base sm:text-lg font-semibold text-gray-800"><%= t('connections.index.sent_invitations') %></h2>
+              <h2 class="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-100"><%= t('connections.index.sent_invitations') %></h2>
             </div>
-            <span class="text-sm text-pink-500"><%= t('connections.index.waiting_for_response') %></span>
+            <span class="text-sm text-pink-500 dark:text-pink-400"><%= t('connections.index.waiting_for_response') %></span>
           </div>
         </div>
-        <div class="divide-y divide-gray-100">
+        <div class="divide-y divide-gray-100 dark:divide-gray-700">
           <% sent_invitations.each do |invitation| %>
             <div class="p-4 sm:p-6">
               <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div class="min-w-0">
-                  <p class="font-medium text-gray-800"><%= t('connections.index.invitation_sent_to', email: invitation.recipient_email) %></p>
-                  <p class="text-gray-500 text-sm"><%= t('connections.index.sent_time_ago', time: time_ago_in_words(invitation.created_at)) %></p>
+                  <p class="font-medium text-gray-800 dark:text-gray-100"><%= t('connections.index.invitation_sent_to', email: invitation.recipient_email) %></p>
+                  <p class="text-gray-500 dark:text-gray-400 text-sm"><%= t('connections.index.sent_time_ago', time: time_ago_in_words(invitation.created_at)) %></p>
                 </div>
                 <div class="flex items-center gap-2 flex-shrink-0">
-                  <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-medium"><%= t('common.status.pending') %></span>
+                  <span class="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 px-3 py-1 rounded-full text-sm font-medium"><%= t('common.status.pending') %></span>
                   <%= button_to invitation_path(invitation), {method: :delete, 
                       data: { turbo_confirm: t('connections.index.confirm_cancel') },
-                      class: "bg-red-100 text-red-600 px-3 py-1 rounded-lg hover:bg-red-200 transition duration-200 text-sm font-medium"} do %>
+                      class: "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-3 py-1 rounded-lg hover:bg-red-200 dark:hover:bg-red-800/50 transition duration-200 text-sm font-medium"} do %>
 <%= t('connections.index.cancel_invitation') %>
                   <% end %>
                 </div>
@@ -160,15 +160,15 @@
   <!-- Empty State -->
   <% if @partner.nil? && received_invitations.empty? && sent_invitations.empty? %>
     <div class="text-center py-12">
-      <div class="bg-pink-50 rounded-xl p-8 max-w-md mx-auto">
-        <div class="bg-white rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-          <svg class="w-8 h-8 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div class="bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50 dark:from-gray-800 dark:via-gray-800 dark:to-gray-800 rounded-xl p-8 max-w-md mx-auto border dark:border-gray-700">
+        <div class="bg-white dark:bg-gray-700 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+          <svg class="w-8 h-8 text-pink-500 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
           </svg>
         </div>
-        <h3 class="text-xl font-semibold text-gray-800 mb-2"><%= t('connections.index.empty_state') %></h3>
-        <p class="text-gray-600 mb-6"><%= t('connections.index.empty_state_description') %></p>
-        <%= link_to t('connections.index.send_first_invitation'), new_invitation_path, class: "bg-pink-500 text-white px-6 py-3 rounded-lg hover:bg-pink-600 transition duration-200 font-medium" %>
+        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2"><%= t('connections.index.empty_state') %></h3>
+        <p class="text-gray-600 dark:text-gray-300 mb-6"><%= t('connections.index.empty_state_description') %></p>
+        <%= link_to t('connections.index.send_first_invitation'), new_invitation_path, class: "bg-pink-500 hover:bg-pink-600 dark:bg-pink-600 dark:hover:bg-pink-500 text-white px-6 py-3 rounded-lg transition duration-200 font-medium" %>
       </div>
     </div>
   <% end %>
