@@ -487,6 +487,23 @@ pt-BR:
 
   users:
     public_profile:
+      sharing_gift_ideas: "Compartilhando ideias de presentes no Wishare"
+      member_since: "Membro desde %{date}"
+      public_wishlists_title: "Wishlists Públicas"
+      public_wishlist_count:
+        one: "1 wishlist pública"
+        other: "%{count} wishlists públicas"
+      default: "Padrão"
+      public: "Público"
+      recent_items: "Itens Recentes:"
+      more_items:
+        one: "+1 item adicional"
+        other: "+%{count} itens adicionais"
+      view_wishlist: "Ver Wishlist"
+      no_items_yet: "Nenhum item ainda"
+      no_public_wishlists_yet: "Nenhuma wishlist pública ainda"
+      no_public_wishlists_description: "%{name} ainda não compartilhou wishlists públicas. Volte mais tarde para ver ideias de presentes!"
+      back_to_dashboard: "Voltar para Minhas Wishlists"
       mailing_address: "Endereço para Correspondência"
       address_provided_separately: "Endereço será fornecido separadamente na seleção do presente"
       address_visibility:

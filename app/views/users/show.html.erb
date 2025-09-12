@@ -1,17 +1,17 @@
 <% content_for :title, "#{@user.name}'s Profile" %>
 <% content_for :description, "Explore #{@user.name}'s public wishlists on Wishare - the perfect place to find gift ideas for any occasion." %>
 
-<div class="min-h-screen bg-gradient-to-br from-rose-50 via-white to-purple-50">
+<div class="min-h-screen bg-gradient-to-br from-rose-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
   <div class="container mx-auto px-4 py-8">
     <!-- User Profile Header -->
-    <div class="bg-white rounded-xl shadow-sm border border-rose-100 p-8 mb-8">
+    <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-sm border border-rose-100 dark:border-gray-700 p-8 mb-8">
       <div class="flex items-center space-x-6">
         <!-- User Avatar -->
         <div class="flex-shrink-0">
           <% if @user.avatar_url.present? %>
-            <img src="<%= @user.avatar_url %>" alt="<%= @user.name %>" class="w-20 h-20 rounded-full border-4 border-rose-100">
+            <img src="<%= @user.avatar_url %>" alt="<%= @user.name %>" class="w-20 h-20 rounded-full border-4 border-rose-100 dark:border-rose-800">
           <% else %>
-            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-rose-400 to-purple-500 flex items-center justify-center border-4 border-rose-100">
+            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-rose-400 to-purple-500 flex items-center justify-center border-4 border-rose-100 dark:border-rose-800">
               <span class="text-white text-2xl font-bold">
                 <%= @user.name.split(' ').map(&:first).join.upcase %>
               </span>
@@ -21,12 +21,12 @@
         
         <!-- User Info -->
         <div class="flex-grow">
-          <h1 class="text-3xl font-bold text-gray-900 mb-2"><%= @user.name %></h1>
-          <p class="text-gray-600 text-lg">
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2"><%= @user.name %></h1>
+          <p class="text-gray-600 dark:text-gray-300 text-lg">
             <i class="fas fa-heart text-rose-500 mr-2"></i>
             <%= t('users.public_profile.sharing_gift_ideas') %>
           </p>
-          <p class="text-sm text-gray-500 mt-2">
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
             <%= t('users.public_profile.member_since', date: @user.created_at.strftime("%B %Y")) %>
           </p>
         </div>
@@ -34,10 +34,10 @@
 
       <!-- Mailing Address Section (if visible to current user) -->
       <% if @user.can_view_address?(current_user) %>
-        <div class="mt-6 pt-6 border-t border-rose-100">
+        <div class="mt-6 pt-6 border-t border-rose-100 dark:border-gray-700">
           <div class="flex items-start space-x-4">
             <div class="flex-shrink-0">
-              <div class="w-10 h-10 bg-rose-100 rounded-lg flex items-center justify-center">
+              <div class="w-10 h-10 bg-rose-100 dark:bg-rose-900/50 rounded-lg flex items-center justify-center">
                 <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -45,10 +45,10 @@
               </div>
             </div>
             <div class="flex-grow">
-              <h3 class="text-lg font-semibold text-gray-900 mb-2">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
                 <%= t('users.public_profile.mailing_address') %>
               </h3>
-              <div class="text-gray-700 space-y-1">
+              <div class="text-gray-700 dark:text-gray-300 space-y-1">
                 <% if @user.has_address? %>
                   <p class="font-medium"><%= @user.name %></p>
                   <% if @user.street_number.present? || @user.street_address.present? %>
@@ -63,10 +63,10 @@
                     <p><%= [@user.city, @user.state].compact.join(', ') %> <%= @user.postal_code %></p>
                   <% end %>
                   <% if @user.country.present? %>
-                    <p class="text-gray-600"><%= @user.country_name %></p>
+                    <p class="text-gray-600 dark:text-gray-400"><%= @user.country_name %></p>
                   <% end %>
                 <% else %>
-                  <p class="text-gray-600 italic">
+                  <p class="text-gray-600 dark:text-gray-400 italic">
                     <%= t('users.public_profile.address_provided_separately') %>
                   </p>
                 <% end %>
@@ -74,14 +74,14 @@
               <div class="mt-3 flex items-center text-sm">
                 <% case @user.address_visibility.to_sym %>
                 <% when :public %>
-                  <div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  <div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
                     <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                     <%= t('users.public_profile.address_visibility.public') %>
                   </div>
                 <% when :connected_users %>
-                  <div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                  <div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300">
                     <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
                     </svg>
@@ -98,11 +98,11 @@
     <!-- Public Wishlists -->
     <div class="mb-8">
       <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl font-bold text-gray-900">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
           <i class="fas fa-globe text-rose-500 mr-3"></i>
           <%= t('users.public_profile.public_wishlists_title') %>
         </h2>
-        <p class="text-gray-600">
+        <p class="text-gray-600 dark:text-gray-400">
           <%= t('users.public_profile.public_wishlist_count', count: @public_wishlists.count) %>
         </p>
       </div>
@@ -110,29 +110,29 @@
       <% if @public_wishlists.any? %>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <% @public_wishlists.each do |wishlist| %>
-            <div class="bg-white rounded-xl shadow-sm border border-rose-100 hover:shadow-lg transition-all duration-300 group">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-rose-100 dark:border-gray-700 hover:shadow-lg transition-all duration-300 group">
               <div class="p-6">
                 <!-- Wishlist Header -->
                 <div class="flex items-start justify-between mb-4">
                   <div class="flex-grow">
-                    <h3 class="text-xl font-semibold text-gray-900 group-hover:text-rose-600 transition-colors duration-200">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors duration-200">
                       <%= wishlist.name %>
                       <% if wishlist.is_default %>
-                        <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800">
+                        <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-100 dark:bg-rose-900/30 text-rose-800 dark:text-rose-300">
                           <i class="fas fa-star mr-1"></i>
                           <%= t('users.public_profile.default') %>
                         </span>
                       <% end %>
                     </h3>
                     <% if wishlist.description.present? %>
-                      <p class="text-gray-600 mt-2 text-sm leading-relaxed">
+                      <p class="text-gray-600 dark:text-gray-300 mt-2 text-sm leading-relaxed">
                         <%= truncate(wishlist.description, length: 120) %>
                       </p>
                     <% end %>
                   </div>
                   
                   <div class="flex-shrink-0 ml-4">
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
                       <i class="fas fa-globe mr-1"></i>
                       <%= t('users.public_profile.public') %>
                     </span>
@@ -140,7 +140,7 @@
                 </div>
 
                 <!-- Wishlist Stats -->
-                <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
                   <span>
                     <i class="fas fa-gift mr-1"></i>
                     <%= pluralize(wishlist.wishlist_items.count, 'item') %>
@@ -154,7 +154,7 @@
                 <!-- Recent Items Preview -->
                 <% if wishlist.wishlist_items.any? %>
                   <div class="space-y-2">
-                    <p class="text-xs font-medium text-gray-600 mb-2"><%= t('users.public_profile.recent_items') %></p>
+                    <p class="text-xs font-medium text-gray-600 dark:text-gray-300 mb-2"><%= t('users.public_profile.recent_items') %></p>
                     <% wishlist.wishlist_items.limit(3).each do |item| %>
                       <div class="flex items-center space-x-2">
                         <i class="fas fa-gift text-rose-400 text-xs"></i>
@@ -213,7 +213,7 @@
     <!-- Back to Browse -->
     <div class="text-center">
       <%= link_to root_path, 
-          class: "inline-flex items-center px-6 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200" do %>
+          class: "inline-flex items-center px-6 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200" do %>
         <i class="fas fa-arrow-left mr-2"></i>
         <%= t('users.public_profile.back_to_dashboard') %>
       <% end %>
