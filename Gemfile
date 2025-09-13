@@ -71,6 +71,11 @@ gem "httparty"
 # Admin panel pagination
 gem "kaminari"
 
+# API Support
+gem "devise-jwt"
+gem "rack-cors"
+gem "jsonapi-serializer"
+
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"

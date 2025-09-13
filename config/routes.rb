@@ -46,7 +46,63 @@ Rails.application.routes.draw do
     # API routes for mobile app
     namespace :api do
       namespace :v1 do
-        resources :device_tokens, only: [:create, :index, :destroy]
+        # Authentication
+        post 'auth/login', to: 'auth#login'
+        delete 'auth/logout', to: 'auth#logout'
+        get 'auth/validate', to: 'auth#validate_token'
+
+        # Resources
+        resources :wishlists do
+          resources :wishlist_items, path: 'items' do
+            member do
+              patch :toggle_purchase
+            end
+          end
+        end
+
+        # Device tokens for push notifications
+        resources :device_tokens do
+          collection do
+            post :test_notification
+          end
+        end
+
+        # User profile
+        get 'user/profile', to: 'users#profile'
+        patch 'user/profile', to: 'users#update_profile'
+        patch 'user/avatar', to: 'users#update_avatar'
+        resources :users, only: [:show]
+
+        # Notifications
+        resources :notifications do
+          member do
+            patch :mark_as_read
+          end
+          collection do
+            patch :mark_all_as_read
+            get :unread_count
+          end
+        end
+
+        # Connections
+        resources :connections do
+          member do
+            patch :update
+          end
+          collection do
+            get :friends
+          end
+        end
+
+        # Invitations
+        resources :invitations do
+          member do
+            patch :update
+          end
+        end
+        # Invitation by token (public endpoint)
+        get 'invitations/token/:token', to: 'invitations#show', as: :invitation_by_token
+        patch 'invitations/token/:token', to: 'invitations#update', as: :update_invitation_by_token
       end
     end
     
