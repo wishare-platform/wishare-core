@@ -1,5 +1,6 @@
 class Admin::WishlistsController < Admin::BaseController
   before_action :set_wishlist, only: [:show, :destroy]
+  before_action :require_super_admin!, only: [:destroy]
   
   def index
     @wishlists = Wishlist.includes(:user, :wishlist_items)

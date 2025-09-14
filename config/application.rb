@@ -1,4 +1,5 @@
 require_relative "boot"
+require_relative "../app/middleware/security_headers"
 
 require "rails"
 # Pick the frameworks you want:
@@ -22,6 +23,9 @@ module CupidGifts
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.0
+
+    # Security middleware
+    config.middleware.use SecurityHeaders
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.

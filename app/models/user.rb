@@ -30,6 +30,9 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :preferred_locale, inclusion: { in: %w[en pt-BR] }
   validates :theme_preference, inclusion: { in: %w[light dark system] }
+
+  # Strong password validation
+  validate :password_complexity, if: :password_required?
   
   # Address field validations - all required except apartment_unit
   validate :address_completeness
@@ -243,5 +246,19 @@ class User < ApplicationRecord
 
   def create_default_notification_preference
     build_notification_preference.save unless notification_preference
+  end
+
+  def password_complexity
+    return if password.blank?
+
+    errors.add(:password, 'must be at least 12 characters long') if password.length < 12
+    errors.add(:password, 'must include at least one uppercase letter') unless password =~ /[A-Z]/
+    errors.add(:password, 'must include at least one lowercase letter') unless password =~ /[a-z]/
+    errors.add(:password, 'must include at least one number') unless password =~ /\d/
+    errors.add(:password, 'must include at least one special character') unless password =~ /[^A-Za-z0-9]/
+  end
+
+  def password_required?
+    !persisted? || !password.blank?
   end
 end

@@ -1,5 +1,6 @@
 class Admin::UsersController < Admin::BaseController
   before_action :set_user, only: [:show, :update, :destroy]
+  before_action :require_super_admin!, only: [:update, :destroy]
   
   def index
     @users = User.includes(:user_analytic, :wishlists, :connections)
@@ -47,6 +48,11 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def user_params
-    params.require(:user).permit(:role)
+    # Only super_admin can change roles
+    if current_user&.super_admin?
+      params.require(:user).permit(:role)
+    else
+      params.require(:user).permit() # No params allowed for regular admins
+    end
   end
 end

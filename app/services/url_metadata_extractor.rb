@@ -2,6 +2,8 @@ require 'net/http'
 require 'uri'
 require 'nokogiri'
 require 'json'
+require 'ipaddr'
+require 'resolv'
 
 class UrlMetadataExtractor
   TIMEOUT = 10
@@ -72,6 +74,9 @@ class UrlMetadataExtractor
       uri = URI.parse(@url)
       return {} unless %w[http https].include?(uri.scheme)
 
+      # SSRF Protection: Validate the URL is not pointing to internal resources
+      return {} unless safe_url?(uri)
+
       response = fetch_with_redirects(uri)
       return {} unless response.is_a?(Net::HTTPSuccess)
 
@@ -91,8 +96,44 @@ class UrlMetadataExtractor
 
   private
 
+  def safe_url?(uri)
+    # Block private IP addresses and localhost
+    return false if uri.host.nil?
+
+    # Resolve hostname to IP address
+    begin
+      require 'resolv'
+      ip = Resolv.getaddress(uri.host)
+      addr = IPAddr.new(ip)
+
+      # Block private and reserved IP ranges
+      return false if addr.private?
+      return false if addr.loopback?
+      return false if addr.link_local?
+      return false if addr.multicast?
+      return false if ip == '0.0.0.0' || ip.start_with?('0.')
+      return false if ip == '::' || ip == '::1'
+
+      # Block common internal hostnames
+      blocked_hosts = %w[localhost 127.0.0.1 0.0.0.0 ::1 metadata.google.internal]
+      return false if blocked_hosts.include?(uri.host.downcase)
+
+      # Block internal cloud metadata endpoints
+      return false if uri.host =~ /^169\.254\./
+      return false if uri.host =~ /metadata/i
+
+      true
+    rescue => e
+      Rails.logger.warn "Failed to validate URL safety for #{uri}: #{e.message}"
+      false
+    end
+  end
+
   def fetch_with_redirects(uri, redirects = 0)
     return nil if redirects > MAX_REDIRECTS
+
+    # Validate each redirect is also safe
+    return nil unless safe_url?(uri)
 
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = (uri.scheme == 'https')
