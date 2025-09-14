@@ -5,6 +5,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :omniauthable,
          omniauth_providers: [:google_oauth2]
 
+  # Include mobile support functionality
+  include UserMobileSupport
+
   # Connection associations
   has_many :connections, dependent: :destroy
   has_many :inverse_connections, class_name: 'Connection', foreign_key: 'partner_id', dependent: :destroy

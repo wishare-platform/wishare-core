@@ -104,6 +104,18 @@ Rails.application.routes.draw do
         # Invitation by token (public endpoint)
         get 'invitations/token/:token', to: 'invitations#show', as: :invitation_by_token
         patch 'invitations/token/:token', to: 'invitations#update', as: :update_invitation_by_token
+
+        # Mobile-specific endpoints
+        get 'mobile/health', to: 'mobile#health_check'
+        get 'mobile/config', to: 'mobile#config'
+        get 'mobile/feature-flags', to: 'mobile#feature_flags'
+        post 'mobile/device-info', to: 'mobile#device_info'
+        get 'mobile/sync', to: 'mobile#sync_data'
+        post 'mobile/track-event', to: 'mobile#track_event'
+        post 'mobile/test-push', to: 'mobile#test_push_notification'
+
+        # Image upload for mobile
+        post 'wishlists/:wishlist_id/items/:item_id/image', to: 'mobile#upload_image'
       end
     end
     
