@@ -35,7 +35,7 @@ class SecurityHeaders
 
     # Script sources
     script_src = "'self' 'unsafe-inline'"
-    script_src += " https://www.googletagmanager.com https://www.google-analytics.com" if Rails.env.production?
+    script_src += " https://www.googletagmanager.com https://www.google-analytics.com"
     script_src += " 'unsafe-eval'" if Rails.env.development? # For Rails development
     directives << "script-src #{script_src}"
 
@@ -64,8 +64,10 @@ class SecurityHeaders
     frame_src += " https://accounts.google.com" # For Google OAuth
     directives << "frame-src #{frame_src}"
 
-    # Form action
-    directives << "form-action 'self'"
+    # Form action (allow Google OAuth)
+    form_action = "'self'"
+    form_action += " https://accounts.google.com"
+    directives << "form-action #{form_action}"
 
     # Base URI
     directives << "base-uri 'self'"

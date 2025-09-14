@@ -53,17 +53,23 @@ class Wishlist < ApplicationRecord
     I18n.t("wishlists.event_types.#{event_type}", default: EVENT_TYPES[event_type] || 'General Wishlist')
   end
 
-  def cover_image_url(variant: :card)
+  def cover_image_url(variant = :card)
     return nil unless cover_image.attached?
 
-    case variant
-    when :thumb
-      cover_image.variant(resize_to_fill: [300, 200])
-    when :card
-      cover_image.variant(resize_to_fill: [400, 250])
-    when :hero
-      cover_image.variant(resize_to_fill: [800, 400])
-    else
+    begin
+      case variant
+      when :thumb
+        cover_image.variant(resize_to_fill: [300, 200])
+      when :card
+        cover_image.variant(resize_to_fill: [400, 250])
+      when :hero
+        cover_image.variant(resize_to_fill: [800, 400])
+      else
+        cover_image
+      end
+    rescue => e
+      Rails.logger.error "Error generating cover image URL for wishlist #{id}: #{e.message}"
+      # Return the original image as fallback
       cover_image
     end
   end

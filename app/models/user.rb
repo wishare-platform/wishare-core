@@ -80,7 +80,7 @@ class User < ApplicationRecord
         )
       else
         # Create new user
-        user = create do |u|
+        user = create! do |u|
           u.email = auth.info.email
           u.password = Devise.friendly_token[0, 20]
           u.name = auth.info.name

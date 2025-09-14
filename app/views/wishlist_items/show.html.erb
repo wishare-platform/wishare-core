@@ -1,0 +1,197 @@
+<% content_for :title, @wishlist_item.name %>
+<% content_for :description, @wishlist_item.description.present? ? "#{@wishlist_item.description} - #{@wishlist_item.formatted_price}" : "#{@wishlist_item.name} from #{@wishlist.user.name || @wishlist.user.email}'s wishlist" %>
+
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-6">
+    <%= link_to @wishlist, class: "inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-rose-600 dark:hover:text-rose-400 transition duration-200" do %>
+      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+      <%= t('wishlists.show.back_to_wishlist', name: @wishlist.name) %>
+    <% end %>
+  </div>
+
+  <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl border border-rose-100 dark:border-gray-700 shadow-lg overflow-hidden">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
+      <!-- Image Section -->
+      <div class="relative">
+        <% if @wishlist_item.image_url.present? %>
+          <div class="aspect-square lg:h-full overflow-hidden">
+            <%= image_tag @wishlist_item.image_url, class: "w-full h-full object-cover", alt: @wishlist_item.name %>
+            <% if @wishlist_item.purchased? %>
+              <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                <div class="bg-green-600 text-white px-4 py-2 rounded-full text-lg font-medium flex items-center gap-3">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <%= t('wishlists.show.purchased') %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="aspect-square lg:h-full bg-gradient-to-br from-rose-50 via-pink-50 to-amber-50 dark:from-rose-900/20 dark:via-pink-900/20 dark:to-amber-900/20 flex flex-col items-center justify-center relative">
+            <div class="text-8xl mb-4">💝</div>
+            <div class="text-center">
+              <div class="text-rose-500 dark:text-rose-400 font-bold text-2xl font-display">Wishare</div>
+              <div class="text-rose-400 dark:text-rose-500 text-lg font-medium"><%= t('wishlists.show.gift_placeholder') %></div>
+            </div>
+            <% if @wishlist_item.purchased? %>
+              <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                <div class="bg-green-600 text-white px-4 py-2 rounded-full text-lg font-medium flex items-center gap-3">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <%= t('wishlists.show.purchased') %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Content Section -->
+      <div class="p-6 sm:p-8 flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-start mb-4">
+            <div class="min-w-0 flex-1 pr-4">
+              <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2 break-words"><%= @wishlist_item.name %></h1>
+              <p class="text-gray-600 dark:text-gray-400"><%= t('wishlists.show.from_wishlist', wishlist: @wishlist.name, user: @wishlist.user.name || @wishlist.user.email) %></p>
+            </div>
+
+            <% if @wishlist.user == current_user %>
+              <div class="flex gap-2 flex-shrink-0">
+                <%= link_to edit_wishlist_wishlist_item_path(@wishlist, @wishlist_item), class: "text-gray-400 dark:text-gray-500 hover:text-rose-500 dark:hover:text-rose-400 transition duration-200 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700", title: t('wishlists.show.edit_item') do %>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                  </svg>
+                <% end %>
+                <%= button_to wishlist_wishlist_item_path(@wishlist, @wishlist_item), {
+                    method: :delete,
+                    data: {
+                      confirm: t('wishlists.show.delete_item_confirm', name: @wishlist_item.name)
+                    },
+                    class: "text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 transition duration-200 border-none bg-transparent p-2 cursor-pointer rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700",
+                    title: t('wishlists.show.delete_item')
+                  } do %>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                  </svg>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+
+          <% if @wishlist_item.description.present? %>
+            <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 mb-6">
+              <p class="text-gray-700 dark:text-gray-300 leading-relaxed"><%= simple_format(@wishlist_item.description) %></p>
+            </div>
+          <% end %>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div class="bg-gradient-to-r from-rose-50 to-pink-50 dark:from-rose-900/20 dark:to-pink-900/20 rounded-xl p-4">
+              <div class="text-sm text-rose-700 dark:text-rose-400 font-medium mb-1"><%= t('wishlists.show.price') %></div>
+              <% if @wishlist_item.price.present? %>
+                <div class="text-2xl font-bold text-gray-800 dark:text-gray-100"><%= @wishlist_item.formatted_price %></div>
+              <% else %>
+                <div class="text-lg text-gray-500 dark:text-gray-400"><%= t('wishlists.show.price_not_set') %></div>
+              <% end %>
+            </div>
+
+            <div class="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-xl p-4">
+              <div class="text-sm text-amber-700 dark:text-amber-400 font-medium mb-1"><%= t('wishlists.show.priority') %></div>
+              <div class="flex items-center gap-2">
+                <span class="px-3 py-1 rounded-full text-sm font-semibold <%= @wishlist_item.priority == 'high' ? 'bg-rose-500 text-white' : @wishlist_item.priority == 'medium' ? 'bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300' %>">
+                  <%= t("items.form.priority_label.#{@wishlist_item.priority}") %>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <% if @wishlist_item.created_at %>
+            <div class="text-sm text-gray-500 dark:text-gray-400 mb-6">
+              <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <%= t('wishlists.show.added_on', date: l(@wishlist_item.created_at, format: :long)) %>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Actions Section -->
+        <div class="space-y-3">
+          <% unless @wishlist_item.purchased? %>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <% if @wishlist_item.safe_url.present? %>
+                <%= link_to @wishlist_item.safe_url,
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                    class: "flex-1 text-center bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-200 font-medium flex items-center justify-center gap-2" do %>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                  </svg>
+                  <%= t('wishlists.show.view_item') %>
+                <% end %>
+              <% end %>
+
+              <% if @wishlist.user != current_user %>
+                <%= button_to purchase_wishlist_wishlist_item_path(@wishlist, @wishlist_item), {method: :patch, class: "flex-1 bg-gradient-to-r from-rose-500 to-rose-600 text-white px-6 py-3 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 font-medium cursor-pointer shadow-lg"} do %>
+                  <span class="flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <%= t('wishlists.show.mark_purchased') %>
+                  </span>
+                <% end %>
+              <% end %>
+            </div>
+          <% else %>
+            <!-- Purchased item actions -->
+            <% if @wishlist_item.purchased_by %>
+              <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-xl p-4">
+                <div class="flex items-center gap-3 mb-3">
+                  <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span class="text-green-700 dark:text-green-300 font-medium">
+                    <%= t('wishlists.show.purchased_by', buyer: @wishlist_item.purchased_by.name || @wishlist_item.purchased_by.email) %>
+                  </span>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3">
+                  <% if @wishlist_item.purchased_by == current_user %>
+                    <%= button_to unpurchase_wishlist_wishlist_item_path(@wishlist, @wishlist_item), {method: :patch,
+                        class: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-200 font-medium"} do %>
+                      <%= t('wishlists.show.mark_as_available') %>
+                    <% end %>
+                  <% elsif @wishlist_item.safe_url.present? %>
+                    <%= link_to @wishlist_item.safe_url,
+                        target: "_blank",
+                        rel: "noopener noreferrer",
+                        class: "text-center bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-200 font-medium flex items-center justify-center gap-2" do %>
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                      </svg>
+                      <%= t('wishlists.show.view_item') %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+
+          <!-- Share Button -->
+          <div class="flex justify-center">
+            <%= share_modal_button(
+                  t('common.share.item_title', item_name: @wishlist_item.name, wishlist_name: @wishlist.name),
+                  request.original_url,
+                  t('common.share.item_description', name: @wishlist.user.name, event: @wishlist.event_type || 'their wishlist'),
+                  t('common.share.button'),
+                  "inline-flex items-center gap-2 px-4 py-2 bg-purple-500 hover:bg-purple-600 dark:bg-purple-600 dark:hover:bg-purple-700 text-white rounded-xl transition duration-200 font-medium shadow-lg"
+                ) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

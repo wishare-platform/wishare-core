@@ -75,7 +75,8 @@ export default class extends Controller {
     const formData = new FormData()
     formData.append('avatar', file)
 
-    fetch('/profile/update_avatar', {
+    const locale = document.documentElement.lang || 'en'
+    fetch(`/${locale}/profile/update_avatar`, {
       method: 'PATCH',
       headers: {
         'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
@@ -143,7 +144,8 @@ export default class extends Controller {
 
   removeAvatar() {
     if (confirm('Are you sure you want to remove your profile picture?')) {
-      fetch('/profile/remove_avatar', {
+      const locale = document.documentElement.lang || 'en'
+      fetch(`/${locale}/profile/remove_avatar`, {
         method: 'DELETE',
         headers: {
           'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,

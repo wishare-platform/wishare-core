@@ -4,8 +4,15 @@ export default class extends Controller {
   static targets = ["input", "preview", "dropZone"]
 
   connect() {
+    console.log('Image upload controller connected')
     this.setupNativeBridge()
     this.setupDropZone()
+  }
+
+  getTranslation(key, fallback) {
+    // Try to get translation from data attributes or use fallback
+    const element = document.querySelector(`[data-i18n-${key.replace('_', '-')}]`)
+    return element ? element.textContent : fallback
   }
 
   setupNativeBridge() {
@@ -109,8 +116,9 @@ export default class extends Controller {
     if (this.nativeBridge && this.nativeBridge.apiRequest && wishlistIdMatch) {
       const wishlistId = wishlistIdMatch[1]
 
+      const locale = document.documentElement.lang || 'en'
       this.nativeBridge.apiRequest({
-        url: `/api/v1/wishlists/${wishlistId}/cover-image`,
+        url: `/${locale}/api/v1/wishlists/${wishlistId}/cover-image`,
         method: 'POST',
         data: {
           cover_image_base64: imageData

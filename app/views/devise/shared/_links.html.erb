@@ -11,7 +11,7 @@
     <div class="mt-6">
       <%- resource_class.omniauth_providers.each do |provider| %>
         <% if controller_name == 'registrations' %>
-          <%= button_to omniauth_authorize_path(resource_name, provider), 
+          <%= button_to "/users/auth/#{provider}",
               method: :post,
               data: { turbo: false, "terms-agreement-target": "googleButton" },
               disabled: true,
@@ -25,7 +25,7 @@
 <%= t('auth.shared.sign_in_with_google') %>
           <% end %>
         <% else %>
-          <%= button_to omniauth_authorize_path(resource_name, provider), 
+          <%= button_to "/users/auth/#{provider}",
               method: :post,
               data: { turbo: false },
               class: "btn-secondary w-full flex justify-center items-center px-6 py-4 border-2 border-rose-200 dark:border-gray-600 rounded-xl shadow-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-rose-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-400 dark:focus:ring-rose-500 transition duration-200 touch-manipulation" do %>
