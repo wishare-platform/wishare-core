@@ -1,10 +1,15 @@
 Rails.application.routes.draw do
   patch '/theme', to: 'theme#update'
+  patch '/locale', to: 'locale#update'
+
+  # Root route without locale - redirect to appropriate localized version
+  get '/', to: 'root_redirect#index'
+
   # OAuth callbacks must be outside of locale scope
-  devise_for :users, only: :omniauth_callbacks, controllers: { 
+  devise_for :users, only: :omniauth_callbacks, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
-  
+
   # Locale scope for internationalization
   scope "(:locale)", locale: /en|pt-BR/ do
     devise_for :users, skip: :omniauth_callbacks, controllers: { 
@@ -39,6 +44,12 @@ Rails.application.routes.draw do
     
     # Public user profiles
     resources :users, only: [:show]
+
+    # Profile management
+    resource :profile, only: [:show, :edit, :update] do
+      patch :update_avatar
+      delete :remove_avatar
+    end
     
     # Notification preferences
     resource :notification_preferences, only: [:show, :update]
@@ -116,6 +127,8 @@ Rails.application.routes.draw do
 
         # Image upload for mobile
         post 'wishlists/:wishlist_id/items/:item_id/image', to: 'mobile#upload_image'
+        post 'profile/avatar', to: 'mobile#upload_avatar'
+        post 'wishlists/:wishlist_id/cover-image', to: 'mobile#upload_wishlist_cover'
       end
     end
     

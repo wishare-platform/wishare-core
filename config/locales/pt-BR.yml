@@ -126,7 +126,23 @@ pt-BR:
       new_password: "Nova senha"
       confirm_password: "Confirmar nova senha"
       reset_button: "Redefinir senha"
-  
+
+  profile:
+    title: "Perfil"
+    subtitle: "Gerencie suas informações pessoais e configurações"
+    edit_title: "Editar Perfil"
+    edit_subtitle: "Atualize suas informações pessoais"
+    edit: "Editar Perfil"
+    name: "Nome"
+    email: "E-mail"
+    birthday: "Aniversário"
+    language: "Idioma"
+    address: "Endereço"
+    personal_info: "Informações Pessoais"
+    statistics: "Estatísticas"
+    total_items: "Total de Itens"
+    update_success: "Perfil atualizado com sucesso"
+
   dashboard:
     welcome: "Bem-vindo ao Wishare, %{name}!"
     subtitle: "Seu centro de presentes especiais para todos os seus relacionamentos"
@@ -138,6 +154,19 @@ pt-BR:
     no_activity: "Nenhuma atividade recente"
   
   wishlists:
+    event_types:
+      none: "Lista Geral"
+      birthday: "Aniversário"
+      wedding: "Casamento"
+      baby_shower: "Chá de Bebê"
+      christmas: "Natal"
+      anniversary: "Aniversário de Namoro/Casamento"
+      graduation: "Formatura"
+      housewarming: "Casa Nova"
+      valentines: "Dia dos Namorados"
+      mothers_day: "Dia das Mães"
+      fathers_day: "Dia dos Pais"
+      other: "Outro Evento Especial"
     index:
       title: "Suas Listas de Desejos"
       subtitle: "Gerencie suas listas de presentes para todas as ocasiões"
@@ -197,6 +226,7 @@ pt-BR:
     form:
       name: "Nome da Lista"
       name_placeholder: "ex: Aniversário, Presentes de Natal"
+      cover_image: "Imagem de Capa"
       description: "Descrição"
       description_placeholder: "Adicione notas sobre esta lista..."
       event_type: "Tipo de Evento"

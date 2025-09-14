@@ -8,10 +8,16 @@ class ApplicationController < ActionController::Base
   private
   
   def set_locale
-    I18n.locale = params[:locale] || 
-                  current_user&.preferred_locale || 
-                  extract_locale_from_accept_language_header || 
+    I18n.locale = params[:locale] ||
+                  session[:locale] ||
+                  current_user&.preferred_locale ||
+                  extract_locale_from_accept_language_header ||
                   I18n.default_locale
+
+    # Store locale preference if user is logged in and locale changed
+    if current_user && params[:locale] && params[:locale] != current_user.preferred_locale
+      current_user.update(preferred_locale: params[:locale])
+    end
   end
   
   def extract_locale_from_accept_language_header

@@ -22,15 +22,28 @@ class CookieConsent < ApplicationRecord
   # Class methods
   def self.find_or_create_for_request(request, user = nil)
     session_id = extract_session_id(request)
-    
-    consent = if user
-      find_by(user: user) || find_by(session_id: session_id)
-    else
-      find_by(session_id: session_id)
+
+    # First try to find existing consent by session_id
+    consent = find_by(session_id: session_id)
+
+    # If user is logged in and we found a consent by session
+    if user && consent
+      # Update the consent to link it to the user if not already linked
+      consent.update(user: user) if consent.user_id.nil?
+      return consent if consent.current_version?
     end
-    
+
+    # If no session consent found but user is logged in, check for user consent
+    if user && !consent
+      consent = find_by(user: user)
+      # Update session_id to current session if consent found
+      consent.update(session_id: session_id) if consent
+      return consent if consent&.current_version?
+    end
+
+    # Return existing consent if valid
     return consent if consent&.current_version?
-    
+
     # Create new consent record
     create!(
       user: user,
@@ -53,12 +66,27 @@ class CookieConsent < ApplicationRecord
   
   def self.find_consent_for_request(request, user = nil)
     session_id = extract_session_id(request)
-    
-    if user
-      find_by(user: user) || find_by(session_id: session_id)
-    else
-      find_by(session_id: session_id)
+
+    # First try to find by session_id (most common case)
+    consent = find_by(session_id: session_id)
+
+    # If user is logged in and we found a consent by session
+    if user && consent
+      # Update the consent to link it to the user if not already linked
+      consent.update(user: user) if consent.user_id.nil?
+      return consent
     end
+
+    # If no session consent found but user is logged in, check for user consent
+    if user && !consent
+      consent = find_by(user: user)
+      # Update session_id to current session if consent found
+      consent.update(session_id: session_id) if consent
+      return consent
+    end
+
+    # Return the consent (or nil)
+    consent
   end
   
   def self.extract_session_id(request)

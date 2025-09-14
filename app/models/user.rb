@@ -8,6 +8,12 @@ class User < ApplicationRecord
   # Include mobile support functionality
   include UserMobileSupport
 
+  # ActiveStorage attachments
+  has_one_attached :avatar do |attachable|
+    attachable.variant :thumb, resize_to_limit: [150, 150]
+    attachable.variant :large, resize_to_limit: [300, 300]
+  end
+
   # Connection associations
   has_many :connections, dependent: :destroy
   has_many :inverse_connections, class_name: 'Connection', foreign_key: 'partner_id', dependent: :destroy
@@ -139,8 +145,29 @@ class User < ApplicationRecord
 
   def connected_to?(other_user)
     return false if other_user.nil?
-    
+
     Connection.between_users(self, other_user)&.accepted?
+  end
+
+  def profile_avatar_url(variant: :thumb)
+    if avatar.attached?
+      if avatar.variable?
+        Rails.application.routes.url_helpers.rails_representation_url(
+          avatar.variant(variant),
+          host: Rails.application.config.action_mailer.default_url_options[:host] || 'localhost:3000'
+        )
+      else
+        Rails.application.routes.url_helpers.rails_blob_url(
+          avatar,
+          host: Rails.application.config.action_mailer.default_url_options[:host] || 'localhost:3000'
+        )
+      end
+    else
+      # Fallback to OAuth avatar stored in avatar_url field
+      read_attribute(:avatar_url)
+    end
+  rescue
+    read_attribute(:avatar_url)
   end
 
   def connection_with(other_user)

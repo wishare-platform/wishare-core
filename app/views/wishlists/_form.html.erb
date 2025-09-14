@@ -1,5 +1,5 @@
-<%= form_with(model: wishlist, local: true, 
-              data: { 
+<%= form_with(model: wishlist, local: true, multipart: true,
+              data: {
                 controller: "analytics",
                 action: "submit->analytics##{wishlist.persisted? ? 'trackWishlistEdited' : 'trackWishlistCreated'}"
               }) do |form| %>
@@ -31,10 +31,37 @@
     <%= form.text_area :description, rows: 4, class: "w-full px-4 py-3 border-2 border-rose-200 dark:border-rose-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 dark:focus:ring-rose-500 focus:border-rose-400 dark:focus:border-rose-500 transition duration-200 resize-none bg-rose-50/30 dark:bg-rose-900/20 focus:bg-white dark:focus:bg-gray-700 text-gray-900 dark:text-gray-100", placeholder: t('wishlists.form.description_placeholder') %>
   </div>
 
+  <!-- Cover Image -->
+  <div class="mb-6">
+    <%= form.label :cover_image, t('wishlists.form.cover_image'), class: "block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2" %>
+    <div data-controller="image-upload" class="border-2 border-dashed border-rose-200 dark:border-rose-800 rounded-xl p-6 bg-rose-50/30 dark:bg-rose-900/20">
+      <% if wishlist.cover_image.attached? %>
+        <div class="text-center">
+          <%= image_tag wishlist.cover_image_url(:card), class: "mx-auto rounded-lg shadow-md mb-4 max-h-48", data: { image_upload_target: "preview" } %>
+          <button type="button" data-action="click->image-upload#removeImage" class="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 text-sm font-medium">
+            Remove Image
+          </button>
+        </div>
+      <% else %>
+        <div class="text-center" data-image-upload-target="dropZone">
+          <svg class="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+          <p class="text-gray-600 dark:text-gray-400 mb-2">Choose a cover image for your wishlist</p>
+          <button type="button" data-action="click->image-upload#openFileDialog" class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-200">
+            Choose Image
+          </button>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Recommended: 800x400px, JPG or PNG</p>
+        </div>
+      <% end %>
+      <%= form.file_field :cover_image, data: { image_upload_target: "input", action: "change->image-upload#previewImage" }, class: "hidden", accept: "image/*" %>
+    </div>
+  </div>
+
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
     <div>
       <%= form.label :event_type, t('wishlists.form.event_type'), class: "block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2" %>
-      <%= form.select :event_type, options_for_select(Wishlist::EVENT_TYPES.map { |k, v| [v, k] }, wishlist.event_type || 'none'), {}, 
+      <%= form.select :event_type, options_for_select(Wishlist::EVENT_TYPES.map { |k, v| [I18n.t("wishlists.event_types.#{k}"), k] }, wishlist.event_type || 'none'), {}, 
           { class: "w-full px-4 py-3 border-2 border-rose-200 dark:border-rose-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-400 dark:focus:ring-rose-500 focus:border-rose-400 dark:focus:border-rose-500 transition duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100",
             data: { controller: "event-type", action: "change->event-type#toggleDateField" } } %>
       <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">

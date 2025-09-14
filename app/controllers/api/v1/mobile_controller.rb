@@ -299,6 +299,123 @@ class Api::V1::MobileController < Api::V1::BaseController
     end
   end
 
+  # Upload avatar for user profile
+  def upload_avatar
+    unless params[:avatar].present?
+      return render json: {
+        status: 'error',
+        message: 'No avatar image provided'
+      }, status: :bad_request
+    end
+
+    begin
+      uploaded_file = params[:avatar]
+
+      # Validate file type
+      unless valid_image_type?(uploaded_file)
+        return render json: {
+          status: 'error',
+          message: 'Invalid image type. Supported formats: JPEG, PNG, HEIC'
+        }, status: :unprocessable_entity
+      end
+
+      # Validate file size
+      if uploaded_file.size > 5.megabytes
+        return render json: {
+          status: 'error',
+          message: 'Image too large. Maximum size is 5MB'
+        }, status: :unprocessable_entity
+      end
+
+      # Attach the avatar to the user
+      current_user.avatar.attach(uploaded_file)
+
+      # Track analytics event
+      track_mobile_event('avatar_uploaded', {
+        user_id: current_user.id,
+        file_size: uploaded_file.size,
+        content_type: uploaded_file.content_type
+      })
+
+      render json: {
+        status: 'success',
+        message: 'Avatar uploaded successfully',
+        data: {
+          avatar_url: current_user.profile_avatar_url(:large)
+        }
+      }
+    rescue => e
+      Rails.logger.error "Mobile avatar upload error: #{e.message}"
+      render json: {
+        status: 'error',
+        message: 'Failed to upload avatar'
+      }, status: :internal_server_error
+    end
+  end
+
+  # Upload cover image for wishlist
+  def upload_wishlist_cover
+    @wishlist = current_user.wishlists.find(params[:wishlist_id])
+
+    unless params[:cover_image].present?
+      return render json: {
+        status: 'error',
+        message: 'No cover image provided'
+      }, status: :bad_request
+    end
+
+    begin
+      uploaded_file = params[:cover_image]
+
+      # Validate file type
+      unless valid_image_type?(uploaded_file)
+        return render json: {
+          status: 'error',
+          message: 'Invalid image type. Supported formats: JPEG, PNG, HEIC'
+        }, status: :unprocessable_entity
+      end
+
+      # Validate file size
+      if uploaded_file.size > 10.megabytes # Larger limit for cover images
+        return render json: {
+          status: 'error',
+          message: 'Image too large. Maximum size is 10MB'
+        }, status: :unprocessable_entity
+      end
+
+      # Attach the cover image to the wishlist
+      @wishlist.cover_image.attach(uploaded_file)
+
+      # Track analytics event
+      track_mobile_event('wishlist_cover_uploaded', {
+        wishlist_id: @wishlist.id,
+        user_id: current_user.id,
+        file_size: uploaded_file.size,
+        content_type: uploaded_file.content_type
+      })
+
+      render json: {
+        status: 'success',
+        message: 'Cover image uploaded successfully',
+        data: {
+          wishlist_id: @wishlist.id,
+          cover_image_url: @wishlist.cover_image_url(:hero)
+        }
+      }
+    rescue ActiveRecord::RecordNotFound
+      render json: {
+        status: 'error',
+        message: 'Wishlist not found'
+      }, status: :not_found
+    rescue => e
+      Rails.logger.error "Mobile wishlist cover upload error: #{e.message}"
+      render json: {
+        status: 'error',
+        message: 'Failed to upload cover image'
+      }, status: :internal_server_error
+    end
+  end
+
   private
 
   def valid_image_type?(file)

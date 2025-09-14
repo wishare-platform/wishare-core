@@ -38,8 +38,10 @@
   <% if @wishlists.any? || @connected_wishlists.any? || @public_wishlists.any? %>
     <div class="<%= @focus_partner ? '' : 'mt-12' %>" data-controller="wishlist-filter">
       <% unless @focus_partner %>
-        <!-- Filter Buttons -->
-        <div class="flex flex-wrap gap-2 mb-6">
+        <!-- Filter and Sort Section -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+          <!-- Filter Buttons -->
+          <div class="flex flex-wrap gap-2">
           <button data-wishlist-filter-target="filterButton" data-filter="my-wishlists" data-action="click->wishlist-filter#filterBy" class="btn-secondary bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 px-4 py-2 rounded-xl transition duration-200 flex items-center gap-2 cursor-pointer">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
@@ -71,6 +73,77 @@
             </svg>
             <%= t('common.actions.all') || 'All' %> <span class="filter-count">(<%= (@wishlists + @connected_wishlists + @public_wishlists).count %>)</span>
           </button>
+          </div>
+
+          <!-- Sort Dropdown -->
+          <div class="relative" data-controller="dropdown">
+            <button data-action="click->dropdown#toggle" class="bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 px-4 py-2 rounded-xl transition duration-200 flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path>
+              </svg>
+              <span><%= t('common.sort.sort_by', default: 'Sort by') %></span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+
+            <div data-dropdown-target="menu" class="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 py-2 hidden z-50">
+              <%= link_to wishlists_path(sort_by: 'created_desc'), class: "block px-4 py-2 text-sm #{'bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400' if @sort_by == 'created_desc'} text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-200" do %>
+                <div class="flex items-center justify-between">
+                  <span><%= t('common.sort.newest_first', default: 'Newest first') %></span>
+                  <% if @sort_by == 'created_desc' %>
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                  <% end %>
+                </div>
+              <% end %>
+
+              <%= link_to wishlists_path(sort_by: 'created_asc'), class: "block px-4 py-2 text-sm #{'bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400' if @sort_by == 'created_asc'} text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-200" do %>
+                <div class="flex items-center justify-between">
+                  <span><%= t('common.sort.oldest_first', default: 'Oldest first') %></span>
+                  <% if @sort_by == 'created_asc' %>
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                  <% end %>
+                </div>
+              <% end %>
+
+              <%= link_to wishlists_path(sort_by: 'updated_desc'), class: "block px-4 py-2 text-sm #{'bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400' if @sort_by == 'updated_desc'} text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-200" do %>
+                <div class="flex items-center justify-between">
+                  <span><%= t('common.sort.recently_updated', default: 'Recently updated') %></span>
+                  <% if @sort_by == 'updated_desc' %>
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                  <% end %>
+                </div>
+              <% end %>
+
+              <%= link_to wishlists_path(sort_by: 'name_asc'), class: "block px-4 py-2 text-sm #{'bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400' if @sort_by == 'name_asc'} text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-200" do %>
+                <div class="flex items-center justify-between">
+                  <span><%= t('common.sort.name_a_z', default: 'Name (A-Z)') %></span>
+                  <% if @sort_by == 'name_asc' %>
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                  <% end %>
+                </div>
+              <% end %>
+
+              <%= link_to wishlists_path(sort_by: 'name_desc'), class: "block px-4 py-2 text-sm #{'bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400' if @sort_by == 'name_desc'} text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-200" do %>
+                <div class="flex items-center justify-between">
+                  <span><%= t('common.sort.name_z_a', default: 'Name (Z-A)') %></span>
+                  <% if @sort_by == 'name_desc' %>
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
         </div>
       <% end %>
       
@@ -121,6 +194,12 @@
           <!-- User's Own Wishlists -->
           <% @wishlists.each do |wishlist| %>
             <div data-wishlist-filter-target="wishlistCard" data-categories="my-wishlists all" class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl border border-rose-100 dark:border-gray-700 hover:border-rose-200 dark:hover:border-gray-600 hover:shadow-xl transition duration-300 overflow-hidden">
+              <!-- Cover Image -->
+              <% if wishlist.cover_image.attached? %>
+                <div class="h-32 sm:h-40 overflow-hidden">
+                  <%= image_tag wishlist.cover_image_url(:card), class: "w-full h-full object-cover", alt: wishlist.name %>
+                </div>
+              <% end %>
               <div class="p-4 sm:p-6">
                 <div class="flex justify-between items-start mb-3">
                   <h3 class="heading-card text-gray-800 dark:text-gray-100 pr-2">
@@ -219,7 +298,42 @@
                     </div>
                   </div>
                 <% end %>
-                
+
+                <!-- Item Preview Cards -->
+                <% recent_items = wishlist.wishlist_items.order(created_at: :desc).limit(3) %>
+                <% if recent_items.any? %>
+                  <div class="flex gap-2 mb-4 overflow-x-auto">
+                    <% recent_items.each do |item| %>
+                      <div class="flex-shrink-0 w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden relative group">
+                        <% if item.image_url.present? %>
+                          <%= image_tag item.image_url, class: "w-full h-full object-cover", alt: item.name %>
+                        <% else %>
+                          <div class="w-full h-full flex items-center justify-center">
+                            <svg class="w-8 h-8 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                            </svg>
+                          </div>
+                        <% end %>
+                        <% if item.purchased? %>
+                          <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                          </div>
+                        <% end %>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-1">
+                          <span class="text-xs text-white truncate"><%= item.name %></span>
+                        </div>
+                      </div>
+                    <% end %>
+                    <% if wishlist.wishlist_items.count > 3 %>
+                      <div class="flex-shrink-0 w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                        <span class="text-sm text-gray-600 dark:text-gray-400 font-medium">+<%= wishlist.wishlist_items.count - 3 %></span>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+
                 <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
                   <div class="flex items-center gap-1">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -258,6 +372,12 @@
           <!-- Friends & Family Wishlists (Partner Only) -->
           <% @connected_wishlists.select(&:partner_only?).each do |wishlist| %>
             <div data-wishlist-filter-target="wishlistCard" data-categories="friends-family all" class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl border border-purple-100 dark:border-purple-900/50 hover:border-purple-200 dark:hover:border-purple-800 hover:shadow-xl transition duration-300 overflow-hidden">
+              <!-- Cover Image -->
+              <% if wishlist.cover_image.attached? %>
+                <div class="h-32 sm:h-40 overflow-hidden">
+                  <%= image_tag wishlist.cover_image_url(:card), class: "w-full h-full object-cover", alt: wishlist.name %>
+                </div>
+              <% end %>
               <div class="p-4 sm:p-6">
                 <div class="flex justify-between items-start mb-3">
                   <div>
@@ -328,7 +448,42 @@
                     </div>
                   </div>
                 <% end %>
-                
+
+                <!-- Item Preview Cards -->
+                <% recent_items = wishlist.wishlist_items.order(created_at: :desc).limit(3) %>
+                <% if recent_items.any? %>
+                  <div class="flex gap-2 mb-4 overflow-x-auto">
+                    <% recent_items.each do |item| %>
+                      <div class="flex-shrink-0 w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden relative group">
+                        <% if item.image_url.present? %>
+                          <%= image_tag item.image_url, class: "w-full h-full object-cover", alt: item.name %>
+                        <% else %>
+                          <div class="w-full h-full flex items-center justify-center">
+                            <svg class="w-8 h-8 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                            </svg>
+                          </div>
+                        <% end %>
+                        <% if item.purchased? %>
+                          <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                          </div>
+                        <% end %>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-1">
+                          <span class="text-xs text-white truncate"><%= item.name %></span>
+                        </div>
+                      </div>
+                    <% end %>
+                    <% if wishlist.wishlist_items.count > 3 %>
+                      <div class="flex-shrink-0 w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                        <span class="text-sm text-gray-600 dark:text-gray-400 font-medium">+<%= wishlist.wishlist_items.count - 3 %></span>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+
                 <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
                   <div class="flex items-center gap-1">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -346,6 +501,12 @@
           <!-- Public Wishlists -->
           <% (@connected_wishlists.select(&:publicly_visible?) + @public_wishlists).each do |wishlist| %>
             <div data-wishlist-filter-target="wishlistCard" data-categories="public all" class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl border border-green-100 dark:border-green-900/50 hover:border-green-200 dark:hover:border-green-800 hover:shadow-xl transition duration-300 overflow-hidden">
+              <!-- Cover Image -->
+              <% if wishlist.cover_image.attached? %>
+                <div class="h-32 sm:h-40 overflow-hidden">
+                  <%= image_tag wishlist.cover_image_url(:card), class: "w-full h-full object-cover", alt: wishlist.name %>
+                </div>
+              <% end %>
               <div class="p-4 sm:p-6">
                 <div class="flex justify-between items-start mb-3">
                   <div>
@@ -414,7 +575,42 @@
                     </div>
                   </div>
                 <% end %>
-                
+
+                <!-- Item Preview Cards -->
+                <% recent_items = wishlist.wishlist_items.order(created_at: :desc).limit(3) %>
+                <% if recent_items.any? %>
+                  <div class="flex gap-2 mb-4 overflow-x-auto">
+                    <% recent_items.each do |item| %>
+                      <div class="flex-shrink-0 w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden relative group">
+                        <% if item.image_url.present? %>
+                          <%= image_tag item.image_url, class: "w-full h-full object-cover", alt: item.name %>
+                        <% else %>
+                          <div class="w-full h-full flex items-center justify-center">
+                            <svg class="w-8 h-8 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                            </svg>
+                          </div>
+                        <% end %>
+                        <% if item.purchased? %>
+                          <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                          </div>
+                        <% end %>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end p-1">
+                          <span class="text-xs text-white truncate"><%= item.name %></span>
+                        </div>
+                      </div>
+                    <% end %>
+                    <% if wishlist.wishlist_items.count > 3 %>
+                      <div class="flex-shrink-0 w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                        <span class="text-sm text-gray-600 dark:text-gray-400 font-medium">+<%= wishlist.wishlist_items.count - 3 %></span>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+
                 <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
                   <div class="flex items-center gap-1">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

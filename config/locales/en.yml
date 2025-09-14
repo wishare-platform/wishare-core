@@ -127,6 +127,22 @@ en:
       confirm_password: "Confirm new password"
       reset_button: "Reset password"
   
+  profile:
+    title: "Profile"
+    subtitle: "Manage your personal information and settings"
+    edit_title: "Edit Profile"
+    edit_subtitle: "Update your personal information"
+    edit: "Edit Profile"
+    name: "Name"
+    email: "Email"
+    birthday: "Birthday"
+    language: "Language"
+    address: "Address"
+    personal_info: "Personal Information"
+    statistics: "Statistics"
+    total_items: "Total Items"
+    update_success: "Profile updated successfully"
+
   dashboard:
     welcome: "Welcome to Wishare, %{name}!"
     subtitle: "Your central hub for thoughtful gifting across all your relationships"
@@ -138,6 +154,19 @@ en:
     no_activity: "No recent activity to show"
   
   wishlists:
+    event_types:
+      none: "General Wishlist"
+      birthday: "Birthday"
+      wedding: "Wedding"
+      baby_shower: "Baby Shower"
+      christmas: "Christmas"
+      anniversary: "Anniversary"
+      graduation: "Graduation"
+      housewarming: "Housewarming"
+      valentines: "Valentine's Day"
+      mothers_day: "Mother's Day"
+      fathers_day: "Father's Day"
+      other: "Other Special Event"
     index:
       title: "Your Wishlists"
       subtitle: "Manage your gift lists for all occasions"
@@ -197,6 +226,7 @@ en:
     form:
       name: "Wishlist Name"
       name_placeholder: "e.g., Birthday Wishes, Holiday Gifts"
+      cover_image: "Cover Image"
       description: "Description"
       description_placeholder: "Add notes about this wishlist..."
       event_type: "Event Type"

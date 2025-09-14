@@ -4,11 +4,10 @@ module UserMobileSupport
   extend ActiveSupport::Concern
 
   included do
-    # Device info is stored as JSON in the database
+    # Device info is stored as JSONB in the database (natively supported by PostgreSQL)
     has_many :device_tokens, dependent: :destroy
 
-    # Serialize device info as JSON
-    serialize :device_info, JSON if column_names.include?('device_info')
+    # No need to serialize device_info - it's already a jsonb column
   end
 
   # Update device information for mobile apps

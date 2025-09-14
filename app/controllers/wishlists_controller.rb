@@ -4,27 +4,46 @@ class WishlistsController < ApplicationController
   before_action :ensure_authenticated_for_private_wishlists, only: [:show]
 
   def index
-    @wishlists = current_user.wishlists.includes(:wishlist_items)
-    
+    # Determine sort order
+    @sort_by = params[:sort_by] || 'created_desc'
+    sort_order = case @sort_by
+                 when 'name_asc'
+                   { name: :asc }
+                 when 'name_desc'
+                   { name: :desc }
+                 when 'updated_desc'
+                   { updated_at: :desc }
+                 when 'updated_asc'
+                   { updated_at: :asc }
+                 when 'created_asc'
+                   { created_at: :asc }
+                 else # 'created_desc' (default)
+                   { created_at: :desc }
+                 end
+
+    @wishlists = current_user.wishlists.includes(:wishlist_items).order(sort_order)
+
     # Get all connected users
     connected_user_ids = current_user.accepted_connections.map do |connection|
       connection.other_user(current_user).id
     end
-    
+
     # Get wishlists from all connected users (friends_and_family and public)
     if connected_user_ids.any?
       @connected_wishlists = Wishlist.where(user_id: connected_user_ids)
                                      .where(visibility: [:partner_only, :publicly_visible])
                                      .includes(:user, :wishlist_items)
+                                     .order(sort_order)
     else
       @connected_wishlists = []
     end
-    
+
     # Also get all public wishlists from non-connected users
     @public_wishlists = Wishlist.where(visibility: :publicly_visible)
                                 .where.not(user_id: [current_user.id] + connected_user_ids)
                                 .includes(:user, :wishlist_items)
-    
+                                .order(sort_order)
+
     @focus_partner = params[:partner] == 'true'
   end
 
@@ -85,7 +104,7 @@ class WishlistsController < ApplicationController
   end
 
   def wishlist_params
-    params.require(:wishlist).permit(:name, :description, :is_default, :visibility, :event_type, :event_date)
+    params.require(:wishlist).permit(:name, :description, :is_default, :visibility, :event_type, :event_date, :cover_image)
   end
 
   def ensure_authenticated_for_private_wishlists
