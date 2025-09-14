@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'jwt'
+
 module Api
   module V1
     class BaseController < ActionController::API
@@ -16,17 +18,37 @@ module Api
 
         if token.present?
           begin
-            payload = JSON.parse(Base64.decode64(token))
+            payload = JWT.decode(token, jwt_secret, true, { algorithm: 'HS256' })[0]
+
+            # Check if token is blacklisted
+            if JwtDenylist.exists?(jti: payload['jti'])
+              render json: { error: 'Token revoked' }, status: :unauthorized
+              return
+            end
+
+            # Check expiration (JWT gem validates this, but double-check)
             if payload['exp'] > Time.current.to_i
               @current_user = User.find(payload['user_id'])
               return
             end
-          rescue => e
-            Rails.logger.error "Token decode error: #{e.message}"
+          rescue JWT::ExpiredSignature
+            render json: { error: 'Token expired', code: 'TOKEN_EXPIRED' }, status: :unauthorized
+            return
+          rescue JWT::DecodeError, JWT::VerificationError => e
+            Rails.logger.error "JWT decode error: #{e.message}"
+            render json: { error: 'Invalid token' }, status: :unauthorized
+            return
+          rescue ActiveRecord::RecordNotFound
+            render json: { error: 'User not found' }, status: :unauthorized
+            return
           end
         end
 
         render json: { error: 'Authentication required' }, status: :unauthorized
+      end
+
+      def jwt_secret
+        ENV['JWT_SECRET_KEY'] || Rails.application.secret_key_base
       end
 
       def current_user

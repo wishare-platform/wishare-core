@@ -49,6 +49,7 @@ Rails.application.routes.draw do
         # Authentication
         post 'auth/login', to: 'auth#login'
         delete 'auth/logout', to: 'auth#logout'
+        post 'auth/refresh', to: 'auth#refresh_token'
         get 'auth/validate', to: 'auth#validate_token'
 
         # Resources
