@@ -141,8 +141,7 @@ Rails.application.routes.draw do
     end
     
     authenticated :user do
-      # root 'dashboard#index', as: :authenticated_root
-      root 'wishlists#index', as: :authenticated_root
+      root 'dashboard#index', as: :authenticated_root
     end
     
     root 'landing#index'
