@@ -100,7 +100,8 @@ class WishlistsController < ApplicationController
   private
 
   def set_wishlist
-    @wishlist = Wishlist.find(params[:id])
+    @wishlist = Wishlist.find_by(id: params[:id])
+    render_404 and return unless @wishlist
   end
 
   def wishlist_params
