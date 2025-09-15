@@ -49,27 +49,27 @@
         </h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <% if user_signed_in? %>
-            <%= link_to wishlists_path, class: "flex items-center gap-2 p-3 rounded-lg bg-white/60 dark:bg-gray-700/60 hover:bg-white dark:hover:bg-gray-700 transition duration-200 text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400" do %>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <%= link_to wishlists_path, class: "flex items-center gap-2 p-4 rounded-xl bg-gradient-to-r from-rose-50 to-rose-100/50 dark:from-rose-900/20 dark:to-rose-800/20 border border-rose-200 dark:border-rose-800 hover:from-rose-100 hover:to-rose-200/50 dark:hover:from-rose-900/30 dark:hover:to-rose-800/30 transition duration-200 text-rose-700 dark:text-rose-300 font-medium shadow-sm hover:shadow-md" do %>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
               </svg>
               <%= t('navigation.wishlists') %>
             <% end %>
-            <%= link_to connections_path, class: "flex items-center gap-2 p-3 rounded-lg bg-white/60 dark:bg-gray-700/60 hover:bg-white dark:hover:bg-gray-700 transition duration-200 text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400" do %>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <%= link_to connections_path, class: "flex items-center gap-2 p-4 rounded-xl bg-gradient-to-r from-purple-50 to-purple-100/50 dark:from-purple-900/20 dark:to-purple-800/20 border border-purple-200 dark:border-purple-800 hover:from-purple-100 hover:to-purple-200/50 dark:hover:from-purple-900/30 dark:hover:to-purple-800/30 transition duration-200 text-purple-700 dark:text-purple-300 font-medium shadow-sm hover:shadow-md" do %>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
               </svg>
               <%= t('navigation.connections') %>
             <% end %>
           <% else %>
-            <%= link_to new_user_registration_path, class: "flex items-center gap-2 p-3 rounded-lg bg-white/60 dark:bg-gray-700/60 hover:bg-white dark:hover:bg-gray-700 transition duration-200 text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400" do %>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <%= link_to new_user_registration_path, class: "flex items-center gap-2 p-4 rounded-xl bg-gradient-to-r from-rose-50 to-rose-100/50 dark:from-rose-900/20 dark:to-rose-800/20 border border-rose-200 dark:border-rose-800 hover:from-rose-100 hover:to-rose-200/50 dark:hover:from-rose-900/30 dark:hover:to-rose-800/30 transition duration-200 text-rose-700 dark:text-rose-300 font-medium shadow-sm hover:shadow-md" do %>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
               </svg>
               <%= t('landing.cta.get_started') %>
             <% end %>
-            <%= link_to new_user_session_path, class: "flex items-center gap-2 p-3 rounded-lg bg-white/60 dark:bg-gray-700/60 hover:bg-white dark:hover:bg-gray-700 transition duration-200 text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400" do %>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <%= link_to new_user_session_path, class: "flex items-center gap-2 p-4 rounded-xl bg-gradient-to-r from-purple-50 to-purple-100/50 dark:from-purple-900/20 dark:to-purple-800/20 border border-purple-200 dark:border-purple-800 hover:from-purple-100 hover:to-purple-200/50 dark:hover:from-purple-900/30 dark:hover:to-purple-800/30 transition duration-200 text-purple-700 dark:text-purple-300 font-medium shadow-sm hover:shadow-md" do %>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
               </svg>
               <%= t('landing.cta.sign_in') %>
