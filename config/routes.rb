@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   # Root route without locale - redirect to appropriate localized version
   get '/', to: 'root_redirect#index'
 
+
   # OAuth callbacks must be outside of locale scope
   devise_for :users, only: :omniauth_callbacks, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks'
@@ -172,5 +173,9 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Catch-all route for 404 errors (must be last)
-  match '*path', to: 'application#handle_404', via: :all
+  # Exclude Rails internal paths (ActiveStorage, etc.)
+  match '*path', to: 'application#handle_404', via: :all,
+        constraints: ->(request) {
+          !request.path.start_with?('/rails/')
+        }
 end

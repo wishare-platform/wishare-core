@@ -48,6 +48,186 @@ en:
     sign_out: "Sign out"
     sign_in: "Sign in"
     sign_up: "Sign up"
+
+  dashboard:
+    # Welcome Section
+    welcome: "Welcome back, %{name}!"
+    subtitle:
+      morning: "Good morning! Here's what's happening today"
+      afternoon: "Good afternoon! Here's what's happening today"
+      evening: "Good evening! Here's what's happening today"
+      default: "Here's what's happening today"
+
+    # Time-based contextual messages
+    context:
+      first_visit: "Welcome to Wishare! Let's get you started."
+      returning_user: "Great to see you again!"
+      active_events: "You have %{count} upcoming events"
+      new_notifications: "You have %{count} new notifications"
+
+    # User Profile Card
+    profile:
+      member_since: "Member since %{date}"
+      joined_recently: "New member"
+      stats:
+        wishlists:
+          one: "%{count} Wishlist"
+          other: "%{count} Wishlists"
+        items:
+          one: "%{count} Item"
+          other: "%{count} Items"
+        friends:
+          one: "%{count} Friend"
+          other: "%{count} Friends"
+        pending:
+          one: "%{count} Pending"
+          other: "%{count} Pending"
+      upload_avatar: "Click to upload profile picture"
+
+    # Section Headers
+    sections:
+      pending_invitations: "Pending Invitations"
+      notifications: "Recent Notifications"
+      friends_list: "Your Friends"
+      upcoming_events: "Upcoming Events"
+      recent_items: "Recently Added"
+      budget_items: "Budget-Friendly Finds"
+      trending_items: "Trending Now"
+      discover_wishlists: "Discover Wishlists"
+
+    # Action Buttons & Links
+    actions:
+      accept: "Accept"
+      decline: "Decline"
+      view_all: "View all"
+      view_all_notifications: "View all notifications"
+      find_friends: "Find more friends"
+      view_wishlist: "View Wishlist"
+      add_wishlist: "Create New Wishlist"
+      explore_public: "Explore Public Wishlists"
+
+    # Time & Date Formatting
+    time:
+      days_away: "in %{count} days"
+      day_away: "tomorrow"
+      today: "Today"
+      tomorrow: "Tomorrow"
+      this_week: "This week"
+      next_week: "Next week"
+      hours_ago: "%{count}h ago"
+      minutes_ago: "%{count}m ago"
+      just_now: "Just now"
+
+    # Event Types (for upcoming events)
+    events:
+      birthday: "🎂 Birthday"
+      wedding: "💒 Wedding"
+      anniversary: "💝 Anniversary"
+      baby_shower: "👶 Baby Shower"
+      graduation: "🎓 Graduation"
+      christmas: "🎄 Christmas"
+      valentines: "💕 Valentine's Day"
+      mothers_day: "🌸 Mother's Day"
+      fathers_day: "👔 Father's Day"
+      other: "🎉 Special Occasion"
+
+    # Empty States with CTAs
+    empty_states:
+      no_invitations:
+        title: "No pending invitations"
+        subtitle: "Invite friends to connect and share wishlists"
+        cta: "Find Friends"
+      no_notifications:
+        title: "You're all caught up!"
+        subtitle: "We'll notify you when there's something new"
+      no_friends:
+        title: "Connect with friends"
+        subtitle: "Find friends to see their wishlists and get gift ideas"
+        cta: "Find Friends"
+      no_events:
+        title: "No upcoming events"
+        subtitle: "Create event-based wishlists to never miss an occasion"
+        cta: "Create Event Wishlist"
+      no_items:
+        title: "No items to show"
+        subtitle: "Add items to your wishlists to see them here"
+        cta: "Add Items"
+      no_wishlists:
+        title: "Start your first wishlist"
+        subtitle: "Create wishlists for any occasion and share with friends"
+        cta: "Create Wishlist"
+
+    # Item Cards
+    items:
+      from_wishlist: "from %{wishlist_name}"
+      by_user: "by %{user_name}"
+      price_range: "%{min} - %{max}"
+      on_sale: "On Sale"
+      price_drop: "Price dropped"
+
+    # Wishlist Cards
+    wishlists:
+      item_count:
+        one: "%{count} item"
+        other: "%{count} items"
+      by_user: "by %{user_name}"
+      last_updated: "Updated %{time} ago"
+      privacy_public: "Public"
+      privacy_friends: "Friends only"
+      privacy_private: "Private"
+
+    # Loading & Error States
+    loading:
+      events: "Loading upcoming events..."
+      items: "Loading items..."
+      notifications: "Loading notifications..."
+      friends: "Loading friends..."
+
+    errors:
+      load_failed: "Failed to load content"
+      try_again: "Try again"
+      network_error: "Check your connection"
+      view_wishlist: "View"
+      add_item: "Add Item"
+
+    item_info:
+      from: "from %{name}"
+      items_count: "items"
+
+    time:
+      days_away: "in %{count} days"
+      today: "Today"
+      tomorrow: "Tomorrow"
+      updated_ago: "Updated %{time} ago"
+
+    empty_states:
+      no_invitations: "No pending invitations"
+      no_notifications: "You're all caught up!"
+      no_friends: "Connect with friends to see their wishlists"
+      no_events: "No upcoming events"
+      no_items: "No items to show"
+      no_wishlists: "No wishlists to discover"
+      create_first: "Create your first wishlist"
+
+      today: "Today"
+      tomorrow: "Tomorrow"
+      updated_ago: "Updated %{time} ago"
+      created_ago: "Created %{time} ago"
+
+    empty_states:
+      no_invitations: "No pending invitations"
+      no_notifications: "You're all caught up!"
+      no_friends: "Connect with friends to see their wishlists"
+      no_events: "No upcoming events"
+      no_items: "No items to show"
+      no_wishlists: "You haven't created any wishlists yet"
+      create_first: "Create Your First Wishlist"
+
+    item_info:
+      from: "From %{name}"
+      for_user: "For %{name}"
+      items_count: "items"
+      price_range: "$%{min} - $%{max}"
     view_public_profile: "View Public Profile"
     invite_friend: "Invite Friend"
     notification_preferences: "Notification Preferences"
@@ -143,15 +323,6 @@ en:
     total_items: "Total Items"
     update_success: "Profile updated successfully"
 
-  dashboard:
-    welcome: "Welcome to Wishare, %{name}!"
-    subtitle: "Your central hub for thoughtful gifting across all your relationships"
-    quick_actions: "Quick Actions"
-    create_wishlist: "Create New Wishlist"
-    invite_friends: "Invite Friends & Family"
-    view_connections: "View Connections"
-    recent_activity: "Recent Activity"
-    no_activity: "No recent activity to show"
   
   wishlists:
     event_types:

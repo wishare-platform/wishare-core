@@ -48,6 +48,174 @@ pt-BR:
     sign_out: "Sair"
     sign_in: "Entrar"
     sign_up: "Cadastrar"
+
+  dashboard:
+    # Welcome Section
+    welcome: "Bem-vindo de volta, %{name}!"
+    subtitle:
+      morning: "Bom dia! Veja o que está acontecendo hoje"
+      afternoon: "Boa tarde! Veja o que está acontecendo hoje"
+      evening: "Boa noite! Veja o que está acontecendo hoje"
+      default: "Veja o que está acontecendo hoje"
+
+    # Time-based contextual messages
+    context:
+      first_visit: "Bem-vindo ao Wishare! Vamos começar."
+      returning_user: "Ótimo te ver novamente!"
+      active_events: "Você tem %{count} eventos próximos"
+      new_notifications: "Você tem %{count} novas notificações"
+
+    # User Profile Card
+    profile:
+      member_since: "Membro desde %{date}"
+      joined_recently: "Novo membro"
+      stats:
+        wishlists:
+          one: "%{count} Lista de Desejos"
+          other: "%{count} Listas de Desejos"
+        items:
+          one: "%{count} Item"
+          other: "%{count} Itens"
+        friends:
+          one: "%{count} Amigo"
+          other: "%{count} Amigos"
+        pending:
+          one: "%{count} Pendente"
+          other: "%{count} Pendentes"
+      upload_avatar: "Clique para enviar foto do perfil"
+
+    # Section Headers
+    sections:
+      pending_invitations: "Convites Pendentes"
+      notifications: "Notificações Recentes"
+      friends_list: "Seus Amigos"
+      upcoming_events: "Próximos Eventos"
+      recent_items: "Adicionados Recentemente"
+      budget_items: "Opções Econômicas"
+      trending_items: "Em Destaque"
+      discover_wishlists: "Descobrir Listas"
+
+    # Action Buttons & Links
+    actions:
+      accept: "Aceitar"
+      decline: "Recusar"
+      view_all: "Ver todas"
+      view_all_notifications: "Ver todas as notificações"
+      find_friends: "Encontrar mais amigos"
+      view_wishlist: "Ver Lista"
+      add_wishlist: "Criar Nova Lista"
+      explore_public: "Explorar Listas Públicas"
+
+    # Time & Date Formatting
+    time:
+      days_away: "em %{count} dias"
+      day_away: "amanhã"
+      today: "Hoje"
+      tomorrow: "Amanhã"
+      this_week: "Esta semana"
+      next_week: "Próxima semana"
+      hours_ago: "%{count}h atrás"
+      minutes_ago: "%{count}m atrás"
+      just_now: "Agora mesmo"
+
+    # Event Types (for upcoming events)
+    events:
+      birthday: "🎂 Aniversário"
+      wedding: "💒 Casamento"
+      anniversary: "💝 Aniversário de Relacionamento"
+      baby_shower: "👶 Chá de Bebê"
+      graduation: "🎓 Formatura"
+      christmas: "🎄 Natal"
+      valentines: "💕 Dia dos Namorados"
+      mothers_day: "🌸 Dia das Mães"
+      fathers_day: "👔 Dia dos Pais"
+      other: "🎉 Ocasião Especial"
+
+    # Empty States with CTAs
+    empty_states:
+      no_invitations:
+        title: "Nenhum convite pendente"
+        subtitle: "Convide amigos para se conectar e compartilhar listas"
+        cta: "Encontrar Amigos"
+      no_notifications:
+        title: "Tudo em dia!"
+        subtitle: "Te notificaremos quando houver algo novo"
+      no_friends:
+        title: "Conecte-se com amigos"
+        subtitle: "Encontre amigos para ver suas listas e ter ideias de presentes"
+        cta: "Encontrar Amigos"
+      no_events:
+        title: "Nenhum evento próximo"
+        subtitle: "Crie listas baseadas em eventos para nunca perder uma ocasião"
+        cta: "Criar Lista de Evento"
+      no_items:
+        title: "Nenhum item para mostrar"
+        subtitle: "Adicione itens às suas listas para vê-los aqui"
+        cta: "Adicionar Itens"
+      no_wishlists:
+        title: "Comece sua primeira lista"
+        subtitle: "Crie listas para qualquer ocasião e compartilhe com amigos"
+        cta: "Criar Lista"
+
+    # Item Cards
+    items:
+      from_wishlist: "da %{wishlist_name}"
+      by_user: "por %{user_name}"
+      price_range: "%{min} - %{max}"
+      on_sale: "Em Promoção"
+      price_drop: "Preço baixou"
+
+    # Wishlist Cards
+    wishlists:
+      item_count:
+        one: "%{count} item"
+        other: "%{count} itens"
+      by_user: "por %{user_name}"
+      last_updated: "Atualizada %{time} atrás"
+      privacy_public: "Pública"
+      privacy_friends: "Apenas amigos"
+      privacy_private: "Privada"
+
+    # Loading & Error States
+    loading:
+      events: "Carregando próximos eventos..."
+      items: "Carregando itens..."
+      notifications: "Carregando notificações..."
+      friends: "Carregando amigos..."
+
+    errors:
+      load_failed: "Falha ao carregar conteúdo"
+      try_again: "Tentar novamente"
+      network_error: "Verifique sua conexão"
+      view_wishlist: "Ver"
+      add_item: "Adicionar Item"
+
+    item_info:
+      from: "de %{name}"
+      items_count: "itens"
+
+    time:
+      days_away: "em %{count} dias"
+      day_away: "em %{count} dia"
+      today: "Hoje"
+      tomorrow: "Amanhã"
+      updated_ago: "Atualizada %{time} atrás"
+      created_ago: "Criada %{time} atrás"
+
+    empty_states:
+      no_invitations: "Nenhum convite pendente"
+      no_notifications: "Você está em dia!"
+      no_friends: "Conecte-se com amigos para ver suas listas"
+      no_events: "Nenhum evento próximo"
+      no_items: "Nenhum item para mostrar"
+      no_wishlists: "Nenhuma lista para descobrir"
+      create_first: "Criar Sua Primeira Lista"
+
+    item_info:
+      from: "De %{name}"
+      for_user: "Para %{name}"
+      items_count: "itens"
+      price_range: "$%{min} - $%{max}"
     view_public_profile: "Ver Perfil Público"
     invite_friend: "Convidar Amigo"
     notification_preferences: "Preferências de Notificação"
@@ -143,15 +311,6 @@ pt-BR:
     total_items: "Total de Itens"
     update_success: "Perfil atualizado com sucesso"
 
-  dashboard:
-    welcome: "Bem-vindo ao Wishare, %{name}!"
-    subtitle: "Seu centro de presentes especiais para todos os seus relacionamentos"
-    quick_actions: "Ações Rápidas"
-    create_wishlist: "Criar Nova Lista"
-    invite_friends: "Convidar Amigos e Família"
-    view_connections: "Ver Conexões"
-    recent_activity: "Atividade Recente"
-    no_activity: "Nenhuma atividade recente"
   
   wishlists:
     event_types:

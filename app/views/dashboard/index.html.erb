@@ -1,1 +1,712 @@
-<!-- Dashboard redirects to wishlists -->
+<div class="min-h-screen bg-gray-50 dark:bg-gray-950" data-controller="dashboard">
+  <div class="dashboard-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+
+    <!-- Welcome Section -->
+    <div class="welcome-section text-center lg:text-left mb-8 sm:mb-10 lg:mb-12">
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2"
+          data-dashboard-target="welcomeMessage">
+        <%= t('dashboard.welcome', name: @user.name) %>
+      </h1>
+      <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-2"
+         data-dashboard-target="timeOfDay">
+        <%= welcome_subtitle %>
+      </p>
+      <p class="text-sm text-gray-500 dark:text-gray-500">
+        <%= contextual_message(@user) %>
+      </p>
+    </div>
+
+    <!-- User Profile Card -->
+    <div class="profile-card dashboard-card rounded-2xl p-6 sm:p-8 mb-8 relative overflow-hidden">
+      <!-- Background Pattern -->
+      <div class="absolute inset-0 bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-50 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 opacity-50"></div>
+
+      <div class="relative z-10">
+        <!-- Main Profile Section -->
+        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-6">
+          <!-- Avatar with edit indicator -->
+          <div class="relative group">
+            <%= user_avatar_or_initials(@user, size: 'w-24 h-24 sm:w-28 sm:h-28') %>
+            <%= link_to edit_profile_path, class: "absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200" do %>
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+            <% end %>
+          </div>
+
+          <!-- User Info -->
+          <div class="flex-1 text-center sm:text-left">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
+              <div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1">
+                  <%= @user.name %>
+                </h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-2">
+                  <%= @user.email %>
+                </p>
+              </div>
+
+              <!-- Edit Profile Button -->
+              <%= link_to edit_profile_path, class: "inline-flex items-center gap-2 px-4 py-2 bg-pink-100 hover:bg-pink-200 dark:bg-pink-900 dark:hover:bg-pink-800 text-pink-700 dark:text-pink-300 rounded-full font-medium text-sm transition-colors duration-200" do %>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                </svg>
+                Edit Profile
+              <% end %>
+            </div>
+
+            <!-- Member since info with icon -->
+            <div class="flex items-center justify-center sm:justify-start gap-2 mb-4">
+              <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                <%= t('dashboard.profile.member_since', date: l(@user.created_at, format: :short)) %>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+          <div class="stat-card bg-white dark:bg-gray-800 rounded-xl p-4 text-center border border-gray-100 dark:border-gray-700 hover:shadow-lg transition-all duration-200">
+            <div class="w-10 h-10 bg-pink-100 dark:bg-pink-900 rounded-full flex items-center justify-center mx-auto mb-2">
+              <svg class="w-5 h-5 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+              </svg>
+            </div>
+            <div class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+              <%= @user_stats[:wishlists_count] %>
+            </div>
+            <div class="text-xs text-gray-600 dark:text-gray-400 font-medium">
+              <%= t('dashboard.profile.stats.wishlists', count: @user_stats[:wishlists_count]) %>
+            </div>
+          </div>
+
+          <div class="stat-card bg-white dark:bg-gray-800 rounded-xl p-4 text-center border border-gray-100 dark:border-gray-700 hover:shadow-lg transition-all duration-200">
+            <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-2">
+              <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+              </svg>
+            </div>
+            <div class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+              <%= @user_stats[:items_count] %>
+            </div>
+            <div class="text-xs text-gray-600 dark:text-gray-400 font-medium">
+              <%= t('dashboard.profile.stats.items', count: @user_stats[:items_count]) %>
+            </div>
+          </div>
+
+          <div class="stat-card bg-white dark:bg-gray-800 rounded-xl p-4 text-center border border-gray-100 dark:border-gray-700 hover:shadow-lg transition-all duration-200">
+            <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-2">
+              <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+              </svg>
+            </div>
+            <div class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+              <%= @user_stats[:friends_count] %>
+            </div>
+            <div class="text-xs text-gray-600 dark:text-gray-400 font-medium">
+              <%= t('dashboard.profile.stats.friends', count: @user_stats[:friends_count]) %>
+            </div>
+          </div>
+
+          <div class="stat-card bg-white dark:bg-gray-800 rounded-xl p-4 text-center border border-gray-100 dark:border-gray-700 hover:shadow-lg transition-all duration-200">
+            <div class="w-10 h-10 bg-orange-100 dark:bg-orange-900 rounded-full flex items-center justify-center mx-auto mb-2">
+              <svg class="w-5 h-5 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5-5-5h5v-5a7.5 7.5 0 111 0z"></path>
+              </svg>
+            </div>
+            <div class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+              <%= @user_stats[:pending_invitations] %>
+            </div>
+            <div class="text-xs text-gray-600 dark:text-gray-400 font-medium">
+              <%= t('dashboard.profile.stats.pending', count: @user_stats[:pending_invitations]) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="main-content grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+
+      <!-- Left Column (40% on desktop) -->
+      <div class="left-column lg:col-span-3 space-y-6">
+
+        <!-- Pending Invitations Section -->
+        <div class="dashboard-card rounded-lg p-4 sm:p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+              <%= t('dashboard.sections.pending_invitations') %>
+            </h3>
+            <% if @pending_connections.any? %>
+              <%= link_to t('dashboard.actions.view_all'), connections_path,
+                          class: "text-sm text-pink-600 dark:text-pink-400 hover:text-pink-700 dark:hover:text-pink-300" %>
+            <% end %>
+          </div>
+
+          <% if @pending_connections.any? %>
+            <div class="space-y-3">
+              <% @pending_connections.each do |connection| %>
+                <% other_user = connection.other_user(@user) %>
+                <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <div class="flex items-center space-x-3">
+                    <%= user_avatar_or_initials(other_user, size: 'w-10 h-10') %>
+                    <div>
+                      <p class="font-medium text-gray-900 dark:text-white text-sm">
+                        <%= other_user.name %>
+                      </p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400">
+                        <%= time_ago_in_context(connection.created_at) %>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex space-x-2">
+                    <%= button_to t('dashboard.actions.accept'),
+                                  connection_path(connection, status: 'accepted'),
+                                  method: :patch,
+                                  class: "btn-primary px-3 py-1 text-xs rounded-md" %>
+                    <%= button_to t('dashboard.actions.decline'),
+                                  connection_path(connection),
+                                  method: :delete,
+                                  class: "btn-secondary px-3 py-1 text-xs rounded-md" %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="text-center py-8">
+              <div class="text-gray-400 dark:text-gray-600 mb-2">
+                <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </div>
+              <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-1">
+                <%= t('dashboard.empty_states.no_invitations.title') %>
+              </h4>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                <%= t('dashboard.empty_states.no_invitations.subtitle') %>
+              </p>
+              <%= link_to t('dashboard.empty_states.no_invitations.cta'),
+                          connections_path,
+                          class: "btn-primary text-xs px-4 py-2 rounded-md" %>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Recent Notifications Section -->
+        <div class="dashboard-card rounded-lg p-4 sm:p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+              <%= t('dashboard.sections.notifications') %>
+            </h3>
+            <% if @recent_notifications.any? %>
+              <%= link_to t('dashboard.actions.view_all_notifications'), notifications_path,
+                          class: "text-sm text-pink-600 dark:text-pink-400 hover:text-pink-700 dark:hover:text-pink-300" %>
+            <% end %>
+          </div>
+
+          <% if @recent_notifications.any? %>
+            <div class="space-y-3">
+              <% @recent_notifications.each do |notification| %>
+                <div class="flex items-start space-x-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <div class="flex-shrink-0 w-2 h-2 bg-pink-500 rounded-full mt-2"></div>
+                  <div class="flex-1">
+                    <p class="text-sm text-gray-900 dark:text-white">
+                      <%= notification.message %>
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      <%= time_ago_in_context(notification.created_at) %>
+                    </p>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="text-center py-8">
+              <div class="text-gray-400 dark:text-gray-600 mb-2">
+                <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5-5-5h5V12h0V7h0V2h0V7h0v10z" />
+                </svg>
+              </div>
+              <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-1">
+                <%= t('dashboard.empty_states.no_notifications.title') %>
+              </h4>
+              <p class="text-xs text-gray-500 dark:text-gray-400">
+                <%= t('dashboard.empty_states.no_notifications.subtitle') %>
+              </p>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Friends Grid Section -->
+        <div class="dashboard-card rounded-lg p-4 sm:p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+              <%= t('dashboard.sections.friends_list') %>
+            </h3>
+            <%= link_to t('dashboard.actions.find_friends'), connections_path,
+                        class: "text-sm text-pink-600 dark:text-pink-400 hover:text-pink-700 dark:hover:text-pink-300" %>
+          </div>
+
+          <% if @friends.any? %>
+            <div class="friends-grid grid grid-cols-4 sm:grid-cols-4 gap-3">
+              <% @friends.each do |connection| %>
+                <% friend = connection.other_user(@user) %>
+                <div class="text-center">
+                  <%= link_to user_path(friend), class: "block" do %>
+                    <%= user_avatar_or_initials(friend, size: 'w-12 h-12 mx-auto') %>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 truncate">
+                      <%= truncate(friend.name, length: 10) %>
+                    </p>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="text-center py-8">
+              <div class="text-gray-400 dark:text-gray-600 mb-2">
+                <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                </svg>
+              </div>
+              <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-1">
+                <%= t('dashboard.empty_states.no_friends.title') %>
+              </h4>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                <%= t('dashboard.empty_states.no_friends.subtitle') %>
+              </p>
+              <%= link_to t('dashboard.empty_states.no_friends.cta'),
+                          connections_path,
+                          class: "btn-primary text-xs px-4 py-2 rounded-md" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Center Column (60% on desktop) -->
+      <div class="center-colum lg:col-span-6 space-y-6">
+        <!-- Trending Items Section -->
+        <div class="dashboard-card rounded-lg p-4 sm:p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+              <%= t('dashboard.sections.trending_items') %>
+            </h3>
+            <% if @trending_items.any? %>
+              <%= link_to t('dashboard.actions.view_all'), trending_items_path,
+                          class: "text-sm text-pink-600 dark:text-pink-400 hover:text-pink-700 dark:hover:text-pink-300" %>
+            <% end %>
+          </div>
+        </div
+      </div>
+
+      <!-- Right Column (60% on desktop) -->
+      <div class="right-column lg:col-span-3 space-y-6">
+
+        <!-- Upcoming Events Section -->
+        <div class="dashboard-card rounded-lg p-4 sm:p-6">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            <%= t('dashboard.sections.upcoming_events') %>
+          </h3>
+
+          <% if @upcoming_events.any? %>
+            <div class="space-y-4">
+              <% @upcoming_events.each do |event| %>
+                <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <div class="flex items-center space-x-4">
+                    <div class="text-center">
+                      <div class="text-2xl font-bold text-pink-600 dark:text-pink-400">
+                        <%= event.event_date.day %>
+                      </div>
+                      <div class="text-xs text-gray-500 dark:text-gray-400 uppercase">
+                        <%= l(event.event_date, format: '%b') %>
+                      </div>
+                    </div>
+                    <div>
+                      <h4 class="font-medium text-gray-900 dark:text-white">
+                        <%= event_type_with_icon(event.event_type) %>
+                        <%= event.name %>
+                      </h4>
+                      <p class="text-sm text-gray-600 dark:text-gray-400">
+                        <%= t('dashboard.wishlists.by_user', user_name: event.user.name) %>
+                      </p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400">
+                        <%= days_until_event(event.event_date) %>
+                      </p>
+                    </div>
+                  </div>
+                  <%= link_to t('dashboard.actions.view_wishlist'),
+                              wishlist_path(event),
+                              class: "btn-secondary text-xs px-3 py-2 rounded-md" %>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="text-center py-8">
+              <div class="text-gray-400 dark:text-gray-600 mb-2">
+                <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-1">
+                <%= t('dashboard.empty_states.no_events.title') %>
+              </h4>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                <%= t('dashboard.empty_states.no_events.subtitle') %>
+              </p>
+              <%= link_to t('dashboard.empty_states.no_events.cta'),
+                          new_wishlist_path,
+                          class: "btn-primary text-xs px-4 py-2 rounded-md" %>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Recent Items Showcase -->
+        <div class="dashboard-card rounded-lg p-4 sm:p-6">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            <%= t('dashboard.sections.recent_items') %>
+          </h3>
+
+          <% if @recent_items.any? %>
+            <div class="item-showcase grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <% @recent_items.each do |item| %>
+                <%= link_to wishlist_wishlist_item_path(item.wishlist, item), class: "block group" do %>
+                  <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 group-hover:border-pink-200 dark:group-hover:border-pink-800">
+                    <!-- Item Image -->
+                    <div class="relative aspect-square overflow-hidden">
+                      <% if item.image_url.present? %>
+                        <img src="<%= item.image_url %>"
+                             alt="<%= item.name %>"
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                      <% else %>
+                        <div class="w-full h-full bg-gradient-to-br from-gray-200 via-gray-300 to-gray-400 dark:from-gray-600 dark:via-gray-700 dark:to-gray-800 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                          <svg class="w-12 h-12 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                      <% end %>
+
+                      <!-- Price Badge -->
+                      <% if item.price.present? %>
+                        <div class="absolute top-3 left-3">
+                          <div class="bg-white dark:bg-gray-900 text-pink-600 dark:text-pink-400 px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                            <%= format_currency_for_dashboard(item.price, item.currency) %>
+                          </div>
+                        </div>
+                      <% end %>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-4">
+                      <!-- Item Title -->
+                      <h4 class="font-bold text-gray-900 dark:text-white text-base mb-2 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors duration-200">
+                        <%= truncate_for_card(item.name, length: 35) %>
+                      </h4>
+
+                      <!-- Wishlist & User Info -->
+                      <div class="space-y-1 mb-3">
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                          from <span class="font-medium text-gray-900 dark:text-white"><%= truncate(item.wishlist.name, length: 20) %></span>
+                        </p>
+                        <div class="flex items-center gap-2">
+                          <%= user_avatar_or_initials(item.wishlist.user, size: 'w-5 h-5') %>
+                          <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                            by <%= item.wishlist.user.name %>
+                          </p>
+                        </div>
+                      </div>
+
+                      <!-- Added time -->
+                      <div class="flex items-center justify-between">
+                        <p class="text-xs text-gray-400 dark:text-gray-500">
+                          <%= time_ago_in_words(item.created_at) %> ago
+                        </p>
+                        <div class="text-pink-600 dark:text-pink-400 group-hover:text-pink-700 dark:group-hover:text-pink-300">
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="text-center py-8">
+              <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-1">
+                <%= t('dashboard.empty_states.no_items.title') %>
+              </h4>
+              <p class="text-xs text-gray-500 dark:text-gray-400">
+                <%= t('dashboard.empty_states.no_items.subtitle') %>
+              </p>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Budget Items Showcase -->
+        <% if @budget_items.any? %>
+          <div class="dashboard-card rounded-lg p-4 sm:p-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              <%= t('dashboard.sections.budget_items') %>
+            </h3>
+
+            <div class="item-showcase grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <% @budget_items.each do |item| %>
+                <%= link_to wishlist_wishlist_item_path(item.wishlist, item), class: "block group" do %>
+                  <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 group-hover:border-green-200 dark:group-hover:border-green-800">
+                    <!-- Item Image -->
+                    <div class="relative aspect-square overflow-hidden">
+                      <% if item.image_url.present? %>
+                        <img src="<%= item.image_url %>"
+                             alt="<%= item.name %>"
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                      <% else %>
+                        <div class="w-full h-full bg-gradient-to-br from-gray-200 via-gray-300 to-gray-400 dark:from-gray-600 dark:via-gray-700 dark:to-gray-800 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                          <svg class="w-12 h-12 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                      <% end %>
+
+                      <!-- Budget Price Badge -->
+                      <div class="absolute top-3 left-3">
+                        <div class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg flex items-center gap-1">
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                          </svg>
+                          <%= format_currency_for_dashboard(item.price, item.currency) %>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-4">
+                      <!-- Item Title -->
+                      <h4 class="font-bold text-gray-900 dark:text-white text-base mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-200">
+                        <%= truncate_for_card(item.name, length: 35) %>
+                      </h4>
+
+                      <!-- Wishlist & User Info -->
+                      <div class="space-y-1 mb-3">
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                          from <span class="font-medium text-gray-900 dark:text-white"><%= truncate(item.wishlist.name, length: 20) %></span>
+                        </p>
+                        <div class="flex items-center gap-2">
+                          <%= user_avatar_or_initials(item.wishlist.user, size: 'w-5 h-5') %>
+                          <p class="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                            by <%= item.wishlist.user.name %>
+                          </p>
+                        </div>
+                      </div>
+
+                      <!-- Added time -->
+                      <div class="flex items-center justify-between">
+                        <p class="text-xs text-gray-400 dark:text-gray-500">
+                          <%= time_ago_in_words(item.created_at) %> ago
+                        </p>
+                        <div class="text-green-600 dark:text-green-400 group-hover:text-green-700 dark:group-hover:text-green-300">
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Trending Items Showcase -->
+        <% if @trending_items.any? %>
+          <div class="dashboard-card rounded-lg p-4 sm:p-6">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              <%= t('dashboard.sections.trending_items') %>
+            </h3>
+
+            <div class="item-showcase grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <% @trending_items.each do |item| %>
+                <div class="item-card rounded-lg p-3">
+                  <% if item.image_url.present? %>
+                    <%= link_to wishlist_wishlist_item_path(item.wishlist, item), class: "block" do %>
+                      <img src="<%= item.image_url %>"
+                           alt="<%= item.name %>"
+                           class="w-full h-32 object-cover rounded-md mb-3">
+                    <% end %>
+                  <% else %>
+                    <div class="w-full h-32 bg-gray-200 dark:bg-gray-700 rounded-md mb-3 flex items-center justify-center">
+                      <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                  <% end %>
+
+                  <h4 class="font-medium text-gray-900 dark:text-white text-sm mb-1">
+                    <%= link_to truncate_for_card(item.name, length: 30),
+                                wishlist_wishlist_item_path(item.wishlist, item),
+                                class: "hover:text-pink-600 dark:hover:text-pink-400" %>
+                  </h4>
+
+                  <% if item.price.present? %>
+                    <p class="text-purple-600 dark:text-purple-400 font-semibold text-sm mb-1">
+                      <%= format_currency_for_dashboard(item.price, item.currency) %>
+                    </p>
+                  <% end %>
+
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
+                    <%= t('dashboard.items.from_wishlist', wishlist_name: item.wishlist.name) %>
+                  </p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
+                    <%= t('dashboard.items.by_user', user_name: item.wishlist.user.name) %>
+                  </p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Wishlist Discovery Cards -->
+        <div class="dashboard-card rounded-xl p-6">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white">
+              <%= t('dashboard.sections.discover_wishlists') %>
+            </h3>
+            <%= link_to wishlists_path,
+                        class: "text-sm font-medium text-pink-600 dark:text-pink-400 hover:text-pink-700 dark:hover:text-pink-300 flex items-center gap-1" do %>
+              View all
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            <% end %>
+          </div>
+
+          <% if @featured_wishlists.any? %>
+            <div class="wishlist-discovery grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <% @featured_wishlists.each do |wishlist| %>
+                <%= link_to wishlist_path(wishlist), class: "block group" do %>
+                  <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 group-hover:border-pink-200 dark:group-hover:border-pink-800">
+                    <!-- Cover Image -->
+                    <div class="relative aspect-video overflow-hidden">
+                      <% if wishlist.cover_image.attached? %>
+                        <%= image_tag wishlist.cover_image,
+                                      class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300",
+                                      alt: "#{wishlist.name} cover" %>
+                      <% else %>
+                        <div class="w-full h-full bg-gradient-to-br from-pink-400 via-purple-500 to-indigo-500 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                          <span class="text-white text-4xl font-bold drop-shadow-lg">
+                            <%= wishlist.name.first.upcase %>
+                          </span>
+                        </div>
+                      <% end %>
+
+                      <!-- Privacy Badge Overlay -->
+                      <div class="absolute top-3 right-3">
+                        <%= privacy_badge(wishlist.visibility) %>
+                      </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-5">
+                      <!-- Wishlist Title -->
+                      <h4 class="font-bold text-gray-900 dark:text-white text-lg mb-2 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors duration-200">
+                        <%= truncate_for_card(wishlist.name, length: 30) %>
+                      </h4>
+
+                      <!-- User Info -->
+                      <div class="flex items-center gap-3 mb-3">
+                        <%= user_avatar_or_initials(wishlist.user, size: 'w-8 h-8') %>
+                        <div>
+                          <p class="text-sm font-medium text-gray-900 dark:text-white">
+                            <%= wishlist.user.name %>
+                          </p>
+                          <p class="text-xs text-gray-500 dark:text-gray-400">
+                            <%= time_ago_in_words(wishlist.updated_at) %> ago
+                          </p>
+                        </div>
+                      </div>
+
+                      <!-- Stats -->
+                      <div class="flex items-center justify-between text-sm">
+                        <div class="flex items-center gap-4">
+                          <!-- Item Count -->
+                          <div class="flex items-center gap-1 text-gray-600 dark:text-gray-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                            </svg>
+                            <span class="font-medium">
+                              <%= t('dashboard.wishlists.item_count', count: wishlist.wishlist_items.count) %>
+                            </span>
+                          </div>
+
+                          <!-- Event Type if applicable -->
+                          <% if wishlist.event_type.present? && wishlist.event_type != 'none' %>
+                            <div class="text-pink-600 dark:text-pink-400 text-xs font-medium">
+                              <%= event_type_with_icon(wishlist.event_type) %>
+                            </div>
+                          <% end %>
+                        </div>
+
+                        <!-- View Button -->
+                        <div class="text-pink-600 dark:text-pink-400 font-medium group-hover:text-pink-700 dark:group-hover:text-pink-300">
+                          View →
+                        </div>
+                      </div>
+
+                      <!-- Preview Items (Mini thumbnails) -->
+                      <% if wishlist.wishlist_items.limit(3).any? %>
+                        <div class="flex gap-1 mt-3 -space-x-1">
+                          <% wishlist.wishlist_items.limit(3).each do |item| %>
+                            <div class="w-8 h-8 rounded-full overflow-hidden border-2 border-white dark:border-gray-800 shadow-sm">
+                              <% if item.image_url.present? %>
+                                <img src="<%= item.image_url %>" alt="<%= item.name %>" class="w-full h-full object-cover">
+                              <% else %>
+                                <div class="w-full h-full bg-gradient-to-br from-pink-300 to-purple-400 flex items-center justify-center">
+                                  <span class="text-white text-xs font-bold">
+                                    <%= item.name.first.upcase %>
+                                  </span>
+                                </div>
+                              <% end %>
+                            </div>
+                          <% end %>
+
+                          <% if wishlist.wishlist_items.count > 3 %>
+                            <div class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-white dark:border-gray-800 flex items-center justify-center shadow-sm">
+                              <span class="text-xs font-bold text-gray-600 dark:text-gray-400">
+                                +<%= wishlist.wishlist_items.count - 3 %>
+                              </span>
+                            </div>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="text-center py-8">
+              <div class="text-gray-400 dark:text-gray-600 mb-2">
+                <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+              <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-1">
+                <%= t('dashboard.empty_states.no_wishlists.title') %>
+              </h4>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                <%= t('dashboard.empty_states.no_wishlists.subtitle') %>
+              </p>
+              <%= link_to t('dashboard.empty_states.no_wishlists.cta'),
+                          new_wishlist_path,
+                          class: "btn-primary text-xs px-4 py-2 rounded-md" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
