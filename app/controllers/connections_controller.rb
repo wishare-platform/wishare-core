@@ -26,9 +26,8 @@ class ConnectionsController < ApplicationController
   private
 
   def set_connection
-    @connection = current_user.all_connections.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to connections_path, alert: 'Connection not found.'
+    @connection = current_user.all_connections.find_by(id: params[:id])
+    render_404 and return unless @connection
   end
 
   def connection_params

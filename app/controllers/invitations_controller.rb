@@ -147,15 +147,13 @@ class InvitationsController < ApplicationController
   private
 
   def set_invitation
-    @invitation = Invitation.find_by!(token: params[:token])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to root_path, alert: 'Invalid invitation link.'
+    @invitation = Invitation.find_by(token: params[:token])
+    render_404 and return unless @invitation
   end
 
   def set_user_invitation
-    @invitation = current_user.sent_invitations.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to connections_path, alert: 'Invitation not found.'
+    @invitation = current_user.sent_invitations.find_by(id: params[:id])
+    render_404 and return unless @invitation
   end
 
   def invitation_params

@@ -12,10 +12,14 @@ class NotificationsController < ApplicationController
   end
 
   def mark_as_read
-    notification = current_user.notifications.find(params[:id])
-    notification.update(read: true)
-    
-    redirect_back(fallback_location: notifications_path)
+    notification = current_user.notifications.find_by(id: params[:id])
+
+    if notification
+      notification.update(read: true)
+      redirect_back(fallback_location: notifications_path)
+    else
+      render_404
+    end
   end
 
   def mark_all_as_read
