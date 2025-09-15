@@ -1,0 +1,82 @@
+<% content_for :title, t('errors.404.title') %>
+<% content_for :description, t('errors.404.description') %>
+
+<div class="min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col">
+  <% unless user_signed_in? %>
+    <%= render 'shared/theme_language_switcher' %>
+  <% end %>
+
+  <div class="flex flex-col items-center justify-center flex-grow px-6 py-12 sm:px-8 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto w-full">
+      <!-- Error Icon -->
+      <div class="text-6xl sm:text-8xl mb-8 opacity-50">
+        🤔
+      </div>
+
+      <!-- Title -->
+      <h1 class="heading-hero text-gray-800 dark:text-gray-100 mb-4 sm:mb-6">
+        <%= t('errors.404.title') %>
+      </h1>
+
+      <!-- Description -->
+      <p class="text-lead text-gray-600 dark:text-gray-300 mb-8 sm:mb-12 px-4">
+        <%= t('errors.404.description') %>
+      </p>
+
+      <!-- Actions -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-8 px-4">
+        <%= link_to root_path,
+              class: "btn-primary w-full sm:w-auto bg-gradient-to-r from-rose-500 to-rose-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl hover:from-rose-600 hover:to-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 transition duration-200 cursor-pointer touch-manipulation shadow-lg inline-flex items-center justify-center gap-2" do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+          </svg>
+          <%= t('errors.404.go_home') %>
+        <% end %>
+
+        <button onclick="history.back()"
+                class="btn-secondary w-full sm:w-auto border-2 border-rose-500 text-rose-600 dark:text-rose-400 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl hover:bg-rose-50 dark:hover:bg-rose-900/20 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 transition duration-200 cursor-pointer touch-manipulation inline-flex items-center justify-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          <%= t('errors.404.go_back') %>
+        </button>
+      </div>
+
+      <!-- Helpful Links -->
+      <div class="bg-white/40 dark:bg-gray-800/40 backdrop-blur-sm rounded-2xl p-6 border border-rose-100 dark:border-gray-700">
+        <h3 class="heading-card text-gray-800 dark:text-gray-100 mb-4">
+          <%= t('errors.404.helpful_links.title') %>
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <% if user_signed_in? %>
+            <%= link_to wishlists_path, class: "flex items-center gap-2 p-3 rounded-lg bg-white/60 dark:bg-gray-700/60 hover:bg-white dark:hover:bg-gray-700 transition duration-200 text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400" do %>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+              </svg>
+              <%= t('navigation.wishlists') %>
+            <% end %>
+            <%= link_to connections_path, class: "flex items-center gap-2 p-3 rounded-lg bg-white/60 dark:bg-gray-700/60 hover:bg-white dark:hover:bg-gray-700 transition duration-200 text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400" do %>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+              <%= t('navigation.connections') %>
+            <% end %>
+          <% else %>
+            <%= link_to new_user_registration_path, class: "flex items-center gap-2 p-3 rounded-lg bg-white/60 dark:bg-gray-700/60 hover:bg-white dark:hover:bg-gray-700 transition duration-200 text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400" do %>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+              </svg>
+              <%= t('landing.cta.get_started') %>
+            <% end %>
+            <%= link_to new_user_session_path, class: "flex items-center gap-2 p-3 rounded-lg bg-white/60 dark:bg-gray-700/60 hover:bg-white dark:hover:bg-gray-700 transition duration-200 text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400" do %>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+              </svg>
+              <%= t('landing.cta.sign_in') %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

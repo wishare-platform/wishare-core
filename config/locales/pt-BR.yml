@@ -934,6 +934,14 @@ pt-BR:
     actions:
       accept: "Aceitar"
       decline: "Recusar"
+      all: "Todas"
+    sort:
+      sort_by: "Ordenar por"
+      newest_first: "Mais recentes primeiro"
+      oldest_first: "Mais antigas primeiro"
+      recently_updated: "Atualizadas recentemente"
+      name_a_z: "Nome (A-Z)"
+      name_z_a: "Nome (Z-A)"
     share:
       button: "Compartilhar"
       whatsapp: "Compartilhar no WhatsApp"
@@ -1086,3 +1094,12 @@ pt-BR:
     errors:
       postal_code_required: "CEP é obrigatório"
       lookup_failed: "Falha na busca do endereço"
+
+  errors:
+    404:
+      title: "Página Não Encontrada"
+      description: "Desculpe, a página que você está procurando não existe. Ela pode ter sido movida, excluída ou você digitou a URL incorreta."
+      go_home: "Ir para Início"
+      go_back: "Voltar"
+      helpful_links:
+        title: "Precisa de ajuda para encontrar algo?"

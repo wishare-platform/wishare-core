@@ -861,6 +861,14 @@ en:
     actions:
       accept: "Accept"
       decline: "Decline"
+      all: "All"
+    sort:
+      sort_by: "Sort by"
+      newest_first: "Newest first"
+      oldest_first: "Oldest first"
+      recently_updated: "Recently updated"
+      name_a_z: "Name (A-Z)"
+      name_z_a: "Name (Z-A)"
     share:
       button: "Share"
       whatsapp: "Share on WhatsApp"
@@ -967,3 +975,12 @@ en:
     errors:
       postal_code_required: "Postal code is required"
       lookup_failed: "Address lookup failed"
+
+  errors:
+    404:
+      title: "Page Not Found"
+      description: "Sorry, the page you're looking for doesn't exist. It might have been moved, deleted, or you entered the wrong URL."
+      go_home: "Go Home"
+      go_back: "Go Back"
+      helpful_links:
+        title: "Need help finding something?"

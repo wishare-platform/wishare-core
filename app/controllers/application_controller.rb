@@ -5,7 +5,28 @@ class ApplicationController < ActionController::Base
   
   before_action :set_locale
   before_action :store_user_location!, if: :storable_location?
-  
+
+  # Error handling - catches routing errors and other exceptions
+  unless Rails.application.config.consider_all_requests_local
+    rescue_from ActiveRecord::RecordNotFound, with: :render_404
+    rescue_from ActionController::RoutingError, with: :render_404
+    rescue_from StandardError, with: :render_500
+  end
+
+  # Public action for handling 404 routes
+  def handle_404
+    # Extract locale from path for 404 routes and set it immediately
+    if params[:path]&.match(/^(en|pt-BR)\//)
+      locale_from_path = params[:path].split('/').first
+      if %w[en pt-BR].include?(locale_from_path)
+        I18n.locale = locale_from_path
+        params[:locale] = locale_from_path
+      end
+    end
+
+    render_404
+  end
+
   private
   
   def set_locale
@@ -40,5 +61,19 @@ class ApplicationController < ActionController::Base
 
   def store_user_location!
     store_location_for(:user, request.fullpath)
+  end
+
+  def render_404
+    respond_to do |format|
+      format.html { render template: 'errors/not_found', status: :not_found }
+      format.json { render json: { error: 'Not found' }, status: :not_found }
+    end
+  end
+
+  def render_500
+    respond_to do |format|
+      format.html { render file: Rails.public_path.join('500.html'), status: :internal_server_error, layout: false }
+      format.json { render json: { error: 'Internal server error' }, status: :internal_server_error }
+    end
   end
 end
