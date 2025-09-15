@@ -126,6 +126,64 @@
   }
 }
 
+/* Force Tailwind to generate responsive grid classes */
+/* md:grid-cols-5 md:col-span-2 md:col-span-3 md:gap-8 */
+
+/* Custom grid responsive classes for dashboard */
+@media (min-width: 768px) {
+  .md\:grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .md\:col-span-2 {
+    grid-column: span 2 / span 2;
+  }
+
+  .md\:col-span-3 {
+    grid-column: span 3 / span 3;
+  }
+
+  .md\:gap-8 {
+    gap: 2rem;
+  }
+}
+
+/* Horizontal scroll for item showcases */
+.horizontal-scroll {
+  @apply overflow-x-auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-track {
+  background: rgb(243 244 246);
+  border-radius: 4px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb {
+  background: rgb(209 213 219);
+  border-radius: 4px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgb(156 163 175);
+}
+
+.dark .horizontal-scroll::-webkit-scrollbar-track {
+  background: rgb(31 41 55);
+}
+
+.dark .horizontal-scroll::-webkit-scrollbar-thumb {
+  background: rgb(75 85 99);
+}
+
+.dark .horizontal-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgb(107 114 128);
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .dashboard-content * {
