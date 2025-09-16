@@ -91,7 +91,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def configure_account_update_params
     devise_parameter_sanitizer.permit(:account_update, keys: [
       :name, :avatar_url, :date_of_birth, :preferred_locale,
-      :street_number, :street_address, :apartment_unit, :city, :state, :postal_code, :country, :address_visibility
+      :street_number, :street_address, :apartment_unit, :city, :state, :postal_code, :country, :address_visibility,
+      :bio, :website, :gender, :instagram_username, :tiktok_username, :twitter_username, :linkedin_url, :youtube_url, :facebook_url,
+      :bio_visibility, :social_links_visibility, :website_visibility
     ])
   end
 
