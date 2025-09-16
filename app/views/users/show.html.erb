@@ -1,5 +1,13 @@
-<% content_for :title, "#{@user.name}'s Profile" %>
-<% content_for :description, "Explore #{@user.name}'s public wishlists on Wishare - the perfect place to find gift ideas for any occasion." %>
+<% content_for :title, user_meta_title(@user) %>
+<% content_for :description, user_meta_description(@user) %>
+<% content_for :og_type, "profile" %>
+<% content_for :og_title, user_meta_title(@user) %>
+<% content_for :og_description, user_meta_description(@user) %>
+<% content_for :og_image, meta_image_url(@user) %>
+<% content_for :og_profile_username, @user.display_name %>
+<% content_for :twitter_title, user_meta_title(@user) %>
+<% content_for :twitter_description, user_meta_description(@user) %>
+<% content_for :twitter_image, meta_image_url(@user) %>
 
 <div class="min-h-screen bg-gradient-to-br from-rose-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
   <div class="container mx-auto px-4 py-8">

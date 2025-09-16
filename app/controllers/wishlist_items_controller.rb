@@ -1,4 +1,6 @@
 class WishlistItemsController < ApplicationController
+  include SeoHelper
+
   before_action :authenticate_user!
   before_action :set_wishlist, except: [:extract_url_metadata]
   before_action :set_wishlist_item, only: [:show, :edit, :update, :destroy, :purchase, :unpurchase]
@@ -8,6 +10,11 @@ class WishlistItemsController < ApplicationController
       redirect_to wishlists_path, alert: 'You do not have permission to view this wishlist.'
       return
     end
+
+    # Set meta tags for wishlist item
+    @seo_title = wishlist_item_meta_title(@wishlist_item)
+    @seo_description = wishlist_item_meta_description(@wishlist_item)
+    @seo_image = meta_image_url(@wishlist_item)
   end
 
   def new

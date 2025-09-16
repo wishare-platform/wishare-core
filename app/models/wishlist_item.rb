@@ -2,6 +2,9 @@ class WishlistItem < ApplicationRecord
   belongs_to :wishlist
   belongs_to :purchased_by, class_name: 'User', optional: true
 
+  # Analytics associations
+  has_many :share_analytics, as: :shareable, dependent: :destroy
+
   enum :priority, { low: 0, medium: 1, high: 2 }
   enum :status, { available: 0, purchased: 1, reserved: 2 }
 

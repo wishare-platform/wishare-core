@@ -5,6 +5,9 @@ class Wishlist < ApplicationRecord
   # ActiveStorage attachments
   has_one_attached :cover_image
 
+  # Analytics associations
+  has_many :share_analytics, as: :shareable, dependent: :destroy
+
   enum :visibility, { private_list: 0, partner_only: 1, publicly_visible: 2 }
   
   EVENT_TYPES = {

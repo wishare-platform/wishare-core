@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_14_202745) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_16_074355) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -161,6 +161,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_14_202745) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
+  create_table "share_analytics", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "shareable_type", null: false
+    t.bigint "shareable_id", null: false
+    t.string "platform", null: false
+    t.datetime "shared_at", null: false
+    t.integer "clicks", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["platform"], name: "index_share_analytics_on_platform"
+    t.index ["shareable_type", "shareable_id"], name: "index_share_analytics_on_shareable_type_and_shareable_id"
+    t.index ["shared_at"], name: "index_share_analytics_on_shared_at"
+    t.index ["user_id", "platform"], name: "index_share_analytics_on_user_id_and_platform"
+    t.index ["user_id"], name: "index_share_analytics_on_user_id"
+  end
+
   create_table "solid_cable_messages", force: :cascade do |t|
     t.binary "channel", null: false
     t.binary "payload", null: false
@@ -214,14 +230,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_14_202745) do
     t.string "apartment_unit"
     t.string "theme_preference", default: "system"
     t.jsonb "device_info", default: {}
+    t.text "bio"
+    t.string "website"
+    t.integer "gender", default: 0
+    t.string "instagram_username"
+    t.string "tiktok_username"
+    t.string "twitter_username"
+    t.string "linkedin_url"
+    t.string "youtube_url"
+    t.string "facebook_url"
+    t.integer "bio_visibility", default: 2
+    t.integer "social_links_visibility", default: 2
+    t.integer "website_visibility", default: 2
     t.index ["address_visibility"], name: "index_users_on_address_visibility"
     t.index ["country"], name: "index_users_on_country"
     t.index ["device_info"], name: "index_users_on_device_info", using: :gin
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["instagram_username"], name: "index_users_on_instagram_username"
     t.index ["postal_code"], name: "index_users_on_postal_code"
     t.index ["preferred_locale"], name: "index_users_on_preferred_locale"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role"], name: "index_users_on_role"
+    t.index ["tiktok_username"], name: "index_users_on_tiktok_username"
+    t.index ["twitter_username"], name: "index_users_on_twitter_username"
   end
 
   create_table "wishlist_items", force: :cascade do |t|
@@ -267,6 +298,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_14_202745) do
   add_foreign_key "jwt_denylists", "users"
   add_foreign_key "notification_preferences", "users"
   add_foreign_key "notifications", "users"
+  add_foreign_key "share_analytics", "users"
   add_foreign_key "user_analytics", "users"
   add_foreign_key "wishlist_items", "users", column: "purchased_by_id"
   add_foreign_key "wishlist_items", "wishlists"

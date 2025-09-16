@@ -33,8 +33,10 @@ class User < ApplicationRecord
   has_one :notification_preference, dependent: :destroy
   has_many :device_tokens, dependent: :destroy
 
-  # Analytics association
+  # Analytics associations
   has_one :user_analytic, dependent: :destroy
+  has_many :share_analytics, dependent: :destroy
+  has_many :shares_as_shareable, class_name: 'ShareAnalytic', as: :shareable, dependent: :destroy
 
   validates :name, presence: true
   validates :preferred_locale, inclusion: { in: %w[en pt-BR] }
@@ -45,7 +47,17 @@ class User < ApplicationRecord
   
   # Address field validations - all required except apartment_unit
   validate :address_completeness
-  
+
+  # Social field validations
+  validates :bio, length: { maximum: 500 }
+  validates :website, format: { with: URI::regexp(%w[http https]), allow_blank: true }
+  validates :instagram_username, format: { with: /\A[a-zA-Z0-9_.]+\z/, allow_blank: true }
+  validates :tiktok_username, format: { with: /\A[a-zA-Z0-9_.]+\z/, allow_blank: true }
+  validates :twitter_username, format: { with: /\A[a-zA-Z0-9_]+\z/, allow_blank: true }
+  validates :linkedin_url, format: { with: URI::regexp(%w[http https]), allow_blank: true }
+  validates :youtube_url, format: { with: URI::regexp(%w[http https]), allow_blank: true }
+  validates :facebook_url, format: { with: URI::regexp(%w[http https]), allow_blank: true }
+
   # Role-based access control
   enum :role, {
     user: 0,
@@ -53,12 +65,42 @@ class User < ApplicationRecord
     super_admin: 2
   }, default: :user
 
+  # Gender enum
+  enum :gender, {
+    not_specified: 0,
+    male: 1,
+    female: 2,
+    non_binary: 3,
+    prefer_not_to_say: 4
+  }, default: :not_specified, prefix: true
+
   # Address visibility control
   enum :address_visibility, {
     private: 0,           # Only visible to user
     connected_users: 1,   # Visible to friends & family
     public: 2            # Visible on public profile
   }, default: :private, prefix: true
+
+  # Bio visibility control
+  enum :bio_visibility, {
+    private: 0,           # Only visible to user
+    connected_users: 1,   # Visible to friends & family
+    public: 2            # Visible on public profile
+  }, default: :public, prefix: true
+
+  # Social links visibility control
+  enum :social_links_visibility, {
+    private: 0,           # Only visible to user
+    connected_users: 1,   # Visible to friends & family
+    public: 2            # Visible on public profile
+  }, default: :public, prefix: true
+
+  # Website visibility control
+  enum :website_visibility, {
+    private: 0,           # Only visible to user
+    connected_users: 1,   # Visible to friends & family
+    public: 2            # Visible on public profile
+  }, default: :public, prefix: true
 
   after_create :create_default_notification_preference
 
@@ -242,13 +284,89 @@ class User < ApplicationRecord
   def can_view_address?(viewer)
     return false unless has_address?
     return true if viewer == self
-    
+
     case address_visibility.to_sym
     when :address_private
       false
     when :connected_users
       viewer && connected_to?(viewer)
     when :address_public
+      true
+    else
+      false
+    end
+  end
+
+  # Social media methods
+  def social_links
+    {
+      instagram: formatted_social_url(:instagram),
+      tiktok: formatted_social_url(:tiktok),
+      twitter: formatted_social_url(:twitter),
+      linkedin: linkedin_url,
+      youtube: youtube_url,
+      facebook: facebook_url,
+      website: website
+    }.compact
+  end
+
+  def formatted_social_url(platform)
+    case platform
+    when :instagram
+      return nil if instagram_username.blank?
+      "https://instagram.com/#{instagram_username}"
+    when :tiktok
+      return nil if tiktok_username.blank?
+      "https://tiktok.com/@#{tiktok_username}"
+    when :twitter
+      return nil if twitter_username.blank?
+      "https://twitter.com/#{twitter_username}"
+    end
+  end
+
+  def has_social_presence?
+    social_links.any? { |_, url| url.present? }
+  end
+
+  def can_view_bio?(viewer)
+    return true if viewer == self
+
+    case bio_visibility.to_sym
+    when :bio_visibility_private
+      false
+    when :bio_visibility_connected_users
+      viewer && connected_to?(viewer)
+    when :bio_visibility_public
+      true
+    else
+      false
+    end
+  end
+
+  def can_view_social_links?(viewer)
+    return true if viewer == self
+
+    case social_links_visibility.to_sym
+    when :social_links_visibility_private
+      false
+    when :social_links_visibility_connected_users
+      viewer && connected_to?(viewer)
+    when :social_links_visibility_public
+      true
+    else
+      false
+    end
+  end
+
+  def can_view_website?(viewer)
+    return true if viewer == self
+
+    case website_visibility.to_sym
+    when :website_visibility_private
+      false
+    when :website_visibility_connected_users
+      viewer && connected_to?(viewer)
+    when :website_visibility_public
       true
     else
       false

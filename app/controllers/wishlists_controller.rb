@@ -1,4 +1,6 @@
 class WishlistsController < ApplicationController
+  include SeoHelper
+
   before_action :authenticate_user!, except: [:show]
   before_action :set_wishlist, only: [:show, :edit, :update, :destroy]
   before_action :ensure_authenticated_for_private_wishlists, only: [:show]
@@ -54,6 +56,11 @@ class WishlistsController < ApplicationController
     end
 
     @wishlist_items = @wishlist.wishlist_items.includes(:purchased_by)
+
+    # Set meta tags for wishlist
+    @seo_title = wishlist_meta_title(@wishlist)
+    @seo_description = wishlist_meta_description(@wishlist)
+    @seo_image = meta_image_url(@wishlist)
   end
 
   def new

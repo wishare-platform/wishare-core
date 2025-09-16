@@ -1,5 +1,12 @@
-<% content_for :title, @wishlist_item.name %>
-<% content_for :description, @wishlist_item.description.present? ? "#{@wishlist_item.description} - #{@wishlist_item.formatted_price}" : "#{@wishlist_item.name} from #{@wishlist.user.name || @wishlist.user.email}'s wishlist" %>
+<% content_for :title, wishlist_item_meta_title(@wishlist_item) %>
+<% content_for :description, wishlist_item_meta_description(@wishlist_item) %>
+<% content_for :og_type, "product" %>
+<% content_for :og_title, wishlist_item_meta_title(@wishlist_item) %>
+<% content_for :og_description, wishlist_item_meta_description(@wishlist_item) %>
+<% content_for :og_image, meta_image_url(@wishlist_item) %>
+<% content_for :twitter_title, wishlist_item_meta_title(@wishlist_item) %>
+<% content_for :twitter_description, wishlist_item_meta_description(@wishlist_item) %>
+<% content_for :twitter_image, meta_image_url(@wishlist_item) %>
 
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <div class="mb-6">

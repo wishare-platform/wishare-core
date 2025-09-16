@@ -50,6 +50,9 @@ class ProfileController < ApplicationController
   def profile_params
     params.require(:user).permit(:name, :email, :date_of_birth, :street_address, :street_number,
                                  :apartment_unit, :city, :state, :postal_code, :country,
-                                 :address_visibility, :preferred_locale, :theme_preference, :avatar)
+                                 :address_visibility, :preferred_locale, :theme_preference, :avatar,
+                                 :bio, :website, :gender, :instagram_username, :tiktok_username,
+                                 :twitter_username, :linkedin_url, :youtube_url, :facebook_url,
+                                 :bio_visibility, :social_links_visibility, :website_visibility)
   end
 end

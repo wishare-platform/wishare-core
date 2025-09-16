@@ -310,8 +310,42 @@ pt-BR:
     statistics: "Estatísticas"
     total_items: "Total de Itens"
     update_success: "Perfil atualizado com sucesso"
+    bio_and_social: "Bio e Redes Sociais"
+    bio: "Bio"
+    bio_placeholder: "Conte-nos sobre você..."
+    bio_visibility: "Visibilidade da Bio"
+    gender: "Gênero"
+    gender_options:
+      not_specified: "Não Especificado"
+      male: "Masculino"
+      female: "Feminino"
+      non_binary: "Não-binário"
+      prefer_not_to_say: "Prefiro Não Dizer"
+    website: "Website"
+    website_placeholder: "https://seusite.com"
+    website_visibility: "Visibilidade do Website"
+    social_media_links: "Links de Redes Sociais"
+    instagram: "Instagram"
+    instagram_placeholder: "usuário"
+    tiktok: "TikTok"
+    tiktok_placeholder: "usuário"
+    twitter: "X (Twitter)"
+    twitter_placeholder: "usuário"
+    linkedin: "LinkedIn"
+    linkedin_placeholder: "https://linkedin.com/in/usuario"
+    youtube: "YouTube"
+    youtube_placeholder: "https://youtube.com/@canal"
+    facebook: "Facebook"
+    facebook_placeholder: "https://facebook.com/usuario"
+    social_links_visibility: "Visibilidade dos Links Sociais"
+    visibility_options:
+      private: "Privado"
+      connected_users: "Apenas Usuários Conectados"
+      public: "Público"
+    about: "Sobre"
+    social_links: "Links Sociais"
 
-  
+
   wishlists:
     event_types:
       none: "Lista Geral"

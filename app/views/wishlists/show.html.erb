@@ -1,5 +1,11 @@
-<% content_for :title, @wishlist.name %>
-<% content_for :description, @wishlist.description.present? ? "#{@wishlist.description} - #{pluralize(@wishlist.wishlist_items.count, 'item')} in this wishlist." : "View #{@wishlist.name} wishlist with #{pluralize(@wishlist.wishlist_items.count, 'gift idea')} from #{@wishlist.user.name || @wishlist.user.email}." %>
+<% content_for :title, wishlist_meta_title(@wishlist) %>
+<% content_for :description, wishlist_meta_description(@wishlist) %>
+<% content_for :og_title, wishlist_meta_title(@wishlist) %>
+<% content_for :og_description, wishlist_meta_description(@wishlist) %>
+<% content_for :og_image, meta_image_url(@wishlist) %>
+<% content_for :twitter_title, wishlist_meta_title(@wishlist) %>
+<% content_for :twitter_description, wishlist_meta_description(@wishlist) %>
+<% content_for :twitter_image, meta_image_url(@wishlist) %>
 <% content_for :structured_data, structured_data_wishlist(@wishlist) %>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
