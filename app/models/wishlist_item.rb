@@ -5,6 +5,15 @@ class WishlistItem < ApplicationRecord
   # Analytics associations
   has_many :share_analytics, as: :shareable, dependent: :destroy
 
+  # Activity Feed associations (as target)
+  has_many :activity_feeds, as: :target, dependent: :destroy
+
+  # User Interactions associations (as target)
+  has_many :user_interactions, as: :target, dependent: :destroy
+
+  # Comments associations (as commentable)
+  has_many :activity_comments, as: :commentable, dependent: :destroy
+
   enum :priority, { low: 0, medium: 1, high: 2 }
   enum :status, { available: 0, purchased: 1, reserved: 2 }
 

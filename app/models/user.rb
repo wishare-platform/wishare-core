@@ -42,6 +42,19 @@ class User < ApplicationRecord
   has_one :user_analytic, dependent: :destroy
   has_many :share_analytics, dependent: :destroy
   has_many :shares_as_shareable, class_name: 'ShareAnalytic', as: :shareable, dependent: :destroy
+  has_many :analytics_events, dependent: :destroy
+
+  # Activity Feed associations
+  has_many :activity_feeds, dependent: :destroy
+  has_many :actor_activities, class_name: 'ActivityFeed', foreign_key: 'actor_id', dependent: :destroy
+
+  # User Interactions associations
+  has_many :user_interactions, dependent: :destroy
+  has_many :interactions_as_target, class_name: 'UserInteraction', as: :target, dependent: :destroy
+
+  # Comments associations
+  has_many :activity_comments, dependent: :destroy
+  has_many :comments_as_commentable, class_name: 'ActivityComment', as: :commentable, dependent: :destroy
 
   validates :name, presence: true
   validates :preferred_locale, inclusion: { in: %w[en pt-BR] }

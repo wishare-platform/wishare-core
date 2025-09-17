@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_16_074355) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_17_183412) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,6 +40,42 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_16_074355) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "activity_comments", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "commentable_type", null: false
+    t.bigint "commentable_id", null: false
+    t.text "content", null: false
+    t.bigint "parent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["commentable_type", "commentable_id", "created_at"], name: "idx_on_commentable_type_commentable_id_created_at_b19869655b"
+    t.index ["commentable_type", "commentable_id"], name: "index_activity_comments_on_commentable"
+    t.index ["parent_id"], name: "index_activity_comments_on_parent_id"
+    t.index ["user_id", "created_at"], name: "index_activity_comments_on_user_id_and_created_at"
+    t.index ["user_id"], name: "index_activity_comments_on_user_id"
+  end
+
+  create_table "activity_feeds", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "actor_id", null: false
+    t.string "action_type", null: false
+    t.string "target_type", null: false
+    t.bigint "target_id", null: false
+    t.json "metadata"
+    t.boolean "is_public", default: true
+    t.datetime "occurred_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["action_type", "occurred_at"], name: "index_activity_feeds_on_action_type_and_occurred_at"
+    t.index ["actor_id", "occurred_at"], name: "index_activity_feeds_on_actor_id_and_occurred_at"
+    t.index ["actor_id"], name: "index_activity_feeds_on_actor_id"
+    t.index ["is_public", "occurred_at"], name: "index_activity_feeds_on_is_public_and_occurred_at"
+    t.index ["target_type", "target_id"], name: "index_activity_feeds_on_target"
+    t.index ["target_type", "target_id"], name: "index_activity_feeds_on_target_type_and_target_id"
+    t.index ["user_id", "occurred_at"], name: "index_activity_feeds_on_user_id_and_occurred_at"
+    t.index ["user_id"], name: "index_activity_feeds_on_user_id"
   end
 
   create_table "analytics_events", force: :cascade do |t|
@@ -205,6 +241,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_16_074355) do
     t.index ["user_id"], name: "index_user_analytics_on_user_id_unique", unique: true
   end
 
+  create_table "user_interactions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "target_type", null: false
+    t.bigint "target_id", null: false
+    t.string "interaction_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["interaction_type", "created_at"], name: "index_user_interactions_on_interaction_type_and_created_at"
+    t.index ["target_type", "target_id", "interaction_type"], name: "idx_on_target_type_target_id_interaction_type_7aa7a94514"
+    t.index ["target_type", "target_id"], name: "index_user_interactions_on_target"
+    t.index ["user_id", "target_type", "target_id"], name: "index_user_interactions_uniqueness", unique: true
+    t.index ["user_id"], name: "index_user_interactions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -289,6 +339,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_16_074355) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "activity_comments", "activity_comments", column: "parent_id"
+  add_foreign_key "activity_comments", "users"
+  add_foreign_key "activity_feeds", "users"
+  add_foreign_key "activity_feeds", "users", column: "actor_id"
   add_foreign_key "analytics_events", "users"
   add_foreign_key "connections", "users"
   add_foreign_key "connections", "users", column: "partner_id"
@@ -300,6 +354,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_16_074355) do
   add_foreign_key "notifications", "users"
   add_foreign_key "share_analytics", "users"
   add_foreign_key "user_analytics", "users"
+  add_foreign_key "user_interactions", "users"
   add_foreign_key "wishlist_items", "users", column: "purchased_by_id"
   add_foreign_key "wishlist_items", "wishlists"
   add_foreign_key "wishlists", "users"

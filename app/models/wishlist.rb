@@ -8,6 +8,15 @@ class Wishlist < ApplicationRecord
   # Analytics associations
   has_many :share_analytics, as: :shareable, dependent: :destroy
 
+  # Activity Feed associations (as target)
+  has_many :activity_feeds, as: :target, dependent: :destroy
+
+  # User Interactions associations (as target)
+  has_many :user_interactions, as: :target, dependent: :destroy
+
+  # Comments associations (as commentable)
+  has_many :activity_comments, as: :commentable, dependent: :destroy
+
   enum :visibility, { private_list: 0, partner_only: 1, publicly_visible: 2 }
   
   EVENT_TYPES = {

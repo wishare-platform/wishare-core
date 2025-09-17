@@ -15,7 +15,15 @@ class AnalyticsEvent < ApplicationRecord
     notification_clicked: 10,
     search_performed: 11,
     error_occurred: 12,
-    consent_given: 13
+    consent_given: 13,
+    wishlist_liked: 14,
+    wishlist_commented: 15,
+    item_commented: 16,
+    friend_activity_viewed: 17,
+    trending_item_clicked: 18,
+    recommendation_followed: 19,
+    dashboard_viewed: 20,
+    activity_feed_viewed: 21
   }
   
   # Scopes
