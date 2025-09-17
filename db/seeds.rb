@@ -24,6 +24,7 @@ if Rails.env.development?
   Invitation.destroy_all
   Connection.destroy_all
   CookieConsent.destroy_all if defined?(CookieConsent)
+  JwtDenylist.destroy_all if defined?(JwtDenylist)
   User.destroy_all
   
   # Reset primary key sequences to avoid ID conflicts
@@ -40,14 +41,24 @@ end
 
 # Create main test user (representing the Instagram story author)
 puts "Creating test users..."
+
 main_user = User.find_or_create_by(email: "test@wishare.xyz") do |user|
-  user.password = "password123"
-  user.password_confirmation = "password123"
+  user.password = "SecurePassword123!"
+  user.password_confirmation = "SecurePassword123!"
   user.name = "Hel Rabelo"
   user.date_of_birth = Date.new(1991, 3, 15)
   user.avatar_url = "https://api.dicebear.com/7.x/avataaars/svg?seed=helena"
   user.preferred_locale = "pt-BR"
-  # Famous address in São Paulo - Copacabana Palace area (luxury hotel district)
+  # Enhanced profile data for testing new features
+  user.bio = "🏃‍♀️ Running enthusiast & terrible at choosing gifts (that's why I built Wishare!). Living the dream with Ylana and our 4 German Spitz overlords: Cacao (the tiny dictator), Olivia (chaos incarnate), Linda (the innocent one), and Oliver (mama's boy with attachment issues). 🐕✨"
+  user.gender = "female"
+  user.website = "https://helrabelo.dev"
+  # Social media presence for testing
+  user.instagram_username = "helrabelo"
+  user.twitter_username = "helrabelo"
+  user.tiktok_username = "helrabelo.dev"
+  user.youtube_url = "https://https://youtube.com/@helrabelo"
+  # Address - Famous address in Rio - Copacabana Palace area
   user.street_number = "1702"
   user.street_address = "Avenida Atlântica"
   user.city = "Rio de Janeiro"
@@ -55,17 +66,27 @@ main_user = User.find_or_create_by(email: "test@wishare.xyz") do |user|
   user.postal_code = "22021001"
   user.country = "BR"
   user.address_visibility = :public
+  user.bio_visibility = :public
+  user.social_links_visibility = :connected_users
+  user.website_visibility = :public
 end
-
-# Create Ylana (the partner mentioned in the stories)  
+# Create Ylana (the partner mentioned in the stories)
 ylana = User.find_or_create_by(email: "ylana@wishare.xyz") do |user|
-  user.password = "password123"
-  user.password_confirmation = "password123"
+  user.password = "PuzzleMaster2024!"
+  user.password_confirmation = "PuzzleMaster2024!"
   user.name = "Ylana Moreira"
   user.date_of_birth = Date.new(1992, 8, 14)
   user.avatar_url = "https://api.dicebear.com/7.x/avataaars/svg?seed=ylana"
   user.preferred_locale = "pt-BR"
-  # Famous address in São Paulo - Rua Oscar Freire (luxury shopping district)
+  # Enhanced profile data
+  user.bio = "🧩 Puzzle collector extraordinaire with 'only' 9 puzzles (Hel exaggerates as usual 😅). Tea enthusiast, mindfulness practitioner, and professional dog whisperer to 4 adorable German Spitz. Currently accepting puzzle recommendations and denying I have a hoarding problem. 🍵✨"
+  user.gender = "female"
+  user.website = "https://ylana.puzzles"
+  # Social media for testing variety
+  user.instagram_username = "ylana.puzzles"
+  user.twitter_username = "puzzleylana"
+  user.youtube_url = "https://youtube.com/@puzzlesandtea"
+  # Address - Famous address in São Paulo - Rua Oscar Freire (luxury shopping district)
   user.street_number = "909"
   user.street_address = "Rua Oscar Freire"
   user.city = "São Paulo"
@@ -73,15 +94,26 @@ ylana = User.find_or_create_by(email: "ylana@wishare.xyz") do |user|
   user.postal_code = "01426001"
   user.country = "BR"
   user.address_visibility = :connected_users
+  user.bio_visibility = :connected_users
+  user.social_links_visibility = :public
+  user.website_visibility = :connected_users
 end
 
 friend2 = User.find_or_create_by(email: "friend2@wishare.xyz") do |user|
-  user.password = "password123"
-  user.password_confirmation = "password123"
+  user.password = "TechGuru2024$"
+  user.password_confirmation = "TechGuru2024$"
   user.name = "Michael Chen"
   user.date_of_birth = Date.new(1988, 11, 8)
   user.avatar_url = "https://api.dicebear.com/7.x/avataaars/svg?seed=michael"
   user.preferred_locale = "en"
+  # Tech professional profile
+  user.bio = "🚀 Tech enthusiast, home automation nerd, and Raspberry Pi collector. Currently living the presidential life in Brasília while working remotely. Always up for discussing the latest gadgets and gizmos. Warning: May talk your ear off about smart home setups! 💻🏠"
+  user.gender = "male"
+  user.website = "https://michael.tech"
+  # Social media focused on tech
+  user.instagram_username = "michaeltech"
+  user.twitter_username = "techguru_michael"
+  user.youtube_url = "https://youtube.com/@michaelchentech"
   # Famous address in Brasília - Palácio da Alvorada area (presidential district)
   user.street_number = "1"
   user.street_address = "Palácio da Alvorada"
@@ -90,15 +122,26 @@ friend2 = User.find_or_create_by(email: "friend2@wishare.xyz") do |user|
   user.postal_code = "70150900"
   user.country = "BR"
   user.address_visibility = :connected_users
+  user.bio_visibility = :public
+  user.social_links_visibility = :public
+  user.website_visibility = :public
 end
 
 family1 = User.find_or_create_by(email: "family1@wishare.xyz") do |user|
-  user.password = "password123"
-  user.password_confirmation = "password123"
+  user.password = "BookLover2024#"
+  user.password_confirmation = "BookLover2024#"
   user.name = "Emma Davis"
   user.date_of_birth = Date.new(1985, 9, 12)
   user.avatar_url = "https://api.dicebear.com/7.x/avataaars/svg?seed=emma"
   user.preferred_locale = "pt-BR"
+  # Book lover and culture enthusiast
+  user.bio = "📚 Avid reader, history buff, and proud Bahiana living in the heart of Salvador's historic center. Currently working my way through 50 books this year (33 down, 17 to go!). Love discussing literature, history, and the rich culture of Salvador. Always open to book recommendations! 🏛️📖"
+  user.gender = "female"
+  user.website = "https://emmareads.blog"
+  # Social media focused on books and culture
+  user.instagram_username = "emmareads.salvador"
+  user.twitter_username = "emmalovesbooks"
+  user.tiktok_username = "bookish.emma"
   # Famous address in Salvador - Pelourinho (historic center)
   user.street_number = "6"
   user.street_address = "Largo do Pelourinho"
@@ -107,26 +150,45 @@ family1 = User.find_or_create_by(email: "family1@wishare.xyz") do |user|
   user.postal_code = "40026280"
   user.country = "BR"
   user.address_visibility = :connected_users
+  user.bio_visibility = :public
+  user.social_links_visibility = :connected_users
+  user.website_visibility = :public
 end
 
 # Create user with pending invitation
 pending_user = User.find_or_create_by(email: "pending@wishare.xyz") do |user|
-  user.password = "password123"
-  user.password_confirmation = "password123"
+  user.password = "PendingConnection123!"
+  user.password_confirmation = "PendingConnection123!"
   user.name = "David Wilson"
   user.date_of_birth = Date.new(1992, 4, 30)
   user.avatar_url = "https://api.dicebear.com/7.x/avataaars/svg?seed=david"
   user.preferred_locale = "en"
+  # Minimal profile for testing incomplete profiles
+  user.bio = "Still figuring out this whole social media thing 🤷‍♂️"
+  user.gender = "male"
+  # Only partial social media presence
+  user.instagram_username = "david.wilson.92"
+  user.bio_visibility = :connected_users
+  user.social_links_visibility = :private
 end
 
 # Create unconnected user (for public wishlist testing)
 public_user = User.find_or_create_by(email: "public@wishare.xyz") do |user|
-  user.password = "password123"
-  user.password_confirmation = "password123"
+  user.password = "BeachLife2024@"
+  user.password_confirmation = "BeachLife2024@"
   user.name = "Alex Thompson"
   user.date_of_birth = Date.new(1987, 12, 3)
   user.avatar_url = "https://api.dicebear.com/7.x/avataaars/svg?seed=alex"
   user.preferred_locale = "pt-BR"
+  # Beach lifestyle influencer
+  user.bio = "🏖️ Beach life enthusiast & wedding planner living the dream in Florianópolis. Photography hobbyist capturing the magic of Santa Catarina. Getting married soon and sharing the journey! Always planning the next beach adventure or cozy sunset moment. 📸💍"
+  user.gender = "non_binary"
+  user.website = "https://alexbeachlife.com"
+  # Full social media presence for public profile testing
+  user.instagram_username = "alexbeachlife"
+  user.twitter_username = "beachalex"
+  user.tiktok_username = "alex.beach.sc"
+  user.youtube_url = "https://youtube.com/@alexbeachlife"
   # Famous address in Florianópolis - Jurerê Internacional (luxury beach area)
   user.street_number = "1470"
   user.street_address = "Avenida dos Búzios"
@@ -135,6 +197,9 @@ public_user = User.find_or_create_by(email: "public@wishare.xyz") do |user|
   user.postal_code = "88053700"
   user.country = "BR"
   user.address_visibility = :public
+  user.bio_visibility = :public
+  user.social_links_visibility = :public
+  user.website_visibility = :public
 end
 
 puts "Creating connections..."
@@ -947,16 +1012,123 @@ main_user.update!(role: :admin)
 
 # Create a super admin user for testing elevated permissions
 super_admin = User.find_or_create_by(email: "admin@wishare.xyz") do |user|
-  user.password = "password123"
-  user.password_confirmation = "password123"
+  user.password = "AdminSecure2024$!"
+  user.password_confirmation = "AdminSecure2024$!"
   user.name = "Super Admin"
   user.avatar_url = "https://api.dicebear.com/7.x/avataaars/svg?seed=admin"
   user.preferred_locale = "en"
   user.role = :super_admin
+  # Professional admin profile
+  user.bio = "🛡️ Platform administrator ensuring Wishare runs smoothly for everyone. Monitoring system health, managing user reports, and continuously improving the gifting experience. Always here to help! 💻⚡"
+  user.gender = "prefer_not_to_say"
+  user.website = "https://wishare.xyz/admin"
+  # Professional social presence
+  user.twitter_username = "wishare_admin"
+  user.bio_visibility = :public
+  user.social_links_visibility = :connected_users
+  user.website_visibility = :public
 end
 
 # Ensure the super admin has the correct role (in case user already existed)
 super_admin.update!(role: :super_admin) unless super_admin.super_admin?
+
+puts "Updating existing users with enhanced profile data..."
+
+# Update existing users with new profile data if they already existed
+if main_user.bio.blank?
+  main_user.update!(
+    bio: "🏃‍♀️ Running enthusiast & terrible at choosing gifts (that's why I built Wishare!). Living the dream with Ylana and our 4 German Spitz overlords: Cacao (the tiny dictator), Olivia (chaos incarnate), Linda (the innocent one), and Oliver (mama's boy with attachment issues). 🐕✨",
+    gender: "female",
+    website: "https://helrabelo.dev",
+    instagram_username: "helrabelo",
+    twitter_username: "helrabelo",
+    tiktok_username: "helrabelo.dev",
+    youtube_url: "https://youtube.com/@helrabelo",
+    bio_visibility: :public,
+    social_links_visibility: :connected_users,
+    website_visibility: :public
+  )
+end
+
+if ylana.bio.blank?
+  ylana.update!(
+    bio: "🧩 Puzzle collector extraordinaire with 'only' 9 puzzles (Hel exaggerates as usual 😅). Tea enthusiast, mindfulness practitioner, and professional dog whisperer to 4 adorable German Spitz. Currently accepting puzzle recommendations and denying I have a hoarding problem. 🍵✨",
+    gender: "female",
+    website: "https://ylana.puzzles",
+    instagram_username: "ylana.puzzles",
+    twitter_username: "puzzleylana",
+    youtube_url: "https://youtube.com/@puzzlesandtea",
+    bio_visibility: :connected_users,
+    social_links_visibility: :public,
+    website_visibility: :connected_users
+  )
+end
+
+if friend2.bio.blank?
+  friend2.update!(
+    bio: "🚀 Tech enthusiast, home automation nerd, and Raspberry Pi collector. Currently living the presidential life in Brasília while working remotely. Always up for discussing the latest gadgets and gizmos. Warning: May talk your ear off about smart home setups! 💻🏠",
+    gender: "male",
+    website: "https://michael.tech",
+    instagram_username: "michaeltech",
+    twitter_username: "techguru_michael",
+    youtube_url: "https://youtube.com/@michaelchentech",
+    bio_visibility: :public,
+    social_links_visibility: :public,
+    website_visibility: :public
+  )
+end
+
+if family1.bio.blank?
+  family1.update!(
+    bio: "📚 Avid reader, history buff, and proud Bahiana living in the heart of Salvador's historic center. Currently working my way through 50 books this year (33 down, 17 to go!). Love discussing literature, history, and the rich culture of Salvador. Always open to book recommendations! 🏛️📖",
+    gender: "female",
+    website: "https://emmareads.blog",
+    instagram_username: "emmareads.salvador",
+    twitter_username: "emmalovesbooks",
+    tiktok_username: "bookish.emma",
+    bio_visibility: :public,
+    social_links_visibility: :connected_users,
+    website_visibility: :public
+  )
+end
+
+if pending_user.bio.blank?
+  pending_user.update!(
+    bio: "Still figuring out this whole social media thing 🤷‍♂️",
+    gender: "male",
+    instagram_username: "david.wilson.92",
+    bio_visibility: :connected_users,
+    social_links_visibility: :private_info
+  )
+end
+
+if public_user.bio.blank?
+  public_user.update!(
+    bio: "🏖️ Beach life enthusiast & wedding planner living the dream in Florianópolis. Photography hobbyist capturing the magic of Santa Catarina. Getting married soon and sharing the journey! Always planning the next beach adventure or cozy sunset moment. 📸💍",
+    gender: "non_binary",
+    website: "https://alexbeachlife.com",
+    instagram_username: "alexbeachlife",
+    twitter_username: "beachalex",
+    tiktok_username: "alex.beach.sc",
+    youtube_url: "https://youtube.com/@alexbeachlife",
+    bio_visibility: :public,
+    social_links_visibility: :public,
+    website_visibility: :public
+  )
+end
+
+if super_admin.bio.blank?
+  super_admin.update!(
+    bio: "🛡️ Platform administrator ensuring Wishare runs smoothly for everyone. Monitoring system health, managing user reports, and continuously improving the gifting experience. Always here to help! 💻⚡",
+    gender: "prefer_not_to_say",
+    website: "https://wishare.xyz/admin",
+    twitter_username: "wishare_admin",
+    bio_visibility: :public,
+    social_links_visibility: :connected_users,
+    website_visibility: :public
+  )
+end
+
 end
 
 puts "Creating analytics events for dashboard testing..."
@@ -1074,16 +1246,21 @@ puts "✅ Seeding complete!"
 puts ""
 puts "🎉 Welcome to Wishare - Where Being Bad at Choosing Gifts is Finally an Advantage! 🎁"
 puts ""
-puts "📧 Test Accounts Created (Instagram Story Demo Ready!):"
-puts "  👑 Hel Rabelo (Main): test@wishare.xyz / password123 - The Running Shoe Addict (ADMIN, Portuguese) 👟"
-puts "      Lives at: Copacabana Palace area, Rio de Janeiro (because why not dream big? 😎)"
-puts "  🧩 Ylana Moreira (The Puzzle Queen): ylana@wishare.xyz / password123 - Has 'only' 9 puzzles (Portuguese)"
-puts "      Lives at: Rua Oscar Freire, São Paulo (shopping district for obvious reasons 🛍️)"
-puts "  🏛️ Michael Chen: friend2@wishare.xyz / password123 - Lives at the Palácio da Alvorada, Brasília (English)"
-puts "  📚 Emma Davis: family1@wishare.xyz / password123 - Lives in the historic Pelourinho, Salvador (Portuguese)" 
-puts "  ⏳ David Wilson: pending@wishare.xyz / password123 - Has sent invitation (English)"
-puts "  🏖️ Alex Thompson: public@wishare.xyz / password123 - Beach life in Jurerê Internacional, Florianópolis (Portuguese)"
-puts "  🔧 Super Admin: admin@wishare.xyz / password123 - The Boss of Everything (English)"
+puts "📧 Test Accounts Created (Enhanced Profile Testing Ready!):"
+puts "  👑 Hel Rabelo (Main): test@wishare.xyz / SecurePassword123! - Complete profile with full social media (ADMIN, Portuguese) 👟"
+puts "      Lives at: Copacabana Palace area, Rio de Janeiro + Rich bio & social presence 🌟"
+puts "  🧩 Ylana Moreira (The Puzzle Queen): ylana@wishare.xyz / PuzzleMaster2024! - Puzzle enthusiast with tea obsession (Portuguese)"
+puts "      Lives at: Rua Oscar Freire, São Paulo + Full social media & bio ✨"
+puts "  🚀 Michael Chen: friend2@wishare.xyz / TechGuru2024$ - Tech professional with public profile (English)"
+puts "      Lives at: Palácio da Alvorada, Brasília + Complete social & website 💻"
+puts "  📚 Emma Davis: family1@wishare.xyz / BookLover2024# - Book lover with cultural focus (Portuguese)"
+puts "      Lives at: historic Pelourinho, Salvador + Reading blog & social presence 📖"
+puts "  🤷‍♂️ David Wilson: pending@wishare.xyz / PendingConnection123! - Minimal profile for testing incomplete data (English)"
+puts "      Basic bio, partial social media - perfect for testing profile completion features"
+puts "  🏖️ Alex Thompson: public@wishare.xyz / BeachLife2024@ - Wedding planner with fully public profile (Portuguese)"
+puts "      Lives at: Jurerê Internacional beach + Full social media suite & website 📸"
+puts "  🛡️ Super Admin: admin@wishare.xyz / AdminSecure2024$! - Professional admin profile (English)"
+puts "      Platform administrator with professional bio & limited social presence 💻"
 puts ""
 puts "🎁 What We've Created (Time to Flex on Instagram!):"
 puts "  - #{User.count} users living in Brazil's most exclusive addresses 🏠✨"

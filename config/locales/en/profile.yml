@@ -8,6 +8,7 @@ en:
     edit:
       title: Edit Profile
       subtitle: Update your account information
+      edit_cover: Edit Cover
       personal_information: Personal Information
       profile_strength: Profile Strength
       complete_percentage: "%{percentage}% Complete"

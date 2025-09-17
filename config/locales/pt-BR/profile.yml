@@ -8,6 +8,7 @@ pt-BR:
     edit:
       title: Editar Perfil
       subtitle: Atualize suas informações da conta
+      edit_cover: Editar Capa
       personal_information: Informações Pessoais
       profile_strength: Força do Perfil
       complete_percentage: "%{percentage}% Completo"
