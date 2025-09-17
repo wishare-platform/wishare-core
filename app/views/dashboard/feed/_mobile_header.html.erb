@@ -1,0 +1,106 @@
+<!-- Mobile-Optimized Feed Header -->
+<div class="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-xl shadow-sm border border-rose-100 dark:border-gray-700 p-4">
+  <!-- Compact Welcome Message -->
+  <div class="text-center mb-4">
+    <h1 class="heading-card text-gray-800 dark:text-gray-100">
+      <%= t('dashboard.feed.header.welcome_back', name: @user.name.split.first) %>
+    </h1>
+    <p class="text-body-sm text-gray-500 dark:text-gray-400 mt-1">
+      <%= t('dashboard.feed.header.community_subtitle') %>
+    </p>
+  </div>
+
+  <!-- Mobile Feed Type Tabs (Horizontally Scrollable) -->
+  <div class="relative">
+    <div class="flex overflow-x-auto scrollbar-hide gap-2 pb-2"
+         data-controller="feed-tabs"
+         data-feed-tabs-current-value="for_you">
+
+      <button type="button"
+              class="flex-shrink-0 flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 tab-button whitespace-nowrap"
+              data-feed-tabs-target="tab"
+              data-feed-type="for_you"
+              data-action="click->feed-tabs#switchTab">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+        </svg>
+        <%= t('dashboard.feed.header.for_you') %>
+      </button>
+
+      <button type="button"
+              class="flex-shrink-0 flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 tab-button whitespace-nowrap"
+              data-feed-tabs-target="tab"
+              data-feed-type="friends"
+              data-action="click->feed-tabs#switchTab">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+        </svg>
+        <%= t('dashboard.feed.header.friends') %>
+      </button>
+
+      <button type="button"
+              class="flex-shrink-0 flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 tab-button whitespace-nowrap"
+              data-feed-tabs-target="tab"
+              data-feed-type="following"
+              data-action="click->feed-tabs#switchTab">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+        </svg>
+        <%= t('dashboard.feed.header.following') %>
+      </button>
+
+      <button type="button"
+              class="flex-shrink-0 flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 tab-button whitespace-nowrap"
+              data-feed-tabs-target="tab"
+              data-feed-type="all"
+              data-action="click->feed-tabs#switchTab">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <%= t('dashboard.feed.header.discover') %>
+      </button>
+    </div>
+
+    <!-- Horizontal scroll indicator shadows -->
+    <div class="absolute top-0 left-0 w-4 h-full bg-gradient-to-r from-white dark:from-gray-800 to-transparent pointer-events-none"></div>
+    <div class="absolute top-0 right-0 w-4 h-full bg-gradient-to-l from-white dark:from-gray-800 to-transparent pointer-events-none"></div>
+  </div>
+
+  <!-- Minimal Status Info -->
+  <div class="flex items-center justify-between mt-4 pt-3 border-t border-rose-100 dark:border-gray-700">
+    <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+      <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+      <span id="activity-count-display-mobile"><%= t('dashboard.feed.header.loading_activities') %></span>
+    </div>
+
+    <!-- Compact Refresh Button -->
+    <button type="button"
+            id="refresh-feed-button-mobile"
+            class="flex items-center gap-1 px-2 py-1 text-xs text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
+      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+      </svg>
+      <%= t('dashboard.feed.header.refresh') %>
+    </button>
+  </div>
+</div>
+
+<style>
+  /* Hide scrollbar for horizontal scroll */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Mobile tab button styles */
+  .tab-button.active {
+    @apply bg-rose-500 text-white shadow-md;
+  }
+  .tab-button:not(.active) {
+    @apply bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600;
+  }
+</style>

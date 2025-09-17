@@ -1,0 +1,46 @@
+<!-- Mobile Collapsible Events Section -->
+<div class="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-xl shadow-sm border border-rose-100 dark:border-gray-700"
+     data-controller="mobile-collapsible"
+     data-mobile-collapsible-key-value="events">
+
+  <!-- Collapsible Header (Always Visible) -->
+  <div class="p-4 cursor-pointer"
+       data-action="click->mobile-collapsible#toggle">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center">
+        <svg class="w-5 h-5 mr-2 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z"></path>
+        </svg>
+        <h3 class="heading-sub text-gray-900 dark:text-gray-100">
+          <%= t('dashboard.sidebar.upcoming_events.title') %>
+        </h3>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <!-- Event count badge -->
+        <% upcoming_events_count = @user.wishlists.where('event_date > ?', Date.current).count %>
+        <% if upcoming_events_count > 0 %>
+          <span class="bg-rose-500 text-white text-xs font-medium px-2 py-1 rounded-full">
+            <%= upcoming_events_count %>
+          </span>
+        <% end %>
+
+        <!-- Chevron icon -->
+        <svg class="w-5 h-5 text-gray-400 transition-transform duration-200"
+             data-mobile-collapsible-target="chevron"
+             fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Collapsible Content -->
+  <div class="hidden"
+       data-mobile-collapsible-target="content">
+    <div class="px-4 pb-4">
+      <!-- Render the existing upcoming events content -->
+      <%= render 'dashboard/sidebar/upcoming_events_content' %>
+    </div>
+  </div>
+</div>

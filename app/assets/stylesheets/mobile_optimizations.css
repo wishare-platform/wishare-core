@@ -1,0 +1,39 @@
+/* Simple Mobile Optimizations */
+
+/* Touch-friendly targets */
+@media (max-width: 1023px) {
+  button,
+  a,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Safe area support for devices with notches */
+  .pb-safe-area {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-area-padding {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+}
+
+/* Dark mode mobile optimizations */
+@media (max-width: 1023px) and (prefers-color-scheme: dark) {
+  .bg-gray-900 {
+    background-color: rgb(17, 24, 39);
+  }
+
+  .bg-gray-800 {
+    background-color: rgb(31, 41, 55);
+  }
+}

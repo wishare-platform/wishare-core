@@ -1,7 +1,30 @@
-<!-- Main Dashboard Container with Two-Column Layout -->
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+<!-- Main Dashboard Container with Mobile-First Layout -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8"
+     data-controller="mobile-performance">
+  <!-- Mobile Layout: Single Column with Optimized Spacing -->
+  <div class="lg:hidden space-y-4" data-controller="pull-to-refresh"
+       style="min-height: calc(100vh - 140px);">
+    <!-- Mobile Profile Summary -->
+    <%= render 'dashboard/mobile/profile_summary' %>
 
+    <!-- Mobile Quick Actions Grid -->
+    <%= render 'dashboard/mobile/quick_actions_grid' %>
+
+    <!-- Mobile Activity Feed -->
+    <div class="space-y-4">
+      <%= render 'dashboard/feed/mobile_header' %>
+      <%= render 'dashboard/feed/activity_stream' %>
+    </div>
+
+    <!-- Collapsible Mobile Sections -->
+    <div class="space-y-3">
+      <%= render 'dashboard/mobile/collapsible_events' %>
+      <%= render 'dashboard/mobile/collapsible_friends' %>
+    </div>
+  </div>
+
+  <!-- Desktop Layout: Two-Column Layout -->
+  <div class="hidden lg:grid lg:grid-cols-5 gap-8">
     <!-- Left Sidebar (40% on desktop) -->
     <div class="lg:col-span-2 space-y-6">
       <%= render 'dashboard/sidebar/profile_card' %>
@@ -17,8 +40,4 @@
     </div>
   </div>
 
-  <!-- Mobile Navigation (shown only on mobile) -->
-  <div class="lg:hidden fixed bottom-0 left-0 right-0">
-    <%= render 'dashboard/mobile_navigation' %>
-  </div>
 </div>

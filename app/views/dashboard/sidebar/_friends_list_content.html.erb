@@ -1,0 +1,119 @@
+<%
+  # Get connected friends with recent activity
+  connected_users = []
+
+  # Get partners from both directions of connections
+  @user.connections.accepted.includes(:partner).each do |connection|
+    connected_users << connection.partner
+  end
+
+  @user.inverse_connections.accepted.includes(:user).each do |connection|
+    connected_users << connection.user
+  end
+
+  # Remove duplicates and limit to 5 most recent
+  friends = connected_users.uniq.first(5)
+%>
+
+<% if friends.any? %>
+  <div class="space-y-3">
+    <% friends.each do |friend| %>
+      <%
+        # Get friend's recent activity
+        recent_activity = ActivityFeed.where(actor: friend)
+                                     .where('occurred_at > ?', 1.week.ago)
+                                     .where(is_public: true)
+                                     .order(occurred_at: :desc)
+                                     .first
+
+        # Get friend's active wishlists count
+        active_wishlists = friend.wishlists.where(visibility: [:partner_only, :publicly_visible]).count
+      %>
+
+      <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+           onclick="window.location.href='<%= user_path(friend) %>'">
+
+        <!-- Friend Avatar with Online Status -->
+        <div class="relative flex-shrink-0">
+          <%= user_avatar_or_initials(friend, size: 'w-10 h-10') %>
+          <!-- Online Status Indicator (placeholder - can be enhanced with real-time presence) -->
+          <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 border-2 border-white dark:border-gray-700 rounded-full"></div>
+        </div>
+
+        <!-- Friend Info -->
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between">
+            <h4 class="font-medium text-sm text-gray-900 dark:text-gray-100 truncate">
+              <%= friend.name %>
+            </h4>
+            <% if active_wishlists > 0 %>
+              <span class="text-xs text-gray-500 dark:text-gray-400">
+                <%= active_wishlists %> <%= t('dashboard.sidebar.friends_list.wishlist').pluralize(active_wishlists) %>
+              </span>
+            <% end %>
+          </div>
+
+          <!-- Recent Activity or Status -->
+          <% if recent_activity %>
+            <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
+              <%= time_ago_in_words(recent_activity.occurred_at) %> ago:
+              <span class="text-gray-600 dark:text-gray-300">
+                <%= recent_activity.action_type.humanize.downcase %>
+              </span>
+            </p>
+          <% else %>
+            <p class="text-xs text-gray-500 dark:text-gray-400">
+              <%= t('dashboard.sidebar.friends_list.no_recent_activity') %>
+            </p>
+          <% end %>
+        </div>
+
+        <!-- Quick Action Arrow -->
+        <div class="flex-shrink-0 opacity-50 group-hover:opacity-100 transition-opacity">
+          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="mt-4 pt-4 border-t border-rose-100 dark:border-gray-700 space-y-2">
+    <%= link_to connections_path,
+        class: "w-full flex items-center justify-center gap-2 px-3 py-2 text-sm text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg transition-colors" do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+      </svg>
+      <%= t('dashboard.sidebar.friends_list.view_all_friends') %>
+    <% end %>
+
+    <%= link_to new_invitation_path,
+        class: "w-full flex items-center justify-center gap-2 px-3 py-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors" do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+      </svg>
+      <%= t('dashboard.sidebar.friends_list.invite_more_friends') %>
+    <% end %>
+  </div>
+<% else %>
+  <!-- Empty State -->
+  <div class="text-center py-6">
+    <svg class="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+    </svg>
+    <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
+      <%= t('dashboard.sidebar.friends_list.no_friends_yet') %>
+    </p>
+    <p class="text-xs text-gray-400 dark:text-gray-500 mb-4">
+      <%= t('dashboard.sidebar.friends_list.connect_family_friends') %>
+    </p>
+    <%= link_to t('dashboard.sidebar.friends_list.send_first_invitation'), new_invitation_path,
+        class: "inline-flex items-center gap-2 px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white text-sm font-medium rounded-lg transition-colors" do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+      </svg>
+      <%= t('dashboard.sidebar.friends_list.invite_friends') %>
+    <% end %>
+  </div>
+<% end %>
