@@ -10,7 +10,9 @@ export default class extends Controller {
   }
 
   updateCount() {
-    const length = this.element.value ? this.element.value.length : 0
+    // Find the textarea within this controller's element
+    const textarea = this.element.querySelector('textarea')
+    const length = textarea ? textarea.value.length : 0
     this.countTarget.textContent = length
 
     // Add warning color when approaching limit

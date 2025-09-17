@@ -15,6 +15,57 @@ export default class extends Controller {
   }
 
   openCamera() {
+    // Show options when pencil is clicked
+    this.showAvatarOptions()
+  }
+
+  showAvatarOptions() {
+    const hasAvatar = this.previewTarget.tagName === 'IMG'
+
+    // Create a simple dropdown menu
+    const menu = document.createElement('div')
+    menu.className = 'absolute top-0 right-0 mt-12 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 min-w-40'
+
+    const options = [
+      { text: '📷 Take Photo', action: () => this.openCameraCapture() },
+      { text: '📁 Choose File', action: () => this.openFileDialog() }
+    ]
+
+    if (hasAvatar) {
+      options.push({ text: '🗑️ Remove Photo', action: () => this.removeAvatar() })
+    }
+
+    options.forEach(option => {
+      const button = document.createElement('button')
+      button.type = 'button'
+      button.className = 'w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm first:rounded-t-lg last:rounded-b-lg transition'
+      button.textContent = option.text
+      button.onclick = () => {
+        option.action()
+        menu.remove()
+      }
+      menu.appendChild(button)
+    })
+
+    // Position menu relative to the avatar container
+    const container = this.previewTarget.parentNode
+    container.style.position = 'relative'
+    container.appendChild(menu)
+
+    // Remove menu when clicking outside
+    const removeMenu = (e) => {
+      if (!menu.contains(e.target)) {
+        menu.remove()
+        document.removeEventListener('click', removeMenu)
+      }
+    }
+
+    setTimeout(() => {
+      document.addEventListener('click', removeMenu)
+    }, 100)
+  }
+
+  openCameraCapture() {
     // Try native camera first (mobile apps)
     if (this.nativeBridge && this.nativeBridge.camera) {
       this.nativeBridge.camera.takePicture({
@@ -63,7 +114,7 @@ export default class extends Controller {
       // Replace div with img element
       const img = document.createElement('img')
       img.src = imageUrl
-      img.className = 'w-32 h-32 rounded-full object-cover mx-auto shadow-lg'
+      img.className = 'w-24 h-24 rounded-full border-4 border-rose-200 dark:border-rose-800 object-cover'
       img.alt = 'Profile picture'
       img.dataset.avatarUploadTarget = 'preview'
 
@@ -155,15 +206,14 @@ export default class extends Controller {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          // Replace image with default avatar placeholder
+          // Replace image with default avatar placeholder (matching current user display style)
           const placeholder = document.createElement('div')
-          placeholder.className = 'w-32 h-32 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center mx-auto shadow-lg'
+          placeholder.className = 'w-24 h-24 rounded-full bg-gradient-to-br from-rose-400 to-purple-500 flex items-center justify-center border-4 border-rose-200 dark:border-rose-800'
           placeholder.dataset.avatarUploadTarget = 'preview'
-          placeholder.innerHTML = `
-            <svg class="w-16 h-16 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-            </svg>
-          `
+
+          // Get user's first initial from the current display
+          const userInitial = document.querySelector('[data-avatar-upload-target="preview"] span')?.textContent || 'U'
+          placeholder.innerHTML = `<span class="text-3xl font-bold text-white">${userInitial}</span>`
 
           this.previewTarget.parentNode.replaceChild(placeholder, this.previewTarget)
         } else {

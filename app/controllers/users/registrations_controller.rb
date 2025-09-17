@@ -44,7 +44,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
       set_flash_message_for_update(resource, prev_unconfirmed_email)
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
 
-      respond_with resource, location: after_update_path_for(resource)
+      # If preferred locale changed, update I18n.locale and redirect with new locale
+      if params[resource_name][:preferred_locale].present? &&
+         params[resource_name][:preferred_locale] != I18n.locale.to_s
+        new_locale = params[resource_name][:preferred_locale]
+        I18n.locale = new_locale
+        # Redirect to the edit page with the new locale
+        redirect_to edit_user_registration_path(locale: new_locale), notice: t('profile.update_success')
+      else
+        respond_with resource, location: after_update_path_for(resource)
+      end
     else
       clean_up_passwords resource
       set_minimum_password_length
@@ -92,7 +101,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     devise_parameter_sanitizer.permit(:account_update, keys: [
       :name, :avatar_url, :date_of_birth, :preferred_locale,
       :street_number, :street_address, :apartment_unit, :city, :state, :postal_code, :country, :address_visibility,
-      :bio, :website, :gender, :instagram_username, :tiktok_username, :twitter_username, :linkedin_url, :youtube_url, :facebook_url,
+      :bio, :website, :gender, :instagram_username, :tiktok_username, :twitter_username, :youtube_url,
       :bio_visibility, :social_links_visibility, :website_visibility
     ])
   end
