@@ -150,6 +150,12 @@ en:
         name_za: 'Name: Z to A'
       no_results: No items match your filters
       clear_filters: Clear all filters
+    card:
+      items: items
+      purchased: purchased
+      progress: Progress
+      view_wishlist: View Wishlist
+      view_item: View Item
   items:
     new: Add Item
     form:
@@ -231,11 +237,6 @@ en:
       fetching: Fetching product details...
       populated: Product details populated! Review and adjust as needed.
       error: Couldn't fetch details automatically. Please fill in manually.
-  card:
-    items: items
-    purchased: purchased
-    progress: Progress
-    view_wishlist: View Wishlist
   filters:
     all: All
     birthday: Birthday

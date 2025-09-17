@@ -175,6 +175,12 @@ pt-BR:
       least_items: Menos Itens
       name_az: Nome A-Z
       name_za: Nome Z-A
+    card:
+      items: itens
+      purchased: comprados
+      progress: Progresso
+      view_wishlist: Ver Lista
+      view_item: Ver Item
   items:
     new: Adicionar Item
     form:
@@ -258,8 +264,25 @@ pt-BR:
       populated: Detalhes do produto preenchidos! Revise e ajuste conforme necessário.
       error: Não foi possível buscar detalhes automaticamente. Por favor, preencha
         manualmente.
-  card:
-    items: itens
-    purchased: comprados
-    progress: Progresso
-    view_wishlist: Ver Lista
+    filters:
+      all: Todos
+      birthday: Aniversário
+      wedding: Casamento
+      holiday: Feriado
+      anniversary: Aniversário de Namoro/Casamento
+      baby_shower: Chá de Bebê
+      christmas: Natal
+      graduation: Formatura
+      housewarming: Casa Nova
+      valentines: Dia dos Namorados
+      mothers_day: Dia das Mães
+      fathers_day: Dia dos Pais
+      other: Outro
+      general: Geral
+    sort:
+      newest: Mais Recentes
+      oldest: Mais Antigas
+      most_items: Mais Itens
+      least_items: Menos Itens
+      name_az: Nome A-Z
+      name_za: Nome Z-A

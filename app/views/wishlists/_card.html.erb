@@ -57,9 +57,9 @@
       <% purchased = wishlist.wishlist_items.purchased.count %>
       <% percentage = total > 0 ? (purchased.to_f / total * 100).round : 0 %>
       <div class="mb-4">
-        <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
-          <span><%= t('wishlists.card.progress') %></span>
-          <span><%= percentage %>%</span>
+        <div class="flex justify-between text-xs mb-1">
+          <span class="font-medium text-rose-600 dark:text-rose-400"><%= t('wishlists.card.progress') %></span>
+          <span class="text-gray-500 dark:text-gray-400"><%= percentage %>%</span>
         </div>
         <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
           <div class="h-full bg-gradient-to-r from-rose-400 to-purple-500 transition-all duration-300" style="width: <%= percentage %>%"></div>
@@ -67,20 +67,42 @@
       </div>
     <% end %>
 
-    <!-- Item Previews -->
+    <!-- Item Previews with Hover Popup -->
     <% if wishlist.wishlist_items.limit(3).any? %>
-      <div class="flex -space-x-2 mb-4">
-        <% wishlist.wishlist_items.limit(3).each do |item| %>
+      <div class="flex -space-x-2 mb-4" data-controller="wishlist-item-preview">
+        <% wishlist.wishlist_items.limit(3).each_with_index do |item, index| %>
           <% if item.image_url.present? %>
-            <div class="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 overflow-hidden">
+            <%= link_to wishlist_wishlist_item_path(wishlist, item), class: "relative w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 overflow-hidden hover:z-10 transition-transform hover:scale-110 cursor-pointer block",
+                        data: {
+                          action: "mouseenter->wishlist-item-preview#showPreview mouseleave->wishlist-item-preview#hidePreview click->wishlist-item-preview#handleClick",
+                          item_id: item.id,
+                          item_name: item.name,
+                          item_price: item.formatted_price,
+                          item_description: item.description,
+                          item_image: item.image_url,
+                          item_url: item.url,
+                          item_priority: item.priority,
+                          item_path: wishlist_wishlist_item_path(wishlist, item)
+                        } do %>
               <img src="<%= item.image_url %>" alt="<%= item.name %>" class="w-full h-full object-cover">
-            </div>
+            <% end %>
           <% else %>
-            <div class="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+            <%= link_to wishlist_wishlist_item_path(wishlist, item), class: "relative w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 bg-gray-200 dark:bg-gray-700 flex items-center justify-center hover:z-10 transition-transform hover:scale-110 cursor-pointer",
+                        data: {
+                          action: "mouseenter->wishlist-item-preview#showPreview mouseleave->wishlist-item-preview#hidePreview click->wishlist-item-preview#handleClick",
+                          item_id: item.id,
+                          item_name: item.name,
+                          item_price: item.formatted_price,
+                          item_description: item.description,
+                          item_image: "",
+                          item_url: item.url,
+                          item_priority: item.priority,
+                          item_path: wishlist_wishlist_item_path(wishlist, item)
+                        } do %>
               <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
               </svg>
-            </div>
+            <% end %>
           <% end %>
         <% end %>
         <% remaining = wishlist.wishlist_items.count - 3 %>
@@ -89,6 +111,7 @@
             <span class="text-xs font-medium text-rose-600 dark:text-rose-400">+<%= remaining %></span>
           </div>
         <% end %>
+
       </div>
     <% end %>
 
