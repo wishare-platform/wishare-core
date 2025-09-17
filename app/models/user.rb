@@ -14,6 +14,11 @@ class User < ApplicationRecord
     attachable.variant :large, resize_to_limit: [300, 300]
   end
 
+  has_one_attached :cover_image do |attachable|
+    attachable.variant :large, resize_to_limit: [1200, 400]
+    attachable.variant :thumb, resize_to_limit: [600, 200]
+  end
+
   # Connection associations
   has_many :connections, dependent: :destroy
   has_many :inverse_connections, class_name: 'Connection', foreign_key: 'partner_id', dependent: :destroy
@@ -326,6 +331,10 @@ class User < ApplicationRecord
 
   def has_social_presence?
     social_links.any? { |_, url| url.present? }
+  end
+
+  def has_social_links?
+    has_social_presence?
   end
 
   def can_view_bio?(viewer)

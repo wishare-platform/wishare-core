@@ -77,3 +77,12 @@ en:
         yet. Check back later for gift ideas!"
       view_wishlist: View Wishlist
       back_to_dashboard: Back to Dashboard
+      edit_profile: Edit Profile
+      connect: Connect
+      stats:
+        wishlists: Wishlists
+        friends: Friends
+        items: Items
+      passionate_about_gifting: "Passionate about thoughtful gifting and making special moments memorable. Love discovering unique items and sharing gift ideas with friends and family. 🎁✨"
+      birthday_month: "%{month} Birthday"
+      edit_cover: Edit Cover

@@ -78,3 +78,12 @@ pt-BR:
       address_visibility:
         public: Público
         friends_family: Apenas Amigos e Família
+      edit_profile: Editar Perfil
+      connect: Conectar
+      stats:
+        wishlists: Wishlists
+        friends: Amigos
+        items: Itens
+      passionate_about_gifting: "Apaixonado por presentes atenciosos e em tornar momentos especiais memoráveis. Adoro descobrir itens únicos e compartilhar ideias de presentes com amigos e família. 🎁✨"
+      birthday_month: "Aniversário em %{month}"
+      edit_cover: Editar Foto
