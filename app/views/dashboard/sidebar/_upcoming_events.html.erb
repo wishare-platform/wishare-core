@@ -1,0 +1,124 @@
+<!-- Upcoming Events Section -->
+<div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-sm border border-rose-100 dark:border-gray-700 p-6">
+  <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center">
+    <svg class="w-5 h-5 mr-2 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z"></path>
+    </svg>
+    <%= t('dashboard.sidebar.upcoming_events.title') %>
+  </h3>
+
+  <%
+    # Get upcoming events from user's wishlists and connected users' wishlists
+    upcoming_wishlists = @user.wishlists.where.not(event_date: nil)
+                              .where('event_date > ?', Date.current)
+                              .order(:event_date)
+                              .limit(3)
+
+    # Get connected users' upcoming events
+    connected_user_ids = @user.connections.accepted.pluck(:partner_id) +
+                        @user.inverse_connections.accepted.pluck(:user_id)
+
+    friends_events = Wishlist.where(user_id: connected_user_ids)
+                             .where.not(event_date: nil)
+                             .where('event_date > ?', Date.current)
+                             .where(visibility: [:partner_only, :publicly_visible])
+                             .includes(:user)
+                             .order(:event_date)
+                             .limit(3)
+
+    all_events = (upcoming_wishlists.to_a + friends_events.to_a)
+                 .sort_by(&:event_date)
+                 .first(5)
+  %>
+
+  <% if all_events.any? %>
+    <div class="space-y-3">
+      <% all_events.each do |wishlist| %>
+        <% is_own_event = wishlist.user == @user %>
+        <% days_until = (wishlist.event_date - Date.current).to_i %>
+
+        <div class="p-3 bg-gradient-to-r <%= is_own_event ? 'from-rose-50 to-pink-50 dark:from-rose-900/20 dark:to-pink-900/20 border-rose-200 dark:border-rose-800' : 'from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-200 dark:border-blue-800' %> border rounded-lg">
+          <div class="flex items-start justify-between">
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs px-2 py-1 rounded-full font-medium <%= is_own_event ? 'bg-rose-100 text-rose-700 dark:bg-rose-800 dark:text-rose-200' : 'bg-blue-100 text-blue-700 dark:bg-blue-800 dark:text-blue-200' %>">
+                  <%= wishlist.event_type.humanize %>
+                </span>
+                <% unless is_own_event %>
+                  <span class="text-xs text-gray-500 dark:text-gray-400">
+                    <%= wishlist.user.name.split.first %>'s
+                  </span>
+                <% end %>
+              </div>
+
+              <%= link_to wishlist_path(wishlist), class: "block hover:text-rose-600 dark:hover:text-rose-400 transition-colors" do %>
+                <h4 class="font-medium text-sm text-gray-900 dark:text-gray-100 mb-1">
+                  <%= truncate(wishlist.name, length: 30) %>
+                </h4>
+              <% end %>
+
+              <p class="text-xs text-gray-600 dark:text-gray-400">
+                <%= wishlist.event_date.strftime("%B %d, %Y") %>
+              </p>
+            </div>
+
+            <div class="flex-shrink-0 text-right">
+              <div class="text-xs font-medium <%= days_until <= 7 ? 'text-orange-600 dark:text-orange-400' : 'text-gray-600 dark:text-gray-400' %>">
+                <% if days_until == 0 %>
+                  <%= t('dashboard.sidebar.upcoming_events.today') %>
+                <% elsif days_until == 1 %>
+                  <%= t('dashboard.sidebar.upcoming_events.tomorrow') %>
+                <% elsif days_until <= 7 %>
+                  <%= days_until %> <%= t('dashboard.sidebar.upcoming_events.days') %>
+                <% else %>
+                  <%= days_until %> <%= t('dashboard.sidebar.upcoming_events.days') %>
+                <% end %>
+              </div>
+              <% if wishlist.wishlist_items.any? %>
+                <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  <%= wishlist.wishlist_items.count %> <%= t('dashboard.sidebar.upcoming_events.items') %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Quick Action for Own Events -->
+          <% if is_own_event && days_until <= 30 %>
+            <div class="mt-2 pt-2 border-t border-rose-200 dark:border-rose-800">
+              <%= link_to wishlist,
+                  class: "text-xs text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 font-medium flex items-center gap-1" do %>
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+                <%= t('dashboard.sidebar.upcoming_events.add_items') %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- View All Events Link -->
+    <div class="mt-4 pt-4 border-t border-rose-100 dark:border-gray-700">
+      <%= link_to wishlists_path(filter: 'events'),
+          class: "text-sm text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 font-medium flex items-center justify-center gap-2" do %>
+        <%= t('dashboard.sidebar.upcoming_events.view_all_events') %>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      <% end %>
+    </div>
+  <% else %>
+    <!-- Empty State -->
+    <div class="text-center py-6">
+      <svg class="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z"></path>
+      </svg>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
+        <%= t('dashboard.sidebar.upcoming_events.no_upcoming_events') %>
+      </p>
+      <%= link_to t('dashboard.sidebar.upcoming_events.create_event_wishlist'), new_wishlist_path(event: true),
+          class: "text-sm text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 font-medium" %>
+    </div>
+  <% end %>
+</div>

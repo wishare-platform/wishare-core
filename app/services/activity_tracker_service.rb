@@ -277,6 +277,7 @@ class ActivityTrackerService
       {
         id: activity.id,
         action_type: activity.action_type,
+        action_description: activity.action_description,
         actor: {
           id: activity.actor.id,
           name: activity.actor.name,

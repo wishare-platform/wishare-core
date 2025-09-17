@@ -395,6 +395,36 @@ class User < ApplicationRecord
     end
   end
 
+  # Calculate profile completion percentage for dashboard
+  def profile_completion_percentage
+    total_fields = 10
+    completed_fields = 0
+
+    # Basic info
+    completed_fields += 1 if name.present?
+    completed_fields += 1 if email.present?
+    completed_fields += 1 if date_of_birth.present?
+    completed_fields += 1 if avatar.attached?
+
+    # Bio and description
+    completed_fields += 1 if bio.present?
+
+    # Address info
+    completed_fields += 1 if has_address?
+
+    # Social media (count as one if any present)
+    completed_fields += 1 if [instagram_username, twitter_username, tiktok_username, youtube_url].any?(&:present?)
+
+    # Preferences
+    completed_fields += 1 if preferred_locale.present?
+
+    # Activity engagement (has created content)
+    completed_fields += 1 if wishlists.exists?
+    completed_fields += 1 if connections.accepted.exists?
+
+    (completed_fields.to_f / total_fields * 100).round
+  end
+
   private
   
   def address_completeness

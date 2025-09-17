@@ -1,0 +1,123 @@
+<!-- Main Feed Header -->
+<div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-sm border border-rose-100 dark:border-gray-700 p-6">
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        <%= t('dashboard.feed.header.welcome_back', name: @user.name.split.first) %>
+      </h1>
+      <p class="text-gray-600 dark:text-gray-400 mt-1">
+        <%= t('dashboard.feed.header.community_subtitle') %>
+      </p>
+    </div>
+
+    <!-- Dashboard Stats -->
+    <div class="hidden sm:flex items-center gap-4">
+      <div class="text-center">
+        <div class="text-xl font-bold text-rose-600 dark:text-rose-400">
+          <%= @user.wishlists.count %>
+        </div>
+        <div class="text-xs text-gray-500 dark:text-gray-400"><%= t('dashboard.feed.header.wishlists') %></div>
+      </div>
+      <div class="text-center">
+        <div class="text-xl font-bold text-blue-600 dark:text-blue-400">
+          <%= @user.connections.accepted.count %>
+        </div>
+        <div class="text-xs text-gray-500 dark:text-gray-400"><%= t('dashboard.feed.header.friends') %></div>
+      </div>
+      <div class="text-center">
+        <div class="text-xl font-bold text-green-600 dark:text-green-400">
+          <%= WishlistItem.joins(wishlist: :user).where(users: { id: @user.id }).where.not(purchased_by: nil).count %>
+        </div>
+        <div class="text-xs text-gray-500 dark:text-gray-400"><%= t('dashboard.feed.header.received') %></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feed Type Tabs -->
+  <div class="flex space-x-1 bg-gray-100 dark:bg-gray-700 p-1 rounded-lg"
+       data-controller="feed-tabs"
+       data-feed-tabs-current-value="for_you">
+
+    <button type="button"
+            class="flex-1 px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 tab-button"
+            data-feed-tabs-target="tab"
+            data-feed-type="for_you"
+            data-action="click->feed-tabs#switchTab">
+      <span class="flex items-center justify-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+        </svg>
+        <%= t('dashboard.feed.header.for_you') %>
+      </span>
+    </button>
+
+    <button type="button"
+            class="flex-1 px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 tab-button"
+            data-feed-tabs-target="tab"
+            data-feed-type="friends"
+            data-action="click->feed-tabs#switchTab">
+      <span class="flex items-center justify-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+        </svg>
+        <%= t('dashboard.feed.header.friends') %>
+      </span>
+    </button>
+
+    <button type="button"
+            class="flex-1 px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 tab-button"
+            data-feed-tabs-target="tab"
+            data-feed-type="following"
+            data-action="click->feed-tabs#switchTab">
+      <span class="flex items-center justify-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+        </svg>
+        <%= t('dashboard.feed.header.following') %>
+      </span>
+    </button>
+
+    <button type="button"
+            class="flex-1 px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 tab-button"
+            data-feed-tabs-target="tab"
+            data-feed-type="all"
+            data-action="click->feed-tabs#switchTab">
+      <span class="flex items-center justify-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <%= t('dashboard.feed.header.discover') %>
+      </span>
+    </button>
+  </div>
+
+  <!-- Feed Stats and Refresh -->
+  <div class="flex items-center justify-between mt-4 pt-4 border-t border-rose-100 dark:border-gray-700">
+    <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+      <span id="activity-count-display"><%= t('dashboard.feed.header.loading_activities') %></span>
+      <span class="flex items-center gap-1">
+        <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+        <%= t('dashboard.feed.header.live_updates') %>
+      </span>
+    </div>
+
+    <button type="button"
+            id="refresh-feed-button"
+            class="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+      </svg>
+      <%= t('dashboard.feed.header.refresh') %>
+    </button>
+  </div>
+</div>
+
+<style>
+  .tab-button.active {
+    @apply bg-white dark:bg-gray-800 text-rose-600 dark:text-rose-400 shadow-sm;
+  }
+  .tab-button:not(.active) {
+    @apply text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200;
+  }
+</style>
