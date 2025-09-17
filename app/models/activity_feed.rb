@@ -66,27 +66,6 @@ class ActivityFeed < ApplicationRecord
   end
 
   def action_description
-    case action_type
-    when 'wishlist_created'
-      "created a new wishlist"
-    when 'item_added'
-      "added an item"
-    when 'item_purchased'
-      "purchased an item"
-    when 'wishlist_liked'
-      "liked a wishlist"
-    when 'wishlist_commented'
-      "commented on a wishlist"
-    when 'item_commented'
-      "commented on an item"
-    when 'friend_connected'
-      "connected with a friend"
-    when 'profile_updated'
-      "updated their profile"
-    when 'wishlist_shared'
-      "shared a wishlist"
-    else
-      action_type.humanize
-    end
+    I18n.t("dashboard.activity_descriptions.#{action_type}", default: action_type.humanize)
   end
 end

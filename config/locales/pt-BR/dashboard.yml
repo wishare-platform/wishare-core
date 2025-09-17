@@ -110,5 +110,92 @@ pt-BR:
     quick_actions: Ações Rápidas
     quick_actions_descriptions:
       create_wishlist: Criar uma nova lista
+      start_new_wishlist: Começar uma nova lista
+      invite_friends: Conectar com outros
+      discover: Explorar listas públicas
+      edit_profile: Atualizar suas informações
       add_to_existing: 'Adicionar à lista existente:'
       connect_friends: Conectar com amigos e família
+
+    sidebar:
+      profile:
+        member_since: Membro desde
+        profile_completion: Perfil
+      quick_actions:
+        title: Ações Rápidas
+        create_wishlist: Criar Lista
+        invite_friends: Convidar Amigos
+        discover: Descobrir
+        edit_profile: Editar Perfil
+      stats:
+        wishlists: Listas
+        items: Itens
+        friends: Amigos
+        invites_sent: Convites Enviados
+        items_received: Itens Recebidos
+      upcoming_events:
+        title: Próximos Eventos
+        today: Hoje!
+        tomorrow: Amanhã
+        days: dias
+        items: itens
+        add_items: Adicionar itens
+        view_all_events: Ver todos os eventos
+        no_upcoming_events: Nenhum evento próximo
+        create_event_wishlist: Criar Lista de Evento
+      friends_list:
+        title: Amigos
+        no_recent_activity: Nenhuma atividade recente
+        view_all_friends: Ver todos os amigos
+        invite_more_friends: Convidar mais amigos
+        no_friends_yet: Ainda sem amigos
+        connect_family_friends: Conecte-se com família e amigos para compartilhar listas
+        send_first_invitation: Envie seu primeiro convite
+        invite_friends: Convidar Amigos
+        wishlist: lista
+
+    feed:
+      header:
+        welcome_back: Bem-vindo de volta, %{name}! 👋
+        community_subtitle: Veja o que está acontecendo na sua comunidade de listas
+        wishlists: Listas
+        friends: Amigos
+        received: Recebidos
+        for_you: Para Você
+        following: Seguindo
+        discover: Descobrir
+        loading_activities: Carregando atividades...
+        live_updates: Atualizações ao vivo
+        refresh: Atualizar
+      activity_stream:
+        loading_feed: Carregando sua feed de atividades...
+        load_more: Carregar Mais Atividades
+        no_activities: Ainda sem atividades
+        get_started: Comece criando sua primeira lista ou conectando-se com amigos!
+        create_wishlist: Criar Lista
+        invite_friends: Convidar Amigos
+      notifications:
+        new_activity_from: Nova atividade de %{name}
+        friend_activity_prefix: "%{name}"
+
+    mobile_navigation:
+      dashboard: Dashboard
+      wishlists: Listas
+      friends: Amigos
+      profile: Perfil
+
+    activity_counter:
+      no_activities: Ainda sem atividades
+      one_activity: 1 atividade
+      multiple_activities: "%{count} atividades"
+
+    activity_descriptions:
+      wishlist_created: criou uma nova lista
+      item_added: adicionou um item
+      item_purchased: comprou um item
+      wishlist_liked: curtiu uma lista
+      wishlist_commented: comentou em uma lista
+      item_commented: comentou em um item
+      friend_connected: se conectou com um amigo
+      profile_updated: atualizou o perfil
+      wishlist_shared: compartilhou uma lista

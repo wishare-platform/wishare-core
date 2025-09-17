@@ -108,5 +108,92 @@ en:
     quick_actions: Quick Actions
     quick_actions_descriptions:
       create_wishlist: Create a new wishlist
+      start_new_wishlist: Start a new wishlist
+      invite_friends: Connect with others
+      discover: Explore public wishlists
+      edit_profile: Update your info
       add_to_existing: 'Add to existing wishlist:'
       connect_friends: Connect with friends & family
+
+    sidebar:
+      profile:
+        member_since: Member since
+        profile_completion: Profile
+      quick_actions:
+        title: Quick Actions
+        create_wishlist: Create Wishlist
+        invite_friends: Invite Friends
+        discover: Discover
+        edit_profile: Edit Profile
+      stats:
+        wishlists: Wishlists
+        items: Items
+        friends: Friends
+        invites_sent: Invites Sent
+        items_received: Items Received
+      upcoming_events:
+        title: Upcoming Events
+        today: Today!
+        tomorrow: Tomorrow
+        days: days
+        items: items
+        add_items: Add items
+        view_all_events: View all events
+        no_upcoming_events: No upcoming events
+        create_event_wishlist: Create Event Wishlist
+      friends_list:
+        title: Friends
+        no_recent_activity: No recent activity
+        view_all_friends: View all friends
+        invite_more_friends: Invite more friends
+        no_friends_yet: No friends yet
+        connect_family_friends: Connect with family and friends to share wishlists
+        send_first_invitation: Send your first invitation
+        invite_friends: Invite Friends
+        wishlist: wishlist
+
+    feed:
+      header:
+        welcome_back: Welcome back, %{name}! 👋
+        community_subtitle: Here's what's happening in your wishlist community
+        wishlists: Wishlists
+        friends: Friends
+        received: Received
+        for_you: For You
+        following: Following
+        discover: Discover
+        loading_activities: Loading activities...
+        live_updates: Live updates
+        refresh: Refresh
+      activity_stream:
+        loading_feed: Loading your activity feed...
+        load_more: Load More Activities
+        no_activities: No activities yet
+        get_started: Get started by creating your first wishlist or connecting with friends!
+        create_wishlist: Create Wishlist
+        invite_friends: Invite Friends
+      notifications:
+        new_activity_from: New activity from %{name}
+        friend_activity_prefix: "%{name}"
+
+    mobile_navigation:
+      dashboard: Dashboard
+      wishlists: Wishlists
+      friends: Friends
+      profile: Profile
+
+    activity_counter:
+      no_activities: No activities yet
+      one_activity: 1 activity
+      multiple_activities: "%{count} activities"
+
+    activity_descriptions:
+      wishlist_created: created a new wishlist
+      item_added: added an item
+      item_purchased: purchased an item
+      wishlist_liked: liked a wishlist
+      wishlist_commented: commented on a wishlist
+      item_commented: commented on an item
+      friend_connected: connected with a friend
+      profile_updated: updated their profile
+      wishlist_shared: shared a wishlist

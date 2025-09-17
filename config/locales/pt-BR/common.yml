@@ -7,6 +7,7 @@ pt-BR:
       anonymous_user: usuário anônimo
     currency:
       symbol: R$
+    time_ago: há %{time}
     empty_states:
       no_public_wishlists: Nenhuma Lista Pública
       no_public_wishlists_description: Não há listas públicas disponíveis no momento.

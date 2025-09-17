@@ -1,12 +1,15 @@
 class ActivityFeedChannel < ApplicationCable::Channel
   def subscribed
+    # Set locale from subscription parameters
+    set_locale_from_params
+
     # Subscribe to the user's personalized activity feed
     stream_from "activity_feed_#{current_user.id}"
 
     # Also subscribe to public activities if user wants to see all content
     stream_from "activity_feed_public" if params[:include_public]
 
-    Rails.logger.info "User #{current_user.id} subscribed to activity feed channel"
+    Rails.logger.info "User #{current_user.id} subscribed to activity feed channel with locale: #{I18n.locale}"
   end
 
   def unsubscribed
@@ -15,6 +18,9 @@ class ActivityFeedChannel < ApplicationCable::Channel
   end
 
   def change_feed_type(data)
+    # Set locale from subscription parameters
+    set_locale_from_params
+
     # Allow users to switch between different feed types in real-time
     feed_type = data['feed_type']
 
@@ -34,10 +40,13 @@ class ActivityFeedChannel < ApplicationCable::Channel
       stream_from "activity_feed_#{current_user.id}"
     end
 
-    Rails.logger.info "User #{current_user.id} switched to #{feed_type} feed"
+    Rails.logger.info "User #{current_user.id} switched to #{feed_type} feed with locale: #{I18n.locale}"
   end
 
   def request_feed_update(data)
+    # Set locale from subscription parameters
+    set_locale_from_params
+
     # Manual refresh request from client
     offset = data['offset'] || 0
     limit = data['limit'] || 20
@@ -60,11 +69,19 @@ class ActivityFeedChannel < ApplicationCable::Channel
 
   private
 
+  def set_locale_from_params
+    # Use locale from subscription parameters if provided, otherwise fall back to connection locale
+    locale = params[:locale] || connection.current_locale
+    I18n.locale = locale
+    Rails.logger.info "ActivityFeedChannel - Setting locale to: #{I18n.locale}"
+  end
+
   def render_activities(activities)
     activities.includes(:actor, :target, :user).map do |activity|
       {
         id: activity.id,
         action_type: activity.action_type,
+        action_description: activity.action_description,
         actor: {
           id: activity.actor.id,
           name: activity.actor.name,
@@ -77,7 +94,7 @@ class ActivityFeedChannel < ApplicationCable::Channel
         },
         metadata: activity.metadata,
         occurred_at: activity.occurred_at,
-        time_ago: time_ago_in_words(activity.occurred_at),
+        time_ago: ActionController::Base.helpers.time_ago_in_words(activity.occurred_at),
         is_public: activity.is_public?
       }
     end
@@ -92,7 +109,7 @@ class ActivityFeedChannel < ApplicationCable::Channel
         id: target.id,
         name: target.name,
         type: 'Wishlist',
-        url: Rails.application.routes.url_helpers.wishlist_path(target),
+        url: Rails.application.routes.url_helpers.wishlist_path(locale: I18n.locale, id: target.id),
         cover_image_url: target.cover_image_url,
         visibility: target.visibility,
         event_type: target.event_type
@@ -102,7 +119,7 @@ class ActivityFeedChannel < ApplicationCable::Channel
         id: target.id,
         name: target.name,
         type: 'WishlistItem',
-        url: Rails.application.routes.url_helpers.wishlist_wishlist_item_path(target.wishlist, target),
+        url: Rails.application.routes.url_helpers.wishlist_wishlist_item_path(locale: I18n.locale, wishlist_id: target.wishlist.id, id: target.id),
         image_url: target.image_url,
         price: target.price,
         currency: target.currency,

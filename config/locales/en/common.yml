@@ -7,6 +7,7 @@ en:
       anonymous_user: anonymous user
     currency:
       symbol: "$"
+    time_ago: "%{time} ago"
     empty_states:
       no_public_wishlists: No Public Wishlists
       no_public_wishlists_description: There are no public wishlists available at

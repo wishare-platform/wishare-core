@@ -2,18 +2,25 @@ import { Controller } from "@hotwired/stimulus"
 import { createConsumer } from "@rails/actioncable"
 
 export default class extends Controller {
-  static targets = ["container", "loadMoreButton"]
+  static targets = ["container", "loadMoreButton", "emptyState", "loadingState", "activityCount"]
   static values = {
     userId: Number,
     feedType: String,
+    locale: String,
     limit: { type: Number, default: 20 },
-    offset: { type: Number, default: 0 }
+    offset: { type: Number, default: 0 },
+    noActivities: String,
+    oneActivity: String,
+    multipleActivities: String,
+    newActivityNotification: String,
+    friendNotificationPrefix: String
   }
 
   connect() {
     this.consumer = createConsumer()
     this.initializeChannel()
     this.bindEvents()
+    this.setupExternalElements()
   }
 
   disconnect() {
@@ -29,20 +36,24 @@ export default class extends Controller {
     this.subscription = this.consumer.subscriptions.create(
       {
         channel: "ActivityFeedChannel",
-        include_public: this.feedTypeValue === "all"
+        include_public: this.feedTypeValue === "all",
+        locale: this.localeValue
       },
       {
         connected: () => {
-          console.log("Connected to ActivityFeedChannel")
           this.requestInitialFeed()
         },
 
         disconnected: () => {
-          console.log("Disconnected from ActivityFeedChannel")
+          // Connection lost
         },
 
         received: (data) => {
           this.handleReceivedData(data)
+        },
+
+        rejected: () => {
+          console.error("ActivityFeedChannel connection rejected")
         }
       }
     )
@@ -96,6 +107,12 @@ export default class extends Controller {
     }
   }
 
+  refreshFeed() {
+    this.offsetValue = 0
+    this.showLoadingState()
+    this.requestFeedUpdate()
+  }
+
   loadMore() {
     this.offsetValue += this.limitValue
     this.requestFeedUpdate()
@@ -118,15 +135,31 @@ export default class extends Controller {
   }
 
   handleFeedUpdate(data) {
+    // Hide loading state and show container
+    this.hideLoadingState()
+
     if (this.offsetValue === 0) {
       // Fresh feed load - replace all content
       this.clearFeed()
     }
 
-    // Add new activities to the feed
-    data.activities.forEach(activity => {
-      this.addActivityToFeed(activity, false) // Don't animate initial load
-    })
+    // Check if we have activities to show
+    if (data.activities && data.activities.length > 0) {
+      // Hide empty state if it was showing
+      this.hideEmptyState()
+
+      // Add new activities to the feed
+      data.activities.forEach(activity => {
+        this.addActivityToFeed(activity, false) // Don't animate initial load
+      })
+
+      // Update activity count
+      this.updateActivityCount(data.activities.length)
+    } else if (this.offsetValue === 0) {
+      // Show empty state only on initial load with no activities
+      this.showEmptyState()
+      this.updateActivityCount(0)
+    }
 
     // Show/hide load more button based on whether there are more items
     this.toggleLoadMoreButton(data.has_more)
@@ -197,6 +230,12 @@ export default class extends Controller {
   }
 
   getActivityDescription(activity) {
+    // Use the translated description from the backend if available
+    if (activity.action_description) {
+      return activity.action_description
+    }
+
+    // Fallback to hardcoded values (should not be reached if backend is sending action_description)
     const actions = {
       'wishlist_created': 'created a new wishlist',
       'item_added': 'added an item to their wishlist',
@@ -255,7 +294,8 @@ export default class extends Controller {
     // Show a subtle notification for new activities
     const notification = document.createElement('div')
     notification.className = 'fixed top-4 right-4 bg-rose-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm'
-    notification.textContent = `New activity from ${activity.actor.name}`
+    const message = (this.newActivityNotificationValue || 'New activity from __NAME__').replace('__NAME__', activity.actor.name)
+    notification.textContent = message
 
     document.body.appendChild(notification)
 
@@ -268,7 +308,8 @@ export default class extends Controller {
     // Show notification for friend activities with different styling
     const notification = document.createElement('div')
     notification.className = 'fixed top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 text-sm'
-    notification.textContent = `${activity.actor.name} ${this.getActivityDescription(activity)}`
+    const prefix = (this.friendNotificationPrefixValue || '__NAME__').replace('__NAME__', activity.actor.name)
+    notification.textContent = `${prefix} ${this.getActivityDescription(activity)}`
 
     document.body.appendChild(notification)
 
@@ -281,5 +322,68 @@ export default class extends Controller {
     const div = document.createElement('div')
     div.textContent = text
     return div.innerHTML
+  }
+
+  showEmptyState() {
+    if (this.hasEmptyStateTarget) {
+      this.emptyStateTarget.classList.remove('hidden')
+    }
+  }
+
+  hideEmptyState() {
+    if (this.hasEmptyStateTarget) {
+      this.emptyStateTarget.classList.add('hidden')
+    }
+  }
+
+  showLoadingState() {
+    if (this.hasLoadingStateTarget) {
+      this.loadingStateTarget.classList.remove('hidden')
+    }
+    if (this.hasContainerTarget) {
+      this.containerTarget.classList.add('hidden')
+    }
+    this.hideEmptyState()
+  }
+
+  hideLoadingState() {
+    if (this.hasLoadingStateTarget) {
+      this.loadingStateTarget.classList.add('hidden')
+    }
+    if (this.hasContainerTarget) {
+      this.containerTarget.classList.remove('hidden')
+    }
+  }
+
+  updateActivityCount(count) {
+    let text
+    if (count === 0) {
+      text = this.noActivitiesValue || 'No activities yet'
+    } else if (count === 1) {
+      text = this.oneActivityValue || '1 activity'
+    } else {
+      text = (this.multipleActivitiesValue || `${count} activities`).replace('__COUNT__', count)
+    }
+
+    // Update Stimulus target if available
+    if (this.hasActivityCountTarget) {
+      this.activityCountTarget.textContent = text
+    }
+
+    // Update external element
+    const externalCounter = document.getElementById('activity-count-display')
+    if (externalCounter) {
+      externalCounter.textContent = text
+    }
+  }
+
+  setupExternalElements() {
+    // Setup refresh button
+    const refreshButton = document.getElementById('refresh-feed-button')
+    if (refreshButton) {
+      refreshButton.addEventListener('click', () => {
+        this.refreshFeed()
+      })
+    }
   }
 }
