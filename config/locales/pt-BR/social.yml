@@ -54,6 +54,7 @@ pt-BR:
       invitation_invalid: Este convite é inválido
   users:
     public_profile:
+      edit_cover: Editar Capa
       sharing_gift_ideas: Compartilhando ideias de presentes no Wishare
       member_since: Membro desde %{date}
       public_wishlists_title: Wishlists Públicas

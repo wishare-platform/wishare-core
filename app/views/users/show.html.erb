@@ -14,7 +14,12 @@
   <!-- Profile Header Section -->
   <div class="relative">
     <!-- Cover Image -->
-    <div class="h-48 md:h-64 bg-gradient-to-r from-rose-400 via-purple-500 to-indigo-500 relative">
+    <div class="h-48 md:h-64 relative <% if @user.cover_image.attached? %>bg-gray-800<% else %>bg-gradient-to-r from-rose-400 via-purple-500 to-indigo-500<% end %>">
+      <% if @user.cover_image.attached? %>
+        <img src="<%= url_for(@user.cover_image.variant(:large)) %>"
+             alt="Cover image"
+             class="absolute inset-0 w-full h-full object-cover">
+      <% end %>
       <!-- Optional: Add pattern overlay -->
       <div class="absolute inset-0 bg-black/20"></div>
 
@@ -27,13 +32,21 @@
 
       <!-- Edit Cover Button (if own profile) -->
       <% if current_user == @user %>
-        <button class="absolute bottom-4 right-4 px-4 py-2 bg-white/20 backdrop-blur-md rounded-lg text-white hover:bg-white/30 transition flex items-center gap-2 text-sm">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
-          </svg>
-          <%= t('users.public_profile.edit_cover') %>
-        </button>
+        <%= form_with model: @user, url: registration_path(@user), method: :patch, local: true, html: { data: { controller: "cover-image-upload" }, class: "contents" } do |f| %>
+          <%= f.file_field :cover_image, accept: "image/*", class: "hidden",
+              data: {
+                "cover-image-upload-target" => "input",
+                action: "change->cover-image-upload#previewAndSubmit"
+              } %>
+          <button type="button" class="absolute bottom-4 right-4 px-4 py-2 bg-white/20 backdrop-blur-md rounded-lg text-white hover:bg-white/30 transition flex items-center gap-2 text-sm"
+                  data-action="click->cover-image-upload#openCamera">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            <%= t('users.public_profile.edit_cover') %>
+          </button>
+        <% end %>
       <% end %>
     </div>
 
@@ -141,9 +154,12 @@
                   </span>
                 <% end %>
                 <% if @user.website.present? %>
-                  <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-sm">
+                  <a href="<%= @user.website.start_with?('http') ? @user.website : "https://#{@user.website}" %>"
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-sm hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors">
                     🌐 <%= @user.website.gsub(/https?:\/\//, '') %>
-                  </span>
+                  </a>
                 <% end %>
             </div>
 

@@ -55,6 +55,7 @@ en:
       public_wishlists: Public Wishlists
   users:
     public_profile:
+      edit_cover: Edit Cover
       mailing_address: Mailing Address
       address_provided_separately: Address will be provided separately upon gift selection
       address_visibility:

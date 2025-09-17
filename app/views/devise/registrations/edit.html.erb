@@ -33,18 +33,41 @@
 
 <div class="min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-purple-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
 
-  <!-- Back to Homepage Button -->
-  <div class="max-w-4xl mx-auto px-4 pt-6">
-    <%= link_to wishlists_path, class: "inline-flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400 transition text-sm font-medium mb-4" do %>
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-      </svg>
-      <%= t('common.actions.back_to_homepage', default: 'Back to Homepage') %>
-    <% end %>
+  <!-- Cover Image Section -->
+  <div class="relative">
+    <!-- Cover Image -->
+    <div class="h-48 md:h-64 relative <% if current_user.cover_image.attached? %>bg-gray-800<% else %>bg-gradient-to-r from-rose-400 via-purple-500 to-indigo-500<% end %>">
+      <% if current_user.cover_image.attached? %>
+        <img src="<%= url_for(current_user.cover_image.variant(:large)) %>"
+             alt="Cover image"
+             class="absolute inset-0 w-full h-full object-cover">
+      <% end %>
+      <!-- Optional: Add pattern overlay -->
+      <div class="absolute inset-0 bg-black/20"></div>
+
+      <!-- Back Button -->
+      <%= link_to wishlists_path, class: "absolute top-4 left-4 p-2 bg-white/20 backdrop-blur-md rounded-lg text-white hover:bg-white/30 transition flex items-center gap-2" do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        <span class="hidden sm:inline"><%= t('common.actions.back_to_homepage', default: 'Back to Homepage') %></span>
+      <% end %>
+
+      <!-- Edit Cover Button -->
+      <button class="absolute bottom-4 right-4 px-4 py-2 bg-white/20 backdrop-blur-md rounded-lg text-white hover:bg-white/30 transition flex items-center gap-2 text-sm"
+              data-controller="cover-image-upload"
+              data-action="click->cover-image-upload#openCamera">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        </svg>
+        <%= t('profile.edit.edit_cover', default: 'Edit Cover') %>
+      </button>
+    </div>
   </div>
 
   <!-- Profile Completeness Bar -->
-  <div class="max-w-4xl mx-auto px-4">
+  <div class="max-w-4xl mx-auto px-4 -mt-20 relative z-10">
     <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-4 mb-4 shadow-sm border border-rose-100 dark:border-gray-700">
       <%
         # Calculate profile completion
@@ -85,22 +108,22 @@
     <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl border border-rose-100 dark:border-gray-700 overflow-hidden">
 
       <!-- Header -->
-      <div class="bg-gradient-to-r from-rose-500 to-purple-600 px-6 py-8 sm:px-8">
-        <div class="flex items-center justify-between">
-          <div>
-            <h1 class="text-2xl sm:text-3xl font-bold text-white"><%= t('profile.edit.title') %></h1>
-            <p class="mt-2 text-rose-100"><%= t('profile.edit.subtitle') %></p>
-          </div>
-          <%= link_to wishlists_path, class: "text-white hover:text-rose-100 transition" do %>
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-          <% end %>
+      <div class="px-6 py-8 sm:px-8 border-b border-gray-200 dark:border-gray-700">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-gray-100"><%= t('profile.edit.title') %></h1>
+          <p class="mt-2 text-gray-600 dark:text-gray-400"><%= t('profile.edit.subtitle') %></p>
         </div>
       </div>
 
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, id: "profile-form", data: { controller: "form-tracker" } }) do |f| %>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, id: "profile-form", data: { controller: "form-tracker cover-image-upload" } }) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
+
+        <!-- Hidden cover image input -->
+        <%= f.file_field :cover_image, accept: "image/*", class: "hidden",
+            data: {
+              "cover-image-upload-target" => "input",
+              action: "change->cover-image-upload#previewImage"
+            } %>
 
         <!-- Section 1: Personal Information (Expanded by default) -->
         <div class="border-b border-gray-200 dark:border-gray-700" id="personal-section">
