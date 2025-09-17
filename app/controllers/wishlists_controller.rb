@@ -77,6 +77,13 @@ class WishlistsController < ApplicationController
     end
 
     if @wishlist.save
+      # Track wishlist creation activity
+      ActivityTrackerService.track_wishlist_created(
+        user: current_user,
+        wishlist: @wishlist,
+        request: request
+      )
+
       redirect_to @wishlist, notice: 'Wishlist was successfully created.'
     else
       render :new, status: :unprocessable_entity

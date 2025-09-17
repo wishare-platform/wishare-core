@@ -39,6 +39,13 @@ class WishlistItemsController < ApplicationController
     @wishlist_item.status = :available
 
     if @wishlist_item.save
+      # Track item addition activity
+      ActivityTrackerService.track_item_added(
+        user: current_user,
+        item: @wishlist_item,
+        request: request
+      )
+
       redirect_to @wishlist, notice: 'Item was successfully added to your wishlist.'
     else
       render :new, status: :unprocessable_entity
@@ -93,6 +100,13 @@ class WishlistItemsController < ApplicationController
       purchaser: current_user,
       wishlist_item: @wishlist_item,
       wishlist: @wishlist
+    )
+
+    # Track item purchase activity
+    ActivityTrackerService.track_item_purchased(
+      purchaser: current_user,
+      item: @wishlist_item,
+      request: request
     )
 
     redirect_to @wishlist, notice: 'Item marked as purchased!'

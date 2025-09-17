@@ -89,7 +89,14 @@ class InvitationsController < ApplicationController
       if user_signed_in? && current_user.email == @invitation.recipient_email
         begin
           @invitation.accept!(current_user)
-          
+
+          # Track friend connection activity for both users
+          ActivityTrackerService.track_friend_connected(
+            user: current_user,
+            friend: @invitation.sender,
+            request: request
+          )
+
           # Create notification for the sender
           notification = @invitation.sender.notifications.create!(
             notifiable: @invitation,
