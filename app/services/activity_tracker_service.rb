@@ -26,6 +26,11 @@ class ActivityTrackerService
         )
       )
 
+      # Broadcast to real-time channels if activity was created successfully
+      if activity_feed
+        broadcast_activity(activity_feed)
+      end
+
       {
         activity_feed: activity_feed,
         analytics_event: analytics_event
@@ -238,6 +243,123 @@ class ActivityTrackerService
       }
 
       mapping[action_type]
+    end
+
+    def broadcast_activity(activity_feed)
+      # Broadcast to the activity owner's personal feed
+      ActionCable.server.broadcast(
+        "activity_feed_#{activity_feed.user.id}",
+        {
+          type: 'new_activity',
+          activity: serialize_activity_for_broadcast(activity_feed)
+        }
+      )
+
+      # Broadcast to public feed if activity is public
+      if activity_feed.is_public?
+        ActionCable.server.broadcast(
+          "activity_feed_public",
+          {
+            type: 'new_activity',
+            activity: serialize_activity_for_broadcast(activity_feed)
+          }
+        )
+      end
+
+      # Broadcast to friends' feeds based on action type and relationships
+      broadcast_to_friends(activity_feed) if should_broadcast_to_friends?(activity_feed)
+    rescue => e
+      Rails.logger.error "Failed to broadcast activity: #{e.message}"
+      # Don't fail the entire operation for broadcast errors
+    end
+
+    def serialize_activity_for_broadcast(activity)
+      {
+        id: activity.id,
+        action_type: activity.action_type,
+        actor: {
+          id: activity.actor.id,
+          name: activity.actor.name,
+          avatar_url: activity.actor.profile_avatar_url
+        },
+        target: serialize_target_for_broadcast(activity.target),
+        user: {
+          id: activity.user.id,
+          name: activity.user.name
+        },
+        metadata: activity.metadata,
+        occurred_at: activity.occurred_at,
+        time_ago: ActionController::Base.helpers.time_ago_in_words(activity.occurred_at),
+        is_public: activity.is_public?
+      }
+    end
+
+    def serialize_target_for_broadcast(target)
+      return nil unless target
+
+      case target
+      when Wishlist
+        {
+          id: target.id,
+          name: target.name,
+          type: 'Wishlist',
+          url: Rails.application.routes.url_helpers.wishlist_path(target),
+          cover_image_url: target.cover_image_url,
+          visibility: target.visibility,
+          event_type: target.event_type
+        }
+      when WishlistItem
+        {
+          id: target.id,
+          name: target.name,
+          type: 'WishlistItem',
+          url: Rails.application.routes.url_helpers.wishlist_wishlist_item_path(target.wishlist, target),
+          image_url: target.image_url,
+          price: target.price,
+          currency: target.currency,
+          wishlist_name: target.wishlist.name
+        }
+      when User
+        {
+          id: target.id,
+          name: target.name,
+          type: 'User',
+          avatar_url: target.profile_avatar_url
+        }
+      else
+        {
+          id: target.id,
+          type: target.class.name
+        }
+      end
+    end
+
+    def broadcast_to_friends(activity_feed)
+      # Get all friends of the activity actor
+      actor = activity_feed.actor
+      friend_ids = actor.connections.accepted.pluck(:partner_id) +
+                   actor.inverse_connections.accepted.pluck(:user_id)
+
+      # Broadcast to each friend's personal feed
+      friend_ids.each do |friend_id|
+        ActionCable.server.broadcast(
+          "activity_feed_friends_#{friend_id}",
+          {
+            type: 'friend_activity',
+            activity: serialize_activity_for_broadcast(activity_feed)
+          }
+        )
+      end
+    end
+
+    def should_broadcast_to_friends?(activity_feed)
+      # Only broadcast certain types of activities to friends
+      friend_worthy_actions = %w[
+        wishlist_created item_added item_purchased
+        friend_connected wishlist_shared
+      ]
+
+      friend_worthy_actions.include?(activity_feed.action_type) && activity_feed.is_public?
     end
   end
 end
