@@ -3,13 +3,15 @@ class AddressLookupsController < ApplicationController
   
   def lookup
     postal_code = params[:postal_code]
-    country = params[:country] || detect_country_from_locale
-    
+    # Let the service auto-detect country from postal code pattern
+    # Only use explicit country if provided via params
+    country = params[:country]
+
     if postal_code.blank?
       render json: { error: I18n.t('address_lookup.errors.postal_code_required') }, status: :bad_request
       return
     end
-    
+
     result = AddressLookupService.lookup_address(postal_code, country)
     
     if result[:success]

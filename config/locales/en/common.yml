@@ -15,6 +15,7 @@ en:
       accept: Accept
       decline: Decline
       all: All
+      back_to_homepage: Back to Homepage
     sort:
       sort_by: Sort by
       newest_first: Newest first

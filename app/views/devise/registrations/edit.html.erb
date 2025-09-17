@@ -33,8 +33,18 @@
 
 <div class="min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-purple-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
 
-  <!-- Profile Completeness Bar -->
+  <!-- Back to Homepage Button -->
   <div class="max-w-4xl mx-auto px-4 pt-6">
+    <%= link_to wishlists_path, class: "inline-flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400 transition text-sm font-medium mb-4" do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+      </svg>
+      <%= t('common.actions.back_to_homepage', default: 'Back to Homepage') %>
+    <% end %>
+  </div>
+
+  <!-- Profile Completeness Bar -->
+  <div class="max-w-4xl mx-auto px-4">
     <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-4 mb-4 shadow-sm border border-rose-100 dark:border-gray-700">
       <%
         # Calculate profile completion
@@ -71,7 +81,7 @@
   </div>
 
   <!-- Main Form Container -->
-  <div class="max-w-4xl mx-auto px-4 pb-24">
+  <div class="max-w-4xl mx-auto px-4 pb-24 mt-6">
     <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl border border-rose-100 dark:border-gray-700 overflow-hidden">
 
       <!-- Header -->
@@ -310,6 +320,17 @@
           </button>
 
           <div class="px-6 pb-6 section-content collapsed">
+            <!-- Address validation errors -->
+            <div id="address-errors" class="hidden bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 mb-4">
+              <div class="flex items-center gap-2 mb-2">
+                <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h4 class="text-sm font-semibold text-red-800 dark:text-red-300"><%= t('profile.edit.address.validation_errors', default: 'Address Information Required') %></h4>
+              </div>
+              <ul id="address-error-list" class="text-sm text-red-700 dark:text-red-400 space-y-1"></ul>
+            </div>
+
             <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-4 mb-4">
               <p class="text-sm text-blue-800 dark:text-blue-300">
                 <%= t('profile.edit.address.description') %>
@@ -317,7 +338,7 @@
             </div>
 
             <!-- Address fields -->
-            <div class="space-y-4">
+            <div class="space-y-4" data-controller="postal-code-lookup">
               <div class="grid gap-4 sm:grid-cols-2">
                 <!-- Postal Code First (for API lookup) -->
                 <div>
@@ -326,9 +347,20 @@
                     <%= f.text_field :postal_code,
                         class: "flex-1 px-4 py-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 transition",
                         placeholder: t('profile.edit.address.postal_code_placeholder', default: '12345 or 12345-6789'),
-                        data: { action: "input->form-tracker#showSaveBar" } %>
+                        pattern: "[0-9]{5}-?[0-9]{0,4}",
+                        data: {
+                          action: "input->form-tracker#showSaveBar input->postal-code-lookup#validateAndLookup",
+                          postal_code_lookup_target: "input"
+                        } %>
+                    <div class="flex items-center" data-postal-code-lookup-target="loading" style="display: none;">
+                      <svg class="animate-spin h-5 w-5 text-rose-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                    </div>
                   </div>
                   <p class="mt-1 text-xs text-gray-500 dark:text-gray-400"><%= t('profile.edit.address.postal_code_help', default: 'Enter CEP/ZIP code for automatic address lookup') %></p>
+                  <div data-postal-code-lookup-target="error" class="mt-1 text-xs text-red-500 dark:text-red-400" style="display: none;"></div>
                 </div>
 
                 <div>
@@ -343,7 +375,18 @@
                   ], f.object.country),
                   { include_blank: t('profile.edit.address.select_country') },
                   { class: "w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 transition",
-                    data: { action: "change->form-tracker#showSaveBar" } } %>
+                    data: {
+                      action: "change->form-tracker#showSaveBar",
+                      postal_code_lookup_target: "country"
+                    } } %>
+                </div>
+
+                <div>
+                  <%= f.label :street_number, t('profile.edit.address.street_number'), class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+                  <%= f.text_field :street_number,
+                      class: "w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 transition",
+                      placeholder: t('profile.edit.address.street_number_placeholder', default: '123, 456'),
+                      data: { action: "input->form-tracker#showSaveBar" } %>
                 </div>
 
                 <div>
@@ -351,7 +394,10 @@
                   <%= f.text_field :street_address,
                       class: "w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 transition",
                       placeholder: t('profile.edit.address.street_address_placeholder', default: 'Main Street, Oak Avenue'),
-                      data: { action: "input->form-tracker#showSaveBar" } %>
+                      data: {
+                        action: "input->form-tracker#showSaveBar",
+                        postal_code_lookup_target: "street"
+                      } %>
                 </div>
 
                 <div>
@@ -367,7 +413,10 @@
                   <%= f.text_field :city,
                       class: "w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 transition",
                       placeholder: t('profile.edit.address.city_placeholder', default: 'New York'),
-                      data: { action: "input->form-tracker#showSaveBar" } %>
+                      data: {
+                        action: "input->form-tracker#showSaveBar",
+                        postal_code_lookup_target: "city"
+                      } %>
                 </div>
 
                 <div>
@@ -375,7 +424,10 @@
                   <%= f.text_field :state,
                       class: "w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 transition",
                       placeholder: t('profile.edit.address.state_placeholder', default: 'NY'),
-                      data: { action: "input->form-tracker#showSaveBar" } %>
+                      data: {
+                        action: "input->form-tracker#showSaveBar",
+                        postal_code_lookup_target: "state"
+                      } %>
                 </div>
               </div>
             </div>
@@ -571,13 +623,6 @@
           </div>
         </div>
 
-        <!-- Action Buttons -->
-        <div class="px-6 py-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
-          <div class="flex flex-col sm:flex-row gap-4">
-            <%= f.submit t('profile.edit.form.save_changes'), class: "flex-1 bg-gradient-to-r from-rose-500 to-rose-600 text-white py-3 px-6 rounded-xl hover:from-rose-600 hover:to-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 transition font-semibold cursor-pointer" %>
-            <%= link_to t('profile.edit.form.cancel'), wishlists_path, class: "flex-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 py-3 px-6 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition font-semibold text-center" %>
-          </div>
-        </div>
       <% end %>
     </div>
   </div>
@@ -610,7 +655,7 @@
 </div>
 
 <script>
-// Animated toggle function for sections
+// Animated toggle function for sections (only one open at a time)
 function toggleSection(sectionId) {
   const section = document.getElementById(sectionId);
   if (!section) return;
@@ -621,17 +666,35 @@ function toggleSection(sectionId) {
   if (content && icon) {
     const isCollapsed = content.classList.contains('collapsed');
 
-    if (isCollapsed) {
-      // Expanding
-      content.classList.remove('collapsed');
-      content.classList.add('expanded');
-      icon.classList.remove('rotate-180');
-    } else {
-      // Collapsing
+    // If clicking on already expanded section, just collapse it
+    if (!isCollapsed) {
       content.classList.remove('expanded');
       content.classList.add('collapsed');
       icon.classList.add('rotate-180');
+      return;
     }
+
+    // Close all other sections first
+    const allSections = ['personal-section', 'social-section', 'address-section', 'security-section', 'account-section'];
+    allSections.forEach(otherSectionId => {
+      if (otherSectionId !== sectionId) {
+        const otherSection = document.getElementById(otherSectionId);
+        if (otherSection) {
+          const otherContent = otherSection.querySelector('.section-content');
+          const otherIcon = otherSection.querySelector('.section-icon');
+          if (otherContent && otherIcon) {
+            otherContent.classList.remove('expanded');
+            otherContent.classList.add('collapsed');
+            otherIcon.classList.add('rotate-180');
+          }
+        }
+      }
+    });
+
+    // Now expand the clicked section
+    content.classList.remove('collapsed');
+    content.classList.add('expanded');
+    icon.classList.remove('rotate-180');
   }
 }
 
@@ -750,6 +813,79 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
+
+  // Postal code input validation with unsaved changes logic
+  const postalCodeInput = document.querySelector('input[data-postal-code-lookup-target="input"]');
+  if (postalCodeInput) {
+    postalCodeInput.addEventListener('input', function() {
+      // Remove any non-numeric characters as a fallback
+      const numericValue = this.value.replace(/\D/g, '');
+
+      // Format and update value
+      let formatted = numericValue;
+      if (numericValue.length === 8) {
+        // Brazilian CEP format: 12345-678
+        formatted = numericValue.replace(/(\d{5})(\d{3})/, '$1-$2');
+      } else if (numericValue.length === 9) {
+        // US ZIP+4 format: 12345-6789
+        formatted = numericValue.replace(/(\d{5})(\d{4})/, '$1-$2');
+      }
+
+      if (formatted !== this.value) {
+        const cursorPosition = this.selectionStart;
+        const lengthDiff = formatted.length - this.value.length;
+        this.value = formatted;
+        this.setSelectionRange(cursorPosition + lengthDiff, cursorPosition + lengthDiff);
+      }
+
+      // Hide save bar if postal code is invalid (simple fix for unsaved changes issue)
+      const isValidPostalCode = numericValue.length === 0 || numericValue.length === 5 || numericValue.length === 8;
+      if (!isValidPostalCode && saveBar && !saveBar.classList.contains('hidden')) {
+        saveBar.classList.add('hidden');
+        formChanged = false;
+      }
+    });
+  }
+
+
+  // Simple contextual error handling for address fields
+  <% if resource.errors.any? %>
+    const addressFields = ['street_number', 'street_address', 'city', 'state', 'postal_code', 'country'];
+    const resourceErrors = <%= resource.errors.to_json.html_safe %>;
+    const addressErrors = [];
+
+    // Check if there are any address-related errors
+    for (const field of addressFields) {
+      if (resourceErrors[field]) {
+        addressErrors.push(...resourceErrors[field]);
+      }
+    }
+
+    // If there are address errors, show them and open the address section
+    if (addressErrors.length > 0) {
+      const addressErrorContainer = document.getElementById('address-errors');
+      const addressErrorList = document.getElementById('address-error-list');
+
+      if (addressErrorContainer && addressErrorList) {
+        addressErrorList.innerHTML = '';
+        addressErrors.forEach(error => {
+          const li = document.createElement('li');
+          li.textContent = error;
+          addressErrorList.appendChild(li);
+        });
+        addressErrorContainer.classList.remove('hidden');
+      }
+
+      // Open address section if it has errors
+      const addressSection = document.getElementById('address-section');
+      if (addressSection) {
+        const content = addressSection.querySelector('.section-content');
+        if (content && content.classList.contains('collapsed')) {
+          toggleSection('address-section');
+        }
+      }
+    }
+  <% end %>
 
   // Show success toast if flash message exists
   <% if flash[:notice] %>

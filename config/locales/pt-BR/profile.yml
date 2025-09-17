@@ -47,6 +47,7 @@ pt-BR:
       connect_google: Conectar Conta Google
       google_benefits: Faça login com um clique
       connect_button: Conectar
+      danger_zone: Zona de Perigo
       delete_account_title: Excluir Conta
       delete_account_warning: Uma vez que você excluir sua conta, não há volta. Todos os seus dados serão permanentemente removidos.
       delete_account_button: Excluir Minha Conta
@@ -147,10 +148,6 @@ pt-BR:
       avatar:
         google_source: Foto do perfil do Google
         click_to_change: Clique para alterar avatar
-      danger_zone:
-        title: Zona de Perigo
-        description: Excluir sua conta
-        warning: Esta ação não pode ser desfeita
     name: Nome
     email: E-mail
     birthday: Aniversário
