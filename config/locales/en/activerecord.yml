@@ -1,0 +1,60 @@
+---
+en:
+  activerecord:
+    errors:
+      template:
+        header:
+          one: 1 error prohibited this %{model} from being saved
+          other: "%{count} errors prohibited this %{model} from being saved"
+        body: 'There were problems with the following fields:'
+      messages:
+        blank: can't be blank
+        taken: has already been taken
+        too_short: is too short (minimum is %{count} characters)
+        too_long: is too long (maximum is %{count} characters)
+        invalid: is invalid
+        confirmation: doesn't match confirmation
+    attributes:
+      user:
+        name: Name
+        email: Email
+        password: Password
+        street_number: Street Number
+        street_address: Street Address
+        city: City
+        state: State
+        postal_code: ZIP/Postal Code
+        country: Country
+        apartment_unit: Apartment/Unit
+      models:
+        user:
+          attributes:
+            email:
+              blank: Email is required
+              taken: Email is already registered
+              invalid: Please enter a valid email address
+            password:
+              blank: Password is required
+              too_short: Password must be at least %{count} characters
+            name:
+              blank: Name is required
+            street_number:
+              blank: Street number is required
+            street_address:
+              blank: Street address is required
+            city:
+              blank: City is required
+            state:
+              blank: State is required
+            postal_code:
+              blank: ZIP/Postal code is required
+            country:
+              blank: Country is required
+        wishlist:
+          attributes:
+            name:
+              blank: Wishlist name is required
+        wishlist_item:
+          attributes:
+            name:
+              blank: Item name is required

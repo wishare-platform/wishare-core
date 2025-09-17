@@ -1,0 +1,60 @@
+---
+pt-BR:
+  activerecord:
+    errors:
+      template:
+        header:
+          one: 1 erro impediu que %{model} fosse salvo
+          other: "%{count} erros impediram que %{model} fosse salvo"
+        body: 'Houve problemas com os seguintes campos:'
+      messages:
+        blank: não pode ficar em branco
+        taken: já está em uso
+        too_short: é muito curto (mínimo de %{count} caracteres)
+        too_long: é muito longo (máximo de %{count} caracteres)
+        invalid: é inválido
+        confirmation: não confere
+    attributes:
+      user:
+        name: Nome
+        email: E-mail
+        password: Senha
+        street_number: Número
+        street_address: Logradouro
+        city: Cidade
+        state: Estado
+        postal_code: CEP
+        country: País
+        apartment_unit: Apartamento/Complemento
+      models:
+        user:
+          attributes:
+            email:
+              blank: E-mail é obrigatório
+              taken: E-mail já está cadastrado
+              invalid: Por favor, insira um e-mail válido
+            password:
+              blank: Senha é obrigatória
+              too_short: Senha deve ter pelo menos %{count} caracteres
+            name:
+              blank: Nome é obrigatório
+            street_number:
+              blank: Número é obrigatório
+            street_address:
+              blank: Logradouro é obrigatório
+            city:
+              blank: Cidade é obrigatória
+            state:
+              blank: Estado é obrigatório
+            postal_code:
+              blank: CEP é obrigatório
+            country:
+              blank: País é obrigatório
+        wishlist:
+          attributes:
+            name:
+              blank: Nome da lista é obrigatório
+        wishlist_item:
+          attributes:
+            name:
+              blank: Nome do item é obrigatório

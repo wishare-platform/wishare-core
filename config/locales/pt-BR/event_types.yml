@@ -1,0 +1,15 @@
+---
+pt-BR:
+  event_types:
+    general_wishlist: Lista Geral
+    birthday: Aniversário
+    wedding: Casamento
+    baby_shower: Chá de Bebê
+    christmas: Natal
+    anniversary: Aniversário de Casamento
+    graduation: Formatura
+    housewarming: Casa Nova
+    valentines_day: Dia dos Namorados
+    mothers_day: Dia das Mães
+    fathers_day: Dia dos Pais
+    other_special_event: Outro Evento Especial

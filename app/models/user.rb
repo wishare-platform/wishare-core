@@ -378,11 +378,18 @@ class User < ApplicationRecord
   def address_completeness
     # If user is providing any address information, require all fields except apartment_unit
     if address_fields_present?
-      required_address_fields = [:street_number, :street_address, :city, :state, :postal_code, :country]
-      
-      required_address_fields.each do |field|
+      validation_messages = {
+        street_number: I18n.t('profile.edit.address.validation.street_number_required'),
+        street_address: I18n.t('profile.edit.address.validation.street_address_required'),
+        city: I18n.t('profile.edit.address.validation.city_required'),
+        state: I18n.t('profile.edit.address.validation.state_required'),
+        postal_code: I18n.t('profile.edit.address.validation.postal_code_required'),
+        country: I18n.t('profile.edit.address.validation.country_required')
+      }
+
+      validation_messages.each do |field, message|
         if send(field).blank?
-          errors.add(field, :blank)
+          errors.add(field, message)
         end
       end
     end

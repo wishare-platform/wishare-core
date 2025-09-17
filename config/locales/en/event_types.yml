@@ -1,0 +1,15 @@
+---
+en:
+  event_types:
+    general_wishlist: General Wishlist
+    birthday: Birthday
+    wedding: Wedding
+    baby_shower: Baby Shower
+    christmas: Christmas
+    anniversary: Anniversary
+    graduation: Graduation
+    housewarming: Housewarming
+    valentines_day: Valentine's Day
+    mothers_day: Mother's Day
+    fathers_day: Father's Day
+    other_special_event: Other Special Event

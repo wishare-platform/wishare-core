@@ -1,0 +1,59 @@
+---
+pt-BR:
+  common:
+    user_fallbacks:
+      friend: Amigo
+      someone: Alguém
+      anonymous_user: usuário anônimo
+    currency:
+      symbol: R$
+    empty_states:
+      no_public_wishlists: Nenhuma Lista Pública
+      no_public_wishlists_description: Não há listas públicas disponíveis no momento.
+        Volte mais tarde para descobrir listas da comunidade.
+    actions:
+      accept: Aceitar
+      decline: Recusar
+      all: Todas
+    sort:
+      sort_by: Ordenar por
+      newest_first: Mais recentes primeiro
+      oldest_first: Mais antigas primeiro
+      recently_updated: Atualizadas recentemente
+      name_a_z: Nome (A-Z)
+      name_z_a: Nome (Z-A)
+    share:
+      button: Compartilhar
+      whatsapp: Compartilhar no WhatsApp
+      twitter: Compartilhar no Twitter
+      facebook: Compartilhar no Facebook
+      linkedin: Compartilhar no LinkedIn
+      telegram: Compartilhar no Telegram
+      copy_link: Copiar Link
+      copy: Copiar
+      default_description: Confira esta lista incrível no Wishare!
+      user_profile_title: Perfil de %{name} no Wishare
+      user_profile_description: Veja as listas públicas e ideias de presentes de %{name}
+        no Wishare
+      wishlist_title: "%{name} - %{wishlist_name}"
+      wishlist_description: Confira esta lista para %{event} no Wishare
+      item_title: "%{item_name} da lista %{wishlist_name}"
+      item_description: Este item está na lista de %{name} para %{event}
+    footer:
+      tagline: Compartilhe alegria, presenteie com carinho
+      terms_of_service: Termos de Serviço
+      privacy_policy: Política de Privacidade
+      copyright: "© %{year} Wishare"
+  errors:
+    404:
+      title: Página Não Encontrada
+      description: Desculpe, a página que você está procurando não existe. Ela pode
+        ter sido movida, excluída ou você digitou a URL incorreta.
+      go_home: Ir para Início
+      go_back: Voltar
+      helpful_links:
+        title: Precisa de ajuda para encontrar algo?
+  address_lookup:
+    errors:
+      postal_code_required: CEP é obrigatório
+      lookup_failed: Falha na busca do endereço

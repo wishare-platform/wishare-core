@@ -1,0 +1,20 @@
+---
+en:
+  date:
+    formats:
+      default: "%m/%d/%Y"
+      long: "%B %d, %Y"
+      short: "%b %d"
+  time:
+    formats:
+      default: "%m/%d/%Y %I:%M %p"
+      long: "%B %d, %Y at %I:%M %p"
+      short: "%b %d, %I:%M %p"
+  number:
+    currency:
+      format:
+        delimiter: ","
+        format: "%u%n"
+        precision: 2
+        separator: "."
+        unit: "$"

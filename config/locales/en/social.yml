@@ -1,0 +1,79 @@
+---
+en:
+  connections:
+    index:
+      title: Friends & Family
+      subtitle: Manage your connections and invitations
+      invite_button: Invite Someone
+      connected: Connected
+      pending_invitations: Pending Invitations
+      sent_invitations: Sent Invitations
+      empty_state: No connections yet
+      empty_state_description: Connect with friends and family to share wishlists
+      view_profile: View Profile
+      view_wishlists: View Wishlists
+      disconnect: Disconnect
+      cancel_invitation: Cancel
+      resend_invitation: Resend
+      confirm_disconnect: Are you sure you want to disconnect from %{name}?
+      confirm_cancel: Are you sure you want to cancel this invitation?
+      invitation_sent_to: Invitation sent to %{email}
+      waiting_for_response: Waiting for response
+      connections_count:
+        zero: No connections
+        one: 1 connection
+        other: "%{count} connections"
+      connected_since: Connected since %{date}
+      invitation_message: Someone wants to share wishlists with you
+      sent_time_ago: Sent %{time} ago
+      send_first_invitation: Send Your First Invitation
+  invitations:
+    new:
+      title: Invite Friends & Family
+      subtitle: Connect with loved ones to share gift ideas
+      email: Email address
+      email_placeholder: friend@example.com
+      message: Personal message (optional)
+      message_placeholder: Add a personal note to your invitation...
+      send_button: Send Invitation
+      cancel_button: Cancel
+      email_help: We'll send them an invitation to connect and start sharing wishlists
+        together
+      how_it_works: How it works
+      step_1: They will receive an email invitation
+      step_2: They'll create an account or sign in if they already have one
+      step_3: Once they accept, you'll both be able to see each other's wishlists
+    show:
+      title: You're Invited!
+      subtitle: "%{sender} wants to connect with you on Wishare"
+      accept_button: Accept Invitation
+      decline_button: Decline
+      sign_up_prompt: Sign up to accept this invitation
+      already_connected: You're already connected with %{sender}
+      invitation_expired: This invitation has expired
+      invitation_invalid: This invitation is invalid
+      public_wishlists: Public Wishlists
+  users:
+    public_profile:
+      mailing_address: Mailing Address
+      address_provided_separately: Address will be provided separately upon gift selection
+      address_visibility:
+        public: Public
+        friends_family: Friends & Family Only
+      no_public_wishlists: No public wishlists available
+      sharing_gift_ideas: Sharing gift ideas on Wishare
+      member_since: Member since %{date}
+      public_wishlists_title: Public Wishlists
+      public_wishlist_count:
+        one: 1 public wishlist
+        other: "%{count} public wishlists"
+      default: Default
+      public: Public
+      recent_items: 'Recent Items:'
+      more_items: "+%{count} more items"
+      no_items_yet: No items yet
+      no_public_wishlists_yet: No Public Wishlists Yet
+      no_public_wishlists_description: "%{name} hasn't shared any public wishlists
+        yet. Check back later for gift ideas!"
+      view_wishlist: View Wishlist
+      back_to_dashboard: Back to Dashboard

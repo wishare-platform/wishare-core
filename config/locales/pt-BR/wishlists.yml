@@ -1,0 +1,238 @@
+---
+pt-BR:
+  wishlists:
+    event_types:
+      none: Lista Geral
+      birthday: Aniversário
+      wedding: Casamento
+      baby_shower: Chá de Bebê
+      christmas: Natal
+      anniversary: Aniversário de Namoro/Casamento
+      graduation: Formatura
+      housewarming: Casa Nova
+      valentines: Dia dos Namorados
+      mothers_day: Dia das Mães
+      fathers_day: Dia dos Pais
+      other: Outro Evento Especial
+    index:
+      title: Suas Listas de Desejos
+      subtitle: Gerencie suas listas de presentes para todas as ocasiões
+      new_wishlist: Nova Lista
+      empty_state:
+        title: Criar Nova Lista de Presente
+        subtitle: Adicione itens que você gostaria de receber
+        get_started: Começar
+      connected_wishlists: Listas de Amigos e Família
+      public_wishlists: Listas Públicas
+      your_wishlists: Suas Listas
+      delete_confirmation: Tem certeza que deseja excluir '%{name}'? Isso também excluirá
+        todos os itens desta lista.
+      partner_empty:
+        title: Ainda Não Há Listas
+        subtitle: Eles ainda não criaram nenhuma lista compartilhável
+        back_to_mine: Voltar para Minhas Listas
+      no_connections:
+        title: Convide Amigos e Família
+        subtitle: Envie um convite simples para compartilhar listas de presente uns
+          com os outros
+        send_invitation: Enviar Convite
+      items_count:
+        zero: Nenhum item
+        one: "%{count} item"
+        other: "%{count} itens"
+      visibility:
+        private: Privada
+        friends_and_family: Amigos e Família
+        publicly_visible: Pública
+      default_badge: Padrão
+      event_type: Evento
+      days_until: "%{count} dias"
+      days_left:
+        one: 1 dia restante
+        other: "%{count} dias restantes"
+      event_passed: Evento passado
+      section_descriptions:
+        connected: Listas compartilhadas com você
+        public: Navegue pelas listas da comunidade
+      buttons:
+        view_wishlist: Ver Lista
+        view_items: Ver Itens
+        add_item: Adicionar Item
+        browse_items: Navegar Itens
+      item_counts:
+        available:
+          one: "%{count} item disponível"
+          other: "%{count} itens disponíveis"
+        purchased:
+          one: "%{count} comprado"
+          other: "%{count} comprados"
+    new:
+      title: Criar Nova Lista de Desejos
+      subtitle: Configure uma lista de presentes para qualquer ocasião
+    edit:
+      title: Editar Lista
+      subtitle: Atualize os detalhes da sua lista
+    form:
+      name: Nome da Lista
+      name_placeholder: 'ex: Aniversário, Presentes de Natal'
+      cover_image: Imagem de Capa
+      cover_image_help: Escolha uma imagem de capa para sua lista
+      cover_image_button: Escolher Imagem
+      cover_image_remove: Remover Imagem
+      cover_image_recommendation: 'Recomendado: 800x400px, JPG ou PNG'
+      description: Descrição
+      description_placeholder: Adicione notas sobre esta lista...
+      event_type: Tipo de Evento
+      event_date: Data do Evento
+      visibility: Quem pode ver esta lista?
+      visibility_help:
+        private: Apenas você pode ver esta lista
+        friends_and_family: Seus amigos e família conectados podem ver
+        publicly_visible: Qualquer pessoa com o link pode ver (perfeito para listas
+          de casamento)
+      visibility_labels:
+        publicly_visible: Pública
+        friends_and_family: Amigos e Família
+        private: Privada
+      make_default: Tornar esta minha lista padrão
+      default_help: Itens adicionados de sites externos irão para sua lista padrão
+      save_button: Salvar Lista
+      cancel_button: Cancelar
+      event_type_help: Escolha se esta é para um evento específico ou uma lista geral
+      event_date_help: Opcional - ajuda com cronômetros regressivos e lembretes
+    show:
+      edit: Editar
+      delete: Excluir
+      add_item: Adicionar Item
+      empty_state: Nenhum item nesta lista ainda
+      empty_state_description: Comece a adicionar itens que você gostaria de receber
+      confirm_delete: Tem certeza que deseja excluir esta lista?
+      back_to_your_wishlists: Voltar para Suas Listas
+      back_to_their_wishlists: Voltar para as Listas Deles
+      created_by: Criado em %{date} por %{user}
+      edit_wishlist: Editar Lista
+      delete_wishlist: Excluir Lista
+      delete_confirm: Tem certeza que deseja excluir '%{name}'? Isso também excluirá
+        todos os itens desta lista.
+      gift_ideas: Ideias de Presente
+      gift_placeholder: Ideia de Presente
+      items_you_love: Itens que você adoraria receber
+      items_they_love: Itens que eles adorariam receber
+      purchased: Comprado
+      price_not_set: Preço não definido
+      priority: prioridade
+      view_item: Ver Item
+      mark_purchased: Marcar como Comprado
+      purchase: Comprar
+      purchased_by: Comprado por %{buyer}
+      mark_as_available: Marcar como Disponível
+      no_items_yet: Nenhum Item Ainda
+      no_items_description_owner: Comece a adicionar itens que você adoraria receber
+      no_items_description_visitor: Eles ainda não adicionaram nenhum item. Verifique
+        novamente em breve!
+      add_first_item: Adicionar Seu Primeiro Item
+      edit_item: Editar item
+      delete_item: Excluir item
+      delete_item_confirm: Tem certeza que deseja excluir '%{name}' desta lista?
+      filters:
+        all: Todos
+        available: Disponíveis
+        purchased: Comprados
+        high_priority: Prioridade Alta
+        medium_priority: Prioridade Média
+        low_priority: Prioridade Baixa
+      sort:
+        label: Ordenar por
+        newest: Mais Recentes
+        oldest: Mais Antigos
+        price_high: 'Preço: Maior para Menor'
+        price_low: 'Preço: Menor para Maior'
+        priority_high: 'Prioridade: Alta para Baixa'
+        priority_low: 'Prioridade: Baixa para Alta'
+        name_az: 'Nome: A a Z'
+        name_za: 'Nome: Z a A'
+      no_results: Nenhum item corresponde aos seus filtros
+      clear_filters: Limpar todos os filtros
+  items:
+    new: Adicionar Item
+    form:
+      name: Nome do Item
+      name_placeholder: O que você gostaria?
+      description: Descrição
+      description_placeholder: Adicione detalhes, tamanho, cor, etc...
+      url: Link do Produto
+      url_placeholder: https://...
+      url_help: Buscaremos automaticamente os detalhes do link
+      price: Preço
+      priority: Prioridade
+      priority_levels:
+        low: Seria legal ter
+        medium: Adoraria ter
+        high: Quero muito
+      priority_display:
+        low: Prioridade baixa
+        medium: Prioridade média
+        high: Prioridade alta
+      priority_label:
+        low: Baixa
+        medium: Média
+        high: Alta
+      save_button: Salvar Item
+      cancel_button: Cancelar
+    card:
+      purchased: Comprado
+      mark_purchased: Marcar como Comprado
+      mark_available: Marcar como Disponível
+      edit: Editar
+      delete: Excluir
+      confirm_delete: Tem certeza que deseja excluir este item?
+      view_product: Ver Produto
+  wishlist_items:
+    new:
+      title: Adicionar Novo Item
+      subtitle: Adicione algo que você gostaria de receber à %{wishlist_name}
+      back_to_wishlist: Voltar à %{wishlist_name}
+    edit:
+      title: Editar Item
+      subtitle: Atualizar detalhes do item
+      back_to_wishlist: Voltar à %{wishlist_name}
+    form:
+      product_url: URL do Produto
+      product_url_placeholder: https://example.com/produto
+      product_url_help: Adicione um link do produto online e preencheremos automaticamente
+        os detalhes
+      magic_tip_label: Dica Mágica
+      item_name: Nome do Item
+      item_name_placeholder: Tapete de Yoga
+      description: Descrição
+      description_placeholder: Tapete de yoga antiderrapante para exercícios em casa...
+      price: Preço
+      price_placeholder: '45'
+      price_with_currency: Preço e Moeda
+      currency_help: Tentaremos detectar a moeda automaticamente a partir da URL do
+        produto
+      currency_auto_detected: Moeda detectada automaticamente da URL
+      priority: Prioridade
+      priority_high: Prioridade Alta
+      priority_medium: Prioridade Média
+      priority_low: Prioridade Baixa
+      priority_high_desc: Quero muito
+      priority_medium_desc: Adoraria ter
+      priority_low_desc: Seria legal ter
+      priority_help: Alta = Quero muito • Média = Adoraria ter • Baixa = Seria legal
+        ter
+      image_url: URL da Imagem
+      image_url_placeholder: https://example.com/imagem.jpg
+      image_url_help: Adicione uma URL de imagem para mostrar uma prévia
+      image_preview: Prévia da Imagem
+      create_button: Adicionar Item
+      update_button: Atualizar Item
+      cancel: Cancelar
+      pro_tip_title: Dica profissional
+      pro_tip_message: Adicione uma URL do produto e tentaremos preencher automaticamente
+        os detalhes como nome, descrição e imagem!
+    status:
+      fetching: Buscando detalhes do produto...
+      populated: Detalhes do produto preenchidos! Revise e ajuste conforme necessário.
+      error: Não foi possível buscar detalhes automaticamente. Por favor, preencha
+        manualmente.

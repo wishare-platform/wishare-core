@@ -1,0 +1,114 @@
+---
+pt-BR:
+  dashboard:
+    welcome: Bem-vindo de volta, %{name}!
+    subtitle:
+      morning: Bom dia! Veja o que está acontecendo hoje
+      afternoon: Boa tarde! Veja o que está acontecendo hoje
+      evening: Boa noite! Veja o que está acontecendo hoje
+      default: Veja o que está acontecendo hoje
+    context:
+      first_visit: Bem-vindo ao Wishare! Vamos começar.
+      returning_user: Ótimo te ver novamente!
+      active_events: Você tem %{count} eventos próximos
+      new_notifications: Você tem %{count} novas notificações
+    profile:
+      member_since: Membro desde %{date}
+      joined_recently: Novo membro
+      stats:
+        wishlists:
+          one: "%{count} Lista de Desejos"
+          other: "%{count} Listas de Desejos"
+        items:
+          one: "%{count} Item"
+          other: "%{count} Itens"
+        friends:
+          one: "%{count} Amigo"
+          other: "%{count} Amigos"
+        pending:
+          one: "%{count} Pendente"
+          other: "%{count} Pendentes"
+      upload_avatar: Clique para enviar foto do perfil
+    sections:
+      pending_invitations: Convites Pendentes
+      notifications: Notificações Recentes
+      friends_list: Seus Amigos
+      upcoming_events: Próximos Eventos
+      recent_items: Adicionados Recentemente
+      budget_items: Opções Econômicas
+      trending_items: Em Destaque
+      discover_wishlists: Descobrir Listas
+    actions:
+      accept: Aceitar
+      decline: Recusar
+      view_all: Ver todas
+      view_all_notifications: Ver todas as notificações
+      find_friends: Encontrar mais amigos
+      view_wishlist: Ver Lista
+      add_wishlist: Criar Nova Lista
+      explore_public: Explorar Listas Públicas
+    time:
+      days_away: em %{count} dias
+      day_away: em %{count} dia
+      today: Hoje
+      tomorrow: Amanhã
+      updated_ago: Atualizada %{time} atrás
+      created_ago: Criada %{time} atrás
+    events:
+      birthday: "\U0001F382 Aniversário"
+      wedding: "\U0001F492 Casamento"
+      anniversary: "\U0001F49D Aniversário de Relacionamento"
+      baby_shower: "\U0001F476 Chá de Bebê"
+      graduation: "\U0001F393 Formatura"
+      christmas: "\U0001F384 Natal"
+      valentines: "\U0001F495 Dia dos Namorados"
+      mothers_day: "\U0001F338 Dia das Mães"
+      fathers_day: "\U0001F454 Dia dos Pais"
+      other: "\U0001F389 Ocasião Especial"
+    empty_states:
+      no_invitations: Nenhum convite pendente
+      no_notifications: Você está em dia!
+      no_friends: Conecte-se com amigos para ver suas listas
+      no_events: Nenhum evento próximo
+      no_items: Nenhum item para mostrar
+      no_wishlists: Nenhuma lista para descobrir
+      create_first: Criar Sua Primeira Lista
+    items:
+      from_wishlist: da %{wishlist_name}
+      by_user: por %{user_name}
+      price_range: "%{min} - %{max}"
+      on_sale: Em Promoção
+      price_drop: Preço baixou
+    wishlists:
+      item_count:
+        one: "%{count} item"
+        other: "%{count} itens"
+      by_user: por %{user_name}
+      last_updated: Atualizada %{time} atrás
+      privacy_public: Pública
+      privacy_friends: Apenas amigos
+      privacy_private: Privada
+    loading:
+      events: Carregando próximos eventos...
+      items: Carregando itens...
+      notifications: Carregando notificações...
+      friends: Carregando amigos...
+    errors:
+      load_failed: Falha ao carregar conteúdo
+      try_again: Tentar novamente
+      network_error: Verifique sua conexão
+      view_wishlist: Ver
+      add_item: Adicionar Item
+    item_info:
+      from: De %{name}
+      for_user: Para %{name}
+      items_count: itens
+      price_range: "$%{min} - $%{max}"
+    view_public_profile: Ver Perfil Público
+    invite_friend: Convidar Amigo
+    notification_preferences: Preferências de Notificação
+    quick_actions: Ações Rápidas
+    quick_actions_descriptions:
+      create_wishlist: Criar uma nova lista
+      add_to_existing: 'Adicionar à lista existente:'
+      connect_friends: Conectar com amigos e família

@@ -1,0 +1,112 @@
+---
+en:
+  dashboard:
+    welcome: Welcome back, %{name}!
+    subtitle:
+      morning: Good morning! Here's what's happening today
+      afternoon: Good afternoon! Here's what's happening today
+      evening: Good evening! Here's what's happening today
+      default: Here's what's happening today
+    context:
+      first_visit: Welcome to Wishare! Let's get you started.
+      returning_user: Great to see you again!
+      active_events: You have %{count} upcoming events
+      new_notifications: You have %{count} new notifications
+    profile:
+      member_since: Member since %{date}
+      joined_recently: New member
+      stats:
+        wishlists:
+          one: "%{count} Wishlist"
+          other: "%{count} Wishlists"
+        items:
+          one: "%{count} Item"
+          other: "%{count} Items"
+        friends:
+          one: "%{count} Friend"
+          other: "%{count} Friends"
+        pending:
+          one: "%{count} Pending"
+          other: "%{count} Pending"
+      upload_avatar: Click to upload profile picture
+    sections:
+      pending_invitations: Pending Invitations
+      notifications: Recent Notifications
+      friends_list: Your Friends
+      upcoming_events: Upcoming Events
+      recent_items: Recently Added
+      budget_items: Budget-Friendly Finds
+      trending_items: Trending Now
+      discover_wishlists: Discover Wishlists
+    actions:
+      accept: Accept
+      decline: Decline
+      view_all: View all
+      view_all_notifications: View all notifications
+      find_friends: Find more friends
+      view_wishlist: View Wishlist
+      add_wishlist: Create New Wishlist
+      explore_public: Explore Public Wishlists
+    time:
+      days_away: in %{count} days
+      today: Today
+      tomorrow: Tomorrow
+      updated_ago: Updated %{time} ago
+    events:
+      birthday: "\U0001F382 Birthday"
+      wedding: "\U0001F492 Wedding"
+      anniversary: "\U0001F49D Anniversary"
+      baby_shower: "\U0001F476 Baby Shower"
+      graduation: "\U0001F393 Graduation"
+      christmas: "\U0001F384 Christmas"
+      valentines: "\U0001F495 Valentine's Day"
+      mothers_day: "\U0001F338 Mother's Day"
+      fathers_day: "\U0001F454 Father's Day"
+      other: "\U0001F389 Special Occasion"
+    empty_states:
+      no_invitations: No pending invitations
+      no_notifications: You're all caught up!
+      no_friends: Connect with friends to see their wishlists
+      no_events: No upcoming events
+      no_items: No items to show
+      no_wishlists: You haven't created any wishlists yet
+      create_first: Create Your First Wishlist
+    items:
+      from_wishlist: from %{wishlist_name}
+      by_user: by %{user_name}
+      price_range: "%{min} - %{max}"
+      on_sale: On Sale
+      price_drop: Price dropped
+    wishlists:
+      item_count:
+        one: "%{count} item"
+        other: "%{count} items"
+      by_user: by %{user_name}
+      last_updated: Updated %{time} ago
+      privacy_public: Public
+      privacy_friends: Friends only
+      privacy_private: Private
+    loading:
+      events: Loading upcoming events...
+      items: Loading items...
+      notifications: Loading notifications...
+      friends: Loading friends...
+    errors:
+      load_failed: Failed to load content
+      try_again: Try again
+      network_error: Check your connection
+      view_wishlist: View
+      add_item: Add Item
+    item_info:
+      from: From %{name}
+      for_user: For %{name}
+      items_count: items
+      price_range: "$%{min} - $%{max}"
+    view_public_profile: View Public Profile
+    invite_friend: Invite Friend
+    notification_preferences: Notification Preferences
+    quick_actions: Quick Actions
+    quick_actions_descriptions:
+      create_wishlist: Create a new wishlist
+      add_to_existing: 'Add to existing wishlist:'
+      connect_friends: Connect with friends & family

@@ -1,0 +1,157 @@
+---
+en:
+  admin:
+    navigation:
+      admin: Admin
+      dashboard: Dashboard
+      users: Users
+      wishlists: Wishlists
+    dashboard:
+      title: Admin Dashboard
+      subtitle: Overview of platform metrics, user activity, and system health
+      stats:
+        total_users: Total Users
+        active_users: 'Active (30d):'
+        total_wishlists: Total Wishlists
+        this_month: 'This month:'
+        active_connections: Active Connections
+        wishlist_items: Wishlist Items
+        purchased: 'Purchased:'
+        user_growth: User Growth
+        last_month: 'Last month:'
+        purchase_rate: Purchase Rate
+        items_purchased_vs_total: Items purchased vs total
+      recent_activity:
+        title: Recent Activity
+        subtitle: Latest user actions on the platform
+        by_anonymous: by anonymous user
+        view_all: View all activity →
+      top_users:
+        title: Top Users by Engagement
+        subtitle: Users with highest engagement scores
+        lists: 'lists, '
+        connections: " connections"
+        score: 'Score: '
+        view_all: View all users →
+    users:
+      index:
+        title: User Management
+        subtitle: Manage user accounts, view analytics, and monitor user activity
+        stats:
+          total: 'Total: '
+          active: " | Active: "
+        search_placeholder: Search by name or email...
+        filters:
+          all_roles: All Roles
+          regular_users: Regular Users
+          admins: Admins
+          super_admins: Super Admins
+          filter: Filter
+          clear: Clear
+        table:
+          user: User
+          role: Role
+          activity: Activity
+          engagement: Engagement
+          joined: Joined
+          actions: Actions
+          lists: lists,
+          connections: " connections"
+          last_active: 'Last active '
+          no_activity: No activity recorded
+          no_data: No data
+          dash: "-"
+          view: View
+        empty_state:
+          title: No users found
+          subtitle: No users match your current search criteria.
+      show:
+        actions: Actions
+        promote_admin: Promote to Admin
+        demote_user: Demote to User
+        stats:
+          wishlists_created: Wishlists Created
+          connections: Connections
+          items_added: Items Added
+          engagement_score: Engagement Score
+        user_details: User Details
+        member_since: Member since
+        last_activity: Last activity
+        no_activity: No activity recorded
+        preferred_locale: Preferred locale
+        portuguese_brazil: Portuguese (Brazil)
+        english: English
+        authentication: Authentication
+        oauth: " OAuth"
+        email_password: Email/Password
+        recent_activity: Recent Activity
+        no_recent_activity: No recent activity recorded
+        wishlists_count: Wishlists (
+        items: " items"
+        bullet: "•"
+        created: 'Created '
+        no_wishlists: No wishlists created yet
+        connections_count: Connections (
+        connected: 'Connected '
+        no_connections: No connections yet
+    wishlists:
+      index:
+        title: Wishlist Management
+        subtitle: Monitor and manage user wishlists across the platform
+        stats:
+          total: 'Total: '
+          public: " | Public: "
+          friends_family: " | Friends & Family: "
+          private: " | Private: "
+        search_placeholder: Search by wishlist name or user name...
+        filters:
+          all_visibility: All Visibility
+          private: Private
+          friends_family: Friends & Family
+          public: Public
+          filter: Filter
+          clear: Clear
+        table:
+          wishlist: Wishlist
+          owner: Owner
+          visibility: Visibility
+          items: Items
+          event: Event
+          created: Created
+          actions: Actions
+          default: Default
+          total: " total"
+          purchased: " purchased"
+          general: General
+          view: View
+          delete_confirm: Are you sure you want to delete this wishlist?
+          delete: Delete
+        empty_state:
+          title: No wishlists found
+          subtitle: No wishlists match your current search criteria.
+      show:
+        default: Default
+        delete_wishlist_confirm: Are you sure you want to delete this wishlist and
+          all its items?
+        delete_wishlist: Delete Wishlist
+        details: Wishlist Details
+        description: Description
+        event_type: Event Type
+        event_date: Event Date
+        in_days: " (in "
+        was_ago: " (was "
+        today: " (today)"
+        closing_paren: ")"
+        total_items: Total Items
+        bullet: "• "
+        available: " available"
+        created: Created
+        last_updated: Last Updated
+        wishlist_items: Wishlist Items (
+        purchased: Purchased
+        priority: " priority"
+        added: 'Added '
+        purchased_by: 'Purchased by '
+        view_product: View Product →
+        no_items: No items yet
+        no_items_subtitle: This wishlist doesn't have any items yet.

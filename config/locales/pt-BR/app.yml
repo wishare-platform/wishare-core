@@ -1,0 +1,69 @@
+---
+pt-BR:
+  app:
+    name: Wishare
+    tagline: Presentes pensados com carinho
+    description: Conecte-se com amigos e família para compartilhar ideias de presente
+      para qualquer ocasião
+  landing:
+    title: Wishare - Presentes Pensados com Carinho
+    description: Crie e compartilhe listas de presente com amigos e família. Perfeito
+      para aniversários, feriados e ocasiões especiais. Torne os presentes mais significativos
+      com o Wishare.
+    hero:
+      title: Torne cada presente significativo
+      subtitle: Crie listas de presente, conecte-se com pessoas queridas e nunca perca
+        uma oportunidade de presente perfeito
+    cta:
+      get_started: Começar Gratuitamente
+      sign_in: Entrar
+    highlights:
+      notifications: Notificações em tempo real
+      bilingual: Português e Inglês
+      mobile_ready: Pronto para celular
+      real_time: Atualizações ao vivo
+    features:
+      create:
+        title: Criar Listas
+        description: Adicione itens que você gostaria de receber para qualquer ocasião
+      connect:
+        title: Amigos e Família
+        description: Conecte-se com pessoas queridas e compartilhe listas privadamente
+      occasions:
+        title: Listas por Evento
+        description: Aniversários, casamentos, chá de bebê, festas e muito mais
+      notifications:
+        title: Mantenha-se Informado
+        description: Seja notificado quando amigos adicionam itens ou fazem compras
+    events:
+      title: Perfeito para Todas as Ocasiões
+      birthday: Aniversários
+      wedding: Casamentos
+      baby_shower: Chá de Bebê
+      christmas: Natal
+      graduation: Formatura
+  navigation:
+    dashboard: Painel
+    wishlists: Minhas Listas
+    connections: Amigos e Família
+    profile: Perfil
+    settings: Configurações
+    sign_out: Sair
+    sign_in: Entrar
+    sign_up: Cadastrar
+  theme:
+    toggle: Alternar tema
+    light: Modo claro
+    dark: Modo escuro
+    system: Preferência do sistema
+  cookie_consent:
+    banner:
+      title: Usamos cookies para melhorar sua experiência
+      description: Usamos cookies e tecnologias similares para personalizar conteúdo,
+        analisar tráfego e melhorar sua experiência. Ao clicar em "Aceitar Todos",
+        você consente com o uso de cookies.
+      learn_more: Saiba mais
+    buttons:
+      settings: Configurações de Cookies
+      essential_only: Apenas Essenciais
+      accept_all: Aceitar Todos

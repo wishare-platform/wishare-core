@@ -1,0 +1,59 @@
+---
+en:
+  common:
+    user_fallbacks:
+      friend: Friend
+      someone: Someone
+      anonymous_user: anonymous user
+    currency:
+      symbol: "$"
+    empty_states:
+      no_public_wishlists: No Public Wishlists
+      no_public_wishlists_description: There are no public wishlists available at
+        the moment. Check back later to discover wishlists from the community.
+    actions:
+      accept: Accept
+      decline: Decline
+      all: All
+    sort:
+      sort_by: Sort by
+      newest_first: Newest first
+      oldest_first: Oldest first
+      recently_updated: Recently updated
+      name_a_z: Name (A-Z)
+      name_z_a: Name (Z-A)
+    share:
+      button: Share
+      whatsapp: Share on WhatsApp
+      twitter: Share on Twitter
+      facebook: Share on Facebook
+      linkedin: Share on LinkedIn
+      telegram: Share on Telegram
+      copy_link: Copy Link
+      copy: Copy
+      default_description: Check out this amazing wishlist on Wishare!
+      user_profile_title: "%{name}'s Profile on Wishare"
+      user_profile_description: View %{name}'s public wishlists and gift ideas on
+        Wishare
+      wishlist_title: "%{name} - %{wishlist_name}"
+      wishlist_description: Check out this wishlist for %{event} on Wishare
+      item_title: "%{item_name} from %{wishlist_name}"
+      item_description: This item is on %{name}'s wishlist for %{event}
+    footer:
+      tagline: Share joy, give thoughtfully
+      terms_of_service: Terms of Service
+      privacy_policy: Privacy Policy
+      copyright: "© %{year} Wishare"
+  errors:
+    404:
+      title: Page Not Found
+      description: Sorry, the page you're looking for doesn't exist. It might have
+        been moved, deleted, or you entered the wrong URL.
+      go_home: Go Home
+      go_back: Go Back
+      helpful_links:
+        title: Need help finding something?
+  address_lookup:
+    errors:
+      postal_code_required: Postal code is required
+      lookup_failed: Address lookup failed

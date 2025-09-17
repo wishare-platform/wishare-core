@@ -1,0 +1,196 @@
+---
+pt-BR:
+  profile:
+    title: Perfil
+    subtitle: Gerencie suas informações pessoais e configurações
+    edit_title: Editar Perfil
+    edit_subtitle: Atualize suas informações pessoais
+    edit:
+      title: Editar Perfil
+      subtitle: Atualize suas informações da conta
+      personal_information: Informações Pessoais
+      profile_strength: Força do Perfil
+      complete_percentage: "%{percentage}% Completo"
+      complete_profile_hint: Complete seu perfil para ajudar amigos a encontrarem os presentes perfeitos
+      complete_profile: Completar Perfil
+      profile_complete: Seu perfil está completo!
+      fields_count: "%{completed} de %{total} campos preenchidos"
+      profile_photo: Foto do Perfil
+      bio_social_title: Bio e Redes Sociais
+      bio_label: Bio
+      bio_placeholder: Conte-nos sobre você...
+      platforms_connected: plataformas conectadas
+      not_configured: Não configurado
+      optional: Opcional
+      configured: Configurado
+      security_title: Segurança
+      password_requirements_desc: Requisitos de senha e segurança da conta
+      email_pending_confirmation: "Aguardando confirmação para: %{email}"
+      password_requirements_title: 'Requisitos da Senha:'
+      password_min_length: Pelo menos 8 caracteres
+      password_needs_number: Incluir pelo menos um número
+      password_needs_symbol: Incluir pelo menos um caractere especial (!@#$%^&*)
+      password_needs_case: Incluir letras maiúsculas e minúsculas
+      current_password_label: Senha Atual
+      current_password_placeholder: Digite sua senha atual
+      oauth_no_password: Você se cadastrou com Google. Deixe em branco para continuar usando apenas o login do Google.
+      new_password_label: Nova Senha
+      new_password_placeholder: Digite uma nova senha
+      password_strength: Força
+      confirm_password_label: Confirmar Nova Senha
+      confirm_password_placeholder: Digite novamente sua nova senha
+      account_settings: Configurações da Conta
+      integrations_and_danger: Integrações de terceiros e gerenciamento da conta
+      third_party_integrations: Integrações de Terceiros
+      google_connected: Conta Google
+      connected: Conectado
+      connect_google: Conectar Conta Google
+      google_benefits: Faça login com um clique
+      connect_button: Conectar
+      delete_account_title: Excluir Conta
+      delete_account_warning: Uma vez que você excluir sua conta, não há volta. Todos os seus dados serão permanentemente removidos.
+      delete_account_button: Excluir Minha Conta
+      delete_account_confirm: Tem certeza absoluta? Isso excluirá permanentemente sua conta e todas suas listas de desejos. Digite 'EXCLUIR' para confirmar.
+      unsaved_changes: Alterações não salvas
+      discard: Descartar
+      discard_confirm: Tem certeza de que deseja descartar suas alterações?
+      profile_updated: Perfil atualizado com sucesso!
+      view_profile: Ver Perfil
+      social:
+        instagram: Instagram
+        twitter: Twitter/X
+        tiktok: TikTok
+        youtube: YouTube
+      security_settings:
+        title: Alterar Senha
+        title_oauth: Definir Senha
+        note_oauth: 'Conta Google: Você se cadastrou com o Google. Defina uma senha
+          se quiser fazer login com e-mail também.'
+        note_regular: 'Nota: Deixe os campos de senha em branco se não quiser alterá-la'
+        connected_accounts: Contas Conectadas
+        google_connected: Conta do Google conectada
+      form:
+        name: Nome
+        name_placeholder: Seu nome
+        email: E-mail
+        email_placeholder: Endereço de e-mail
+        birthday: Aniversário
+        month: Mês
+        day: Dia
+        year: Ano
+        birthday_help: Opcional - ajuda os amigos a lembrarem do seu aniversário
+        preferred_language: Idioma Preferido
+        language_help: Escolha seu idioma preferido
+        password: Nova senha
+        password_oauth: Definir senha
+        password_placeholder: Nova senha (opcional)
+        password_oauth_placeholder: Defina uma senha
+        password_confirmation: Confirmar senha
+        password_confirmation_placeholder: Confirme a nova senha
+        password_confirmation_oauth_placeholder: Confirme a senha
+        current_password: Senha atual
+        current_password_placeholder: Senha atual (obrigatória para alterar a senha)
+        current_password_help: Precisamos da sua senha atual para confirmar as alterações
+        password_minimum: mínimo de %{minimum} caracteres
+        save_changes: Salvar Alterações
+        cancel: Cancelar
+        delete_account: Excluir Conta
+        delete_confirm: Tem certeza absoluta? Isso excluirá permanentemente sua conta
+          e todas suas listas de desejos.
+      address:
+        title: Informações de Endereço
+        description: Adicione seu endereço para correspondência para receber presentes
+          de amigos e familiares. Perfeito para influenciadores e listas públicas.
+        validation:
+          street_number_required: é obrigatório
+          street_address_required: é obrigatório
+          city_required: é obrigatória
+          state_required: é obrigatório
+          postal_code_required: é obrigatório
+          country_required: é obrigatório
+        visibility_label: Quem pode ver seu endereço?
+        country: País
+        select_country: Selecione o País
+        postal_code: CEP/Código Postal
+        postal_code_placeholder: 12345-678
+        postal_code_help: Digite seu CEP, depois clique em buscar para preencher automaticamente
+          seu endereço
+        lookup_button: Buscar Endereço
+        street_number: Número
+        street_number_placeholder: '123'
+        apartment_unit: Apartamento/Complemento
+        apartment_unit_placeholder: Apto 4B, Sala 101
+        street_address: Logradouro
+        street_address_placeholder: Rua das Flores, Avenida Paulista
+        city: Cidade
+        city_placeholder: São Paulo
+        state: Estado/UF
+        state_placeholder: SP
+        visibility:
+          private:
+            title: Privado
+            description: Apenas você pode ver seu endereço. Mantenha suas informações
+              completamente privadas.
+          connected_users:
+            title: Amigos e Família
+            description: Seus amigos e familiares conectados podem ver seu endereço
+              para lhe enviarem presentes.
+          public:
+            title: Público
+            description: Qualquer pessoa vendo seu perfil público pode ver seu endereço.
+              Ótimo para influenciadores e registros.
+        privacy_notice:
+          title: Privacidade e Segurança
+          description: Considere usar uma caixa postal ou endereço comercial para
+            visibilidade pública. Sempre seja cauteloso ao compartilhar informações
+            pessoais online.
+      avatar:
+        google_source: Foto do perfil do Google
+        click_to_change: Clique para alterar avatar
+      danger_zone:
+        title: Zona de Perigo
+        description: Excluir sua conta
+        warning: Esta ação não pode ser desfeita
+    name: Nome
+    email: E-mail
+    birthday: Aniversário
+    language: Idioma
+    address: Endereço
+    personal_info: Informações Pessoais
+    statistics: Estatísticas
+    total_items: Total de Itens
+    update_success: Perfil atualizado com sucesso
+    bio_and_social: Bio e Redes Sociais
+    bio: Bio
+    bio_placeholder: Conte-nos sobre você...
+    bio_visibility: Visibilidade da Bio
+    gender: Gênero
+    gender_options:
+      not_specified: Não Especificado
+      male: Masculino
+      female: Feminino
+      non_binary: Não-Binário
+      prefer_not_to_say: Prefiro Não Dizer
+    website: Website
+    website_placeholder: https://seusite.com
+    website_visibility: Visibilidade do Website
+    social_media_links: Links de Redes Sociais
+    instagram: Instagram
+    instagram_placeholder: usuário
+    tiktok: TikTok
+    tiktok_placeholder: usuário
+    twitter: X (Twitter)
+    twitter_placeholder: usuário
+    linkedin: LinkedIn
+    linkedin_placeholder: https://linkedin.com/in/usuario
+    youtube: YouTube
+    youtube_placeholder: https://youtube.com/@canal
+    facebook: Facebook
+    facebook_placeholder: https://facebook.com/usuario
+    social_links_visibility: Visibilidade dos Links Sociais
+    visibility_options:
+      private: Privado
+      connected_users: Apenas Usuários Conectados
+      public: Público
+    about: Sobre
+    social_links: Links Sociais

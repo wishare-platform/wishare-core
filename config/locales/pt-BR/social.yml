@@ -1,0 +1,80 @@
+---
+pt-BR:
+  connections:
+    index:
+      title: Amigos e Família
+      subtitle: Gerencie suas conexões e convites
+      invite_button: Convidar Alguém
+      connected: Conectado
+      pending_invitations: Convites Pendentes
+      sent_invitations: Convites Enviados
+      empty_state: Nenhuma conexão ainda
+      empty_state_description: Conecte-se com amigos e família para compartilhar listas
+      view_profile: Ver Perfil
+      view_wishlists: Ver Listas
+      disconnect: Desconectar
+      cancel_invitation: Cancelar
+      resend_invitation: Reenviar
+      confirm_disconnect: Tem certeza que deseja se desconectar de %{name}?
+      confirm_cancel: Tem certeza que deseja cancelar este convite?
+      invitation_sent_to: Convite enviado para %{email}
+      waiting_for_response: Aguardando resposta
+      connections_count:
+        zero: Nenhuma conexão
+        one: 1 conexão
+        other: "%{count} conexões"
+      connected_since: Conectado desde %{date}
+      invitation_message: Alguém quer compartilhar listas com você
+      sent_time_ago: Enviado %{time} atrás
+      send_first_invitation: Envie Seu Primeiro Convite
+  invitations:
+    new:
+      title: Convidar Amigos e Família
+      subtitle: Conecte-se com pessoas queridas para compartilhar ideias de presente
+      email: Endereço de e-mail
+      email_placeholder: amigo@exemplo.com
+      message: Mensagem pessoal (opcional)
+      message_placeholder: Adicione uma nota pessoal ao seu convite...
+      send_button: Enviar Convite
+      cancel_button: Cancelar
+      email_help: Enviaremos um convite para eles se conectarem e começarem a compartilhar
+        listas juntos
+      how_it_works: Como funciona
+      step_1: Eles receberão um convite por e-mail
+      step_2: Criarão uma conta ou farão login se já tiverem uma
+      step_3: Depois que aceitarem, vocês poderão ver as listas um do outro
+    show:
+      title: Você foi convidado!
+      subtitle: "%{sender} quer se conectar com você no Wishare"
+      accept_button: Aceitar Convite
+      decline_button: Recusar
+      sign_up_prompt: Cadastre-se para aceitar este convite
+      already_connected: Você já está conectado com %{sender}
+      invitation_expired: Este convite expirou
+      invitation_invalid: Este convite é inválido
+  users:
+    public_profile:
+      sharing_gift_ideas: Compartilhando ideias de presentes no Wishare
+      member_since: Membro desde %{date}
+      public_wishlists_title: Wishlists Públicas
+      public_wishlist_count:
+        one: 1 wishlist pública
+        other: "%{count} wishlists públicas"
+      default: Padrão
+      public: Público
+      recent_items: 'Itens Recentes:'
+      more_items:
+        one: "+1 item adicional"
+        other: "+%{count} itens adicionais"
+      view_wishlist: Ver Wishlist
+      no_items_yet: Nenhum item ainda
+      no_public_wishlists_yet: Nenhuma wishlist pública ainda
+      no_public_wishlists_description: "%{name} ainda não compartilhou wishlists públicas.
+        Volte mais tarde para ver ideias de presentes!"
+      back_to_dashboard: Voltar para Minhas Wishlists
+      mailing_address: Endereço para Correspondência
+      address_provided_separately: Endereço será fornecido separadamente na seleção
+        do presente
+      address_visibility:
+        public: Público
+        friends_family: Apenas Amigos e Família

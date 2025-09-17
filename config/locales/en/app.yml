@@ -1,0 +1,67 @@
+---
+en:
+  app:
+    name: Wishare
+    tagline: Thoughtful gifting made simple
+    description: Connect with friends and family to share gift ideas for any occasion
+  landing:
+    title: Wishare - Thoughtful Gifting Made Simple
+    description: Create and share wishlists with friends and family. Perfect for birthdays,
+      holidays, and special occasions. Make gifting meaningful with Wishare.
+    hero:
+      title: Make every gift meaningful
+      subtitle: Create wishlists, connect with loved ones, and never miss a perfect
+        gift opportunity again
+    cta:
+      get_started: Get Started Free
+      sign_in: Sign In
+    highlights:
+      notifications: Real-time notifications
+      bilingual: English & Portuguese
+      mobile_ready: Mobile-ready
+      real_time: Live updates
+    features:
+      create:
+        title: Create Wishlists
+        description: Add items you'd love to receive for any occasion
+      connect:
+        title: Friends & Family
+        description: Connect with loved ones and share wishlists privately
+      occasions:
+        title: Event-Based Lists
+        description: Birthdays, weddings, baby showers, holidays, and more
+      notifications:
+        title: Stay Informed
+        description: Get notified when friends add items or make purchases
+    events:
+      title: Perfect for Every Occasion
+      birthday: Birthdays
+      wedding: Weddings
+      baby_shower: Baby Showers
+      christmas: Christmas
+      graduation: Graduation
+  navigation:
+    dashboard: Dashboard
+    wishlists: My Wishlists
+    connections: Friends & Family
+    profile: Profile
+    settings: Settings
+    sign_out: Sign out
+    sign_in: Sign in
+    sign_up: Sign up
+  theme:
+    toggle: Toggle theme
+    light: Light mode
+    dark: Dark mode
+    system: System preference
+  cookie_consent:
+    banner:
+      title: We use cookies to improve your experience
+      description: We use cookies and similar technologies to help personalize content,
+        analyze traffic, and improve your experience. By clicking "Accept All", you
+        consent to our use of cookies.
+      learn_more: Learn more
+    buttons:
+      settings: Cookie Settings
+      essential_only: Essential Only
+      accept_all: Accept All

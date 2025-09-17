@@ -1,0 +1,200 @@
+---
+en:
+  profile:
+    title: Profile
+    subtitle: Manage your personal information and settings
+    edit_title: Edit Profile
+    edit_subtitle: Update your personal information
+    edit:
+      title: Edit Profile
+      subtitle: Update your account information
+      personal_information: Personal Information
+      profile_strength: Profile Strength
+      complete_percentage: "%{percentage}% Complete"
+      complete_profile_hint: Complete your profile to help friends find the perfect
+        gifts
+      complete_profile: Complete Profile
+      profile_complete: Your profile is complete!
+      fields_count: "%{completed} of %{total} fields completed"
+      profile_photo: Profile Photo
+      bio_social_title: Bio & Social Media
+      bio_label: Bio
+      bio_placeholder: Tell us about yourself...
+      platforms_connected: platforms connected
+      not_configured: Not configured
+      optional: Optional
+      configured: Configured
+      security_title: Security
+      password_requirements_desc: Password requirements and account security
+      email_pending_confirmation: "Currently waiting confirmation for: %{email}"
+      password_requirements_title: 'Password Requirements:'
+      password_min_length: At least 8 characters
+      password_needs_number: Include at least one number
+      password_needs_symbol: Include at least one special character (!@#$%^&*)
+      password_needs_case: Include uppercase and lowercase letters
+      current_password_label: Current Password
+      current_password_placeholder: Enter your current password
+      oauth_no_password: You signed up with Google. Leave blank to keep using Google
+        sign-in only.
+      new_password_label: New Password
+      new_password_placeholder: Enter a new password
+      password_strength: Strength
+      confirm_password_label: Confirm New Password
+      confirm_password_placeholder: Re-enter your new password
+      account_settings: Account Settings
+      integrations_and_danger: Third-party integrations & account management
+      third_party_integrations: Third-Party Integrations
+      google_connected: Google Account
+      connected: Connected
+      connect_google: Connect Google Account
+      google_benefits: Sign in with one click
+      connect_button: Connect
+      danger_zone:
+        title: Danger Zone
+        description: Delete your account
+        warning: This action cannot be undone
+      delete_account_title: Delete Account
+      delete_account_warning: Once you delete your account, there is no going back.
+        All your data will be permanently removed.
+      delete_account_button: Delete My Account
+      delete_account_confirm: Are you absolutely sure? This will permanently delete
+        your account and all your wishlists. Type 'DELETE' to confirm.
+      unsaved_changes: Unsaved changes
+      discard: Discard
+      discard_confirm: Are you sure you want to discard your changes?
+      profile_updated: Profile updated successfully!
+      view_profile: View Profile
+      social:
+        instagram: Instagram
+        twitter: Twitter/X
+        tiktok: TikTok
+        youtube: YouTube
+      security_settings:
+        title: Change Password
+        title_oauth: Set Password
+        note_oauth: 'Google Account: You signed up with Google. Set a password if
+          you''d like to also sign in with email.'
+        note_regular: 'Note: Leave password fields blank if you don''t want to change
+          it'
+        connected_accounts: Connected Accounts
+        google_connected: Google account connected
+      form:
+        name: Name
+        name_placeholder: Your name
+        email: Email
+        email_placeholder: Email address
+        birthday: Birthday
+        month: Month
+        day: Day
+        year: Year
+        birthday_help: Optional - helps friends remember your birthday
+        preferred_language: Preferred Language
+        language_help: Choose your preferred language
+        password: New password
+        password_oauth: Set password
+        password_placeholder: New password (optional)
+        password_oauth_placeholder: Set a password
+        password_confirmation: Confirm password
+        password_confirmation_placeholder: Confirm new password
+        password_confirmation_oauth_placeholder: Confirm password
+        current_password: Current password
+        current_password_placeholder: Current password (required to change password)
+        current_password_help: We need your current password to confirm password changes
+        password_minimum: "%{minimum} characters minimum"
+        save_changes: Save Changes
+        cancel: Cancel
+        delete_account: Delete Account
+        delete_confirm: Are you absolutely sure? This will permanently delete your
+          account and all your wishlists.
+      address:
+        title: Address Information
+        description: Add your mailing address to receive gifts from friends and family.
+          Perfect for influencers and public wishlists.
+        validation:
+          street_number_required: is required
+          street_address_required: is required
+          city_required: is required
+          state_required: is required
+          postal_code_required: is required
+          country_required: is required
+        visibility_label: Who can see your address?
+        country: Country
+        select_country: Select Country
+        postal_code: ZIP/Postal Code
+        postal_code_placeholder: 12345 or 12345-6789
+        postal_code_help: Enter your ZIP or postal code, then click lookup to auto-fill
+          your address
+        lookup_button: Lookup Address
+        street_number: Street Number
+        street_number_placeholder: '123'
+        apartment_unit: Apartment/Unit
+        apartment_unit_placeholder: Apt 4B, Suite 101
+        street_address: Street Address
+        street_address_placeholder: Main Street, Oak Avenue
+        city: City
+        city_placeholder: New York
+        state: State/Province
+        state_placeholder: NY
+        visibility:
+          private:
+            title: Private
+            description: Only you can see your address. Keep your information completely
+              private.
+          connected_users:
+            title: Friends & Family
+            description: Your connected friends and family can see your address to
+              send you gifts.
+          public:
+            title: Public
+            description: Anyone viewing your public profile can see your address.
+              Great for influencers and registries.
+        privacy_notice:
+          title: Privacy & Safety
+          description: Consider using a PO Box or workplace address for public visibility.
+            Always be cautious about sharing personal information online.
+      avatar:
+        google_source: Profile picture from Google
+        click_to_change: Click to change avatar
+    name: Name
+    email: Email
+    birthday: Birthday
+    language: Language
+    address: Address
+    personal_info: Personal Information
+    statistics: Statistics
+    total_items: Total Items
+    update_success: Profile updated successfully
+    bio_and_social: Bio & Social Media
+    bio: Bio
+    bio_placeholder: Tell us about yourself...
+    bio_visibility: Bio Visibility
+    gender: Gender
+    gender_options:
+      not_specified: Not Specified
+      male: Male
+      female: Female
+      non_binary: Non-Binary
+      prefer_not_to_say: Prefer Not to Say
+    website: Website
+    website_placeholder: https://yourwebsite.com
+    website_visibility: Website Visibility
+    social_media_links: Social Media Links
+    instagram: Instagram
+    instagram_placeholder: username
+    tiktok: TikTok
+    tiktok_placeholder: username
+    twitter: X (Twitter)
+    twitter_placeholder: username
+    linkedin: LinkedIn
+    linkedin_placeholder: https://linkedin.com/in/username
+    youtube: YouTube
+    youtube_placeholder: https://youtube.com/@channel
+    facebook: Facebook
+    facebook_placeholder: https://facebook.com/username
+    social_links_visibility: Social Links Visibility
+    visibility_options:
+      private: Private
+      connected_users: Connected Users Only
+      public: Public
+    about: About
+    social_links: Social Links

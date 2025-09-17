@@ -1,0 +1,68 @@
+---
+pt-BR:
+  auth:
+    sign_in:
+      title: Bem-vindo de volta ao Wishare
+      subtitle: Entre para continuar compartilhando presentes especiais
+      email: E-mail
+      password: Senha
+      email_placeholder: Digite seu e-mail
+      password_placeholder: Digite sua senha
+      remember_me: Lembrar de mim
+      forgot_password: Esqueceu sua senha?
+      sign_in_button: Entrar
+      or: Ou
+      google_sign_in: Continuar com Google
+      no_account: Não tem uma conta?
+      sign_up_link: Cadastre-se
+    sign_up:
+      title: Junte-se ao Wishare
+      description: Junte-se ao Wishare para criar e compartilhar listas de presente
+        com amigos e família. Torne os presentes mais pensados e organizados para
+        todas as ocasiões.
+      subtitle: Comece a compartilhar presentes especiais com amigos e família
+      invited_title: Você foi convidado!
+      invited_message: Crie sua conta para começar a compartilhar listas de presente.
+      name: Nome
+      name_placeholder: Digite seu nome
+      email: E-mail
+      email_placeholder: Digite seu e-mail
+      birthday: Aniversário (opcional)
+      month: Mês
+      day: Dia
+      year: Ano
+      birthday_help: Opcional - ajuda amigos a lembrar do seu aniversário e criar
+        melhores sugestões de presente
+      password: Senha
+      password_placeholder: Crie uma senha
+      password_confirmation: Confirmar senha
+      password_confirmation_placeholder: Confirme sua senha
+      agreement_text_html: Eu concordo com os %{terms_link} e a %{privacy_link}
+      sign_up_button: Criar conta
+      or: Ou
+      google_sign_up: Continuar com Google
+      have_account: Já tem uma conta?
+      sign_in_link: Entrar
+      password_hint: "(mínimo de %{minimum} caracteres)"
+    forgot_password:
+      title: Esqueceu sua senha?
+      subtitle: Enviaremos um link para redefini-la
+      email: Endereço de e-mail
+      email_placeholder: Digite seu e-mail
+      pro_tip_label: 'Dica:'
+      pro_tip_message: Verifique sua pasta de spam se não receber o e-mail
+      send_instructions: Enviar instruções de redefinição
+      remembered: Lembrou sua senha?
+    shared:
+      or_continue_with: Ou continue com
+      sign_in_with_google: Entrar com Google
+      sign_in_instead: Entrar
+      create_account: Criar uma conta
+      forgot_password: Esqueceu sua senha?
+      sign_in_link: Entrar
+    reset_password:
+      title: Redefinir sua senha
+      subtitle: Escolha uma nova senha para sua conta
+      new_password: Nova senha
+      confirm_password: Confirmar nova senha
+      reset_button: Redefinir senha
