@@ -231,3 +231,30 @@ en:
       fetching: Fetching product details...
       populated: Product details populated! Review and adjust as needed.
       error: Couldn't fetch details automatically. Please fill in manually.
+  card:
+    items: items
+    purchased: purchased
+    progress: Progress
+    view_wishlist: View Wishlist
+  filters:
+    all: All
+    birthday: Birthday
+    wedding: Wedding
+    holiday: Holiday
+    anniversary: Anniversary
+    baby_shower: Baby Shower
+    christmas: Christmas
+    graduation: Graduation
+    housewarming: Housewarming
+    valentines: Valentine's Day
+    mothers_day: Mother's Day
+    fathers_day: Father's Day
+    other: Other
+    general: General
+  sort:
+    newest: Newest First
+    oldest: Oldest First
+    most_items: Most Items
+    least_items: Least Items
+    name_az: Name A-Z
+    name_za: Name Z-A

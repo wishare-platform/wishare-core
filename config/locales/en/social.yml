@@ -87,3 +87,29 @@ en:
       passionate_about_gifting: "Passionate about thoughtful gifting and making special moments memorable. Love discovering unique items and sharing gift ideas with friends and family. 🎁✨"
       birthday_month: "%{month} Birthday"
       edit_cover: Edit Cover
+      tabs:
+        wishlists: Wishlists
+        activity: Activity
+        friends: Friends
+        purchased: Purchased Gifts
+        about: About
+      no_wishlists: No wishlists yet
+      create_first_wishlist: Create your first wishlist and start sharing gift ideas
+      user_no_wishlists: "%{name} hasn't created any wishlists yet"
+      no_friends: No friends connected
+      connect_with_friends: Connect with friends and family to share wishlists
+      user_no_friends: No friends connected yet
+      no_purchased: No purchased gifts
+      purchased_will_appear: Purchased gifts will appear here
+      about_user: "About %{name}"
+      personal_info: Personal Information
+      birthday: Birthday
+      location: Location
+      gender: Gender
+      member_info: Member Information
+      member_since: Member since
+      activity:
+        created_wishlist: created a new wishlist
+        added_items: added new items to their wishlist
+      no_filtered_wishlists: No wishlists found
+      try_different_filter: Try selecting a different filter to see more wishlists

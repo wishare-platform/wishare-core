@@ -88,3 +88,29 @@ pt-BR:
       passionate_about_gifting: "Apaixonado por presentes atenciosos e em tornar momentos especiais memoráveis. Adoro descobrir itens únicos e compartilhar ideias de presentes com amigos e família. 🎁✨"
       birthday_month: "Aniversário em %{month}"
       edit_cover: Editar Foto
+      tabs:
+        wishlists: Listas de Desejos
+        activity: Atividade
+        friends: Amigos
+        purchased: Presentes Comprados
+        about: Sobre
+      no_wishlists: Ainda sem listas
+      create_first_wishlist: Crie sua primeira lista e comece a compartilhar ideias de presentes
+      user_no_wishlists: "%{name} ainda não criou nenhuma lista"
+      no_friends: Nenhum amigo conectado
+      connect_with_friends: Conecte-se com amigos e familiares para compartilhar listas
+      user_no_friends: Ainda sem amigos conectados
+      no_purchased: Nenhum presente comprado
+      purchased_will_appear: Presentes comprados aparecerão aqui
+      about_user: "Sobre %{name}"
+      personal_info: Informações Pessoais
+      birthday: Aniversário
+      location: Localização
+      gender: Gênero
+      member_info: Informações de Membro
+      member_since: Membro desde
+      activity:
+        created_wishlist: criou uma nova lista de desejos
+        added_items: adicionou novos itens à sua lista
+      no_filtered_wishlists: Nenhuma lista encontrada
+      try_different_filter: Tente selecionar um filtro diferente para ver mais listas

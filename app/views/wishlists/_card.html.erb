@@ -1,0 +1,102 @@
+<div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl border border-rose-100 dark:border-gray-700 hover:border-rose-200 dark:hover:border-gray-600 hover:shadow-xl transition duration-300 overflow-hidden">
+  <!-- Cover Image -->
+  <% if wishlist.cover_image.attached? %>
+    <div class="h-40 overflow-hidden">
+      <%= link_to wishlist_path(wishlist) do %>
+        <%= image_tag wishlist.cover_image_url(:card), class: "w-full h-full object-cover hover:scale-105 transition duration-300", alt: wishlist.name %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="h-40 bg-gradient-to-br from-rose-400 to-purple-500 flex items-center justify-center">
+      <%= link_to wishlist_path(wishlist), class: "text-white" do %>
+        <svg class="w-16 h-16 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+        </svg>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="p-6">
+    <div class="flex justify-between items-start mb-3">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 pr-2">
+        <%= link_to wishlist.name, wishlist_path(wishlist), class: "hover:text-rose-600 dark:hover:text-rose-400 transition duration-200" %>
+      </h3>
+      <% if wishlist.event_type.present? %>
+        <span class="bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 text-xs px-2 py-1 rounded-full font-medium">
+          <%= t("event_types.#{wishlist.event_type}") %>
+        </span>
+      <% end %>
+    </div>
+
+    <% if wishlist.description.present? %>
+      <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2"><%= wishlist.description %></p>
+    <% end %>
+
+    <!-- Stats -->
+    <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
+      <div class="flex items-center gap-1">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+        </svg>
+        <span><%= wishlist.wishlist_items.available.count %> <%= t('wishlists.card.items') %></span>
+      </div>
+      <% purchased_count = wishlist.wishlist_items.purchased.count %>
+      <% if purchased_count > 0 %>
+        <div class="flex items-center gap-1">
+          <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span><%= purchased_count %> <%= t('wishlists.card.purchased') %></span>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Progress Bar (if items exist) -->
+    <% if wishlist.wishlist_items.any? %>
+      <% total = wishlist.wishlist_items.count %>
+      <% purchased = wishlist.wishlist_items.purchased.count %>
+      <% percentage = total > 0 ? (purchased.to_f / total * 100).round : 0 %>
+      <div class="mb-4">
+        <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
+          <span><%= t('wishlists.card.progress') %></span>
+          <span><%= percentage %>%</span>
+        </div>
+        <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div class="h-full bg-gradient-to-r from-rose-400 to-purple-500 transition-all duration-300" style="width: <%= percentage %>%"></div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Item Previews -->
+    <% if wishlist.wishlist_items.limit(3).any? %>
+      <div class="flex -space-x-2 mb-4">
+        <% wishlist.wishlist_items.limit(3).each do |item| %>
+          <% if item.image_url.present? %>
+            <div class="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 overflow-hidden">
+              <img src="<%= item.image_url %>" alt="<%= item.name %>" class="w-full h-full object-cover">
+            </div>
+          <% else %>
+            <div class="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+              </svg>
+            </div>
+          <% end %>
+        <% end %>
+        <% remaining = wishlist.wishlist_items.count - 3 %>
+        <% if remaining > 0 %>
+          <div class="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center">
+            <span class="text-xs font-medium text-rose-600 dark:text-rose-400">+<%= remaining %></span>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <!-- View Button -->
+    <div class="flex gap-2">
+      <%= link_to wishlist_path(wishlist), class: "flex-1 text-center bg-rose-500 text-white px-4 py-2 rounded-lg hover:bg-rose-600 transition duration-200 font-medium" do %>
+        <%= t('wishlists.card.view_wishlist') %>
+      <% end %>
+    </div>
+  </div>
+</div>

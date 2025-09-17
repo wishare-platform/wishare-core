@@ -196,4 +196,342 @@
     </div>
   </div>
 
+  <!-- Tabs Navigation -->
+  <div class="max-w-6xl mx-auto px-4 mt-8" data-controller="tabs" data-tabs-default-value="wishlists" data-tabs-persist-value="true" data-user-id="<%= @user.id %>">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+      <!-- Tab Headers -->
+      <nav class="flex overflow-x-auto scrollbar-hide border-b border-gray-200 dark:border-gray-700" role="tablist">
+        <button data-tabs-target="tab"
+                data-tab="wishlists"
+                data-action="click->tabs#switch"
+                role="tab"
+                aria-selected="true"
+                aria-controls="panel-wishlists"
+                class="flex items-center gap-2 px-6 py-4 border-b-2 font-medium text-sm whitespace-nowrap transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+          </svg>
+          <%= t('users.public_profile.tabs.wishlists') %>
+          <span class="bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 px-2 py-0.5 rounded-full text-xs font-semibold">
+            <%= @stats[:wishlists_count] %>
+          </span>
+        </button>
+
+        <button data-tabs-target="tab"
+                data-tab="activity"
+                data-action="click->tabs#switch"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel-activity"
+                class="flex items-center gap-2 px-6 py-4 border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 hover:border-gray-300 dark:hover:text-gray-300 font-medium text-sm whitespace-nowrap transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <%= t('users.public_profile.tabs.activity') %>
+        </button>
+
+        <button data-tabs-target="tab"
+                data-tab="friends"
+                data-action="click->tabs#switch"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel-friends"
+                class="flex items-center gap-2 px-6 py-4 border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 hover:border-gray-300 dark:hover:text-gray-300 font-medium text-sm whitespace-nowrap transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+          <%= t('users.public_profile.tabs.friends') %>
+          <span class="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-0.5 rounded-full text-xs font-semibold">
+            <%= @stats[:friends_count] %>
+          </span>
+        </button>
+
+        <% if current_user && (current_user == @user || Connection.between_users(@user, current_user)&.accepted?) %>
+          <button data-tabs-target="tab"
+                  data-tab="purchased"
+                  data-action="click->tabs#switch"
+                  role="tab"
+                  aria-selected="false"
+                  aria-controls="panel-purchased"
+                  class="flex items-center gap-2 px-6 py-4 border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 hover:border-gray-300 dark:hover:text-gray-300 font-medium text-sm whitespace-nowrap transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <%= t('users.public_profile.tabs.purchased') %>
+          </button>
+        <% end %>
+
+        <button data-tabs-target="tab"
+                data-tab="about"
+                data-action="click->tabs#switch"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel-about"
+                class="flex items-center gap-2 px-6 py-4 border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 hover:border-gray-300 dark:hover:text-gray-300 font-medium text-sm whitespace-nowrap transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <%= t('users.public_profile.tabs.about') %>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Tab Panels -->
+    <div class="mt-6">
+      <!-- Wishlists Panel -->
+      <div data-tabs-target="panel" data-panel="wishlists" role="tabpanel" id="panel-wishlists" data-controller="profile-wishlist-filter" data-profile-wishlist-filter-active-value="all">
+        <!-- Filters and Sort -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 mb-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div class="flex flex-wrap gap-2">
+              <button data-action="click->profile-wishlist-filter#filter" data-filter="all" class="px-4 py-2 bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400 rounded-lg font-medium text-sm">
+                <%= t('wishlists.filters.all') %>
+              </button>
+
+              <% # Show filters based on available event types %>
+              <% @available_event_types.each do |event_type| %>
+                <% if %w[birthday wedding christmas holiday].include?(event_type) %>
+                  <button data-action="click->profile-wishlist-filter#filter" data-filter="<%= event_type %>" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 font-medium text-sm transition">
+                    <%= t("wishlists.filters.#{event_type}") %>
+                  </button>
+                <% elsif %w[valentines mothers_day fathers_day].include?(event_type) %>
+                  <button data-action="click->profile-wishlist-filter#filter" data-filter="holiday" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 font-medium text-sm transition">
+                    <%= t('wishlists.filters.holiday') %>
+                  </button>
+                <% else %>
+                  <button data-action="click->profile-wishlist-filter#filter" data-filter="<%= event_type %>" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 font-medium text-sm transition">
+                    <%= t("wishlists.filters.#{event_type}", default: event_type.humanize) %>
+                  </button>
+                <% end %>
+              <% end %>
+
+              <% # Show "None" filter if there are wishlists without event types %>
+              <% if @wishlists.where(event_type: [nil, '', 'none']).any? %>
+                <button data-action="click->profile-wishlist-filter#filter" data-filter="none" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 font-medium text-sm transition">
+                  <%= t('wishlists.filters.general', default: 'General') %>
+                </button>
+              <% end %>
+            </div>
+            <select data-action="change->profile-wishlist-filter#sort" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg border-0 font-medium text-sm">
+              <option value="newest"><%= t('wishlists.sort.newest') %></option>
+              <option value="oldest"><%= t('wishlists.sort.oldest') %></option>
+              <option value="most_items"><%= t('wishlists.sort.most_items') %></option>
+              <option value="least_items"><%= t('wishlists.sort.least_items') %></option>
+              <option value="name_az"><%= t('wishlists.sort.name_az') %></option>
+              <option value="name_za"><%= t('wishlists.sort.name_za') %></option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Wishlists Grid -->
+        <% if @wishlists.any? %>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-profile-wishlist-filter-target="container">
+            <% @wishlists.each do |wishlist| %>
+              <div data-profile-wishlist-filter-target="item"
+                   data-event-type="<%= wishlist.event_type || 'none' %>"
+                   data-created-at="<%= wishlist.created_at.to_i %>"
+                   data-items-count="<%= wishlist.wishlist_items.count %>"
+                   data-name="<%= wishlist.name.downcase %>">
+                <%= render 'wishlists/card', wishlist: wishlist %>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Empty state for filtered results -->
+          <div data-profile-wishlist-filter-target="emptyState" class="bg-white dark:bg-gray-800 rounded-lg p-12 text-center shadow-sm border border-gray-200 dark:border-gray-700 hidden">
+            <svg class="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+              <%= t('users.public_profile.no_filtered_wishlists') %>
+            </h3>
+            <p class="text-gray-500 dark:text-gray-400">
+              <%= t('users.public_profile.try_different_filter') %>
+            </p>
+          </div>
+        <% else %>
+          <!-- No wishlists at all -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg p-12 text-center shadow-sm border border-gray-200 dark:border-gray-700">
+            <svg class="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+            </svg>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+              <%= t('users.public_profile.no_wishlists') %>
+            </h3>
+            <p class="text-gray-500 dark:text-gray-400">
+              <%= current_user == @user ? t('users.public_profile.create_first_wishlist') : t('users.public_profile.user_no_wishlists') %>
+            </p>
+            <% if current_user == @user %>
+              <%= link_to new_wishlist_path, class: "inline-flex items-center gap-2 px-6 py-3 bg-rose-500 text-white rounded-lg hover:bg-rose-600 transition font-medium mt-6" do %>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                <%= t('wishlists.new.title') %>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Activity Panel -->
+      <div data-tabs-target="panel" data-panel="activity" role="tabpanel" id="panel-activity" class="hidden">
+        <div class="space-y-4">
+          <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-rose-100 dark:bg-rose-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-rose-600 dark:text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <p class="text-gray-800 dark:text-gray-100">
+                  <span class="font-semibold"><%= @user.name %></span>
+                  <%= t('users.public_profile.activity.created_wishlist') %>
+                  <span class="font-medium text-rose-600 dark:text-rose-400">Birthday Wishlist 2025</span>
+                </p>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">2 days ago</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <p class="text-gray-800 dark:text-gray-100">
+                  <span class="font-semibold"><%= @user.name %></span>
+                  <%= t('users.public_profile.activity.added_items') %>
+                </p>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">1 week ago</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Friends Panel -->
+      <div data-tabs-target="panel" data-panel="friends" role="tabpanel" id="panel-friends" class="hidden">
+        <% if @stats[:friends_count] > 0 %>
+          <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <% # This would normally iterate over @user.connections.accepted %>
+            <% 6.times do %>
+              <div class="text-center">
+                <div class="w-20 h-20 mx-auto bg-gradient-to-br from-rose-400 to-purple-500 rounded-full flex items-center justify-center mb-2">
+                  <span class="text-white text-2xl font-bold">JD</span>
+                </div>
+                <p class="text-sm font-medium text-gray-800 dark:text-gray-100">John Doe</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">3 wishlists</p>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="bg-white dark:bg-gray-800 rounded-lg p-12 text-center shadow-sm border border-gray-200 dark:border-gray-700">
+            <svg class="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+              <%= t('users.public_profile.no_friends') %>
+            </h3>
+            <p class="text-gray-500 dark:text-gray-400">
+              <%= current_user == @user ? t('users.public_profile.connect_with_friends') : t('users.public_profile.user_no_friends') %>
+            </p>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Purchased Gifts Panel -->
+      <% if current_user && (current_user == @user || Connection.between_users(@user, current_user)&.accepted?) %>
+        <div data-tabs-target="panel" data-panel="purchased" role="tabpanel" id="panel-purchased" class="hidden">
+          <div class="bg-white dark:bg-gray-800 rounded-lg p-12 text-center shadow-sm border border-gray-200 dark:border-gray-700">
+            <svg class="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+              <%= t('users.public_profile.no_purchased') %>
+            </h3>
+            <p class="text-gray-500 dark:text-gray-400">
+              <%= t('users.public_profile.purchased_will_appear') %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- About Panel -->
+      <div data-tabs-target="panel" data-panel="about" role="tabpanel" id="panel-about" class="hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-6">
+            <%= t('users.public_profile.about_user', name: @user.name) %>
+          </h3>
+
+          <div class="space-y-6">
+            <!-- Personal Info -->
+            <div>
+              <h4 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
+                <%= t('users.public_profile.personal_info') %>
+              </h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <% if @user.date_of_birth.present? %>
+                  <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"/>
+                    </svg>
+                    <div>
+                      <p class="text-sm text-gray-500 dark:text-gray-400"><%= t('users.public_profile.birthday') %></p>
+                      <p class="font-medium text-gray-800 dark:text-gray-100"><%= @user.date_of_birth.strftime('%B %d') %></p>
+                    </div>
+                  </div>
+                <% end %>
+
+                <% if @user.city.present? || @user.state.present? %>
+                  <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <div>
+                      <p class="text-sm text-gray-500 dark:text-gray-400"><%= t('users.public_profile.location') %></p>
+                      <p class="font-medium text-gray-800 dark:text-gray-100"><%= [@user.city, @user.state].compact.join(', ') %></p>
+                    </div>
+                  </div>
+                <% end %>
+
+                <% if @user.gender.present? %>
+                  <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                    <div>
+                      <p class="text-sm text-gray-500 dark:text-gray-400"><%= t('users.public_profile.gender') %></p>
+                      <p class="font-medium text-gray-800 dark:text-gray-100"><%= @user.gender.capitalize %></p>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Member Since -->
+            <div>
+              <h4 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
+                <%= t('users.public_profile.member_info') %>
+              </h4>
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <div>
+                  <p class="text-sm text-gray-500 dark:text-gray-400"><%= t('users.public_profile.member_since') %></p>
+                  <p class="font-medium text-gray-800 dark:text-gray-100"><%= @user.created_at.strftime('%B %Y') %></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

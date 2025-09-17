@@ -129,7 +129,7 @@ class User < ApplicationRecord
         # Create new user
         user = create! do |u|
           u.email = auth.info.email
-          u.password = Devise.friendly_token[0, 20]
+          u.password = generate_secure_password
           u.name = auth.info.name
           u.avatar_url = auth.info.image
           u.provider = auth.provider
@@ -424,5 +424,27 @@ class User < ApplicationRecord
 
   def password_required?
     !persisted? || !password.blank?
+  end
+
+  def self.generate_secure_password
+    # Generate a password that meets all complexity requirements:
+    # - At least 12 characters
+    # - Include uppercase, lowercase, number, special character
+
+    base_token = Devise.friendly_token[0, 8] # 8 alphanumeric chars
+    uppercase = ('A'..'Z').to_a.sample(2).join # 2 uppercase
+    lowercase = ('a'..'z').to_a.sample(2).join # 2 lowercase
+    numbers = ('0'..'9').to_a.sample(2).join # 2 numbers
+    special = ['!', '@', '#', '$', '%', '^', '&', '*'].sample(2).join # 2 special chars
+
+    # Combine and shuffle for randomness
+    password = (base_token + uppercase + lowercase + numbers + special).chars.shuffle.join
+
+    # Ensure minimum length of 12
+    while password.length < 12
+      password += ('a'..'z').to_a.sample + ('0'..'9').to_a.sample
+    end
+
+    password
   end
 end
