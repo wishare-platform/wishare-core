@@ -65,7 +65,7 @@ class ApplicationController < ActionController::Base
 
   def render_404
     respond_to do |format|
-      format.html { render template: 'errors/not_found', status: :not_found }
+      format.html { render template: 'errors/not_found', status: :not_found, layout: false }
       format.json { render json: { error: 'Not found' }, status: :not_found }
     end
   end

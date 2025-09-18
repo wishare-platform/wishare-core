@@ -5,6 +5,8 @@ require 'json'
 require 'ipaddr'
 require 'resolv'
 
+require_relative 'url_metadata_extractor'
+
 class EnhancedUrlMetadataExtractor < UrlMetadataExtractor
   # Comprehensive price selectors that work across most e-commerce sites
   PRICE_SELECTORS = [
