@@ -12,6 +12,13 @@ en:
       title: Make every gift meaningful
       subtitle: Create wishlists, connect with loved ones, and never miss a perfect
         gift opportunity again
+    use_cases:
+      title: Perfect for Every Occasion
+      birthdays: Birthdays
+      weddings: Weddings
+      holidays: Holidays
+      couples: Couples
+      families: Families
     cta:
       get_started: Get Started Free
       sign_in: Sign In
@@ -33,6 +40,12 @@ en:
       notifications:
         title: Stay Informed
         description: Get notified when friends add items or make purchases
+      global:
+        title: Multi-Currency
+        description: Support for 20+ currencies with automatic detection
+      mobile:
+        title: Mobile Apps
+        description: Native iOS and Android apps with camera integration and push notifications
     events:
       title: Perfect for Every Occasion
       birthday: Birthdays

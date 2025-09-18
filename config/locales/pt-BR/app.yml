@@ -14,6 +14,13 @@ pt-BR:
       title: Torne cada presente significativo
       subtitle: Crie listas de presente, conecte-se com pessoas queridas e nunca perca
         uma oportunidade de presente perfeito
+    use_cases:
+      title: Perfeito para Todas as Ocasiões
+      birthdays: Aniversários
+      weddings: Casamentos
+      holidays: Feriados
+      couples: Casais
+      families: Famílias
     cta:
       get_started: Começar Gratuitamente
       sign_in: Entrar
@@ -35,6 +42,12 @@ pt-BR:
       notifications:
         title: Mantenha-se Informado
         description: Seja notificado quando amigos adicionam itens ou fazem compras
+      global:
+        title: Multi-Moeda
+        description: Suporte para mais de 20 moedas com detecção automática
+      mobile:
+        title: Apps Móveis
+        description: Apps nativos iOS e Android com integração de câmera e notificações push
     events:
       title: Perfeito para Todas as Ocasiões
       birthday: Aniversários

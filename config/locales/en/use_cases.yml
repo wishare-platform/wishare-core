@@ -1,0 +1,242 @@
+---
+en:
+  use_cases:
+    back_to_home: Back to Home
+    explore_other: Explore Other Use Cases
+    how_it_works:
+      title: How It Works
+    cta:
+      get_started: Get Started Free
+      sign_in: Already have an account? Sign in
+
+    # Common use case names and emojis
+    birthdays:
+      name: Birthdays
+      emoji: "🎂"
+    weddings:
+      name: Weddings
+      emoji: "💒"
+    holidays:
+      name: Holidays
+      emoji: "🎄"
+    couples:
+      name: Couples
+      emoji: "💕"
+    families:
+      name: Families
+      emoji: "👨‍👩‍👧‍👦"
+
+    # Birthday use case
+    birthdays:
+      title: Birthday Wishlists Made Simple
+      meta_description: Create and share birthday wishlists with family and friends. Perfect for kids and adults. Never receive duplicate gifts again.
+      subtitle: Create meaningful birthday celebrations with shared wishlists that bring family and friends together around the perfect gifts.
+
+      features:
+        wishlist:
+          title: Personalized Lists
+          description: Create age-appropriate wishlists for kids, teens, or adults with items they'll actually love and use.
+        reminders:
+          title: Birthday Reminders
+          description: Never miss a birthday again with smart notifications and calendar integration for all your loved ones.
+        group:
+          title: Group Coordination
+          description: Coordinate with family and friends to avoid duplicate gifts and plan memorable celebrations together.
+
+      steps:
+        create:
+          title: Create Birthday List
+          description: Set up a wishlist with the birthday person's favorite items, hobbies, and interests.
+        share:
+          title: Share with Family
+          description: Invite family and friends to view the list and coordinate gift purchases securely.
+        celebrate:
+          title: Celebrate Together
+          description: Watch the joy unfold as thoughtful, wanted gifts make the birthday extra special.
+
+      examples:
+        title: Birthday List Ideas
+        child:
+          title: Kids Birthday (Ages 5-12)
+          item1: LEGO building sets
+          item2: Art supplies and craft kits
+          item3: Educational games and puzzles
+          item4: Outdoor sports equipment
+        adult:
+          title: Adult Birthday (Ages 25+)
+          item1: Books and hobby materials
+          item2: Home decor and plants
+          item3: Tech gadgets and accessories
+          item4: Experience gifts and subscriptions
+
+    # Wedding use case
+    weddings:
+      title: Wedding Registry Reimagined
+      meta_description: Modern wedding registry with wish lists for your new home, experiences, and honeymoon. Share with wedding guests easily.
+      subtitle: Build your dream home together with a wedding registry that goes beyond traditional gifts to include experiences and personal touches.
+
+      features:
+        registry:
+          title: Complete Registry
+          description: From kitchen essentials to honeymoon experiences, create comprehensive lists for your new life together.
+        home:
+          title: Home Building
+          description: Register for everything you need to create your perfect home, from furniture to decorative touches.
+        experience:
+          title: Experience Gifts
+          description: Include honeymoon contributions, date night experiences, and adventure gifts alongside traditional items.
+
+      steps:
+        create:
+          title: Build Your Registry
+          description: Create multiple lists for different aspects of your new life - home, experiences, and special wishes.
+        invite:
+          title: Share with Guests
+          description: Send your registry link with wedding invitations or include in your wedding website.
+        enjoy:
+          title: Start Your Journey
+          description: Receive meaningful gifts that help you build your dream life together as newlyweds.
+
+      examples:
+        title: Wedding Registry Ideas
+        home:
+          title: Home Essentials
+          item1: Kitchen appliances and cookware
+          item2: Bedding and bathroom linens
+          item3: Furniture and home decor
+          item4: Cleaning supplies and organizers
+        experience:
+          title: Experience Registry
+          item1: Honeymoon fund contributions
+          item2: Date night restaurant gift cards
+          item3: Couples spa day packages
+          item4: Adventure and travel experiences
+
+    # Holiday use case
+    holidays:
+      title: Holiday Gift Coordination
+      meta_description: Organize family holiday gift giving with shared wishlists. Perfect for Christmas, Thanksgiving, and seasonal celebrations.
+      subtitle: Make holiday seasons magical with coordinated gift giving that brings families together and eliminates the stress of duplicate presents.
+
+      features:
+        seasonal:
+          title: Seasonal Planning
+          description: Create holiday-specific lists for Christmas, Thanksgiving, Easter, and other family celebrations throughout the year.
+        family:
+          title: Family Coordination
+          description: Organize extended family gift exchanges with clear lists and purchase tracking for everyone involved.
+        budget:
+          title: Budget Management
+          description: Set price ranges and coordinate spending to ensure fair and thoughtful gift exchanges within family budgets.
+
+      steps:
+        plan:
+          title: Plan Holiday Lists
+          description: Create lists for each family member with holiday-appropriate gifts in various price ranges.
+        coordinate:
+          title: Coordinate with Family
+          description: Share lists with extended family and coordinate who's buying what to avoid duplicates.
+        celebrate:
+          title: Celebrate Together
+          description: Enjoy stress-free holidays knowing everyone receives gifts they truly want and appreciate.
+
+      examples:
+        title: Holiday Gift Ideas
+        christmas:
+          title: Christmas Favorites
+          item1: Cozy winter clothing and accessories
+          item2: Holiday baking supplies and treats
+          item3: Board games for family gatherings
+          item4: Tech gadgets and entertainment
+        thanksgiving:
+          title: Thanksgiving Gratitude
+          item1: Gourmet cooking ingredients
+          item2: Beautiful serving dishes
+          item3: Autumn home decorations
+          item4: Books and comfort items
+
+    # Couples use case
+    couples:
+      title: Couples Gift Sharing
+      meta_description: Private wishlist sharing for couples. Perfect for anniversaries, Valentine's Day, and surprise gifts throughout the year.
+      subtitle: Strengthen your relationship with thoughtful gift giving that shows you truly listen to and care about each other's desires.
+
+      features:
+        romantic:
+          title: Romantic Gestures
+          description: Share subtle hints about items you'd love to receive for anniversaries, Valentine's Day, or just because moments.
+        private:
+          title: Private Lists
+          description: Keep your wishlists private between just the two of you for intimate and personal gift exchanges.
+        surprise:
+          title: Perfect Surprises
+          description: Give gifts that truly delight by knowing exactly what your partner has been wanting or needing.
+
+      steps:
+        connect:
+          title: Connect as Couple
+          description: Create your accounts and connect with each other to start sharing your private wishlists.
+        wish:
+          title: Share Your Wishes
+          description: Add items you'd love to receive - from practical needs to romantic surprises and dream purchases.
+        surprise:
+          title: Create Magic Moments
+          description: Use your partner's list to give unexpected gifts that show how much you pay attention to their desires.
+
+      examples:
+        title: Couples Gift Ideas
+        anniversary:
+          title: Anniversary Celebration
+          item1: Jewelry and personalized accessories
+          item2: Romantic experience vouchers
+          item3: Home improvements you both want
+          item4: Hobby items and self-care products
+        valentine:
+          title: Valentine's Romance
+          item1: Luxury beauty and skincare items
+          item2: Cozy home comfort products
+          item3: Date night experience gifts
+          item4: Meaningful books and subscriptions
+
+    # Families use case
+    families:
+      title: Family Gift Planning
+      meta_description: Coordinate gifts across extended family. Perfect for family reunions, grandparent gifts, and multi-generational celebrations.
+      subtitle: Bring multiple generations together through thoughtful gift giving that honors everyone's preferences and makes family gatherings special.
+
+      features:
+        multi_gen:
+          title: Multi-Generational
+          description: Create lists appropriate for all ages from toddlers to grandparents, ensuring everyone feels included and appreciated.
+        easy:
+          title: Easy for Everyone
+          description: Simple interface that works for all family members, from tech-savvy teens to grandparents who prefer simplicity.
+        organize:
+          title: Organized Giving
+          description: Keep track of all family birthdays, holidays, and special occasions with coordinated gift planning year-round.
+
+      steps:
+        invite:
+          title: Invite the Family
+          description: Send invitations to extended family members to join your family gift coordination network.
+        organize:
+          title: Organize Events
+          description: Create shared lists for family reunions, holidays, and individual celebrations throughout the year.
+        enjoy:
+          title: Enjoy Togetherness
+          description: Focus on spending quality time together instead of worrying about gift coordination and shopping stress.
+
+      examples:
+        title: Family Gift Ideas
+        kids:
+          title: Grandkids & Nieces/Nephews
+          item1: Educational toys and games
+          item2: Books and creative supplies
+          item3: Outdoor play equipment
+          item4: Clothing for growing children
+        grandparents:
+          title: Grandparents & Elders
+          item1: Comfort items and cozy accessories
+          item2: Photo albums and memory books
+          item3: Hobby supplies and craft materials
+          item4: Health and wellness products

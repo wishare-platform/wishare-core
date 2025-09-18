@@ -145,7 +145,14 @@ Rails.application.routes.draw do
     end
     
     root 'landing#index'
-    
+
+    # Use case pages
+    get '/for/birthdays', to: 'use_cases#birthdays', as: :use_case_birthdays
+    get '/for/weddings', to: 'use_cases#weddings', as: :use_case_weddings
+    get '/for/holidays', to: 'use_cases#holidays', as: :use_case_holidays
+    get '/for/couples', to: 'use_cases#couples', as: :use_case_couples
+    get '/for/families', to: 'use_cases#families', as: :use_case_families
+
     # Cookie consent management
     get '/cookie-preferences', to: 'cookie_consents#show', as: :cookie_consent
     post '/cookie-consent', to: 'cookie_consents#create', as: :create_cookie_consent

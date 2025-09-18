@@ -31,22 +31,65 @@
       </p>
       
       <!-- Call to Action -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-12 sm:mb-16 px-4">
-        <%= link_to new_user_registration_path, 
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-12 px-4">
+        <%= link_to new_user_registration_path,
               class: "btn-primary w-full sm:w-auto bg-gradient-to-r from-rose-500 to-rose-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl hover:from-rose-600 hover:to-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 transition duration-200 cursor-pointer touch-manipulation shadow-lg inline-flex items-center justify-center gap-2" do %>
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
           </svg>
           <%= t('landing.cta.get_started') %>
         <% end %>
-        
+
         <%= link_to new_user_session_path,
               class: "btn-secondary w-full sm:w-auto border-2 border-rose-500 text-rose-600 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl hover:bg-rose-50 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 transition duration-200 cursor-pointer touch-manipulation inline-flex items-center justify-center gap-2" do %>
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path>
           </svg>
           <%= t('landing.cta.sign_in') %>
         <% end %>
+      </div>
+
+      <!-- Use Cases Navigation -->
+      <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-6 mb-8 sm:mb-12 border border-rose-100 dark:border-gray-700 mx-2">
+        <h3 class="heading-section text-gray-800 dark:text-gray-100 mb-4 sm:mb-6 text-center">
+          <%= t('landing.use_cases.title') %>
+        </h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+          <%= link_to "/for/birthdays", class: "group bg-white/80 dark:bg-gray-700/80 rounded-xl p-3 sm:p-4 text-center hover:bg-rose-50 dark:hover:bg-gray-600 transition-colors border border-rose-100/50 dark:border-gray-600" do %>
+            <span class="text-2xl sm:text-3xl mb-2 block">🎂</span>
+            <span class="text-body-sm text-gray-700 dark:text-gray-300 group-hover:text-rose-700 dark:group-hover:text-rose-300 font-medium leading-tight">
+              <%= t('landing.use_cases.birthdays') %>
+            </span>
+          <% end %>
+
+          <%= link_to "/for/weddings", class: "group bg-white/80 dark:bg-gray-700/80 rounded-xl p-3 sm:p-4 text-center hover:bg-rose-50 dark:hover:bg-gray-600 transition-colors border border-rose-100/50 dark:border-gray-600" do %>
+            <span class="text-2xl sm:text-3xl mb-2 block">💒</span>
+            <span class="text-body-sm text-gray-700 dark:text-gray-300 group-hover:text-rose-700 dark:group-hover:text-rose-300 font-medium leading-tight">
+              <%= t('landing.use_cases.weddings') %>
+            </span>
+          <% end %>
+
+          <%= link_to "/for/holidays", class: "group bg-white/80 dark:bg-gray-700/80 rounded-xl p-3 sm:p-4 text-center hover:bg-rose-50 dark:hover:bg-gray-600 transition-colors border border-rose-100/50 dark:border-gray-600" do %>
+            <span class="text-2xl sm:text-3xl mb-2 block">🎄</span>
+            <span class="text-body-sm text-gray-700 dark:text-gray-300 group-hover:text-rose-700 dark:group-hover:text-rose-300 font-medium leading-tight">
+              <%= t('landing.use_cases.holidays') %>
+            </span>
+          <% end %>
+
+          <%= link_to "/for/couples", class: "group bg-white/80 dark:bg-gray-700/80 rounded-xl p-3 sm:p-4 text-center hover:bg-rose-50 dark:hover:bg-gray-600 transition-colors border border-rose-100/50 dark:border-gray-600" do %>
+            <span class="text-2xl sm:text-3xl mb-2 block">💕</span>
+            <span class="text-body-sm text-gray-700 dark:text-gray-300 group-hover:text-rose-700 dark:group-hover:text-rose-300 font-medium leading-tight">
+              <%= t('landing.use_cases.couples') %>
+            </span>
+          <% end %>
+
+          <%= link_to "/for/families", class: "group bg-white/80 dark:bg-gray-700/80 rounded-xl p-3 sm:p-4 text-center hover:bg-rose-50 dark:hover:bg-gray-600 transition-colors border border-rose-100/50 dark:border-gray-600" do %>
+            <span class="text-2xl sm:text-3xl mb-2 block">👨‍👩‍👧‍👦</span>
+            <span class="text-body-sm text-gray-700 dark:text-gray-300 group-hover:text-rose-700 dark:group-hover:text-rose-300 font-medium leading-tight">
+              <%= t('landing.use_cases.families') %>
+            </span>
+          <% end %>
+        </div>
       </div>
       
       <!-- Key Highlights -->
@@ -72,7 +115,7 @@
       </div>
 
       <!-- Features -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-6xl mx-auto mb-8 sm:mb-12 px-2">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto mb-8 sm:mb-12 px-2">
         <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl p-4 sm:p-6 shadow-sm border border-rose-100 dark:border-gray-700">
           <div class="text-2xl sm:text-3xl mb-3 sm:mb-4">🎁</div>
           <h3 class="heading-card text-gray-800 dark:text-gray-100 mb-2">
@@ -82,7 +125,7 @@
             <%= t('landing.features.create.description') %>
           </p>
         </div>
-        
+
         <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl p-4 sm:p-6 shadow-sm border border-rose-100 dark:border-gray-700">
           <div class="text-2xl sm:text-3xl mb-3 sm:mb-4">👨‍👩‍👧‍👦</div>
           <h3 class="heading-card text-gray-800 dark:text-gray-100 mb-2">
@@ -92,7 +135,7 @@
             <%= t('landing.features.connect.description') %>
           </p>
         </div>
-        
+
         <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl p-4 sm:p-6 shadow-sm border border-rose-100 dark:border-gray-700">
           <div class="text-2xl sm:text-3xl mb-3 sm:mb-4">🎉</div>
           <h3 class="heading-card text-gray-800 dark:text-gray-100 mb-2">
@@ -100,6 +143,16 @@
           </h3>
           <p class="text-body text-gray-600 dark:text-gray-300">
             <%= t('landing.features.occasions.description') %>
+          </p>
+        </div>
+
+        <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl p-4 sm:p-6 shadow-sm border border-rose-100 dark:border-gray-700">
+          <div class="text-2xl sm:text-3xl mb-3 sm:mb-4">🌍</div>
+          <h3 class="heading-card text-gray-800 dark:text-gray-100 mb-2">
+            <%= t('landing.features.global.title') %>
+          </h3>
+          <p class="text-body text-gray-600 dark:text-gray-300">
+            <%= t('landing.features.global.description') %>
           </p>
         </div>
 
@@ -112,36 +165,18 @@
             <%= t('landing.features.notifications.description') %>
           </p>
         </div>
-      </div>
 
-      <!-- Event Types -->
-      <div class="bg-gradient-to-r from-rose-500/10 to-purple-500/10 dark:from-rose-500/20 dark:to-purple-500/20 rounded-2xl sm:rounded-3xl p-4 sm:p-8 mb-8 sm:mb-12 border border-rose-200 dark:border-gray-600 mx-2">
-        <h3 class="heading-section text-gray-800 dark:text-gray-100 mb-4 sm:mb-6 text-center">
-          <%= t('landing.events.title') %>
-        </h3>
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 text-center">
-          <div class="flex flex-col items-center gap-1 sm:gap-2">
-            <span class="text-xl sm:text-2xl">🎂</span>
-            <span class="text-body-sm text-gray-600 dark:text-gray-300 leading-tight"><%= t('landing.events.birthday') %></span>
-          </div>
-          <div class="flex flex-col items-center gap-1 sm:gap-2">
-            <span class="text-xl sm:text-2xl">💒</span>
-            <span class="text-body-sm text-gray-600 dark:text-gray-300 leading-tight"><%= t('landing.events.wedding') %></span>
-          </div>
-          <div class="flex flex-col items-center gap-1 sm:gap-2">
-            <span class="text-xl sm:text-2xl">🍼</span>
-            <span class="text-body-sm text-gray-600 dark:text-gray-300 leading-tight"><%= t('landing.events.baby_shower') %></span>
-          </div>
-          <div class="flex flex-col items-center gap-1 sm:gap-2">
-            <span class="text-xl sm:text-2xl">🎄</span>
-            <span class="text-body-sm text-gray-600 dark:text-gray-300 leading-tight"><%= t('landing.events.christmas') %></span>
-          </div>
-          <div class="flex flex-col items-center gap-1 sm:gap-2">
-            <span class="text-xl sm:text-2xl">🎓</span>
-            <span class="text-body-sm text-gray-600 dark:text-gray-300 leading-tight"><%= t('landing.events.graduation') %></span>
-          </div>
+        <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl p-4 sm:p-6 shadow-sm border border-rose-100 dark:border-gray-700">
+          <div class="text-2xl sm:text-3xl mb-3 sm:mb-4">📱</div>
+          <h3 class="heading-card text-gray-800 dark:text-gray-100 mb-2">
+            <%= t('landing.features.mobile.title') %>
+          </h3>
+          <p class="text-body text-gray-600 dark:text-gray-300">
+            <%= t('landing.features.mobile.description') %>
+          </p>
         </div>
       </div>
+
     </div>
   </div>
 </div>

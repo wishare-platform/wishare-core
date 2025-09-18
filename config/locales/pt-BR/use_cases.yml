@@ -1,0 +1,242 @@
+---
+pt-BR:
+  use_cases:
+    back_to_home: Voltar ao Início
+    explore_other: Explore Outros Casos de Uso
+    how_it_works:
+      title: Como Funciona
+    cta:
+      get_started: Começar Gratuitamente
+      sign_in: Já tem uma conta? Entre
+
+    # Common use case names and emojis
+    birthdays:
+      name: Aniversários
+      emoji: "🎂"
+    weddings:
+      name: Casamentos
+      emoji: "💒"
+    holidays:
+      name: Feriados
+      emoji: "🎄"
+    couples:
+      name: Casais
+      emoji: "💕"
+    families:
+      name: Famílias
+      emoji: "👨‍👩‍👧‍👦"
+
+    # Birthday use case
+    birthdays:
+      title: Listas de Aniversário Simplificadas
+      meta_description: Crie e compartilhe listas de aniversário com família e amigos. Perfeito para crianças e adultos. Nunca mais receba presentes duplicados.
+      subtitle: Crie celebrações de aniversário significativas com listas compartilhadas que unem família e amigos em torno dos presentes perfeitos.
+
+      features:
+        wishlist:
+          title: Listas Personalizadas
+          description: Crie listas apropriadas para crianças, adolescentes ou adultos com itens que eles realmente vão amar e usar.
+        reminders:
+          title: Lembretes de Aniversário
+          description: Nunca mais esqueça um aniversário com notificações inteligentes e integração de calendário para todos os seus entes queridos.
+        group:
+          title: Coordenação em Grupo
+          description: Coordene com família e amigos para evitar presentes duplicados e planejar celebrações memoráveis juntos.
+
+      steps:
+        create:
+          title: Criar Lista de Aniversário
+          description: Configure uma lista de desejos com os itens favoritos, hobbies e interesses da pessoa aniversariante.
+        share:
+          title: Compartilhar com a Família
+          description: Convide família e amigos para visualizar a lista e coordenar compras de presentes com segurança.
+        celebrate:
+          title: Celebrar Juntos
+          description: Observe a alegria se desdobrar enquanto presentes pensados e desejados tornam o aniversário extra especial.
+
+      examples:
+        title: Ideias de Listas de Aniversário
+        child:
+          title: Aniversário Infantil (5-12 anos)
+          item1: Conjuntos de construção LEGO
+          item2: Materiais de arte e kits de artesanato
+          item3: Jogos educativos e quebra-cabeças
+          item4: Equipamentos esportivos ao ar livre
+        adult:
+          title: Aniversário Adulto (25+ anos)
+          item1: Livros e materiais para hobbies
+          item2: Decoração para casa e plantas
+          item3: Gadgets tecnológicos e acessórios
+          item4: Presentes de experiência e assinaturas
+
+    # Wedding use case
+    weddings:
+      title: Lista de Casamento Reimaginada
+      meta_description: Lista de casamento moderna com listas de desejos para sua nova casa, experiências e lua de mel. Compartilhe facilmente com os convidados.
+      subtitle: Construam a casa dos sonhos juntos com uma lista de casamento que vai além de presentes tradicionais para incluir experiências e toques pessoais.
+
+      features:
+        registry:
+          title: Lista Completa
+          description: Desde utensílios de cozinha até experiências de lua de mel, crie listas abrangentes para sua nova vida juntos.
+        home:
+          title: Construção do Lar
+          description: Registre tudo que vocês precisam para criar sua casa perfeita, desde móveis até toques decorativos.
+        experience:
+          title: Presentes de Experiência
+          description: Inclua contribuições para lua de mel, experiências de encontros e presentes de aventura junto com itens tradicionais.
+
+      steps:
+        create:
+          title: Construir Sua Lista
+          description: Crie múltiplas listas para diferentes aspectos de sua nova vida - casa, experiências e desejos especiais.
+        invite:
+          title: Compartilhar com Convidados
+          description: Envie o link da sua lista com os convites de casamento ou inclua no site do casamento.
+        enjoy:
+          title: Iniciar Sua Jornada
+          description: Recebam presentes significativos que ajudem a construir a vida dos sonhos juntos como recém-casados.
+
+      examples:
+        title: Ideias de Lista de Casamento
+        home:
+          title: Essenciais para Casa
+          item1: Eletrodomésticos e utensílios de cozinha
+          item2: Roupas de cama e banho
+          item3: Móveis e decoração
+          item4: Produtos de limpeza e organizadores
+        experience:
+          title: Lista de Experiências
+          item1: Contribuições para lua de mel
+          item2: Vale-presentes para restaurantes românticos
+          item3: Pacotes de spa para casais
+          item4: Experiências de aventura e viagem
+
+    # Holiday use case
+    holidays:
+      title: Coordenação de Presentes de Feriado
+      meta_description: Organize presentes familiares de feriado com listas compartilhadas. Perfeito para Natal, Ação de Graças e celebrações sazonais.
+      subtitle: Torne as épocas de feriado mágicas com troca de presentes coordenada que une famílias e elimina o estresse de presentes duplicados.
+
+      features:
+        seasonal:
+          title: Planejamento Sazonal
+          description: Crie listas específicas para Natal, Páscoa, Dia das Mães e outras celebrações familiares ao longo do ano.
+        family:
+          title: Coordenação Familiar
+          description: Organize trocas de presentes da família extensa com listas claras e rastreamento de compras para todos os envolvidos.
+        budget:
+          title: Gestão de Orçamento
+          description: Defina faixas de preço e coordene gastos para garantir trocas de presentes justas e pensadas dentro do orçamento familiar.
+
+      steps:
+        plan:
+          title: Planejar Listas de Feriado
+          description: Crie listas para cada membro da família com presentes apropriados para feriados em várias faixas de preço.
+        coordinate:
+          title: Coordenar com a Família
+          description: Compartilhe listas com a família extensa e coordene quem está comprando o quê para evitar duplicatas.
+        celebrate:
+          title: Celebrar Juntos
+          description: Aproveite feriados sem estresse sabendo que todos recebem presentes que realmente querem e apreciam.
+
+      examples:
+        title: Ideias de Presentes de Feriado
+        christmas:
+          title: Favoritos de Natal
+          item1: Roupas e acessórios aconchegantes de inverno
+          item2: Suprimentos e guloseimas para panificação natalina
+          item3: Jogos de tabuleiro para reuniões familiares
+          item4: Gadgets tecnológicos e entretenimento
+        thanksgiving:
+          title: Gratidão de Ação de Graças
+          item1: Ingredientes gourmet para cozinhar
+          item2: Pratos bonitos para servir
+          item3: Decorações de outono para casa
+          item4: Livros e itens de conforto
+
+    # Couples use case
+    couples:
+      title: Compartilhamento de Presentes para Casais
+      meta_description: Compartilhamento privado de listas de desejos para casais. Perfeito para aniversários, Dia dos Namorados e presentes surpresa durante o ano.
+      subtitle: Fortaleçam seu relacionamento com presentes pensados que mostram que vocês realmente escutam e se importam com os desejos um do outro.
+
+      features:
+        romantic:
+          title: Gestos Românticos
+          description: Compartilhem dicas sutis sobre itens que gostariam de receber para aniversários, Dia dos Namorados ou momentos especiais.
+        private:
+          title: Listas Privadas
+          description: Mantenham suas listas privadas apenas entre vocês dois para trocas de presentes íntimas e pessoais.
+        surprise:
+          title: Surpresas Perfeitas
+          description: Deem presentes que realmente encantam sabendo exatamente o que seu parceiro tem desejado ou precisando.
+
+      steps:
+        connect:
+          title: Conectar como Casal
+          description: Criem suas contas e se conectem para começar a compartilhar suas listas privadas de desejos.
+        wish:
+          title: Compartilhar Seus Desejos
+          description: Adicionem itens que gostariam de receber - desde necessidades práticas até surpresas românticas e compras dos sonhos.
+        surprise:
+          title: Criar Momentos Mágicos
+          description: Usem a lista do parceiro para dar presentes inesperados que mostram o quanto prestam atenção aos desejos dele.
+
+      examples:
+        title: Ideias de Presentes para Casais
+        anniversary:
+          title: Celebração de Aniversário
+          item1: Joias e acessórios personalizados
+          item2: Vouchers de experiências românticas
+          item3: Melhorias para casa que ambos querem
+          item4: Itens para hobbies e autocuidado
+        valentine:
+          title: Romance de Dia dos Namorados
+          item1: Itens de beleza e cuidados com a pele luxuosos
+          item2: Produtos aconchegantes para casa
+          item3: Presentes de experiência para encontros
+          item4: Livros significativos e assinaturas
+
+    # Families use case
+    families:
+      title: Planejamento de Presentes Familiares
+      meta_description: Coordene presentes em toda a família extensa. Perfeito para reuniões familiares, presentes para avós e celebrações multigeracionais.
+      subtitle: Unam múltiplas gerações através de presentes pensados que honram as preferências de todos e tornam as reuniões familiares especiais.
+
+      features:
+        multi_gen:
+          title: Multigeracional
+          description: Criem listas apropriadas para todas as idades, desde crianças pequenas até avós, garantindo que todos se sintam incluídos e apreciados.
+        easy:
+          title: Fácil para Todos
+          description: Interface simples que funciona para todos os membros da família, desde adolescentes conhecedores de tecnologia até avós que preferem simplicidade.
+        organize:
+          title: Presentes Organizados
+          description: Acompanhem todos os aniversários familiares, feriados e ocasiões especiais com planejamento coordenado de presentes durante o ano todo.
+
+      steps:
+        invite:
+          title: Convidar a Família
+          description: Enviem convites para membros da família extensa para se juntarem à sua rede de coordenação de presentes familiares.
+        organize:
+          title: Organizar Eventos
+          description: Criem listas compartilhadas para reuniões familiares, feriados e celebrações individuais durante o ano.
+        enjoy:
+          title: Aproveitar a União
+          description: Foquem em passar tempo de qualidade juntos em vez de se preocupar com coordenação de presentes e estresse de compras.
+
+      examples:
+        title: Ideias de Presentes Familiares
+        kids:
+          title: Netos e Sobrinhos
+          item1: Brinquedos e jogos educativos
+          item2: Livros e materiais criativos
+          item3: Equipamentos para brincadeiras ao ar livre
+          item4: Roupas para crianças em crescimento
+        grandparents:
+          title: Avós e Idosos
+          item1: Itens de conforto e acessórios aconchegantes
+          item2: Álbuns de fotos e livros de memórias
+          item3: Suprimentos para hobbies e materiais de artesanato
+          item4: Produtos de saúde e bem-estar

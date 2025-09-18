@@ -1,0 +1,194 @@
+<% content_for :title, @page_title %>
+<% content_for :description, @page_description %>
+
+<div class="min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+  <%= render 'shared/theme_language_switcher',
+        active_locale_style: 'border-2 border-blue-400 bg-blue-50/90 text-blue-800 font-medium',
+        show_checkmark: true %>
+
+  <div class="container mx-auto px-4 py-12 max-w-6xl">
+    <!-- Back to Home -->
+    <div class="mb-8">
+      <%= link_to root_path, class: "inline-flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-rose-600 dark:hover:text-rose-400 transition-colors" do %>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        <%= t('use_cases.back_to_home') %>
+      <% end %>
+    </div>
+
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <div class="text-6xl mb-6">🎄</div>
+      <h1 class="heading-hero bg-gradient-to-r from-rose-500 to-purple-600 bg-clip-text text-transparent mb-4">
+        <%= t('use_cases.holidays.title') %>
+      </h1>
+      <p class="text-lead text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        <%= t('use_cases.holidays.subtitle') %>
+      </p>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="text-center mb-16">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+        <%= link_to new_user_registration_path,
+              class: "btn-primary bg-gradient-to-r from-rose-500 to-rose-600 text-white px-8 py-4 rounded-2xl hover:from-rose-600 hover:to-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 transition duration-200 cursor-pointer shadow-lg inline-flex items-center justify-center gap-2" do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          <%= t('use_cases.cta.get_started') %>
+        <% end %>
+
+        <%= link_to new_user_session_path,
+              class: "btn-secondary border-2 border-rose-500 text-rose-600 px-8 py-4 rounded-2xl hover:bg-rose-50 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 transition duration-200 cursor-pointer inline-flex items-center justify-center gap-2" do %>
+          <%= t('use_cases.cta.sign_in') %>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+      <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-rose-100 dark:border-gray-700">
+        <div class="text-3xl mb-4">🎅</div>
+        <h3 class="heading-card text-gray-800 dark:text-gray-100 mb-3">
+          <%= t('use_cases.holidays.features.seasonal.title') %>
+        </h3>
+        <p class="text-body text-gray-600 dark:text-gray-300">
+          <%= t('use_cases.holidays.features.seasonal.description') %>
+        </p>
+      </div>
+
+      <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-rose-100 dark:border-gray-700">
+        <div class="text-3xl mb-4">👨‍👩‍👧‍👦</div>
+        <h3 class="heading-card text-gray-800 dark:text-gray-100 mb-3">
+          <%= t('use_cases.holidays.features.family.title') %>
+        </h3>
+        <p class="text-body text-gray-600 dark:text-gray-300">
+          <%= t('use_cases.holidays.features.family.description') %>
+        </p>
+      </div>
+
+      <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-rose-100 dark:border-gray-700">
+        <div class="text-3xl mb-4">💰</div>
+        <h3 class="heading-card text-gray-800 dark:text-gray-100 mb-3">
+          <%= t('use_cases.holidays.features.budget.title') %>
+        </h3>
+        <p class="text-body text-gray-600 dark:text-gray-300">
+          <%= t('use_cases.holidays.features.budget.description') %>
+        </p>
+      </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-3xl p-8 mb-16 border border-rose-100 dark:border-gray-700">
+      <h2 class="heading-section text-center text-gray-800 dark:text-gray-100 mb-8">
+        <%= t('use_cases.how_it_works.title') %>
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="bg-gradient-to-br from-rose-500 to-rose-600 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <span class="text-lg font-semibold">1</span>
+          </div>
+          <h3 class="heading-card text-gray-800 dark:text-gray-100 mb-2">
+            <%= t('use_cases.holidays.steps.plan.title') %>
+          </h3>
+          <p class="text-body text-gray-600 dark:text-gray-300">
+            <%= t('use_cases.holidays.steps.plan.description') %>
+          </p>
+        </div>
+
+        <div class="text-center">
+          <div class="bg-gradient-to-br from-rose-500 to-rose-600 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <span class="text-lg font-semibold">2</span>
+          </div>
+          <h3 class="heading-card text-gray-800 dark:text-gray-100 mb-2">
+            <%= t('use_cases.holidays.steps.coordinate.title') %>
+          </h3>
+          <p class="text-body text-gray-600 dark:text-gray-300">
+            <%= t('use_cases.holidays.steps.coordinate.description') %>
+          </p>
+        </div>
+
+        <div class="text-center">
+          <div class="bg-gradient-to-br from-rose-500 to-rose-600 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <span class="text-lg font-semibold">3</span>
+          </div>
+          <h3 class="heading-card text-gray-800 dark:text-gray-100 mb-2">
+            <%= t('use_cases.holidays.steps.celebrate.title') %>
+          </h3>
+          <p class="text-body text-gray-600 dark:text-gray-300">
+            <%= t('use_cases.holidays.steps.celebrate.description') %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Examples Section -->
+    <div class="bg-gradient-to-r from-rose-500/10 to-purple-500/10 dark:from-rose-500/20 dark:to-purple-500/20 rounded-3xl p-8 mb-16 border border-rose-200 dark:border-gray-600">
+      <h2 class="heading-section text-center text-gray-800 dark:text-gray-100 mb-8">
+        <%= t('use_cases.holidays.examples.title') %>
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white/80 dark:bg-gray-700/80 rounded-xl p-6 border border-rose-100/50 dark:border-gray-600">
+          <h4 class="heading-card text-gray-800 dark:text-gray-100 mb-3">
+            <%= t('use_cases.holidays.examples.christmas.title') %>
+          </h4>
+          <ul class="text-body text-gray-600 dark:text-gray-300 space-y-2">
+            <li>• <%= t('use_cases.holidays.examples.christmas.item1') %></li>
+            <li>• <%= t('use_cases.holidays.examples.christmas.item2') %></li>
+            <li>• <%= t('use_cases.holidays.examples.christmas.item3') %></li>
+            <li>• <%= t('use_cases.holidays.examples.christmas.item4') %></li>
+          </ul>
+        </div>
+
+        <div class="bg-white/80 dark:bg-gray-700/80 rounded-xl p-6 border border-rose-100/50 dark:border-gray-600">
+          <h4 class="heading-card text-gray-800 dark:text-gray-100 mb-3">
+            <%= t('use_cases.holidays.examples.thanksgiving.title') %>
+          </h4>
+          <ul class="text-body text-gray-600 dark:text-gray-300 space-y-2">
+            <li>• <%= t('use_cases.holidays.examples.thanksgiving.item1') %></li>
+            <li>• <%= t('use_cases.holidays.examples.thanksgiving.item2') %></li>
+            <li>• <%= t('use_cases.holidays.examples.thanksgiving.item3') %></li>
+            <li>• <%= t('use_cases.holidays.examples.thanksgiving.item4') %></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Other Use Cases -->
+    <div class="text-center">
+      <h2 class="heading-section text-gray-800 dark:text-gray-100 mb-8">
+        <%= t('use_cases.explore_other') %>
+      </h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto">
+        <%= link_to use_case_birthdays_path, class: "group bg-white/80 dark:bg-gray-700/80 rounded-xl p-4 text-center hover:bg-rose-50 dark:hover:bg-gray-600 transition-colors border border-rose-100/50 dark:border-gray-600" do %>
+          <span class="text-2xl mb-2 block">🎂</span>
+          <span class="text-body-sm text-gray-700 dark:text-gray-300 group-hover:text-rose-700 dark:group-hover:text-rose-300 font-medium">
+            <%= t("landing.use_cases.birthdays") %>
+          </span>
+        <% end %>
+
+        <%= link_to use_case_weddings_path, class: "group bg-white/80 dark:bg-gray-700/80 rounded-xl p-4 text-center hover:bg-rose-50 dark:hover:bg-gray-600 transition-colors border border-rose-100/50 dark:border-gray-600" do %>
+          <span class="text-2xl mb-2 block">💒</span>
+          <span class="text-body-sm text-gray-700 dark:text-gray-300 group-hover:text-rose-700 dark:group-hover:text-rose-300 font-medium">
+            <%= t("landing.use_cases.weddings") %>
+          </span>
+        <% end %>
+
+        <%= link_to use_case_couples_path, class: "group bg-white/80 dark:bg-gray-700/80 rounded-xl p-4 text-center hover:bg-rose-50 dark:hover:bg-gray-600 transition-colors border border-rose-100/50 dark:border-gray-600" do %>
+          <span class="text-2xl mb-2 block">💕</span>
+          <span class="text-body-sm text-gray-700 dark:text-gray-300 group-hover:text-rose-700 dark:group-hover:text-rose-300 font-medium">
+            <%= t("landing.use_cases.couples") %>
+          </span>
+        <% end %>
+
+        <%= link_to use_case_families_path, class: "group bg-white/80 dark:bg-gray-700/80 rounded-xl p-4 text-center hover:bg-rose-50 dark:hover:bg-gray-600 transition-colors border border-rose-100/50 dark:border-gray-600" do %>
+          <span class="text-2xl mb-2 block">👨‍👩‍👧‍👦</span>
+          <span class="text-body-sm text-gray-700 dark:text-gray-300 group-hover:text-rose-700 dark:group-hover:text-rose-300 font-medium">
+            <%= t("landing.use_cases.families") %>
+          </span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
