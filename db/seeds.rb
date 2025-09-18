@@ -1291,5 +1291,135 @@ puts "  '🎬 DEMO TIME: Login as Hel (test@wishare.xyz) to see my chaotic wishl
 puts "  '🧩 Or login as Ylana (ylana@wishare.xyz) to witness the puzzle empire'"
 puts "  '🔧 Admin panel at /admin shows off the technical skills (impress the nerds)'"
 puts ""
+# Add test URLs for metadata extraction testing
+puts "Adding URL metadata extraction test items..."
+
+# Real Brazilian e-commerce URLs for testing our extraction system
+test_extraction_urls = [
+  # Working URLs (extraction successful)
+  {
+    name: "Tênis Nike Air Zoom Alphafly Next% 3 - TF",
+    url: "https://www.tf.com.br/tenis-masculino-on-cloudsurfer-max/p",
+    description: "Track & Field - Extraction works perfectly with price and BRL currency",
+    price: 1399.0,
+    currency: 'BRL'
+  },
+  {
+    name: "Samsung Galaxy A56 - Magazine Luiza",
+    url: "https://www.magazineluiza.com.br/smartphone-samsung-galaxy-a56-128gb-5g-8gb-ram-preto-67-cam-tripla-selfie-12mp/p/240095600/te/ga56/",
+    description: "Magazine Luiza - Perfect extraction with complete metadata",
+    price: 2099.0,
+    currency: 'BRL'
+  },
+  {
+    name: "Whoop 5.0 Fitness Tracker - Mercado Livre",
+    url: "https://produto.mercadolivre.com.br/MLB-5393424486-whoop-50-life-12-meses-de-plano-membership-incluso-_JM",
+    description: "Mercado Livre - Excellent extraction with brand and pricing",
+    price: 4957.26,
+    currency: 'BRL'
+  },
+  {
+    name: "Camiseta Calvin Klein - Netshoes",
+    url: "https://www.netshoes.com.br/p/camiseta-calvin-klein-re-issue-masculina-N0O-2061-014",
+    description: "Netshoes - Good extraction, currency fixed to BRL",
+    price: 189.99,
+    currency: 'BRL'
+  },
+  {
+    name: "On Cloudboom Max Running Shoes",
+    url: "https://www.on.com/en-br/products/cloudboom-max-m-3mf3031/mens/white-black-shoes-3MF30310462",
+    description: "On Running BR - International brand with BRL pricing",
+    price: 2099.0,
+    currency: 'BRL'
+  },
+
+  # Partial success URLs (for testing improvements)
+  {
+    name: "Perfume Tom Ford Oud Wood - Beleza na Web",
+    url: "https://www.belezanaweb.com.br/oud-wood-tom-ford-parfum-perfume-masculino-50ml/",
+    description: "Beleza na Web - Gets title/image but price extraction needs work",
+    price: 850.0, # Estimated
+    currency: 'BRL'
+  },
+  {
+    name: "Le Creuset Utensílios - Amazon Brasil",
+    url: "https://www.amazon.com.br/CREUSET-Clássico-Utensílios-Laranja-Volcanic/dp/B07MP6T3CM",
+    description: "Amazon Brasil - Title/image good, price extraction challenging",
+    price: 450.0, # Estimated
+    currency: 'BRL'
+  },
+
+  # Bot-protected URLs (for testing fallback strategies)
+  {
+    name: "Blush Dolce & Gabbana - Sephora Brasil",
+    url: "https://www.sephora.com.br/blush-dolce---gabbana-cheeks-e-eyes-match-9090734147-734149.html",
+    description: "Sephora Brasil - Bot protection, tests our fallback mechanisms",
+    price: 280.0, # Estimated
+    currency: 'BRL'
+  },
+  {
+    name: "Bermuda On Running - Centauro",
+    url: "https://www.centauro.com.br/bermuda-masculina-on-running-performance-hybrid-987684.html",
+    description: "Centauro - Perfect JSON-LD schema but bot protected",
+    price: 584.99,
+    currency: 'BRL'
+  },
+  {
+    name: "Smart TV LG OLED 83\" - Casas Bahia",
+    url: "https://www.casasbahia.com.br/smart-tv-83-lg-oled-4k-ultra-hd-83c4psa-com-processador-ai-alpha9-ger7-webos-24-120hz-nvidia-g-sync-dolby-vision-e-atmos/p/55067720",
+    description: "Casas Bahia - Major retailer, bot protection tests",
+    price: 25999.0,
+    currency: 'BRL'
+  },
+  {
+    name: "Camisa Linho 100% - Zara Brasil",
+    url: "https://www.zara.com/br/en/100-linen-shirt-p04334181.html",
+    description: "Zara Brasil - International brand with local pricing",
+    price: 199.0,
+    currency: 'BRL'
+  },
+  {
+    name: "Calça Jeans Diesel - Dafiti",
+    url: "https://www.dafiti.com.br/Calca-Diesel-Jeans-Slim-Fit-2019-D-Strukt-L.32-Pantaloni-A03558-Azul-Marinho-14481621.html",
+    description: "Dafiti - Fashion e-commerce testing",
+    price: 899.0,
+    currency: 'BRL'
+  }
+]
+
+# Add these as wishlist items to the metadata testing list
+metadata_test_list = Wishlist.find_or_create_by!(
+  user: main_user,
+  name: "🔧 URL Extraction Testing",
+  description: "Real Brazilian e-commerce URLs for testing our metadata extraction system. These URLs test different scenarios: working extraction, partial success, and bot protection.",
+  event_type: "none",
+  is_default: false,
+  visibility: :private_list
+)
+
+test_extraction_urls.each do |item_data|
+  unless metadata_test_list.wishlist_items.exists?(url: item_data[:url])
+    WishlistItem.create!(
+      wishlist: metadata_test_list,
+      name: item_data[:name],
+      description: item_data[:description],
+      url: item_data[:url],
+      price: item_data[:price],
+      currency: item_data[:currency],
+      priority: :medium,
+      status: :available
+    )
+  end
+end
+
+puts "✅ Added #{test_extraction_urls.count} URL extraction test items to private testing list"
+
 puts "🎉 NOW GO MAKE THAT VIRAL INSTAGRAM STORY! 🚀"
 puts "🎯 Your audience will love the humor, relate to the gift-giving struggles, and see your coding skills!"
+
+puts ""
+puts "🔧 URL Metadata Extraction Testing:"
+puts "  - Test the extraction endpoint: POST /api/v1/wishlists/:id/items with these URLs"
+puts "  - URLs include successful extractions (TF, Magazine Luiza, Mercado Livre)"
+puts "  - Bot-protected sites (Sephora, Centauro) for fallback testing"
+puts "  - Partial success cases (Beleza na Web, Amazon BR) for improvement testing"

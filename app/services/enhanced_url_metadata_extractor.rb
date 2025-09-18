@@ -196,6 +196,24 @@ class EnhancedUrlMetadataExtractor < UrlMetadataExtractor
     salesforce_commerce: [
       /salesforce\.com/,
       /demandware\./
+    ],
+    netshoes: [
+      /netshoes/i
+    ],
+    belezanaweb: [
+      /belezanaweb/i
+    ],
+    centauro: [
+      /centauro/i
+    ],
+    casasbahia: [
+      /casasbahia/i
+    ],
+    dafiti: [
+      /dafiti/i
+    ],
+    amazon_brasil: [
+      /amazon\.com\.br/
     ]
   }.freeze
 
@@ -399,6 +417,18 @@ class EnhancedUrlMetadataExtractor < UrlMetadataExtractor
       extract_woocommerce_specific(doc)
     when :magento
       extract_magento_specific(doc)
+    when :netshoes
+      extract_netshoes_specific(doc)
+    when :belezanaweb
+      extract_belezanaweb_specific(doc)
+    when :centauro
+      extract_centauro_specific(doc)
+    when :casasbahia
+      extract_casasbahia_specific(doc)
+    when :dafiti
+      extract_dafiti_specific(doc)
+    when :amazon_brasil
+      extract_amazon_brasil_specific(doc)
     end
   end
 
@@ -512,16 +542,71 @@ class EnhancedUrlMetadataExtractor < UrlMetadataExtractor
   end
 
   def extract_nike_specific(doc)
-    # Nike specific selectors
-    @metadata[:price] ||= extract_price_from_text(doc.css('.product-price, .css-b9fpep, .css-1emn094, [data-test="product-price"]').first&.text)
-    @metadata[:title] ||= doc.css('#pdp_product_title, h1[data-test="product-title"], .product-info h1').first&.text&.strip
+    # Nike specific selectors - expanded to handle more variations
+    price_selectors = [
+      '.product-price',
+      '.css-b9fpep',
+      '.css-1emn094',
+      '[data-test="product-price"]',
+      '.headline-5',
+      '.headline-2',
+      '[data-testid="product-price"]',
+      '.product-price__wrapper span'
+    ]
 
-    # Nike images
-    image = doc.css('.css-viwop1 img, .hero-image img, picture.css-1vqt2wc img').first
-    @metadata[:image] ||= image['src'] if image
+    price_selectors.each do |selector|
+      element = doc.css(selector).first
+      if element
+        price = extract_price_from_text(element.text)
+        if price && price > 0
+          @metadata[:price] = price
+          break
+        end
+      end
+    end
+
+    # Nike title - expanded selectors
+    title_selectors = [
+      '#pdp_product_title',
+      'h1[data-test="product-title"]',
+      'h1[id*="product-title"]',
+      '.product-info h1',
+      'h1.headline-2',
+      'h1.headline-5',
+      '.product-title'
+    ]
+
+    title_selectors.each do |selector|
+      element = doc.css(selector).first
+      if element && element.text.strip.present?
+        @metadata[:title] = element.text.strip
+        break
+      end
+    end
+
+    # Nike images - expanded selectors
+    image_selectors = [
+      '.css-viwop1 img',
+      '.hero-image img',
+      'picture.css-1vqt2wc img',
+      '[data-testid="hero-image"] img',
+      '.product-image img',
+      '.primary-image img'
+    ]
+
+    image_selectors.each do |selector|
+      element = doc.css(selector).first
+      if element
+        src = element['src'] || element['data-src']
+        if src && src.include?('nike')
+          @metadata[:image] = src
+          break
+        end
+      end
+    end
 
     # Nike color/style
-    @metadata[:color] = doc.css('.description-preview__color-description').first&.text&.strip
+    @metadata[:color] = doc.css('.description-preview__color-description, [data-testid="product-sub-title"]').first&.text&.strip
   end
 
   def extract_adidas_specific(doc)

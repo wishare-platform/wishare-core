@@ -96,8 +96,25 @@ class MasterUrlMetadataExtractor
   end
 
   def has_minimum_data?(metadata)
-    # Consider extraction successful if we have at least title or description
-    metadata[:title].present? || metadata[:description].present?
+    # For product pages, we need more complete data
+    if looks_like_product_page?
+      # For product pages, require title AND price for truly complete data
+      # Having just title and image isn't sufficient for shopping
+      metadata[:title].present? && metadata[:price].present? && metadata[:price] > 0
+    else
+      # For other pages, title or description is sufficient
+      metadata[:title].present? || metadata[:description].present?
+    end
+  end
+
+  def looks_like_product_page?
+    # Check if URL looks like a product page
+    product_indicators = [
+      '/product', '/item', '/p/', '/tenis', '/shoes', '/clothing',
+      'produto', 'artigo', 'loja', 'shop', 'store'
+    ]
+
+    product_indicators.any? { |indicator| @url.downcase.include?(indicator) }
   end
 
   def enhance_metadata(metadata)
