@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     if current_user == @user
       @wishlists = @user.wishlists.includes(:wishlist_items)
     elsif current_user && Connection.between_users(@user, current_user)&.accepted?
-      @wishlists = @user.wishlists.where(visibility: ['public', 'friends_family']).includes(:wishlist_items)
+      @wishlists = @user.wishlists.visible_to_friends.includes(:wishlist_items)
     else
       @wishlists = @user.wishlists.public_lists.includes(:wishlist_items)
     end

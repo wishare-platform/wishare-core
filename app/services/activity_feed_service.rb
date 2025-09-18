@@ -14,6 +14,10 @@ class ActivityFeedService
       else
         generate_personalized_feed(user, limit, offset)
       end
+    rescue => e
+      Rails.logger.error "Error generating activity feed: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+      ActivityFeed.none
     end
 
     # Get activity counts for dashboard stats
@@ -66,19 +70,46 @@ class ActivityFeedService
       friend_ids = get_friend_ids(user)
       return ActivityFeed.none if friend_ids.empty?
 
-      ActivityFeed.where(actor_id: friend_ids)
-                  .where(is_public: true)
-                  .includes(:actor, :target, :user)
-                  .recent
-                  .limit(limit)
+      activities = ActivityFeed.where(actor_id: friend_ids)
+                              .where(is_public: true)
+                              .includes(:actor, :target, :user)
+                              .recent
+                              .limit(limit)
+
+      # If no recent friend activities, fallback to any friend activities
+      if activities.empty?
+        activities = ActivityFeed.where(actor_id: friend_ids)
+                                .where(is_public: true)
+                                .includes(:actor, :target, :user)
+                                .order(occurred_at: :desc)
+                                .limit(limit)
+      end
+
+      activities
+    rescue => e
+      Rails.logger.error "Error fetching friend activities: #{e.message}"
+      ActivityFeed.none
     end
 
-    # Get user's own recent activities
+    # Get user's own recent activities with fallback to older activities
     def get_user_activities(user:, limit: 10)
-      ActivityFeed.where(actor: user)
-                  .includes(:actor, :target, :user)
-                  .recent
-                  .limit(limit)
+      activities = ActivityFeed.where(actor: user)
+                              .includes(:actor, :target, :user)
+                              .recent
+                              .limit(limit)
+
+      # If no recent activities, fallback to any activities (for older data)
+      if activities.empty?
+        activities = ActivityFeed.where(actor: user)
+                                .includes(:actor, :target, :user)
+                                .order(occurred_at: :desc)
+                                .limit(limit)
+      end
+
+      activities
+    rescue => e
+      Rails.logger.error "Error fetching user activities: #{e.message}"
+      ActivityFeed.none
     end
 
     private

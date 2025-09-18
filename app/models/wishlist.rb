@@ -41,6 +41,7 @@ class Wishlist < ApplicationRecord
   scope :default_lists, -> { where(is_default: true) }
   scope :custom_lists, -> { where(is_default: false) }
   scope :public_lists, -> { where(visibility: :publicly_visible) }
+  scope :visible_to_friends, -> { where(visibility: [:publicly_visible, :partner_only]) }
   scope :upcoming_events, -> { where('event_date >= ?', Date.current).where.not(event_type: ['none', nil]).order(event_date: :asc) }
   scope :past_events, -> { where('event_date < ?', Date.current).where.not(event_type: ['none', nil]).order(event_date: :desc) }
   scope :general_wishlists, -> { where(event_type: ['none', nil]).or(where(event_date: nil)) }
