@@ -30,7 +30,7 @@ class User < ApplicationRecord
   has_many :received_invitations, class_name: 'Invitation', foreign_key: 'recipient_email', primary_key: 'email', dependent: :destroy
 
   # Wishlist associations
-  has_many :wishlists, dependent: :destroy
+  has_many :wishlists, dependent: :destroy, counter_cache: true
   has_many :purchased_items, class_name: 'WishlistItem', foreign_key: 'purchased_by_id', dependent: :nullify
 
   # Notification associations
@@ -45,7 +45,7 @@ class User < ApplicationRecord
   has_many :analytics_events, dependent: :destroy
 
   # Activity Feed associations
-  has_many :activity_feeds, dependent: :destroy
+  has_many :activity_feeds, dependent: :destroy, counter_cache: true
   has_many :actor_activities, class_name: 'ActivityFeed', foreign_key: 'actor_id', dependent: :destroy
 
   # User Interactions associations

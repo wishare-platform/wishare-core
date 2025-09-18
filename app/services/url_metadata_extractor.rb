@@ -45,7 +45,36 @@ class UrlMetadataExtractor
     'nike.com.br' => 'BRL',
     'nike.com' => 'USD',
     'adidas.com.br' => 'BRL',
-    'adidas.com' => 'USD'
+    'adidas.com' => 'USD',
+
+    # Additional major retailers
+    'on-running.com' => 'USD',
+    'on.com' => 'USD',
+    'sephora.com' => 'USD',
+    'sephora.com.br' => 'BRL',
+    'sephora.fr' => 'EUR',
+    'sephora.ca' => 'CAD',
+    'sephora.co.uk' => 'GBP',
+
+    # Brazilian platforms
+    'nuvemshop.com.br' => 'BRL',
+    'lojaintegrada.com.br' => 'BRL',
+
+    # Additional Nike/Adidas regions
+    'nike.co.uk' => 'GBP',
+    'nike.de' => 'EUR',
+    'nike.fr' => 'EUR',
+    'nike.ca' => 'CAD',
+    'adidas.co.uk' => 'GBP',
+    'adidas.de' => 'EUR',
+    'adidas.fr' => 'EUR',
+    'adidas.ca' => 'CAD',
+
+    # Mercado Libre regions
+    'mercadolibre.com.ar' => 'ARS',
+    'mercadolibre.com.mx' => 'MXN',
+    'mercadolibre.cl' => 'CLP',
+    'mercadolibre.com.co' => 'COP'
   }.freeze
 
   CURRENCY_REGEX_PATTERNS = [

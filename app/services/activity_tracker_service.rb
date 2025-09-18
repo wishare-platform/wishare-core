@@ -246,6 +246,9 @@ class ActivityTrackerService
     end
 
     def broadcast_activity(activity_feed)
+      # Rate limiting for broadcasts - max 20 per minute per user
+      return unless check_broadcast_rate_limit(activity_feed.actor)
+
       # Broadcast to the activity owner's personal feed
       ActionCable.server.broadcast(
         "activity_feed_#{activity_feed.user.id}",
@@ -361,6 +364,20 @@ class ActivityTrackerService
       ]
 
       friend_worthy_actions.include?(activity_feed.action_type) && activity_feed.is_public?
+    end
+
+    def check_broadcast_rate_limit(user)
+      # Rate limiting for broadcasts - max 20 per minute per user
+      cache_key = "activity_broadcast_#{user.id}"
+      current_count = Rails.cache.read(cache_key) || 0
+
+      if current_count >= 20
+        Rails.logger.warn "Broadcast rate limit exceeded for user #{user.id}"
+        return false
+      end
+
+      Rails.cache.write(cache_key, current_count + 1, expires_in: 1.minute)
+      true
     end
   end
 end

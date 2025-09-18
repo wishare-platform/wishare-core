@@ -1,5 +1,12 @@
 class ActivityFeedChannel < ApplicationCable::Channel
+  # Rate limiting: max 5 subscriptions per minute per user
+  SUBSCRIPTION_LIMIT = 5
+  SUBSCRIPTION_WINDOW = 1.minute
+
   def subscribed
+    # Rate limiting check
+    return reject_subscription('Rate limit exceeded') unless check_subscription_rate_limit
+
     # Set locale from subscription parameters
     set_locale_from_params
 
@@ -18,6 +25,9 @@ class ActivityFeedChannel < ApplicationCable::Channel
   end
 
   def change_feed_type(data)
+    # Rate limiting check for feed type changes
+    return reject_action('Rate limit exceeded') unless check_action_rate_limit
+
     # Set locale from subscription parameters
     set_locale_from_params
 
@@ -44,12 +54,15 @@ class ActivityFeedChannel < ApplicationCable::Channel
   end
 
   def request_feed_update(data)
+    # Rate limiting check for feed update requests
+    return reject_action('Rate limit exceeded') unless check_action_rate_limit
+
     # Set locale from subscription parameters
     set_locale_from_params
 
     # Manual refresh request from client
     offset = data['offset'] || 0
-    limit = data['limit'] || 20
+    limit = [data['limit'] || 20, 50].min # Cap at 50 items per request
     feed_type = data['feed_type'] || 'for_you'
 
     activities = ActivityFeedService.generate_feed(
@@ -74,6 +87,47 @@ class ActivityFeedChannel < ApplicationCable::Channel
     locale = params[:locale] || connection.current_locale
     I18n.locale = locale
     Rails.logger.info "ActivityFeedChannel - Setting locale to: #{I18n.locale}"
+  end
+
+  def check_subscription_rate_limit
+    # Simple in-memory rate limiting (in production, use Redis)
+    cache_key = "activityfeed_sub_#{current_user.id}"
+    current_count = Rails.cache.read(cache_key) || 0
+
+    if current_count >= SUBSCRIPTION_LIMIT
+      Rails.logger.warn "Subscription rate limit exceeded for user #{current_user.id}"
+      return false
+    end
+
+    Rails.cache.write(cache_key, current_count + 1, expires_in: SUBSCRIPTION_WINDOW)
+    true
+  end
+
+  def check_action_rate_limit
+    # Rate limit for actions like feed type changes and update requests
+    cache_key = "activityfeed_action_#{current_user.id}"
+    current_count = Rails.cache.read(cache_key) || 0
+
+    if current_count >= 10 # Max 10 actions per minute
+      Rails.logger.warn "Action rate limit exceeded for user #{current_user.id}"
+      return false
+    end
+
+    Rails.cache.write(cache_key, current_count + 1, expires_in: 1.minute)
+    true
+  end
+
+  def reject_subscription(message)
+    Rails.logger.warn "ActivityFeedChannel subscription rejected for user #{current_user.id}: #{message}"
+    reject
+  end
+
+  def reject_action(message)
+    Rails.logger.warn "ActivityFeedChannel action rejected for user #{current_user.id}: #{message}"
+    transmit({
+      type: 'error',
+      message: message
+    })
   end
 
   def render_activities(activities)

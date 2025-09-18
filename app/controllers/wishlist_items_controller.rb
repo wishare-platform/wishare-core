@@ -129,18 +129,42 @@ class WishlistItemsController < ApplicationController
 
   def extract_url_metadata
     url = params[:url]
-    
+
     if url.blank?
       render json: { error: 'URL is required' }, status: :bad_request
       return
     end
-    
+
     begin
-      metadata = UrlMetadataExtractor.new(url).extract
+      # Use the new master extractor with intelligent fallbacks
+      options = {
+        skip_api: params[:skip_api] == 'true', # Allow skipping API calls if needed
+        skip_methods: params[:skip_methods]&.split(',')&.map(&:to_sym) || []
+      }
+
+      metadata = MasterUrlMetadataExtractor.new(url, options).extract
+
+      # If extraction is taking too long, return partial data and continue in background
+      if metadata.blank? || (!metadata[:title] && !metadata[:description])
+        # Return what we have and continue extraction in background
+        MetadataExtractionJob.perform_later(url) if defined?(MetadataExtractionJob)
+
+        # Try basic extraction for immediate response
+        metadata = UrlMetadataExtractor.new(url).extract
+      end
+
       render json: metadata
     rescue => e
       Rails.logger.warn "URL metadata extraction failed for #{url}: #{e.message}"
-      render json: { error: 'Failed to extract metadata' }, status: :unprocessable_entity
+
+      # Fallback to basic extractor
+      begin
+        metadata = UrlMetadataExtractor.new(url).extract
+        render json: metadata
+      rescue => fallback_error
+        Rails.logger.error "All extraction methods failed for #{url}: #{fallback_error.message}"
+        render json: { error: 'Failed to extract metadata' }, status: :unprocessable_entity
+      end
     end
   end
 

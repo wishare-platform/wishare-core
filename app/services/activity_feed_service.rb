@@ -51,7 +51,7 @@ class ActivityFeedService
     # Get activities for a specific target (wishlist, item, etc.)
     def get_target_activities(target:, viewer: nil, limit: 10)
       activities = ActivityFeed.where(target: target)
-                              .includes(:actor, :user)
+                              .includes(:actor, :user, :target)
                               .recent
                               .limit(limit)
 
@@ -63,9 +63,7 @@ class ActivityFeedService
 
     # Get friend activities (for friends sidebar)
     def get_friend_activities(user:, limit: 5)
-      friend_ids = user.connections.accepted.pluck(:partner_id) +
-                   user.inverse_connections.accepted.pluck(:user_id)
-
+      friend_ids = get_friend_ids(user)
       return ActivityFeed.none if friend_ids.empty?
 
       ActivityFeed.where(actor_id: friend_ids)
@@ -78,7 +76,7 @@ class ActivityFeedService
     # Get user's own recent activities
     def get_user_activities(user:, limit: 10)
       ActivityFeed.where(actor: user)
-                  .includes(:target, :user)
+                  .includes(:actor, :target, :user)
                   .recent
                   .limit(limit)
     end
@@ -106,7 +104,7 @@ class ActivityFeedService
                      trending_activities.pluck(:id)).uniq
 
       ActivityFeed.where(id: combined_ids)
-                  .includes(:actor, :target, :user)
+                  .includes(:actor, :user, target: [:user])
                   .order(occurred_at: :desc)
                   .offset(offset)
                   .limit(limit)
@@ -119,7 +117,7 @@ class ActivityFeedService
 
       ActivityFeed.where(actor_id: friend_ids)
                   .where(is_public: true)
-                  .includes(:actor, :target, :user)
+                  .includes(:actor, :user, target: [:user])
                   .recent
                   .offset(offset)
                   .limit(limit)
@@ -135,7 +133,7 @@ class ActivityFeedService
     # Generate public feed (all public activities)
     def generate_public_feed(user, limit, offset)
       ActivityFeed.public_activities
-                  .includes(:actor, :target, :user)
+                  .includes(:actor, :user, target: [:user])
                   .recent
                   .offset(offset)
                   .limit(limit)

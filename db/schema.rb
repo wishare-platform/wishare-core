@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_17_183412) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_18_061402) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -52,6 +52,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_183412) do
     t.datetime "updated_at", null: false
     t.index ["commentable_type", "commentable_id", "created_at"], name: "idx_on_commentable_type_commentable_id_created_at_b19869655b"
     t.index ["commentable_type", "commentable_id"], name: "index_activity_comments_on_commentable"
+    t.index ["parent_id", "created_at"], name: "index_activity_comments_parent_time", comment: "Optimizes threaded comment queries"
     t.index ["parent_id"], name: "index_activity_comments_on_parent_id"
     t.index ["user_id", "created_at"], name: "index_activity_comments_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_activity_comments_on_user_id"
@@ -69,11 +70,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_183412) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["action_type", "occurred_at"], name: "index_activity_feeds_on_action_type_and_occurred_at"
+    t.index ["actor_id", "is_public", "occurred_at"], name: "index_activity_feeds_actor_public_time", comment: "Optimizes friend activity queries with privacy filtering"
     t.index ["actor_id", "occurred_at"], name: "index_activity_feeds_on_actor_id_and_occurred_at"
     t.index ["actor_id"], name: "index_activity_feeds_on_actor_id"
+    t.index ["is_public", "action_type", "occurred_at"], name: "index_activity_feeds_public_type_time", comment: "Optimizes trending and public feed queries by type"
     t.index ["is_public", "occurred_at"], name: "index_activity_feeds_on_is_public_and_occurred_at"
     t.index ["target_type", "target_id"], name: "index_activity_feeds_on_target"
     t.index ["target_type", "target_id"], name: "index_activity_feeds_on_target_type_and_target_id"
+    t.index ["user_id", "is_public", "occurred_at"], name: "index_activity_feeds_user_public_time", comment: "Optimizes user feed queries with privacy filtering"
     t.index ["user_id", "occurred_at"], name: "index_activity_feeds_on_user_id_and_occurred_at"
     t.index ["user_id"], name: "index_activity_feeds_on_user_id"
   end
@@ -93,6 +97,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_183412) do
     t.index ["created_at"], name: "index_analytics_events_on_created_at"
     t.index ["event_type"], name: "index_analytics_events_on_event_type"
     t.index ["session_id"], name: "index_analytics_events_on_session_id"
+    t.index ["user_id", "event_type", "created_at"], name: "index_analytics_events_user_type_time", comment: "Optimizes user analytics and dashboard metrics"
     t.index ["user_id", "event_type"], name: "index_analytics_events_on_user_id_and_event_type"
     t.index ["user_id"], name: "index_analytics_events_on_user_id"
   end
@@ -103,8 +108,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_183412) do
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["partner_id", "status", "updated_at"], name: "index_connections_partner_status_time", comment: "Optimizes reverse friend lookups"
     t.index ["partner_id"], name: "index_connections_on_partner_id"
     t.index ["user_id", "partner_id"], name: "index_connections_on_user_id_and_partner_id", unique: true
+    t.index ["user_id", "status", "updated_at"], name: "index_connections_user_status_time", comment: "Optimizes friend list queries with status filtering"
     t.index ["user_id"], name: "index_connections_on_user_id"
   end
 
@@ -223,6 +230,32 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_183412) do
     t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
   end
 
+  create_table "url_metadata_caches", force: :cascade do |t|
+    t.string "url", null: false
+    t.string "normalized_url", null: false
+    t.string "url_hash", null: false
+    t.string "title"
+    t.text "description"
+    t.string "image_url"
+    t.decimal "price", precision: 10, scale: 2
+    t.string "currency"
+    t.string "platform"
+    t.string "extraction_method"
+    t.json "metadata"
+    t.integer "hit_count", default: 0, null: false
+    t.datetime "last_accessed_at"
+    t.datetime "extracted_at"
+    t.datetime "expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["expires_at"], name: "index_url_metadata_caches_on_expires_at"
+    t.index ["hit_count", "last_accessed_at"], name: "index_url_caches_on_popularity"
+    t.index ["normalized_url"], name: "index_url_metadata_caches_on_normalized_url"
+    t.index ["platform"], name: "index_url_metadata_caches_on_platform"
+    t.index ["url"], name: "index_url_metadata_caches_on_url"
+    t.index ["url_hash"], name: "index_url_metadata_caches_on_url_hash", unique: true
+  end
+
   create_table "user_analytics", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.integer "wishlists_created_count", default: 0
@@ -249,6 +282,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_183412) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["interaction_type", "created_at"], name: "index_user_interactions_on_interaction_type_and_created_at"
+    t.index ["target_type", "target_id", "interaction_type", "created_at"], name: "index_user_interactions_target_type_time", comment: "Optimizes interaction counts and recent interactions"
     t.index ["target_type", "target_id", "interaction_type"], name: "idx_on_target_type_target_id_interaction_type_7aa7a94514"
     t.index ["target_type", "target_id"], name: "index_user_interactions_on_target"
     t.index ["user_id", "target_type", "target_id"], name: "index_user_interactions_uniqueness", unique: true
@@ -292,7 +326,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_183412) do
     t.integer "bio_visibility", default: 2
     t.integer "social_links_visibility", default: 2
     t.integer "website_visibility", default: 2
+    t.integer "wishlists_count", default: 0, null: false
+    t.integer "connections_count", default: 0, null: false
+    t.integer "activity_feeds_count", default: 0, null: false
+    t.index ["activity_feeds_count"], name: "index_users_on_activity_feeds_count"
     t.index ["address_visibility"], name: "index_users_on_address_visibility"
+    t.index ["connections_count"], name: "index_users_on_connections_count"
     t.index ["country"], name: "index_users_on_country"
     t.index ["device_info"], name: "index_users_on_device_info", using: :gin
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -303,6 +342,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_183412) do
     t.index ["role"], name: "index_users_on_role"
     t.index ["tiktok_username"], name: "index_users_on_tiktok_username"
     t.index ["twitter_username"], name: "index_users_on_twitter_username"
+    t.index ["wishlists_count"], name: "index_users_on_wishlists_count"
   end
 
   create_table "wishlist_items", force: :cascade do |t|

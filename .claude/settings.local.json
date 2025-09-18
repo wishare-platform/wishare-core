@@ -3,7 +3,11 @@
     "allow": [
       "Bash(rails server:*)",
       "Bash(pkill:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Read(//Users/helrabelo/Dev/current/wishare/**)",
+      "Bash(find:*)",
+      "Bash(rails generate:*)",
+      "Bash(rails:*)"
     ],
     "deny": [],
     "ask": []
