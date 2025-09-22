@@ -7,12 +7,9 @@ class RootRedirectController < ApplicationController
              extract_locale_from_accept_language_header ||
              I18n.default_locale
 
-    # Redirect based on authentication status
-    if user_signed_in?
-      redirect_to "/#{locale}/dashboard", status: :moved_permanently
-    else
-      redirect_to "/#{locale}", status: :moved_permanently
-    end
+    # Redirect to localized root path
+    # The routes.rb will handle authenticated vs non-authenticated routing
+    redirect_to "/#{locale}", status: :moved_permanently
   end
 
   private

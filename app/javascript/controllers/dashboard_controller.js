@@ -96,24 +96,9 @@ export default class extends Controller {
   }
 
   refreshPendingInvitations() {
-    // Update pending invitations section
-    const pendingSection = document.querySelector('[data-section="pending-invitations"]')
-    if (pendingSection) {
-      fetch('/dashboard/pending_invitations', {
-        headers: {
-          'Accept': 'text/vnd.turbo-stream.html',
-          'X-Requested-With': 'XMLHttpRequest'
-        }
-      })
-      .then(response => response.text())
-      .then(html => {
-        // This would be handled by Turbo Stream
-        Turbo.renderStreamMessage(html)
-      })
-      .catch(error => {
-        console.warn('Failed to refresh pending invitations:', error)
-      })
-    }
+    // TODO: Implement server-side endpoint for dynamic invitation updates
+    // For now, pending invitations are loaded on initial page load
+    console.debug('Pending invitations refresh - not implemented yet')
   }
 
   updateTimeBasedContent() {
@@ -202,22 +187,9 @@ export default class extends Controller {
   }
 
   refreshRecentItems() {
-    const recentItemsSection = document.querySelector('[data-section="recent-items"]')
-    if (recentItemsSection) {
-      fetch('/dashboard/recent_items', {
-        headers: {
-          'Accept': 'text/vnd.turbo-stream.html',
-          'X-Requested-With': 'XMLHttpRequest'
-        }
-      })
-      .then(response => response.text())
-      .then(html => {
-        Turbo.renderStreamMessage(html)
-      })
-      .catch(error => {
-        console.warn('Failed to refresh recent items:', error)
-      })
-    }
+    // TODO: Implement server-side endpoint for dynamic recent items updates
+    // For now, recent items are loaded on initial page load
+    console.debug('Recent items refresh - not implemented yet')
   }
 
   buildNotificationHtml(notification) {
