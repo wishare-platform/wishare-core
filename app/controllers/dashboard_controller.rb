@@ -1,4 +1,6 @@
 class DashboardController < ApplicationController
+  include ProductionErrorHandling
+
   before_action :authenticate_user!
   before_action :ensure_dashboard_data, only: [:api_data]
 
@@ -33,8 +35,8 @@ class DashboardController < ApplicationController
       @dashboard_loaded = true
 
     rescue StandardError => e
-      Rails.logger.error "Dashboard loading error for user #{current_user.id}: #{e.message}"
-      Rails.logger.error e.backtrace.join("\n")
+      Rails.logger.error "Dashboard loading error for user #{current_user&.id || 'unknown'}: #{e.message}"
+      Rails.logger.error "Dashboard loading backtrace: #{e.backtrace.first(10).join('\n')}"
 
       # Provide fallback data to prevent infinite loading
       @recent_activities = ActivityFeed.none
@@ -50,6 +52,8 @@ class DashboardController < ApplicationController
   # API endpoint for mobile/AJAX dashboard data
   def api_data
     # Always ensure we have current data for API calls
+    Rails.logger.info "Dashboard API request - User: #{current_user&.id}, User Agent: #{request.user_agent}"
+
     begin
       @recent_activities ||= ActivityFeedService.get_user_activities(
         user: current_user,
@@ -104,13 +108,24 @@ class DashboardController < ApplicationController
         http_fallback: true
       }
     rescue StandardError => e
-      Rails.logger.error "Dashboard API error for user #{current_user.id}: #{e.message}"
-      render json: {
+      Rails.logger.error "Dashboard API error for user #{current_user&.id || 'unknown'}: #{e.message}"
+      Rails.logger.error "Dashboard API error backtrace: #{e.backtrace.first(10).join('\n')}"
+
+      # Enhanced error response with more debugging info
+      error_details = {
         error: 'Failed to load dashboard data',
         loaded: false,
         fallback: true,
-        message: 'Unable to load your activity feed. Please try refreshing the page.'
-      }, status: :internal_server_error
+        message: 'Unable to load your activity feed. Please try refreshing the page.',
+        debug_info: Rails.env.production? ? nil : {
+          error_class: e.class.name,
+          error_message: e.message,
+          user_id: current_user&.id,
+          timestamp: Time.current.iso8601
+        }
+      }
+
+      render json: error_details, status: :internal_server_error
     end
   end
 
