@@ -2,9 +2,11 @@ Rails.application.routes.draw do
   patch '/theme', to: 'theme#update'
   patch '/locale', to: 'locale#update'
 
+  # Dashboard route - outside locale scope for consistent access
+  get '/dashboard', to: 'dashboard#index', as: :global_dashboard
+
   # Root route without locale - redirect to appropriate localized version
   get '/', to: 'root_redirect#index'
-
 
   # OAuth callbacks must be outside of locale scope
   devise_for :users, only: :omniauth_callbacks, controllers: {
@@ -141,9 +143,9 @@ Rails.application.routes.draw do
     end
     
     authenticated :user do
-      root 'dashboard#index', as: :authenticated_root
+      root to: redirect('/dashboard')
     end
-    
+
     root 'landing#index'
 
     # Use case pages
