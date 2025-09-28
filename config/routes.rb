@@ -143,7 +143,7 @@ Rails.application.routes.draw do
     end
     
     authenticated :user do
-      root to: redirect('/dashboard')
+      root to: redirect('/dashboard'), as: :authenticated_root
     end
 
     root 'landing#index'
