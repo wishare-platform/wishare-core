@@ -142,5 +142,3 @@ class DashboardController < ApplicationController
     @dashboard_loaded ||= false
   end
 end
-    end
-end
