@@ -1,11 +1,15 @@
 class ActivityFeedChannel < ApplicationCable::Channel
-  # Rate limiting: max 5 subscriptions per minute per user
-  SUBSCRIPTION_LIMIT = 5
+  # Rate limiting: max 20 subscriptions per minute per user (allows for multiple tabs and reconnections)
+  SUBSCRIPTION_LIMIT = 20
   SUBSCRIPTION_WINDOW = 1.minute
 
   def subscribed
     # Rate limiting check
-    return reject_subscription('Rate limit exceeded') unless check_subscription_rate_limit
+    unless check_subscription_rate_limit
+      Rails.logger.warn "ActivityFeedChannel subscription rejected for user #{current_user.id}: Rate limit exceeded"
+      reject
+      return
+    end
 
     # Set locale from subscription parameters
     set_locale_from_params
@@ -117,10 +121,6 @@ class ActivityFeedChannel < ApplicationCable::Channel
     true
   end
 
-  def reject_subscription(message)
-    Rails.logger.warn "ActivityFeedChannel subscription rejected for user #{current_user.id}: #{message}"
-    reject
-  end
 
   def reject_action(message)
     Rails.logger.warn "ActivityFeedChannel action rejected for user #{current_user.id}: #{message}"

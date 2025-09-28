@@ -76,7 +76,7 @@ class DashboardController < ApplicationController
           id: activity.id,
           action_type: activity.action_type,
           action_description: activity_description(activity),
-          time_ago: time_ago_in_words(activity.created_at),
+          time_ago: helpers.time_ago_in_words(activity.created_at),
           actor: {
             id: activity.actor.id,
             name: activity.actor.name,
