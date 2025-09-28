@@ -2,9 +2,10 @@ class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   # Temporarily commented out to debug JavaScript issues
   # allow_browser versions: :modern
-  
+
   before_action :set_locale
   before_action :store_user_location!, if: :storable_location?
+  before_action :detect_mobile_app
 
   # Error handling - catches routing errors and other exceptions
   unless Rails.application.config.consider_all_requests_local
@@ -74,6 +75,40 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html { render file: Rails.public_path.join('500.html'), status: :internal_server_error, layout: false }
       format.json { render json: { error: 'Internal server error' }, status: :internal_server_error }
+    end
+  end
+
+  def detect_mobile_app
+    @is_mobile_app = request.user_agent&.include?('Hotwire Native') ||
+                     request.headers['X-Hotwire-Native'].present? ||
+                     request.headers['X-Mobile-App'].present?
+
+    Rails.logger.info "Mobile app detected: #{@is_mobile_app}" if @is_mobile_app
+  end
+
+  def mobile_app?
+    @is_mobile_app
+  end
+
+  # Override Devise's after_sign_in_path_for to handle mobile apps
+  def after_sign_in_path_for(resource)
+    if mobile_app?
+      # For mobile apps, always go to dashboard
+      global_dashboard_path
+    else
+      # For web users, use stored location or dashboard
+      stored_location_for(resource) || global_dashboard_path
+    end
+  end
+
+  # Override Devise's after_sign_out_path_for to handle mobile apps
+  def after_sign_out_path_for(resource_or_scope)
+    if mobile_app?
+      # For mobile apps, go to root
+      root_path
+    else
+      # For web users, go to root
+      root_path
     end
   end
 end

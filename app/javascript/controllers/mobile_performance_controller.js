@@ -2,10 +2,212 @@ import { Controller } from "@hotwired/stimulus"
 
 // Mobile Performance Optimization Controller
 export default class extends Controller {
+  static values = {
+    authCheckEnabled: { type: Boolean, default: true },
+    authCheckInterval: { type: Number, default: 300000 } // 5 minutes
+  }
+
   connect() {
+    this.retryCount = 0
+    this.maxRetries = 3
+    this.authCheckTimer = null
+    this.isMobileApp = this.detectMobileApp()
+
     this.optimizeForMobile()
     this.setupPerformanceMonitoring()
     this.addLoadingStates()
+    this.setupAuthenticationMonitoring()
+
+    console.log('MobilePerformance: Controller connected, mobile app:', this.isMobileApp)
+  }
+
+  disconnect() {
+    if (this.authCheckTimer) {
+      clearInterval(this.authCheckTimer)
+    }
+    console.log('MobilePerformance: Controller disconnected')
+  }
+
+  detectMobileApp() {
+    return navigator.userAgent.includes('Hotwire Native') ||
+           window.webkit?.messageHandlers?.authBridge ||
+           document.documentElement.classList.contains('mobile-app') ||
+           window.location.search.includes('mobile=true')
+  }
+
+  setupAuthenticationMonitoring() {
+    if (!this.authCheckEnabledValue) {
+      console.log('MobilePerformance: Auth monitoring disabled')
+      return
+    }
+
+    // Enable auth monitoring for both mobile and web
+    console.log('MobilePerformance: Setting up auth monitoring for', this.isMobileApp ? 'mobile app' : 'web browser')
+
+    // Start periodic authentication checks (more frequent for web)
+    const checkInterval = this.isMobileApp ? this.authCheckIntervalValue : 120000 // 2 min for web, 5 min for mobile
+    this.authCheckTimer = setInterval(() => {
+      this.checkAuthenticationStatus()
+    }, checkInterval)
+
+    // Check auth on visibility change
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        console.log('MobilePerformance: App became visible, checking auth')
+        this.checkAuthenticationStatus()
+      }
+    })
+  }
+
+  async checkAuthenticationStatus() {
+    try {
+      const response = await fetch('/mobile/auth/session_check', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-Hotwire-Native': 'true'
+        },
+        credentials: 'same-origin'
+      })
+
+      if (response.status === 401 || response.status === 403) {
+        this.handleAuthenticationExpired()
+        return
+      }
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
+
+      const data = await response.json()
+
+      if (data.status === 'authenticated') {
+        this.retryCount = 0 // Reset on success
+        this.notifyNativeApp('authentication_success', data)
+      } else {
+        this.handleAuthenticationExpired()
+      }
+
+    } catch (error) {
+      console.error('MobilePerformance: Auth check failed:', error)
+      this.retryCount++
+
+      if (this.retryCount >= this.maxRetries) {
+        console.warn('MobilePerformance: Max auth retries reached')
+        this.handleAuthenticationExpired()
+      }
+    }
+  }
+
+  handleAuthenticationExpired() {
+    console.warn('MobilePerformance: Authentication expired')
+
+    // Stop auth checking
+    if (this.authCheckTimer) {
+      clearInterval(this.authCheckTimer)
+      this.authCheckTimer = null
+    }
+
+    // Notify native app
+    this.notifyNativeApp('authentication_required', {
+      message: 'Your session has expired. Please sign in again.',
+      sign_in_url: '/users/sign_in'
+    })
+
+    // Show web fallback message
+    this.showAuthenticationBanner()
+  }
+
+  notifyNativeApp(type, data) {
+    if (window.webkit?.messageHandlers?.authBridge) {
+      window.webkit.messageHandlers.authBridge.postMessage({
+        type: type,
+        data: data
+      })
+      console.log('MobilePerformance: Notified native app:', type)
+    } else if (window.WishareAuth) {
+      switch (type) {
+        case 'authentication_required':
+          window.WishareAuth.reportAuthenticationRequired()
+          break
+        case 'authentication_success':
+          window.WishareAuth.reportAuthenticationSuccess(data)
+          break
+        case 'authentication_error':
+          window.WishareAuth.reportAuthenticationError(data.message)
+          break
+      }
+    } else {
+      console.log('MobilePerformance: No native bridge available for:', type)
+    }
+  }
+
+  showAuthenticationBanner() {
+    // Remove existing banner
+    const existingBanner = document.getElementById('mobile-auth-banner')
+    if (existingBanner) {
+      existingBanner.remove()
+    }
+
+    // Create new banner with better styling for web
+    const banner = document.createElement('div')
+    banner.id = 'mobile-auth-banner'
+    banner.className = 'fixed top-0 left-0 right-0 bg-red-500 text-white p-4 text-center z-50 shadow-lg'
+    banner.innerHTML = `
+      <div class="flex items-center justify-center gap-2 text-sm">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+        </svg>
+        <span>Your session has expired.</span>
+        <a href="/users/sign_in" class="underline font-medium hover:no-underline transition-all duration-200">Sign In Again</a>
+        <button onclick="this.parentElement.parentElement.remove()" class="ml-2 text-white hover:text-gray-200">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    `
+
+    document.body.prepend(banner)
+
+    // Auto-hide after 15 seconds (longer for web users to read)
+    setTimeout(() => {
+      if (banner.parentNode) {
+        banner.remove()
+      }
+    }, 15000)
+
+    // Also trigger activity feed to show auth error
+    const activityFeed = document.querySelector('[data-controller="activity-feed"]')
+    if (activityFeed && activityFeed._stimulusControllers) {
+      const controller = activityFeed._stimulusControllers.find(c => c.identifier === 'activity-feed')
+      if (controller) {
+        controller.handleAuthenticationError()
+      }
+    }
+  }
+
+  // Public method to restart auth monitoring (called after successful login)
+  restartAuthMonitoring() {
+    if (this.authCheckEnabledValue && !this.authCheckTimer) {
+      console.log('MobilePerformance: Restarting auth monitoring')
+      this.retryCount = 0
+      const checkInterval = this.isMobileApp ? this.authCheckIntervalValue : 120000
+      this.authCheckTimer = setInterval(() => {
+        this.checkAuthenticationStatus()
+      }, checkInterval)
+    }
+  }
+
+  // Public method to handle sign out
+  handleSignOut() {
+    console.log('MobilePerformance: Handling sign out')
+    if (this.authCheckTimer) {
+      clearInterval(this.authCheckTimer)
+      this.authCheckTimer = null
+    }
+    this.notifyNativeApp('logout', {})
   }
 
   optimizeForMobile() {

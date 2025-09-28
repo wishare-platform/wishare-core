@@ -11,10 +11,15 @@ module ApplicationCable
 
     def find_verified_user
       if verified_user = env['warden'].user
+        Rails.logger.info "ActionCable: User #{verified_user.id} authenticated successfully"
         verified_user
       else
+        Rails.logger.warn "ActionCable: No authenticated user found, rejecting connection"
         reject_unauthorized_connection
       end
+    rescue StandardError => e
+      Rails.logger.error "ActionCable: Authentication error: #{e.message}"
+      reject_unauthorized_connection
     end
 
     def find_locale

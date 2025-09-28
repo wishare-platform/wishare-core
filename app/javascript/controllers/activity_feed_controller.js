@@ -17,10 +17,24 @@ export default class extends Controller {
   }
 
   connect() {
+    this.authenticationError = false
+    this.connectionTimeout = null
+    this.httpFallbackAttempted = false
     this.consumer = createConsumer()
     this.initializeChannel()
     this.bindEvents()
     this.setupExternalElements()
+    this.startConnectionTimeout()
+
+    // For web users, attempt HTTP fallback immediately if WebSocket fails
+    if (!this.isMobileApp()) {
+      setTimeout(() => {
+        if (!this.subscription || this.subscription.state !== 'connected') {
+          console.log('WebSocket not connected after 3s, trying HTTP fallback')
+          this.loadFeedViaHTTP()
+        }
+      }, 3000)
+    }
   }
 
   disconnect() {
@@ -41,19 +55,34 @@ export default class extends Controller {
       },
       {
         connected: () => {
+          console.log('ActivityFeed WebSocket connected')
+          this.clearConnectionTimeout()
+          this.authenticationError = false
+          this.httpFallbackAttempted = false
           this.requestInitialFeed()
         },
 
         disconnected: () => {
-          // Connection lost
+          // Connection lost - check if it's an authentication issue
+          this.handleConnectionLost()
         },
 
         received: (data) => {
+          this.clearConnectionTimeout()
           this.handleReceivedData(data)
         },
 
         rejected: () => {
-          console.error("ActivityFeedChannel connection rejected")
+          console.error("ActivityFeedChannel connection rejected - likely authentication issue")
+          // Try HTTP fallback before showing auth error
+          if (!this.httpFallbackAttempted) {
+            console.log('WebSocket rejected, trying HTTP fallback')
+            this.loadFeedViaHTTP().catch(() => {
+              this.handleAuthenticationError()
+            })
+          } else {
+            this.handleAuthenticationError()
+          }
         }
       }
     )
@@ -88,12 +117,16 @@ export default class extends Controller {
   }
 
   requestInitialFeed() {
-    if (this.subscription) {
+    if (this.subscription && this.subscription.state === 'connected') {
       this.subscription.perform('request_feed_update', {
         feed_type: this.feedTypeValue,
         limit: this.limitValue,
         offset: 0
       })
+    } else {
+      // Immediate fallback to HTTP API if WebSocket is not available
+      console.log('WebSocket not connected, using HTTP fallback')
+      this.loadFeedViaHTTP()
     }
   }
 
@@ -128,6 +161,9 @@ export default class extends Controller {
         break
       case 'friend_activity':
         this.handleFriendActivity(data)
+        break
+      case 'error':
+        this.handleErrorResponse(data)
         break
       default:
         console.log('Unknown data type:', data.type)
@@ -385,5 +421,246 @@ export default class extends Controller {
         this.refreshFeed()
       })
     }
+  }
+
+  // Connection timeout management
+  startConnectionTimeout() {
+    this.connectionTimeout = setTimeout(() => {
+      if (!this.subscription || this.subscription.state !== 'connected') {
+        console.log('Connection timeout, attempting HTTP fallback')
+        if (!this.httpFallbackAttempted) {
+          this.loadFeedViaHTTP().catch(() => {
+            this.handleConnectionTimeout()
+          })
+        } else {
+          this.handleConnectionTimeout()
+        }
+      }
+    }, 5000) // Reduced to 5 second timeout for faster fallback
+  }
+
+  clearConnectionTimeout() {
+    if (this.connectionTimeout) {
+      clearTimeout(this.connectionTimeout)
+      this.connectionTimeout = null
+    }
+  }
+
+  // Error handling methods
+  handleConnectionTimeout() {
+    console.warn('ActivityFeed connection timeout - possible authentication issue')
+    this.showAuthenticationError('Connection timeout. Please check your internet connection or try logging in again.')
+  }
+
+  handleConnectionLost() {
+    console.warn('ActivityFeed connection lost')
+    // Try to reconnect after a delay if not an auth error
+    if (!this.authenticationError) {
+      setTimeout(() => {
+        this.reconnect()
+      }, 3000)
+    }
+  }
+
+  handleAuthenticationError() {
+    this.authenticationError = true
+    this.showAuthenticationError('Authentication required. Please log in to view your activity feed.')
+  }
+
+  handleErrorResponse(data) {
+    console.error('Error from ActivityFeed:', data.message)
+    if (data.message && data.message.includes('authentication')) {
+      this.handleAuthenticationError()
+    } else {
+      this.showGenericError(data.message || 'An error occurred while loading your feed.')
+    }
+  }
+
+  showAuthenticationError(message) {
+    this.hideLoadingState()
+    this.hideEmptyState()
+    this.showErrorState(message, 'authentication')
+  }
+
+  showGenericError(message) {
+    this.hideLoadingState()
+    this.showErrorState(message, 'generic')
+  }
+
+  showErrorState(message, type = 'generic') {
+    // Create or update error state
+    let errorState = this.element.querySelector('[data-activity-feed-target="errorState"]')
+    if (!errorState) {
+      errorState = document.createElement('div')
+      errorState.setAttribute('data-activity-feed-target', 'errorState')
+      this.element.appendChild(errorState)
+    }
+
+    const isAuthError = type === 'authentication'
+    const iconColor = isAuthError ? 'text-red-500' : 'text-yellow-500'
+    const bgColor = isAuthError ? 'border-red-200 dark:border-red-700' : 'border-yellow-200 dark:border-yellow-700'
+
+    errorState.className = `bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-sm border ${bgColor} p-8 text-center`
+    errorState.innerHTML = `
+      <svg class="w-16 h-16 ${iconColor} mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        ${isAuthError ?
+          '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>' :
+          '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>'
+        }
+      </svg>
+      <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+        ${isAuthError ? 'Authentication Required' : 'Connection Error'}
+      </h3>
+      <p class="text-gray-600 dark:text-gray-400 mb-6">
+        ${message}
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        ${isAuthError ?
+          `<a href="${window.location.origin}/users/sign_in"
+             class="inline-flex items-center gap-2 px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white font-medium rounded-lg transition-colors">
+             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+             </svg>
+             Sign In
+           </a>` :
+          `<button type="button" onclick="location.reload()"
+             class="inline-flex items-center gap-2 px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white font-medium rounded-lg transition-colors">
+             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+             </svg>
+             Retry
+           </button>`
+        }
+        <button type="button"
+                class="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-medium rounded-lg transition-colors"
+                data-action="click->activity-feed#reconnect">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path>
+          </svg>
+          Reconnect
+        </button>
+      </div>
+    `
+
+    errorState.classList.remove('hidden')
+  }
+
+  hideErrorState() {
+    const errorState = this.element.querySelector('[data-activity-feed-target="errorState"]')
+    if (errorState) {
+      errorState.classList.add('hidden')
+    }
+  }
+
+  reconnect() {
+    console.log('Attempting to reconnect ActivityFeed...')
+    this.hideErrorState()
+    this.showLoadingState()
+
+    // Disconnect current subscription
+    if (this.subscription) {
+      this.subscription.unsubscribe()
+    }
+
+    // Reset state
+    this.authenticationError = false
+
+    // Try HTTP fallback first, then reinitialize WebSocket
+    this.loadFeedViaHTTP().then(() => {
+      // If HTTP works, try to reinitialize WebSocket in background
+      setTimeout(() => {
+        this.initializeChannel()
+        this.startConnectionTimeout()
+      }, 1000)
+    }).catch(() => {
+      // If HTTP also fails, try WebSocket
+      this.initializeChannel()
+      this.startConnectionTimeout()
+    })
+  }
+
+  // HTTP fallback method
+  async loadFeedViaHTTP() {
+    try {
+      console.log('Loading feed via HTTP fallback...')
+      this.httpFallbackAttempted = true
+
+      const response = await fetch('/dashboard/api_data', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        credentials: 'same-origin'
+      })
+
+      if (response.status === 401 || response.status === 403) {
+        // Authentication error
+        this.handleAuthenticationError()
+        return Promise.reject(new Error('Authentication required'))
+      }
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
+
+      const data = await response.json()
+
+      if (data.error) {
+        throw new Error(data.error)
+      }
+
+      // Convert HTTP response to feed format
+      const feedData = {
+        type: 'feed_update',
+        activities: data.recent_activities || [],
+        has_more: false // HTTP fallback shows limited data
+      }
+
+      this.handleFeedUpdate(feedData)
+
+      // Show fallback notice
+      this.showFallbackNotice()
+
+      return Promise.resolve()
+
+    } catch (error) {
+      console.error('HTTP fallback failed:', error)
+      if (error.message.includes('Authentication') || error.message.includes('401')) {
+        this.handleAuthenticationError()
+      } else {
+        this.showGenericError(`Unable to load feed: ${error.message}`)
+      }
+      return Promise.reject(error)
+    }
+  }
+
+  showFallbackNotice() {
+    // Show a notice that we're using HTTP fallback
+    const notice = document.createElement('div')
+    notice.className = 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-3 mb-4 text-sm'
+    notice.innerHTML = `
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span class="text-blue-700 dark:text-blue-300">Using simplified feed mode. Real-time updates may be limited.</span>
+      </div>
+    `
+
+    this.containerTarget.prepend(notice)
+
+    // Remove notice after 5 seconds
+    setTimeout(() => {
+      notice.remove()
+    }, 5000)
+  }
+
+  // Helper method to detect mobile app
+  isMobileApp() {
+    return navigator.userAgent.includes('Hotwire Native') ||
+           window.webkit?.messageHandlers?.authBridge ||
+           document.documentElement.classList.contains('mobile-app') ||
+           window.location.search.includes('mobile=true')
   }
 }

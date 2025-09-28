@@ -4,6 +4,15 @@ Rails.application.routes.draw do
 
   # Dashboard route - outside locale scope for consistent access
   get '/dashboard', to: 'dashboard#index', as: :global_dashboard
+  get '/dashboard/api_data', to: 'dashboard#api_data', as: :dashboard_api_data
+
+  # Mobile authentication routes - outside locale scope
+  namespace :mobile do
+    get 'auth/status', to: 'mobile_auth#status'
+    get 'auth/session_check', to: 'mobile_auth#session_check'
+    get 'auth/config', to: 'mobile_auth#config'
+    get 'health', to: 'mobile_auth#health'
+  end
 
   # Root route without locale - redirect to appropriate localized version
   get '/', to: 'root_redirect#index'
