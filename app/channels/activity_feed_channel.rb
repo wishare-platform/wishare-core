@@ -69,11 +69,11 @@ class ActivityFeedChannel < ApplicationCable::Channel
     limit = [data['limit'] || 20, 50].min # Cap at 50 items per request
     feed_type = data['feed_type'] || 'for_you'
 
-    activities = ActivityFeedService.generate_feed(
+    # For dashboard consistency, always show user's own activities first
+    # This matches the HTTP fallback behavior in DashboardController
+    activities = ActivityFeedService.get_user_activities(
       user: current_user,
-      feed_type: feed_type,
-      limit: limit,
-      offset: offset
+      limit: limit
     )
 
     # Send the feed data back to the client
