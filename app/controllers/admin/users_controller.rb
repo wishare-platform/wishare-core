@@ -22,7 +22,7 @@ class Admin::UsersController < Admin::BaseController
                                   .recent
                                   .limit(20)
     @wishlists = @user.wishlists.includes(:wishlist_items)
-    @connections = @user.accepted_connections.includes(:user, :partner)
+    @connections = @user.accepted_connections.includes(user: :avatar_attachment, partner: :avatar_attachment)
   end
 
   def update

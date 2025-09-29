@@ -53,14 +53,14 @@ class DashboardDataService
   end
 
   def load_friends
-    accepted_connections.includes(:user, :partner).limit(8)
+    accepted_connections.includes(user: :avatar_attachment, partner: :avatar_attachment).limit(8)
   end
 
   def load_upcoming_events
     Wishlist.where(user_id: [@user.id] + friend_ids)
             .where.not(event_date: nil)
             .where('event_date >= ? AND event_date <= ?', Date.today, 30.days.from_now)
-            .includes(:user)
+            .includes(user: :avatar_attachment)
             .order(event_date: :asc)
             .limit(5)
   end
