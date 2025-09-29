@@ -63,9 +63,12 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
-  
+
   # Environment variables
   gem "dotenv-rails"
+
+  # N+1 query detection
+  gem "bullet"
 end
 
 # Email delivery - Using SendGrid API (not SMTP) for Railway compatibility

@@ -2,20 +2,29 @@
 <% content_for :description, t('wishlists.index.subtitle') %>
 <% content_for :structured_data, structured_data_website %>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+     data-controller="wishlist-delight pull-to-refresh"
+     data-wishlist-delight-celebration-ready-value="true"
+     style="min-height: calc(100vh - 140px);">
   <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
     <div>
       <% if @focus_partner %>
         <h1 class="heading-page text-gray-800 dark:text-gray-100"><%= @partner.name || t('common.user_fallbacks.friend') %>'s Wishlists</h1>
         <p class="text-body text-gray-600 dark:text-gray-400 mt-1"><%= t('wishlists.show.items_they_love') %></p>
       <% else %>
-        <h1 class="heading-page text-gray-800 dark:text-gray-100"><%= t('wishlists.index.your_wishlists') %></h1>
+        <div data-wishlist-delight-target="headerContent">
+        <h1 class="heading-page text-gray-800 dark:text-gray-100 flex items-center gap-3">
+          <span data-wishlist-delight-target="titleEmoji" class="text-4xl animate-bounce">🎁</span>
+          <%= t('wishlists.index.your_wishlists') %>
+          <span data-wishlist-delight-target="celebrationBadge" class="hidden bg-gradient-to-r from-rose-500 to-pink-500 text-white text-sm px-3 py-1 rounded-full animate-pulse">✨ Amazing!</span>
+        </h1>
         <p class="text-body text-gray-600 dark:text-gray-400 mt-1"><%= t('wishlists.index.subtitle') %></p>
+      </div>
       <% end %>
     </div>
     <div class="flex gap-3">
       <% unless @focus_partner %>
-        <%= link_to new_wishlist_path, class: "btn-primary bg-gradient-to-r from-rose-500 to-rose-600 text-white px-3 sm:px-4 py-2 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 flex items-center gap-2 shadow-lg" do %>
+        <%= link_to new_wishlist_path, class: "btn-primary bg-gradient-to-r from-rose-500 to-rose-600 text-white px-3 sm:px-4 py-2 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 flex items-center gap-2 shadow-lg transform hover:scale-105 hover:shadow-xl", data: { "wishlist-delight-target": "createButton", action: "mouseenter->wishlist-delight#highlightCreateButton mouseleave->wishlist-delight#resetCreateButton" } do %>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
           </svg>
@@ -193,7 +202,11 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           <!-- User's Own Wishlists -->
           <% @wishlists.each do |wishlist| %>
-            <div data-wishlist-filter-target="wishlistCard" data-categories="my-wishlists all" class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl border border-rose-100 dark:border-gray-700 hover:border-rose-200 dark:hover:border-gray-600 hover:shadow-xl transition duration-300 overflow-hidden">
+            <div data-wishlist-filter-target="wishlistCard" data-categories="my-wishlists all" class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl border border-rose-100 dark:border-gray-700 hover:border-rose-200 dark:hover:border-gray-600 hover:shadow-xl transition duration-300 overflow-hidden group transform hover:scale-[1.02] hover:-translate-y-1"
+               data-wishlist-delight-target="wishlistCard"
+               data-action="mouseenter->wishlist-delight#onCardHover mouseleave->wishlist-delight#onCardLeave click->wishlist-delight#onCardClick"
+               data-wishlist-id="<%= wishlist.id %>"
+               data-wishlist-name="<%= wishlist.name %>">
               <!-- Cover Image -->
               <% if wishlist.cover_image.attached? %>
                 <div class="h-32 sm:h-40 overflow-hidden">
@@ -202,8 +215,11 @@
               <% end %>
               <div class="p-4 sm:p-6">
                 <div class="flex justify-between items-start mb-3">
-                  <h3 class="heading-card text-gray-800 dark:text-gray-100 pr-2">
-                    <%= link_to wishlist.name, wishlist_path(wishlist), class: "hover:text-rose-600 dark:hover:text-rose-400 transition duration-200" %>
+                  <h3 class="heading-card text-gray-800 dark:text-gray-100 pr-2 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors duration-200">
+                    <%= link_to wishlist_path(wishlist), class: "flex items-center gap-2 hover:text-rose-600 dark:hover:text-rose-400 transition duration-200" do %>
+                      <span data-wishlist-delight-target="cardEmoji" class="transform group-hover:scale-110 transition-transform duration-200">🎁</span>
+                      <span><%= wishlist.name %></span>
+                    <% end %>
                   </h3>
                   <div class="flex items-center gap-2 flex-shrink-0">
                     <% if wishlist.is_default %>
@@ -362,8 +378,11 @@
                 </div>
                 
                 <div class="flex flex-col sm:flex-row gap-2">
-                  <%= link_to t('wishlists.index.buttons.view_items'), wishlist_path(wishlist), class: "flex-1 text-center bg-gradient-to-r from-rose-500 to-rose-600 text-white px-3 py-2 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 text-sm font-medium shadow-sm" %>
-                  <%= link_to t('wishlists.index.buttons.add_item'), new_wishlist_wishlist_item_path(wishlist), class: "text-center bg-amber-50 text-amber-700 px-3 py-2 rounded-xl hover:bg-amber-100 transition duration-200 text-sm font-medium border border-amber-200" %>
+                  <%= link_to t('wishlists.index.buttons.view_items'), wishlist_path(wishlist), class: "flex-1 text-center bg-gradient-to-r from-rose-500 to-rose-600 text-white px-3 py-2 rounded-xl hover:from-rose-600 hover:to-rose-700 transition duration-200 text-sm font-medium shadow-sm transform hover:scale-105 hover:shadow-lg", data: { action: "click->wishlist-delight#trackView" } %>
+                  <%= link_to new_wishlist_wishlist_item_path(wishlist), class: "text-center bg-amber-50 text-amber-700 px-3 py-2 rounded-xl hover:bg-amber-100 transition duration-200 text-sm font-medium border border-amber-200 transform hover:scale-105 hover:shadow-md flex items-center justify-center gap-2", data: { action: "click->wishlist-delight#trackAddItem" } do %>
+                    <span class="transform group-hover:rotate-12 transition-transform duration-200">✨</span>
+                    <%= t('wishlists.index.buttons.add_item') %>
+                  <% end %>
                 </div>
               </div>
             </div>
