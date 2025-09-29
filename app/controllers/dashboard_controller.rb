@@ -55,14 +55,16 @@ class DashboardController < ApplicationController
     Rails.logger.info "Dashboard API request - User: #{current_user&.id}, User Agent: #{request.user_agent}"
 
     begin
-      @recent_activities ||= ActivityFeedService.get_user_activities(
+      # Get user activities with cursor support
+      activities_result = ActivityFeedService.get_user_activities(
         user: current_user,
-        limit: 10
+        limit: 15
       )
+      @recent_activities = activities_result.is_a?(Hash) ? activities_result[:activities] : activities_result
 
       @friend_activities ||= ActivityFeedService.get_friend_activities(
         user: current_user,
-        limit: 10
+        limit: 12
       )
 
       @activity_stats ||= ActivityFeedService.get_activity_stats(

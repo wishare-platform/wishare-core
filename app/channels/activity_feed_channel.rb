@@ -1,6 +1,6 @@
 class ActivityFeedChannel < ApplicationCable::Channel
-  # Rate limiting: max 20 subscriptions per minute per user (allows for multiple tabs and reconnections)
-  SUBSCRIPTION_LIMIT = 20
+  # Rate limiting: max 30 subscriptions per minute per user (allows for multiple tabs and reconnections)
+  SUBSCRIPTION_LIMIT = 30
   SUBSCRIPTION_WINDOW = 1.minute
 
   def subscribed
@@ -65,23 +65,31 @@ class ActivityFeedChannel < ApplicationCable::Channel
     set_locale_from_params
 
     # Manual refresh request from client
-    offset = data['offset'] || 0
-    limit = [data['limit'] || 20, 50].min # Cap at 50 items per request
+    cursor = data['cursor']
+    limit = [data['limit'] || 30, 75].min # Cap at 75 items per request (50% increase)
     feed_type = data['feed_type'] || 'for_you'
 
     # For dashboard consistency, always show user's own activities first
     # This matches the HTTP fallback behavior in DashboardController
-    activities = ActivityFeedService.get_user_activities(
+    result = ActivityFeedService.get_user_activities(
       user: current_user,
-      limit: limit
+      limit: limit,
+      cursor: cursor
     )
 
     # Send the feed data back to the client
     transmit({
       type: 'feed_update',
-      activities: render_activities(activities),
-      has_more: activities.count == limit
+      activities: render_activities(result[:activities]),
+      has_more: result[:has_more],
+      next_cursor: result[:next_cursor],
+      is_load_more: cursor.present?
     })
+  end
+
+  def load_more_activities(data)
+    # Same as request_feed_update but explicitly for load more
+    request_feed_update(data)
   end
 
   private
@@ -131,7 +139,7 @@ class ActivityFeedChannel < ApplicationCable::Channel
   end
 
   def render_activities(activities)
-    activities.includes(:actor, :target, :user).map do |activity|
+    activities.includes(actor: :avatar_attachment, target: {}, user: :avatar_attachment).map do |activity|
       {
         id: activity.id,
         action_type: activity.action_type,

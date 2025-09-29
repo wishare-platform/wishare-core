@@ -1,7 +1,7 @@
 class ActivityFeedService
   class << self
     # Generate activity feed for a user with filtering options
-    def generate_feed(user:, feed_type: 'for_you', limit: 20, offset: 0)
+    def generate_feed(user:, feed_type: 'for_you', limit: 30, offset: 0)
       case feed_type
       when 'for_you'
         generate_personalized_feed(user, limit, offset)
@@ -53,9 +53,9 @@ class ActivityFeedService
     end
 
     # Get activities for a specific target (wishlist, item, etc.)
-    def get_target_activities(target:, viewer: nil, limit: 10)
+    def get_target_activities(target:, viewer: nil, limit: 15)
       activities = ActivityFeed.where(target: target)
-                              .includes(:actor, :user, :target)
+                              .includes(actor: :avatar_attachment, user: :avatar_attachment, target: {})
                               .recent
                               .limit(limit)
 
@@ -66,13 +66,13 @@ class ActivityFeedService
     end
 
     # Get friend activities (for friends sidebar)
-    def get_friend_activities(user:, limit: 5)
+    def get_friend_activities(user:, limit: 8)
       friend_ids = get_friend_ids(user)
       return ActivityFeed.none if friend_ids.empty?
 
       activities = ActivityFeed.where(actor_id: friend_ids)
                               .where(is_public: true)
-                              .includes(:actor, :target, :user)
+                              .includes(actor: :avatar_attachment, target: {}, user: :avatar_attachment)
                               .recent
                               .limit(limit)
 
@@ -80,7 +80,7 @@ class ActivityFeedService
       if activities.empty?
         activities = ActivityFeed.where(actor_id: friend_ids)
                                 .where(is_public: true)
-                                .includes(:actor, :target, :user)
+                                .includes(actor: :avatar_attachment, target: {}, user: :avatar_attachment)
                                 .order(occurred_at: :desc)
                                 .limit(limit)
       end
@@ -92,24 +92,42 @@ class ActivityFeedService
     end
 
     # Get user's own recent activities with fallback to older activities
-    def get_user_activities(user:, limit: 10)
-      activities = ActivityFeed.where(actor: user)
-                              .includes(:actor, :target, :user)
-                              .recent
-                              .limit(limit)
+    def get_user_activities(user:, limit: 15, cursor: nil)
+      base_query = ActivityFeed.where(actor: user)
+                              .includes(actor: :avatar_attachment, target: {}, user: :avatar_attachment)
 
-      # If no recent activities, fallback to any activities (for older data)
-      if activities.empty?
+      # Apply cursor-based pagination if cursor is provided
+      if cursor.present?
+        cursor_time = Time.parse(cursor)
+        base_query = base_query.where('occurred_at < ?', cursor_time)
+      end
+
+      activities = base_query.order(occurred_at: :desc).limit(limit + 1) # +1 to check for more
+
+      # Check if there are more activities
+      has_more = activities.count > limit
+      activities = activities.limit(limit) if has_more
+
+      # If no recent activities and no cursor, fallback to any activities (for older data)
+      if activities.empty? && cursor.nil?
         activities = ActivityFeed.where(actor: user)
-                                .includes(:actor, :target, :user)
+                                .includes(actor: :avatar_attachment, target: {}, user: :avatar_attachment)
                                 .order(occurred_at: :desc)
                                 .limit(limit)
       end
 
-      activities
+      {
+        activities: activities,
+        has_more: has_more,
+        next_cursor: activities.any? ? activities.last.occurred_at.iso8601 : nil
+      }
     rescue => e
       Rails.logger.error "Error fetching user activities: #{e.message}"
-      ActivityFeed.none
+      {
+        activities: ActivityFeed.none,
+        has_more: false,
+        next_cursor: nil
+      }
     end
 
     private
@@ -135,7 +153,7 @@ class ActivityFeedService
                      trending_activities.pluck(:id)).uniq
 
       ActivityFeed.where(id: combined_ids)
-                  .includes(:actor, :user, target: [:user])
+                  .includes(actor: :avatar_attachment, user: :avatar_attachment, target: { user: :avatar_attachment })
                   .order(occurred_at: :desc)
                   .offset(offset)
                   .limit(limit)
@@ -148,7 +166,7 @@ class ActivityFeedService
 
       ActivityFeed.where(actor_id: friend_ids)
                   .where(is_public: true)
-                  .includes(:actor, :user, target: [:user])
+                  .includes(actor: :avatar_attachment, user: :avatar_attachment, target: { user: :avatar_attachment })
                   .recent
                   .offset(offset)
                   .limit(limit)
@@ -164,7 +182,7 @@ class ActivityFeedService
     # Generate public feed (all public activities)
     def generate_public_feed(user, limit, offset)
       ActivityFeed.public_activities
-                  .includes(:actor, :user, target: [:user])
+                  .includes(actor: :avatar_attachment, user: :avatar_attachment, target: { user: :avatar_attachment })
                   .recent
                   .offset(offset)
                   .limit(limit)

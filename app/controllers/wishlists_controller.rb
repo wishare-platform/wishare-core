@@ -23,10 +23,12 @@ class WishlistsController < ApplicationController
                    { created_at: :desc }
                  end
 
-    @wishlists = current_user.wishlists.includes(:wishlist_items).order(sort_order)
+    @wishlists = current_user.wishlists
+                              .includes(:wishlist_items, :cover_image_attachment)
+                              .order(sort_order)
 
-    # Get all connected users
-    connected_user_ids = current_user.accepted_connections.map do |connection|
+    # Get all connected users with proper eager loading
+    connected_user_ids = current_user.accepted_connections.includes(:user, :partner).map do |connection|
       connection.other_user(current_user).id
     end
 
@@ -34,7 +36,7 @@ class WishlistsController < ApplicationController
     if connected_user_ids.any?
       @connected_wishlists = Wishlist.where(user_id: connected_user_ids)
                                      .where(visibility: [:partner_only, :publicly_visible])
-                                     .includes(:user, :wishlist_items)
+                                     .includes(:user, :wishlist_items, :cover_image_attachment)
                                      .order(sort_order)
     else
       @connected_wishlists = []
@@ -43,7 +45,7 @@ class WishlistsController < ApplicationController
     # Also get all public wishlists from non-connected users
     @public_wishlists = Wishlist.where(visibility: :publicly_visible)
                                 .where.not(user_id: [current_user.id] + connected_user_ids)
-                                .includes(:user, :wishlist_items)
+                                .includes(:user, :wishlist_items, :cover_image_attachment)
                                 .order(sort_order)
 
     @focus_partner = params[:partner] == 'true'
