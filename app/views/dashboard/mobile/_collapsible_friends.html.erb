@@ -18,7 +18,7 @@
 
       <div class="flex items-center gap-2">
         <!-- Friends count badge -->
-        <% friends_count = @user.connections.accepted.count %>
+        <% friends_count = (@connections.size + @inverse_connections.size) %>
         <% if friends_count > 0 %>
           <span class="bg-blue-500 text-white text-xs font-medium px-2 py-1 rounded-full">
             <%= friends_count %>
@@ -38,12 +38,12 @@
     <div class="mt-3 flex items-center gap-2"
          data-mobile-collapsible-target="preview">
       <%
-        # Get top 3 connected friends for preview
+        # Get top 3 connected friends for preview using preloaded data
         connected_users = []
-        @user.connections.accepted.includes(:partner).limit(3).each do |connection|
+        @connections.limit(3).each do |connection|
           connected_users << connection.partner
         end
-        @user.inverse_connections.accepted.includes(:user).limit(3).each do |connection|
+        @inverse_connections.limit(3).each do |connection|
           connected_users << connection.user
         end
         preview_friends = connected_users.uniq.first(3)

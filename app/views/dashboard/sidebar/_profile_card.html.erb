@@ -48,7 +48,7 @@
         </div>
         <div>
           <div class="text-lg font-bold text-rose-600 dark:text-rose-400">
-            <%= @user.connections.accepted.count %>
+            <%= (@connections.size + @inverse_connections.size) %>
           </div>
           <div class="text-body-sm text-gray-600 dark:text-gray-400"><%= t('dashboard.sidebar.stats.friends') %></div>
         </div>

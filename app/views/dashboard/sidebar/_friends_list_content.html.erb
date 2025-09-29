@@ -1,13 +1,13 @@
 <%
-  # Get connected friends with recent activity
+  # Get connected friends with recent activity using preloaded data
   connected_users = []
 
-  # Get partners from both directions of connections
-  @user.connections.accepted.includes(:partner).each do |connection|
+  # Get partners from both directions of connections using preloaded data
+  @connections.each do |connection|
     connected_users << connection.partner
   end
 
-  @user.inverse_connections.accepted.includes(:user).each do |connection|
+  @inverse_connections.each do |connection|
     connected_users << connection.user
   end
 

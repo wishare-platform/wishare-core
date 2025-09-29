@@ -22,7 +22,7 @@
           <span class="text-gray-500 dark:text-gray-400"><%= t('dashboard.sidebar.stats.wishlists') %></span>
         </div>
         <div class="flex items-center gap-1">
-          <span class="font-semibold text-rose-600 dark:text-rose-400"><%= @user.connections.accepted.count %></span>
+          <span class="font-semibold text-rose-600 dark:text-rose-400"><%= (@connections.size + @inverse_connections.size) %></span>
           <span class="text-gray-500 dark:text-gray-400"><%= t('dashboard.sidebar.stats.friends') %></span>
         </div>
       </div>

@@ -31,6 +31,10 @@ class DashboardController < ApplicationController
         timeframe: 'week'
       )
 
+      # Pre-load friends data for sidebar with proper eager loading
+      @connections = current_user.accepted_connections.includes(user: :avatar_attachment, partner: :avatar_attachment)
+      @inverse_connections = current_user.inverse_connections.accepted_connections.includes(user: :avatar_attachment, partner: :avatar_attachment)
+
       # Set success flag for frontend
       @dashboard_loaded = true
 
