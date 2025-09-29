@@ -1,0 +1,134 @@
+<!-- Animation Test Controls - Development Only -->
+<% if Rails.env.development? %>
+<div class="fixed bottom-4 right-4 z-50 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 border border-gray-200 dark:border-gray-700 max-w-sm"
+     data-controller="animation-foundation"
+     style="font-size: 12px;">
+
+  <h4 class="font-bold text-gray-800 dark:text-gray-100 mb-3 flex items-center gap-2">
+    <span class="text-lg">🎭</span>
+    Animation Test Controls
+  </h4>
+
+  <!-- Foundation Animation Tests -->
+  <div class="space-y-2 mb-4">
+    <h5 class="font-semibold text-gray-700 dark:text-gray-300 text-xs">Foundation</h5>
+    <div class="grid grid-cols-2 gap-2">
+      <button data-action="click->animation-foundation#triggerEntrance"
+              class="btn-enhanced bg-blue-500 text-white px-2 py-1 rounded text-xs">
+        Entrance
+      </button>
+      <button data-action="click->animation-foundation#emphasize"
+              class="btn-enhanced bg-green-500 text-white px-2 py-1 rounded text-xs">
+        Emphasize
+      </button>
+      <button data-action="click->animation-foundation#celebrate"
+              class="btn-enhanced bg-purple-500 text-white px-2 py-1 rounded text-xs">
+        Celebrate
+      </button>
+      <button data-action="click->animation-foundation#attention"
+              class="btn-enhanced bg-red-500 text-white px-2 py-1 rounded text-xs">
+        Attention
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading States Tests -->
+  <div class="space-y-2 mb-4" data-controller="loading-states">
+    <h5 class="font-semibold text-gray-700 dark:text-gray-300 text-xs">Loading States</h5>
+    <div class="grid grid-cols-2 gap-2">
+      <button data-action="click->loading-states#startLoading"
+              data-loading-states-type-param="skeleton"
+              class="btn-enhanced bg-gray-500 text-white px-2 py-1 rounded text-xs">
+        Skeleton
+      </button>
+      <button data-action="click->loading-states#startLoading"
+              data-loading-states-type-param="spinner"
+              class="btn-enhanced bg-gray-500 text-white px-2 py-1 rounded text-xs">
+        Spinner
+      </button>
+      <button data-action="click->loading-states#startLoading"
+              data-loading-states-type-param="progress"
+              class="btn-enhanced bg-gray-500 text-white px-2 py-1 rounded text-xs">
+        Progress
+      </button>
+      <button data-action="click->loading-states#stopLoading"
+              class="btn-enhanced bg-green-600 text-white px-2 py-1 rounded text-xs">
+        Complete
+      </button>
+    </div>
+  </div>
+
+  <!-- Hover Effects Tests -->
+  <div class="space-y-2" data-controller="hover-effects">
+    <h5 class="font-semibold text-gray-700 dark:text-gray-300 text-xs">Hover Effects</h5>
+    <div class="space-y-2">
+      <div data-hover-effects-target="hoverCard"
+           class="card-enhanced bg-gradient-to-r from-rose-50 to-pink-50 dark:from-rose-900/20 dark:to-pink-900/20 p-3 rounded-lg border border-rose-200 dark:border-rose-800">
+        <div class="hover-child">
+          <p class="text-xs text-gray-700 dark:text-gray-300 font-medium">Enhanced Card</p>
+          <p class="text-xs text-gray-500 dark:text-gray-400">Hover me!</p>
+        </div>
+      </div>
+
+      <button data-hover-effects-target="hoverButton"
+              class="btn-enhanced bg-rose-500 text-white px-3 py-2 rounded-lg text-xs w-full">
+        Enhanced Button
+      </button>
+
+      <div data-hover-effects-target="magneticElement"
+           class="magnetic bg-amber-100 dark:bg-amber-900/20 p-2 rounded text-center text-xs border border-amber-300 dark:border-amber-700">
+        Magnetic Element
+      </div>
+    </div>
+  </div>
+
+  <!-- Performance Info -->
+  <div class="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
+    <p class="text-xs text-gray-500 dark:text-gray-400">
+      <span id="reduced-motion-status">Motion: <span class="font-medium">Checking...</span></span>
+    </p>
+    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+      Controllers:
+      <span class="font-medium text-green-600">5 loaded</span>
+    </p>
+  </div>
+
+  <!-- Test Results Container -->
+  <div data-loading-states-target="skeleton" class="hidden mt-4">
+    <div class="loading-skeleton h-4 mb-2"></div>
+    <div class="loading-skeleton h-3 mb-2 w-3/4"></div>
+    <div class="loading-skeleton h-3 w-1/2"></div>
+  </div>
+
+  <div data-loading-states-target="loadingSpinner" class="hidden mt-4 text-center">
+    <div class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-rose-500"></div>
+    <p data-loading-states-target="loadingText" class="text-xs text-gray-600 dark:text-gray-400 mt-2">Loading...</p>
+  </div>
+
+  <div data-loading-states-target="progressBar" class="hidden mt-4">
+    <div class="bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+      <div class="bg-rose-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <div data-loading-states-target="content" class="hidden mt-4 p-3 bg-green-50 dark:bg-green-900/20 rounded border border-green-200 dark:border-green-700">
+    <p class="text-xs text-green-700 dark:text-green-400 font-medium">✨ Content Loaded!</p>
+    <p class="text-xs text-green-600 dark:text-green-500">Animation test successful</p>
+  </div>
+
+</div>
+
+<script>
+  // Check motion preferences
+  document.addEventListener('DOMContentLoaded', function() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const statusElement = document.getElementById('reduced-motion-status');
+
+    if (statusElement) {
+      statusElement.innerHTML = prefersReducedMotion ?
+        'Motion: <span class="font-medium text-orange-600">Reduced</span>' :
+        'Motion: <span class="font-medium text-green-600">Full</span>';
+    }
+  });
+</script>
+<% end %>
