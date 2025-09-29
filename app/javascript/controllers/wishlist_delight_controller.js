@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
+import { useIntersection, useWindowResize, useTimeout, useDebounce } from "stimulus-use"
 
-// Wishlist Delight Controller - Adding personality and engaging micro-interactions
+// Wishlist Delight Controller - Enhanced with stimulus-use for advanced micro-interactions
 export default class extends Controller {
   static targets = [
     "headerContent", "titleEmoji", "celebrationBadge", "createButton",
@@ -11,11 +12,46 @@ export default class extends Controller {
   }
 
   connect() {
+    // Initialize stimulus-use composables
+    useIntersection(this, { threshold: 0.1 })
+    useWindowResize(this)
+    useTimeout(this)
+    useDebounce(this)
+
     this.initializeDelightfulMoments()
     this.setupAchievementTracking()
     this.createConfettiCanvas()
     this.addTitlePulse()
     this.checkForCelebrationMoments()
+  }
+
+  // Intersection Observer callback - triggered when cards come into view
+  appear(entry) {
+    this.animateCardsOnScroll()
+  }
+
+  disappear(entry) {
+    // Optional: fade out animation when leaving viewport
+  }
+
+  // Window resize callback
+  resize({ width, height }) {
+    // Recalculate confetti canvas size
+    if (this.confettiCanvas) {
+      this.confettiCanvas.width = width
+      this.confettiCanvas.height = height
+    }
+  }
+
+  // Enhanced card animation when scrolling into view
+  animateCardsOnScroll() {
+    this.wishlistCardTargets.forEach((card, index) => {
+      setTimeout(() => {
+        card.style.opacity = '1'
+        card.style.transform = 'translateY(0) scale(1)'
+        card.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+      }, index * 100)
+    })
   }
 
   disconnect() {

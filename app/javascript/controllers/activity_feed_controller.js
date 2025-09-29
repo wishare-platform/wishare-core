@@ -7,7 +7,7 @@ export default class extends Controller {
     userId: Number,
     feedType: String,
     locale: String,
-    limit: { type: Number, default: 20 },
+    limit: { type: Number, default: 30 },
     offset: { type: Number, default: 0 },
     noActivities: String,
     oneActivity: String,
@@ -20,6 +20,9 @@ export default class extends Controller {
     this.authenticationError = false
     this.connectionTimeout = null
     this.httpFallbackAttempted = false
+    this.nextCursor = null
+    this.hasMore = true
+    this.isLoading = false
     this.consumer = createConsumer()
     this.initializeChannel()
     this.bindEvents()
@@ -105,6 +108,8 @@ export default class extends Controller {
   changeFeedType(feedType) {
     this.feedTypeValue = feedType
     this.offsetValue = 0
+    this.nextCursor = null
+    this.hasMore = true
     this.clearFeed()
 
     // Tell the channel to switch feed types
@@ -121,7 +126,7 @@ export default class extends Controller {
       this.subscription.perform('request_feed_update', {
         feed_type: this.feedTypeValue,
         limit: this.limitValue,
-        offset: 0
+        cursor: null
       })
     } else {
       // Immediate fallback to HTTP API if WebSocket is not available
@@ -130,25 +135,40 @@ export default class extends Controller {
     }
   }
 
-  requestFeedUpdate() {
+  requestFeedUpdate(cursor = null) {
     if (this.subscription) {
       this.subscription.perform('request_feed_update', {
         feed_type: this.feedTypeValue,
         limit: this.limitValue,
-        offset: this.offsetValue
+        cursor: cursor || this.nextCursor
       })
     }
   }
 
   refreshFeed() {
     this.offsetValue = 0
+    this.nextCursor = null
+    this.hasMore = true
     this.showLoadingState()
-    this.requestFeedUpdate()
+    this.requestFeedUpdate(null)
   }
 
   loadMore() {
-    this.offsetValue += this.limitValue
-    this.requestFeedUpdate()
+    if (this.isLoading || !this.hasMore) return
+
+    this.isLoading = true
+    this.updateLoadMoreButton()
+
+    if (this.subscription) {
+      this.subscription.perform('load_more_activities', {
+        feed_type: this.feedTypeValue,
+        limit: this.limitValue,
+        cursor: this.nextCursor
+      })
+    } else {
+      // HTTP fallback for load more
+      this.loadFeedViaHTTP(true)
+    }
   }
 
   handleReceivedData(data) {
@@ -173,8 +193,15 @@ export default class extends Controller {
   handleFeedUpdate(data) {
     // Hide loading state and show container
     this.hideLoadingState()
+    this.isLoading = false
 
-    if (this.offsetValue === 0) {
+    // Handle cursor-based pagination
+    if (data.next_cursor) {
+      this.nextCursor = data.next_cursor
+    }
+    this.hasMore = data.has_more || false
+
+    if (!data.is_load_more) {
       // Fresh feed load - replace all content
       this.clearFeed()
     }
@@ -191,14 +218,14 @@ export default class extends Controller {
 
       // Update activity count
       this.updateActivityCount(data.activities.length)
-    } else if (this.offsetValue === 0) {
+    } else if (!data.is_load_more) {
       // Show empty state only on initial load with no activities
       this.showEmptyState()
       this.updateActivityCount(0)
     }
 
-    // Show/hide load more button based on whether there are more items
-    this.toggleLoadMoreButton(data.has_more)
+    // Update load more button visibility
+    this.updateLoadMoreButton()
   }
 
   handleNewActivity(data) {
@@ -654,6 +681,33 @@ export default class extends Controller {
     setTimeout(() => {
       notice.remove()
     }, 5000)
+  }
+
+  updateLoadMoreButton() {
+    if (!this.hasLoadMoreButtonTarget) return
+
+    if (this.isLoading) {
+      this.loadMoreButtonTarget.innerHTML = `
+        <div class="flex items-center justify-center gap-2 py-3">
+          <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-rose-500"></div>
+          <span class="text-gray-600 dark:text-gray-400">Loading more...</span>
+        </div>
+      `
+      this.loadMoreButtonTarget.disabled = true
+    } else if (this.hasMore) {
+      this.loadMoreButtonTarget.innerHTML = `
+        <div class="flex items-center justify-center gap-2 py-3">
+          <span class="text-rose-600 dark:text-rose-400 font-medium">Load More Activities</span>
+          <svg class="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+          </svg>
+        </div>
+      `
+      this.loadMoreButtonTarget.disabled = false
+      this.loadMoreButtonTarget.classList.remove('hidden')
+    } else {
+      this.loadMoreButtonTarget.classList.add('hidden')
+    }
   }
 
   // Helper method to detect mobile app
