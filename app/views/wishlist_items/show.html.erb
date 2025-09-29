@@ -13,341 +13,231 @@
      data-item-delight-item-name-value="<%= @wishlist_item.name %>"
      data-item-delight-wishlist-name-value="<%= @wishlist.name %>"
      data-item-delight-is-purchased-value="<%= @wishlist_item.purchased? %>">
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <div class="mb-6" data-item-delight-target="breadcrumb">
-    <%= link_to @wishlist, class: "inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-rose-600 dark:hover:text-rose-400 transition duration-200 transform hover:scale-105", data: { action: "mouseenter->item-delight#onBreadcrumbHover mouseleave->item-delight#onBreadcrumbLeave" } do %>
-      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-      </svg>
-      <%= t('wishlists.show.back_to_wishlist', name: @wishlist.name) %>
-    <% end %>
-  </div>
 
-  <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl border border-rose-100 dark:border-gray-700 shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:scale-[1.01]"
-       data-item-delight-target="mainCard"
-       data-action="mouseenter->item-delight#onCardHover mouseleave->item-delight#onCardLeave">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
-      <!-- Image Section -->
-      <div class="relative">
-        <% if @wishlist_item.image_url.present? %>
-          <div class="aspect-square lg:h-full overflow-hidden rounded-l-2xl">
-            <%= image_tag @wishlist_item.image_url, class: "w-full h-full object-cover", alt: @wishlist_item.name %>
-            <% if @wishlist_item.purchased? %>
-              <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-                <div class="bg-green-600 text-white px-4 py-2 rounded-full text-lg font-medium flex items-center gap-3">
-                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <%= t('wishlists.show.purchased') %>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        <% else %>
-          <div class="aspect-square lg:h-full bg-gradient-to-br from-rose-50 via-pink-50 to-amber-50 dark:from-rose-900/20 dark:via-pink-900/20 dark:to-amber-900/20 flex flex-col items-center justify-center relative">
-            <div class="text-8xl mb-4">💝</div>
-            <div class="text-center">
-              <div class="text-rose-500 dark:text-rose-400 font-bold text-2xl font-display">Wishare</div>
-              <div class="text-rose-400 dark:text-rose-500 text-lg font-medium"><%= t('wishlists.show.gift_placeholder') %></div>
-            </div>
-            <% if @wishlist_item.purchased? %>
-              <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-                <div class="bg-green-600 text-white px-4 py-2 rounded-full text-lg font-medium flex items-center gap-3">
-                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <%= t('wishlists.show.purchased') %>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
+  <!-- Mobile-First Container -->
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
-      <!-- Content Section -->
-      <div class="p-6 sm:p-8 flex flex-col justify-between">
-        <div>
-          <div class="flex justify-between items-start mb-4">
-            <div class="min-w-0 flex-1 pr-4">
-              <h1 class="heading-page text-gray-800 dark:text-gray-100 mb-2 break-words flex items-center gap-3"
-                  data-item-delight-target="itemTitle">
-                <span data-item-delight-target="itemEmoji" class="text-3xl transform transition-transform duration-200">🎁</span>
-                <span><%= @wishlist_item.name %></span>
-                <span data-item-delight-target="wishBadge" class="hidden bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm px-3 py-1 rounded-full animate-pulse">✨ Desejado!</span>
-              </h1>
-              <p class="text-gray-600 dark:text-gray-400"><%= t('wishlists.show.from_wishlist', wishlist: @wishlist.name, user: @wishlist.user.name || @wishlist.user.email) %></p>
-            </div>
+    <!-- Breadcrumb Navigation -->
+    <div class="mb-6" data-item-delight-target="breadcrumb">
+      <%= link_to @wishlist, class: "inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-rose-600 dark:hover:text-rose-400 transition duration-200", data: { action: "mouseenter->item-delight#onBreadcrumbHover mouseleave->item-delight#onBreadcrumbLeave" } do %>
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        <%= t('wishlists.show.back_to_wishlist', name: @wishlist.name) %>
+      <% end %>
+    </div>
 
-            <% if @wishlist.user == current_user %>
-              <div class="flex gap-2 flex-shrink-0">
-                <%= link_to edit_wishlist_wishlist_item_path(@wishlist, @wishlist_item), class: "text-gray-400 dark:text-gray-500 hover:text-rose-500 dark:hover:text-rose-400 transition duration-200 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700", title: t('wishlists.show.edit_item') do %>
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                  </svg>
-                <% end %>
-                <%= button_to wishlist_wishlist_item_path(@wishlist, @wishlist_item), {
-                    method: :delete,
-                    data: {
-                      confirm: t('wishlists.show.delete_item_confirm', name: @wishlist_item.name)
-                    },
-                    class: "text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 transition duration-200 border-none bg-transparent p-2 cursor-pointer rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700",
-                    title: t('wishlists.show.delete_item')
-                  } do %>
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                  </svg>
-                <% end %>
-              </div>
-            <% end %>
-          </div>
+    <!-- Main Product Card -->
+    <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl border border-rose-100 dark:border-gray-700 shadow-2xl overflow-hidden"
+         data-item-delight-target="mainCard"
+         data-action="mouseenter->item-delight#onCardHover mouseleave->item-delight#onCardLeave">
 
-          <% if @wishlist_item.description.present? %>
-            <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 mb-6">
-              <p class="text-gray-700 dark:text-gray-300 leading-relaxed"><%= simple_format(@wishlist_item.description) %></p>
-            </div>
-          <% end %>
+      <!-- Desktop: Side-by-side layout, Mobile: Stacked -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 min-h-[600px]">
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-            <div class="bg-gradient-to-r from-rose-50 to-pink-50 dark:from-rose-900/20 dark:to-pink-900/20 rounded-xl p-4">
-              <div class="text-sm text-rose-700 dark:text-rose-400 font-medium mb-1"><%= t('wishlists.show.price') %></div>
-              <% if @wishlist_item.price.present? %>
-                <div class="text-2xl font-bold text-gray-800 dark:text-gray-100"><%= @wishlist_item.formatted_price %></div>
-              <% else %>
-                <div class="text-lg text-gray-500 dark:text-gray-400"><%= t('wishlists.show.price_not_set') %></div>
-              <% end %>
-            </div>
-
-            <div class="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-xl p-4">
-              <div class="text-sm text-amber-700 dark:text-amber-400 font-medium mb-1"><%= t('wishlists.show.priority') %></div>
-              <div class="flex items-center gap-2">
-                <span class="px-3 py-1 rounded-full text-sm font-semibold <%= @wishlist_item.priority == 'high' ? 'bg-rose-500 text-white' : @wishlist_item.priority == 'medium' ? 'bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300' %>">
-                  <%= t("items.form.priority_label.#{@wishlist_item.priority}") %>
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Quick Stats Bar -->
-          <div class="grid grid-cols-3 gap-3 mb-4">
-            <div class="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl p-3 transform hover:scale-105 transition-transform duration-200 cursor-pointer"
-                 data-item-delight-target="statCard"
-                 data-action="click->item-delight#onStatClick"
-                 data-stat-type="views">
-              <div class="text-sm text-blue-700 dark:text-blue-400 font-medium mb-1">Visualizações</div>
-              <div class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                </svg>
-                <span class="text-sm font-bold text-gray-800 dark:text-gray-100" data-item-delight-target="viewCount">23</span>
-              </div>
-            </div>
-
-            <div class="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-3 transform hover:scale-105 transition-transform duration-200 cursor-pointer"
-                 data-item-delight-target="statCard"
-                 data-action="click->item-delight#onStatClick"
-                 data-stat-type="hearts">
-              <div class="text-sm text-green-700 dark:text-green-400 font-medium mb-1">Amigos querem</div>
-              <div class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-green-600 transform transition-transform duration-200" data-item-delight-target="heartIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                </svg>
-                <span class="text-sm font-bold text-gray-800 dark:text-gray-100" data-item-delight-target="heartCount">3</span>
-              </div>
-            </div>
-
-            <div class="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-3 transform hover:scale-105 transition-transform duration-200 cursor-pointer"
-                 data-item-delight-target="statCard"
-                 data-action="click->item-delight#onStatClick"
-                 data-stat-type="popularity">
-              <div class="text-sm text-purple-700 dark:text-purple-400 font-medium mb-1">Popularidade</div>
-              <div class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-purple-600 transform transition-transform duration-200" data-item-delight-target="popularityIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                </svg>
-                <span class="text-sm font-bold text-gray-800 dark:text-gray-100">Alta</span>
-              </div>
-            </div>
-          </div>
-
-          <% if @wishlist_item.created_at %>
-            <div class="text-sm text-gray-500 dark:text-gray-400 mb-6">
-              <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
-              <%= t('wishlists.show.added_on', date: l(@wishlist_item.created_at, format: :long)) %>
-            </div>
-          <% end %>
-        </div>
-
-        <!-- Actions Section -->
-        <div class="space-y-3">
-          <% unless @wishlist_item.purchased? %>
-            <div class="flex flex-col sm:flex-row gap-3">
-              <% if @wishlist_item.safe_url.present? %>
-                <%= link_to @wishlist_item.safe_url,
-                    target: "_blank",
-                    rel: "noopener noreferrer",
-                    class: "flex-1 text-center bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-200 font-medium flex items-center justify-center gap-2" do %>
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                  </svg>
-                  <%= t('wishlists.show.view_item') %>
-                <% end %>
-              <% end %>
-
-              <% if @wishlist.user != current_user %>
-                <%= button_to purchase_wishlist_wishlist_item_path(@wishlist, @wishlist_item), {method: :patch, class: "flex-1 bg-gradient-to-r from-rose-500 to-pink-500 text-white px-6 py-3 rounded-xl hover:from-rose-600 hover:to-pink-600 transition-all duration-200 font-medium cursor-pointer shadow-lg transform hover:scale-105 hover:shadow-xl", data: { "item-delight-target": "purchaseButton", action: "click->item-delight#onPurchaseClick" }} do %>
-                  <span class="flex items-center justify-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    <%= t('wishlists.show.mark_purchased') %>
-                  </span>
-                <% end %>
-              <% end %>
+        <!-- Product Image Section -->
+        <div class="relative lg:min-h-[600px]">
+          <% if @wishlist_item.image_url.present? %>
+            <div class="aspect-square lg:h-full w-full overflow-hidden lg:rounded-l-3xl">
+              <%= image_tag @wishlist_item.image_url,
+                  class: "w-full h-full object-cover transition-transform duration-500 hover:scale-105",
+                  alt: @wishlist_item.name %>
             </div>
           <% else %>
-            <!-- Purchased item actions -->
-            <% if @wishlist_item.purchased_by %>
-              <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-xl p-4">
-                <div class="flex items-center gap-3 mb-3">
-                  <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span class="text-green-700 dark:text-green-300 font-medium">
-                    <%= t('wishlists.show.purchased_by', buyer: @wishlist_item.purchased_by.name || @wishlist_item.purchased_by.email) %>
-                  </span>
-                </div>
-
-                <div class="flex flex-col sm:flex-row gap-3">
-                  <% if @wishlist_item.purchased_by == current_user %>
-                    <%= button_to unpurchase_wishlist_wishlist_item_path(@wishlist, @wishlist_item), {method: :patch,
-                        class: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-200 font-medium"} do %>
-                      <%= t('wishlists.show.mark_as_available') %>
-                    <% end %>
-                  <% elsif @wishlist_item.safe_url.present? %>
-                    <%= link_to @wishlist_item.safe_url,
-                        target: "_blank",
-                        rel: "noopener noreferrer",
-                        class: "text-center bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-200 font-medium flex items-center justify-center gap-2" do %>
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                      </svg>
-                      <%= t('wishlists.show.view_item') %>
-                    <% end %>
-                  <% end %>
-                </div>
+            <div class="aspect-square lg:h-full bg-gradient-to-br from-rose-100 via-pink-100 to-amber-100 dark:from-rose-900/30 dark:via-pink-900/30 dark:to-amber-900/30 flex flex-col items-center justify-center">
+              <div class="text-9xl mb-6 animate-bounce">🎁</div>
+              <div class="text-center px-6">
+                <div class="text-rose-600 dark:text-rose-400 font-bold text-3xl font-display mb-2">Wishare</div>
+                <div class="text-rose-500 dark:text-rose-500 text-xl"><%= t('wishlists.show.gift_placeholder') %></div>
               </div>
-            <% end %>
+            </div>
           <% end %>
 
-          <!-- Share Button -->
-          <div class="flex justify-center">
-            <button data-item-delight-target="shareButton"
-                    data-action="click->item-delight#onShareClick"
-                    class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white rounded-xl transition-all duration-200 font-medium shadow-lg transform hover:scale-105 hover:shadow-xl">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
-              </svg>
-              <%= t('common.share.button') %>
-            </button>
-
-            <!-- Hidden elements for effects -->
-            <div data-item-delight-target="shareConfetti" class="hidden"></div>
-            <div data-item-delight-target="purchaseSuccess" class="hidden"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Activity Feed Section -->
-  <div class="mt-8 space-y-6">
-    <!-- Recent Activity -->
-    <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl border border-rose-100 dark:border-gray-700 shadow-lg p-6">
-      <h3 class="heading-card text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2">
-        <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7"></path>
-        </svg>
-        Atividade Recente
-      </h3>
-
-      <div class="space-y-4">
-        <!-- Activity Item 1 -->
-        <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
-          <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
-            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-            </svg>
-          </div>
-          <div class="flex-1">
-            <p class="text-sm text-gray-700 dark:text-gray-300">
-              <span class="font-medium">3 pessoas</span> visualizaram este item hoje
-            </p>
-            <p class="text-xs text-gray-500 dark:text-gray-400">há 2 horas</p>
-          </div>
-        </div>
-
-        <!-- Activity Item 2 -->
-        <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
-          <div class="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
-            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-            </svg>
-          </div>
-          <div class="flex-1">
-            <p class="text-sm text-gray-700 dark:text-gray-300">
-              <span class="font-medium">Maria Silva</span> adicionou à sua lista
-            </p>
-            <p class="text-xs text-gray-500 dark:text-gray-400">há 1 dia</p>
-          </div>
-        </div>
-
-        <!-- Activity Item 3 -->
-        <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
-          <div class="w-8 h-8 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full flex items-center justify-center">
-            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m0 0V1a1 1 0 011-1h2a1 1 0 011 1v1m0 0h-6M7 4H1a1 1 0 00-1 1v1a1 1 0 001 1h6m0-3v3"></path>
-            </svg>
-          </div>
-          <div class="flex-1">
-            <p class="text-sm text-gray-700 dark:text-gray-300">
-              Preço baixou <span class="font-medium text-green-600">20%</span> desde quando foi adicionado
-            </p>
-            <p class="text-xs text-gray-500 dark:text-gray-400">há 3 dias</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Store Information -->
-    <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl border border-rose-100 dark:border-gray-700 shadow-lg p-6">
-      <h3 class="heading-card text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2">
-        <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-        </svg>
-        Informações da Loja
-      </h3>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <!-- Best Price Card -->
-        <div class="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-4">
-          <div class="text-sm font-medium text-green-700 dark:text-green-400 mb-1">Menor preço dos últimos 30 dias</div>
-          <div class="text-lg font-bold text-gray-800 dark:text-gray-100">R$ 2.388,00</div>
-          <div class="text-xs text-green-600 dark:text-green-400">Economize R$ 500</div>
-        </div>
-
-        <!-- Store Info Card -->
-        <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
-              <span class="text-white font-bold text-sm">MB</span>
+          <!-- Purchased Overlay -->
+          <% if @wishlist_item.purchased? %>
+            <div class="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center">
+              <div class="bg-green-600 text-white px-6 py-3 rounded-2xl text-xl font-semibold flex items-center gap-3 shadow-2xl">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <%= t('wishlists.show.purchased') %>
+              </div>
             </div>
-            <div>
-              <div class="font-medium text-gray-800 dark:text-gray-100">MontBlanc Brasil</div>
-              <div class="text-xs text-gray-600 dark:text-gray-400">Entrega em 3-5 dias úteis</div>
+          <% end %>
+        </div>
+
+        <!-- Product Information Section -->
+        <div class="p-8 lg:p-12 flex flex-col justify-between">
+
+          <!-- Header Section -->
+          <div class="space-y-6">
+
+            <!-- Title and Actions -->
+            <div class="flex justify-between items-start gap-4">
+              <div class="flex-1 min-w-0">
+                <h1 class="heading-page text-gray-900 dark:text-gray-100 mb-3 break-words leading-tight"
+                    data-item-delight-target="itemTitle">
+                  <%= @wishlist_item.name %>
+                </h1>
+                <p class="text-lg text-gray-600 dark:text-gray-400">
+                  <%= t('wishlists.show.from_wishlist', wishlist: @wishlist.name, user: @wishlist.user.name || @wishlist.user.email) %>
+                </p>
+              </div>
+
+              <!-- Owner Actions -->
+              <% if @wishlist.user == current_user %>
+                <div class="flex gap-2 flex-shrink-0">
+                  <%= link_to edit_wishlist_wishlist_item_path(@wishlist, @wishlist_item),
+                      class: "p-3 text-gray-400 dark:text-gray-500 hover:text-rose-500 dark:hover:text-rose-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition duration-200",
+                      title: t('wishlists.show.edit_item') do %>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                  <% end %>
+                  <%= button_to wishlist_wishlist_item_path(@wishlist, @wishlist_item), {
+                      method: :delete,
+                      data: { confirm: t('wishlists.show.delete_item_confirm', name: @wishlist_item.name) },
+                      class: "p-3 text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition duration-200 border-none bg-transparent cursor-pointer",
+                      title: t('wishlists.show.delete_item')
+                    } do %>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+
+            <!-- Description -->
+            <% if @wishlist_item.description.present? %>
+              <div class="bg-gray-50 dark:bg-gray-700/50 rounded-2xl p-6">
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
+                  <%= simple_format(@wishlist_item.description) %>
+                </p>
+              </div>
+            <% end %>
+
+            <!-- Price and Priority Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <!-- Price Card -->
+              <div class="bg-gradient-to-r from-rose-50 to-pink-50 dark:from-rose-900/20 dark:to-pink-900/20 rounded-2xl p-6">
+                <div class="text-sm text-rose-700 dark:text-rose-400 font-semibold mb-2 uppercase tracking-wide">
+                  <%= t('wishlists.show.price') %>
+                </div>
+                <% if @wishlist_item.price.present? %>
+                  <div class="text-3xl font-bold text-gray-900 dark:text-gray-100">
+                    <%= @wishlist_item.formatted_price %>
+                  </div>
+                <% else %>
+                  <div class="text-xl text-gray-500 dark:text-gray-400">
+                    <%= t('wishlists.show.price_not_set') %>
+                  </div>
+                <% end %>
+              </div>
+
+              <!-- Priority Card -->
+              <div class="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-2xl p-6">
+                <div class="text-sm text-amber-700 dark:text-amber-400 font-semibold mb-2 uppercase tracking-wide">
+                  <%= t('wishlists.show.priority') %>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="px-4 py-2 rounded-xl text-lg font-semibold <%= @wishlist_item.priority == 'high' ? 'bg-rose-500 text-white' : @wishlist_item.priority == 'medium' ? 'bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300' %>">
+                    <%= t("items.form.priority_label.#{@wishlist_item.priority}") %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Added Date -->
+            <% if @wishlist_item.created_at %>
+              <div class="flex items-center gap-2 text-gray-500 dark:text-gray-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <span><%= t('wishlists.show.added_on', date: l(@wishlist_item.created_at, format: :long)) %></span>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Actions Section -->
+          <div class="space-y-4 mt-8">
+            <% unless @wishlist_item.purchased? %>
+              <!-- Available Item Actions -->
+              <div class="flex flex-col sm:flex-row gap-4">
+                <% if @wishlist_item.safe_url.present? %>
+                  <%= link_to @wishlist_item.safe_url,
+                      target: "_blank",
+                      rel: "noopener noreferrer",
+                      class: "flex-1 text-center bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-8 py-4 rounded-2xl hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-200 font-semibold text-lg flex items-center justify-center gap-3" do %>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                    <%= t('wishlists.show.view_item') %>
+                  <% end %>
+                <% end %>
+
+                <% if @wishlist.user != current_user %>
+                  <%= button_to purchase_wishlist_wishlist_item_path(@wishlist, @wishlist_item), {
+                      method: :patch,
+                      class: "flex-1 bg-gradient-to-r from-rose-500 to-pink-500 text-white px-8 py-4 rounded-2xl hover:from-rose-600 hover:to-pink-600 transition-all duration-200 font-semibold text-lg cursor-pointer shadow-xl transform hover:scale-105",
+                      data: { "item-delight-target": "purchaseButton", action: "click->item-delight#onPurchaseClick" }
+                    } do %>
+                    <span class="flex items-center justify-center gap-3">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      <%= t('wishlists.show.mark_purchased') %>
+                    </span>
+                  <% end %>
+                <% end %>
+              </div>
+            <% else %>
+              <!-- Purchased Item State -->
+              <% if @wishlist_item.purchased_by %>
+                <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-2xl p-6">
+                  <div class="flex items-center gap-3 mb-4">
+                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span class="text-green-700 dark:text-green-300 font-semibold text-lg">
+                      <%= t('wishlists.show.purchased_by', buyer: @wishlist_item.purchased_by.name || @wishlist_item.purchased_by.email) %>
+                    </span>
+                  </div>
+
+                  <div class="flex flex-col sm:flex-row gap-3">
+                    <% if @wishlist_item.purchased_by == current_user %>
+                      <%= button_to unpurchase_wishlist_wishlist_item_path(@wishlist, @wishlist_item), {
+                          method: :patch,
+                          class: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-200 font-medium"
+                        } do %>
+                        <%= t('wishlists.show.mark_as_available') %>
+                      <% end %>
+                    <% elsif @wishlist_item.safe_url.present? %>
+                      <%= link_to @wishlist_item.safe_url,
+                          target: "_blank",
+                          rel: "noopener noreferrer",
+                          class: "text-center bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-200 font-medium flex items-center justify-center gap-2" do %>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                        <%= t('wishlists.show.view_item') %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+
+            <!-- Share Button -->
+            <div class="flex justify-center pt-4">
+              <button data-item-delight-target="shareButton"
+                      data-action="click->item-delight#onShareClick"
+                      class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-2xl transition-all duration-200 font-semibold text-lg shadow-xl transform hover:scale-105">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
+                </svg>
+                <%= t('common.share.button') %>
+              </button>
             </div>
           </div>
         </div>
@@ -356,39 +246,39 @@
   </div>
 
   <!-- Mobile Sticky Action Bar -->
-  <div class="fixed bottom-20 left-0 right-0 lg:hidden bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-t border-rose-100 dark:border-gray-700 p-4 shadow-lg z-10">
-    <div class="flex gap-3 max-w-4xl mx-auto">
-      <% if @wishlist_item.safe_url.present? %>
-        <%= link_to @wishlist_item.safe_url,
-            target: "_blank",
-            rel: "noopener noreferrer",
-            class: "flex-1 text-center bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 py-3 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-200 font-medium flex items-center justify-center gap-2" do %>
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-          </svg>
-          Ver na Loja
+  <% unless @wishlist_item.purchased? %>
+    <div class="fixed bottom-20 left-0 right-0 lg:hidden bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm border-t border-rose-100 dark:border-gray-700 p-4 shadow-2xl z-50">
+      <div class="flex gap-3 max-w-4xl mx-auto">
+        <% if @wishlist_item.safe_url.present? %>
+          <%= link_to @wishlist_item.safe_url,
+              target: "_blank",
+              rel: "noopener noreferrer",
+              class: "flex-1 text-center bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 py-4 rounded-2xl font-semibold flex items-center justify-center gap-2" do %>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+            </svg>
+            <%= t('wishlists.show.view_item') %>
+          <% end %>
         <% end %>
-      <% end %>
 
-      <% unless @wishlist_item.purchased? %>
         <% if @wishlist.user != current_user %>
-          <%= button_to purchase_wishlist_wishlist_item_path(@wishlist, @wishlist_item), {method: :patch, class: "flex-2 bg-gradient-to-r from-rose-500 to-pink-500 text-white py-3 px-6 rounded-xl hover:from-rose-600 hover:to-pink-600 transition-all duration-200 font-medium cursor-pointer shadow-lg"} do %>
+          <%= button_to purchase_wishlist_wishlist_item_path(@wishlist, @wishlist_item), {
+              method: :patch,
+              class: "flex-2 bg-gradient-to-r from-rose-500 to-pink-500 text-white py-4 px-6 rounded-2xl font-semibold cursor-pointer shadow-xl"
+            } do %>
             <span class="flex items-center justify-center gap-2">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
               </svg>
-              Marcar como Comprado
+              <%= t('wishlists.show.mark_purchased') %>
             </span>
           <% end %>
         <% end %>
-      <% end %>
-
-      <button class="w-12 h-12 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white rounded-xl transition-all duration-200 shadow-lg flex items-center justify-center">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
-        </svg>
-      </button>
+      </div>
     </div>
-  </div>
-</div>
+  <% end %>
+
+  <!-- Hidden elements for effects -->
+  <div data-item-delight-target="shareConfetti" class="hidden"></div>
+  <div data-item-delight-target="purchaseSuccess" class="hidden"></div>
 </div>

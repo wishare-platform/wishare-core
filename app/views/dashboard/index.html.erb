@@ -1,8 +1,13 @@
 <!-- Main Dashboard Container with Mobile-First Layout -->
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8"
-     data-controller="mobile-performance web-error-handler"
+     data-controller="mobile-performance web-error-handler dashboard-delight"
      data-mobile-performance-auth-check-enabled-value="true"
-     data-mobile-performance-auth-check-interval-value="300000">
+     data-mobile-performance-auth-check-interval-value="300000"
+     data-dashboard-delight-user-name-value="<%= @user.name %>"
+     data-dashboard-delight-profile-completion-value="<%= @user.respond_to?(:profile_completion_percentage) ? @user.profile_completion_percentage : 0 %>"
+     data-dashboard-delight-friends-count-value="<%= (@connections.size + @inverse_connections.size) %>"
+     data-dashboard-delight-wishlists-count-value="<%= @user.wishlists.count %>"
+     data-dashboard-delight-welcome-flow-value="true">
   <!-- Mobile Layout: Single Column with Optimized Spacing -->
   <div class="lg:hidden space-y-4" data-controller="pull-to-refresh"
        style="min-height: calc(100vh - 140px);">

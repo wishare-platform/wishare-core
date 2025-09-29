@@ -113,6 +113,7 @@ pt-BR:
       start_new_wishlist: Começar uma nova lista
       invite_friends: Conectar com outros
       discover: Explorar listas públicas
+      my_wishlists: Ver suas listas de desejos
       edit_profile: Atualizar suas informações
       add_to_existing: 'Adicionar à lista existente:'
       connect_friends: Conectar com amigos e família
@@ -126,6 +127,7 @@ pt-BR:
         create_wishlist: Criar Lista
         invite_friends: Convidar Amigos
         discover: Descobrir
+        my_wishlists: Minhas Listas
         edit_profile: Editar Perfil
       stats:
         wishlists: Listas

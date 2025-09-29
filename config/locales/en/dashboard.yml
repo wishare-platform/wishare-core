@@ -111,6 +111,7 @@ en:
       start_new_wishlist: Start a new wishlist
       invite_friends: Connect with others
       discover: Explore public wishlists
+      my_wishlists: View your wishlists
       edit_profile: Update your info
       add_to_existing: 'Add to existing wishlist:'
       connect_friends: Connect with friends & family
@@ -124,6 +125,7 @@ en:
         create_wishlist: Create Wishlist
         invite_friends: Invite Friends
         discover: Discover
+        my_wishlists: My Wishlists
         edit_profile: Edit Profile
       stats:
         wishlists: Wishlists
