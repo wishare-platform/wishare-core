@@ -38,8 +38,9 @@ class ApplicationController < ActionController::Base
                   I18n.default_locale
 
     # Store locale preference if user is logged in and locale changed
+    # Use update_column to avoid callbacks that could cause recursion
     if current_user && params[:locale] && params[:locale] != current_user.preferred_locale
-      current_user.update(preferred_locale: params[:locale])
+      current_user.update_column(:preferred_locale, params[:locale])
     end
   end
   

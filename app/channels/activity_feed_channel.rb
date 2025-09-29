@@ -139,7 +139,7 @@ class ActivityFeedChannel < ApplicationCable::Channel
   end
 
   def render_activities(activities)
-    activities.includes(actor: :avatar_attachment, target: {}, user: :avatar_attachment).map do |activity|
+    activities.map do |activity|
       {
         id: activity.id,
         action_type: activity.action_type,

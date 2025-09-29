@@ -1,5 +1,5 @@
 class WishlistItem < ApplicationRecord
-  belongs_to :wishlist
+  belongs_to :wishlist, counter_cache: true
   belongs_to :purchased_by, class_name: 'User', optional: true
 
   # Analytics associations

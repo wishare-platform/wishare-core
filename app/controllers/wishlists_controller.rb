@@ -24,19 +24,20 @@ class WishlistsController < ApplicationController
                  end
 
     @wishlists = current_user.wishlists
-                              .includes(:wishlist_items, :cover_image_attachment)
+                              .includes(:wishlist_items)
+                              .with_attached_cover_image
                               .order(sort_order)
 
     # Get all connected users with proper eager loading
-    connected_user_ids = current_user.accepted_connections.includes(user: :avatar_attachment, partner: :avatar_attachment).map do |connection|
-      connection.other_user(current_user).id
-    end
+    connected_pairs = current_user.accepted_connections.pluck(:user_id, :partner_id)
+    connected_user_ids = connected_pairs.flatten.uniq - [current_user.id]
 
     # Get wishlists from all connected users (friends_and_family and public)
     if connected_user_ids.any?
       @connected_wishlists = Wishlist.where(user_id: connected_user_ids)
                                      .where(visibility: [:partner_only, :publicly_visible])
-                                     .includes(user: :avatar_attachment, wishlist_items: [], cover_image_attachment: [])
+                                     .includes(:user, :wishlist_items)
+                                     .with_attached_cover_image
                                      .order(sort_order)
     else
       @connected_wishlists = []
@@ -45,7 +46,8 @@ class WishlistsController < ApplicationController
     # Also get all public wishlists from non-connected users
     @public_wishlists = Wishlist.where(visibility: :publicly_visible)
                                 .where.not(user_id: [current_user.id] + connected_user_ids)
-                                .includes(user: :avatar_attachment, wishlist_items: [], cover_image_attachment: [])
+                                .includes(:user, :wishlist_items)
+                                .with_attached_cover_image
                                 .order(sort_order)
 
     @focus_partner = params[:partner] == 'true'

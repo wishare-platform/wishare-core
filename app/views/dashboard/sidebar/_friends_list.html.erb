@@ -33,15 +33,9 @@
     <div class="space-y-3">
       <% friends.each do |friend| %>
         <%
-          # Get friend's recent activity
-          recent_activity = ActivityFeed.where(actor: friend)
-                                       .where('occurred_at > ?', 1.week.ago)
-                                       .where(is_public: true)
-                                       .order(occurred_at: :desc)
-                                       .first
-
-          # Get friend's active wishlists count
-          active_wishlists = friend.wishlists.where(visibility: [:partner_only, :publicly_visible]).count
+          # Use preloaded data to avoid N+1 queries
+          recent_activity = @friend_recent_activities&.dig(friend.id)
+          active_wishlists = @friend_wishlist_counts&.dig(friend.id) || 0
         %>
 
         <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"

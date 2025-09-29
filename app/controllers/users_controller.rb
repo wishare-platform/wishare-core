@@ -6,20 +6,20 @@ class UsersController < ApplicationController
   def show
     # Load wishlists based on viewer permissions
     if current_user == @user
-      @wishlists = @user.wishlists.includes(:wishlist_items)
+      @wishlists = @user.wishlists.includes(:wishlist_items).with_attached_cover_image
     elsif current_user && Connection.between_users(@user, current_user)&.accepted?
-      @wishlists = @user.wishlists.visible_to_friends.includes(:wishlist_items)
+      @wishlists = @user.wishlists.visible_to_friends.includes(:wishlist_items).with_attached_cover_image
     else
-      @wishlists = @user.wishlists.public_lists.includes(:wishlist_items)
+      @wishlists = @user.wishlists.public_lists.includes(:wishlist_items).with_attached_cover_image
     end
 
-    @public_wishlists = @user.wishlists.public_lists.includes(:wishlist_items)
+    @public_wishlists = @user.wishlists.public_lists.includes(:wishlist_items).with_attached_cover_image
 
     # Load stats for profile header
     @stats = {
       wishlists_count: @user.wishlists.count,
       friends_count: @user.connections.accepted.count,
-      items_count: @user.wishlists.joins(:wishlist_items).count('wishlist_items.id')
+      items_count: @user.wishlists.sum(:wishlist_items_count)
     }
 
     # Get available event types for filtering

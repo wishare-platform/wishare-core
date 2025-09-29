@@ -44,8 +44,8 @@ export default class extends Controller {
     // Enable auth monitoring for both mobile and web
     console.log('MobilePerformance: Setting up auth monitoring for', this.isMobileApp ? 'mobile app' : 'web browser')
 
-    // Start periodic authentication checks (more frequent for web)
-    const checkInterval = this.isMobileApp ? this.authCheckIntervalValue : 120000 // 2 min for web, 5 min for mobile
+    // Start periodic authentication checks (reasonable intervals)
+    const checkInterval = this.isMobileApp ? this.authCheckIntervalValue : 900000 // 15 min for web, 5 min for mobile
     this.authCheckTimer = setInterval(() => {
       this.checkAuthenticationStatus()
     }, checkInterval)
@@ -111,7 +111,7 @@ export default class extends Controller {
 
     // Notify native app
     this.notifyNativeApp('authentication_required', {
-      message: 'Your session has expired. Please sign in again.',
+      message: I18n.t('auth.session.expired'),
       sign_in_url: '/users/sign_in'
     })
 
@@ -159,8 +159,8 @@ export default class extends Controller {
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
         </svg>
-        <span>Your session has expired.</span>
-        <a href="/users/sign_in" class="underline font-medium hover:no-underline transition-all duration-200">Sign In Again</a>
+        <span>${I18n.t('auth.session.expired')}</span>
+        <a href="/users/sign_in" class="underline font-medium hover:no-underline transition-all duration-200">${I18n.t('auth.session.sign_in_again')}</a>
         <button onclick="this.parentElement.parentElement.remove()" class="ml-2 text-white hover:text-gray-200">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -193,7 +193,7 @@ export default class extends Controller {
     if (this.authCheckEnabledValue && !this.authCheckTimer) {
       console.log('MobilePerformance: Restarting auth monitoring')
       this.retryCount = 0
-      const checkInterval = this.isMobileApp ? this.authCheckIntervalValue : 120000
+      const checkInterval = this.isMobileApp ? this.authCheckIntervalValue : 900000
       this.authCheckTimer = setInterval(() => {
         this.checkAuthenticationStatus()
       }, checkInterval)

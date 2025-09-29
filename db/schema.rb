@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_28_231033) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_29_082843) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -515,6 +515,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_28_231033) do
     t.datetime "updated_at", null: false
     t.date "event_date"
     t.string "event_type"
+    t.integer "wishlist_items_count", default: 0, null: false
     t.index ["user_id", "visibility", "updated_at"], name: "idx_wishlists_mobile_feed"
     t.index ["user_id", "visibility", "updated_at"], name: "index_wishlists_user_visibility_time", comment: "Optimizes wishlist queries with visibility filtering and sorting"
     t.index ["user_id"], name: "index_wishlists_on_user_id"

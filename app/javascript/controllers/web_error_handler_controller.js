@@ -140,12 +140,12 @@ export default class extends Controller {
 
     // Fallback: create our own auth error state
     this.createErrorState(
-      'Authentication Required',
-      'Your session has expired. Please sign in to continue using Wishare.',
+      I18n.t('auth.session.authentication_required'),
+      I18n.t('auth.session.session_expired_detailed'),
       'authentication',
       [
         {
-          text: 'Sign In',
+          text: I18n.t('auth.session.sign_in_again'),
           href: '/users/sign_in',
           primary: true
         }

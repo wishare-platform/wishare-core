@@ -162,6 +162,9 @@
         <!-- Partner focus: Show as grid cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <% (@connected_wishlists + @public_wishlists).each do |wishlist| %>
+            <% items = wishlist.wishlist_items.load %>
+            <% available_count = items.count(&:available?) %>
+            <% purchased_count = items.count(&:purchased?) %>
             <div class="bg-white rounded-xl border border-purple-100 hover:border-purple-200 transition duration-200 overflow-hidden">
               <div class="p-6">
                 <div class="flex justify-between items-start mb-3">
@@ -182,13 +185,13 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                     </svg>
-                    <%= t('wishlists.index.item_counts.available', count: wishlist.wishlist_items.available.count) %>
+                    <%= t('wishlists.index.item_counts.available', count: available_count) %>
                   </div>
                   <div class="flex items-center gap-1">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                    <%= t('wishlists.index.item_counts.purchased', count: wishlist.wishlist_items.purchased.count) %>
+                    <%= t('wishlists.index.item_counts.purchased', count: purchased_count) %>
                   </div>
                 </div>
                 
@@ -204,6 +207,8 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           <!-- User's Own Wishlists -->
           <% @wishlists.each do |wishlist| %>
+            <% items = wishlist.wishlist_items.load %>
+            <% recent_items = items.sort_by(&:created_at).reverse.first(3) %>
             <div data-wishlist-filter-target="wishlistCard" data-categories="my-wishlists all"
                  data-animation-foundation-target="animateOnScroll"
                  data-animation-foundation-target="staggerItem"
@@ -322,7 +327,6 @@
                 <% end %>
 
                 <!-- Item Preview Cards -->
-                <% recent_items = wishlist.wishlist_items.order(created_at: :desc).limit(3) %>
                 <% if recent_items.any? %>
                   <div class="flex gap-2 mb-4 overflow-x-auto">
                     <% recent_items.each do |item| %>
@@ -348,9 +352,9 @@
                         </div>
                       <% end %>
                     <% end %>
-                    <% if wishlist.wishlist_items.count > 3 %>
+                    <% if wishlist.wishlist_items_count > 3 %>
                       <div class="flex-shrink-0 w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                        <span class="text-sm text-gray-600 dark:text-gray-400 font-medium">+<%= wishlist.wishlist_items.count - 3 %></span>
+                        <span class="text-sm text-gray-600 dark:text-gray-400 font-medium">+<%= wishlist.wishlist_items_count - 3 %></span>
                       </div>
                     <% end %>
                   </div>
@@ -361,7 +365,7 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                     </svg>
-                    <%= t('wishlists.index.items_count', count: wishlist.wishlist_items.count) %>
+                    <%= t('wishlists.index.items_count', count: wishlist.wishlist_items_count) %>
                   </div>
                   <div class="flex items-center gap-1">
                     <% if wishlist.publicly_visible? %>
@@ -396,6 +400,8 @@
           
           <!-- Friends & Family Wishlists (Partner Only) -->
           <% @connected_wishlists.select(&:partner_only?).each do |wishlist| %>
+            <% items = wishlist.wishlist_items.load %>
+            <% recent_items = items.sort_by(&:created_at).reverse.first(3) %>
             <div data-wishlist-filter-target="wishlistCard" data-categories="friends-family all" class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl border border-purple-100 dark:border-purple-900/50 hover:border-purple-200 dark:hover:border-purple-800 hover:shadow-xl transition duration-300 overflow-hidden">
               <!-- Cover Image -->
               <% if wishlist.cover_image.attached? %>
@@ -475,7 +481,6 @@
                 <% end %>
 
                 <!-- Item Preview Cards -->
-                <% recent_items = wishlist.wishlist_items.order(created_at: :desc).limit(3) %>
                 <% if recent_items.any? %>
                   <div class="flex gap-2 mb-4 overflow-x-auto">
                     <% recent_items.each do |item| %>
@@ -501,9 +506,9 @@
                         </div>
                       <% end %>
                     <% end %>
-                    <% if wishlist.wishlist_items.count > 3 %>
+                    <% if wishlist.wishlist_items_count > 3 %>
                       <div class="flex-shrink-0 w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                        <span class="text-sm text-gray-600 dark:text-gray-400 font-medium">+<%= wishlist.wishlist_items.count - 3 %></span>
+                        <span class="text-sm text-gray-600 dark:text-gray-400 font-medium">+<%= wishlist.wishlist_items_count - 3 %></span>
                       </div>
                     <% end %>
                   </div>
@@ -514,7 +519,7 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                     </svg>
-                    <%= t('wishlists.index.items_count', count: wishlist.wishlist_items.count) %>
+                    <%= t('wishlists.index.items_count', count: wishlist.wishlist_items_count) %>
                   </div>
                 </div>
                 
@@ -525,6 +530,8 @@
           
           <!-- Public Wishlists -->
           <% (@connected_wishlists.select(&:publicly_visible?) + @public_wishlists).each do |wishlist| %>
+            <% items = wishlist.wishlist_items.load %>
+            <% recent_items = items.sort_by(&:created_at).reverse.first(3) %>
             <div data-wishlist-filter-target="wishlistCard" data-categories="public all" class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl border border-green-100 dark:border-green-900/50 hover:border-green-200 dark:hover:border-green-800 hover:shadow-xl transition duration-300 overflow-hidden">
               <!-- Cover Image -->
               <% if wishlist.cover_image.attached? %>
@@ -602,7 +609,6 @@
                 <% end %>
 
                 <!-- Item Preview Cards -->
-                <% recent_items = wishlist.wishlist_items.order(created_at: :desc).limit(3) %>
                 <% if recent_items.any? %>
                   <div class="flex gap-2 mb-4 overflow-x-auto">
                     <% recent_items.each do |item| %>
@@ -628,9 +634,9 @@
                         </div>
                       <% end %>
                     <% end %>
-                    <% if wishlist.wishlist_items.count > 3 %>
+                    <% if wishlist.wishlist_items_count > 3 %>
                       <div class="flex-shrink-0 w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                        <span class="text-sm text-gray-600 dark:text-gray-400 font-medium">+<%= wishlist.wishlist_items.count - 3 %></span>
+                        <span class="text-sm text-gray-600 dark:text-gray-400 font-medium">+<%= wishlist.wishlist_items_count - 3 %></span>
                       </div>
                     <% end %>
                   </div>
@@ -641,7 +647,7 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                     </svg>
-                    <%= t('wishlists.index.items_count', count: wishlist.wishlist_items.count) %>
+                    <%= t('wishlists.index.items_count', count: wishlist.wishlist_items_count) %>
                   </div>
                 </div>
                 

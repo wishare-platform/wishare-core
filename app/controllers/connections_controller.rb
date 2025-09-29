@@ -3,8 +3,8 @@ class ConnectionsController < ApplicationController
   before_action :set_connection, only: [:show, :update, :destroy]
 
   def index
-    @connections = current_user.accepted_connections.includes(user: :avatar_attachment, partner: :avatar_attachment)
-    @pending_invitations = current_user.sent_invitations.pending_invitations.includes(sender: :avatar_attachment)
+    @connections = current_user.accepted_connections.includes(:user, :partner)
+    @pending_invitations = current_user.sent_invitations.pending_invitations
   end
 
   def show

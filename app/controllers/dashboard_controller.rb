@@ -32,8 +32,29 @@ class DashboardController < ApplicationController
       )
 
       # Pre-load friends data for sidebar with proper eager loading
-      @connections = current_user.accepted_connections.includes(user: :avatar_attachment, partner: :avatar_attachment)
-      @inverse_connections = current_user.inverse_connections.accepted_connections.includes(user: :avatar_attachment, partner: :avatar_attachment)
+      @connections = current_user.accepted_connections.includes(partner: :avatar_attachment)
+      @inverse_connections = current_user.inverse_connections.accepted_connections.includes(user: :avatar_attachment)
+
+      # Pre-load friend activity data and wishlist counts to prevent N+1 queries
+      friend_ids = @connections.map(&:partner_id) + @inverse_connections.map(&:user_id)
+      if friend_ids.any?
+        # Pre-load recent activity for all friends in a single query
+        @friend_recent_activities = ActivityFeed.where(actor_id: friend_ids)
+                                              .where('occurred_at > ?', 1.week.ago)
+                                              .where(is_public: true)
+                                              .order(occurred_at: :desc)
+                                              .group_by(&:actor_id)
+                                              .transform_values(&:first) # Only keep the most recent per friend
+
+        # Pre-load wishlist counts for all friends in a single query
+        @friend_wishlist_counts = Wishlist.where(user_id: friend_ids)
+                                         .where(visibility: [:partner_only, :publicly_visible])
+                                         .group(:user_id)
+                                         .count
+      else
+        @friend_recent_activities = {}
+        @friend_wishlist_counts = {}
+      end
 
       # Set success flag for frontend
       @dashboard_loaded = true
@@ -46,6 +67,10 @@ class DashboardController < ApplicationController
       @recent_activities = ActivityFeed.none
       @friend_activities = ActivityFeed.none
       @activity_stats = { total_activities: 0, this_week: 0 }
+      @friend_recent_activities = {}
+      @friend_wishlist_counts = {}
+      @connections = current_user.accepted_connections.includes(partner: :avatar_attachment)
+      @inverse_connections = current_user.inverse_connections.accepted_connections.includes(user: :avatar_attachment)
       @dashboard_loaded = false
       @dashboard_error = e.message
 

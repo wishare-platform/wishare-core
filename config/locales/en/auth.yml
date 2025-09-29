@@ -65,3 +65,9 @@ en:
       new_password: New password
       confirm_password: Confirm new password
       reset_button: Reset password
+    session:
+      expired: Your session has expired. Please sign in again.
+      check_failed: Authentication check failed
+      sign_in_again: Sign In Again
+      authentication_required: Authentication Required
+      session_expired_detailed: Your session has expired. Please sign in to continue using Wishare.

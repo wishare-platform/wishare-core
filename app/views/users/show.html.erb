@@ -330,7 +330,7 @@
               <div data-profile-wishlist-filter-target="item"
                    data-event-type="<%= wishlist.event_type || 'none' %>"
                    data-created-at="<%= wishlist.created_at.to_i %>"
-                   data-items-count="<%= wishlist.wishlist_items.count %>"
+                   data-items-count="<%= wishlist.wishlist_items_count %>"
                    data-name="<%= wishlist.name.downcase %>">
                 <%= render 'wishlists/card', wishlist: wishlist %>
               </div>

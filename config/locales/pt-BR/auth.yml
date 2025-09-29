@@ -66,3 +66,9 @@ pt-BR:
       new_password: Nova senha
       confirm_password: Confirmar nova senha
       reset_button: Redefinir senha
+    session:
+      expired: Sua sessão expirou. Por favor, entre novamente.
+      check_failed: Falha na verificação de autenticação
+      sign_in_again: Entrar Novamente
+      authentication_required: Autenticação Necessária
+      session_expired_detailed: Sua sessão expirou. Por favor, entre para continuar usando o Wishare.
