@@ -69,6 +69,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html { render template: 'errors/not_found', status: :not_found, layout: false }
       format.json { render json: { error: 'Not found' }, status: :not_found }
+      format.js { render json: { error: 'Not found' }, status: :not_found }
     end
   end
 

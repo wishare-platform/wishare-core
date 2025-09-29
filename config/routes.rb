@@ -191,9 +191,11 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Catch-all route for 404 errors (must be last)
-  # Exclude Rails internal paths (ActiveStorage, etc.)
+  # Exclude Rails internal paths and static assets (Service Worker, etc.)
   match '*path', to: 'application#handle_404', via: :all,
         constraints: ->(request) {
-          !request.path.start_with?('/rails/')
+          !request.path.start_with?('/rails/') &&
+          !request.path.match?(/^\/sw\.js$/) &&
+          !request.path.match?(/^\/manifest\.json$/)
         }
 end
