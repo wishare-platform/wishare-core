@@ -1,168 +1,162 @@
 <% content_for :title, t('auth.sign_in.title') %>
 <% content_for :description, "Sign in to your Wishare account to create and manage wishlists, connect with friends and family, and make gifting more meaningful." %>
 
-<!-- Layer 1: Animated Background (Fixed) -->
-<div class="fixed inset-0 bg-gradient-to-br from-purple-100 via-pink-100 to-rose-100 dark:from-purple-950 dark:via-pink-950 dark:to-rose-950 animate-gradient"></div>
+<div class="w-full max-w-md animate-fade-in-up">
 
-<!-- Layer 2: Floating Decorative Elements (Fixed) -->
-<div class="fixed top-20 left-10 w-64 h-64 bg-purple-500/20 dark:bg-purple-500/10 rounded-full blur-3xl animate-float"></div>
-<div class="fixed bottom-20 right-10 w-96 h-96 bg-pink-500/20 dark:bg-pink-500/10 rounded-full blur-3xl animate-float" style="animation-delay: 1s;"></div>
-
-<!-- Layer 3: Content (Relative) -->
-<div class="relative min-h-screen flex items-center justify-center p-4">
-  <div class="w-full max-w-md animate-fade-in-up">
-
-    <%= render 'shared/theme_language_switcher' %>
-
-    <!-- Logo & Brand -->
-    <div class="text-center mb-8">
-      <%= link_to root_path, class: "inline-flex items-center justify-center space-x-3 mb-4" do %>
-        <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-2xl">
-          <span class="text-4xl">🎁</span>
-        </div>
-      <% end %>
-      <h1 class="text-3xl font-black mb-2">
-        <span class="bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 bg-clip-text text-transparent">
-          <%= t('auth.sign_in.title') %>
-        </span>
-      </h1>
-      <p class="text-gray-600 dark:text-gray-400">
-        <%= t('auth.sign_in.subtitle') %>
-      </p>
-    </div>
-
-    <!-- Login Card -->
-    <div class="glass-strong rounded-3xl shadow-2xl p-8 mb-6">
-
-      <!-- Social Login -->
-      <div class="space-y-3 mb-6">
-        <%= button_to user_google_oauth2_omniauth_authorize_path,
-              method: :post,
-              class: "social-btn w-full flex items-center justify-center gap-3 px-6 py-3 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl font-semibold text-gray-700 dark:text-gray-200 hover:border-purple-500",
-              data: { turbo: false } do %>
-          <svg class="w-5 h-5" viewBox="0 0 24 24">
-            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-          </svg>
-          <%= t('auth.sign_in.google_login') %>
-        <% end %>
+  <!-- Logo & Brand -->
+  <div class="text-center mb-8">
+    <%= link_to root_path, class: "inline-flex items-center justify-center space-x-3 mb-4" do %>
+      <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-2xl">
+        <span class="text-4xl">🎁</span>
       </div>
+    <% end %>
+    <h1 class="text-3xl font-black mb-2">
+      <span class="bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 bg-clip-text text-transparent">
+        <%= t('auth.sign_in.title') %>
+      </span>
+    </h1>
+    <p class="text-gray-600 dark:text-gray-400">
+      <%= t('auth.sign_in.subtitle') %>
+    </p>
+  </div>
 
-      <!-- Divider -->
-      <div class="relative mb-6">
-        <div class="absolute inset-0 flex items-center">
-          <div class="w-full border-t border-gray-300 dark:border-gray-700"></div>
-        </div>
-        <div class="relative flex justify-center text-sm">
-          <span class="px-4 bg-white/80 dark:bg-gray-800/80 text-gray-500 dark:text-gray-400 font-medium">
-            <%= t('auth.sign_in.or_continue_email') %>
-          </span>
-        </div>
-      </div>
+  <!-- Login Card -->
+  <div class="glass-strong rounded-3xl shadow-2xl p-8 mb-6">
 
-      <!-- Login Form -->
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name),
-                   html: {
-                     class: "space-y-5",
-                     "data-controller" => "analytics password-toggle",
-                     "data-action" => "submit->analytics#trackUserLogin"
-                   }) do |f| %>
-
-        <!-- Email Input -->
-        <div>
-          <%= f.label :email, t('auth.sign_in.email'), class: "block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" %>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
-              </svg>
-            </div>
-            <%= f.email_field :email,
-                  autofocus: true,
-                  autocomplete: "email",
-                  required: true,
-                  placeholder: t('auth.sign_in.email_placeholder'),
-                  class: "input-field w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 outline-none" %>
-          </div>
-        </div>
-
-        <!-- Password Input -->
-        <div>
-          <%= f.label :password, t('auth.sign_in.password'), class: "block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" %>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-              </svg>
-            </div>
-            <%= f.password_field :password,
-                  autocomplete: "current-password",
-                  required: true,
-                  placeholder: t('auth.sign_in.password_placeholder'),
-                  data: { "password-toggle-target" => "input" },
-                  class: "input-field w-full pl-12 pr-12 py-3 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 outline-none" %>
-            <button
-              type="button"
-              data-action="click->password-toggle#toggle"
-              class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-purple-500 transition-colors"
-            >
-              <svg data-password-toggle-target="icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Remember Me & Forgot Password -->
-        <div class="flex items-center justify-between">
-          <% if devise_mapping.rememberable? %>
-            <label class="flex items-center gap-2 cursor-pointer group">
-              <%= f.check_box :remember_me, class: "w-4 h-4 text-purple-600 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded focus:ring-2 focus:ring-purple-500/20" %>
-              <span class="text-sm text-gray-700 dark:text-gray-300 group-hover:text-purple-600 transition-colors">
-                <%= t('auth.sign_in.remember_me') %>
-              </span>
-            </label>
-          <% end %>
-
-          <%= link_to t('auth.sign_in.forgot_password'),
-                new_password_path(resource_name),
-                class: "text-sm font-semibold text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 transition-colors" %>
-        </div>
-
-        <!-- Submit Button -->
-        <%= f.submit t('auth.sign_in.sign_in_button'),
-              class: "submit-btn w-full py-4 bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 text-white font-bold rounded-xl shadow-lg" %>
-
-      <% end %>
-
-    </div>
-
-    <!-- Sign Up Link -->
-    <div class="text-center">
-      <p class="text-gray-600 dark:text-gray-400">
-        <%= t('auth.sign_in.no_account') %>
-        <%= link_to new_registration_path(resource_name),
-              class: "link-hover inline-flex items-center gap-1 font-bold text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 ml-1" do %>
-          <%= t('auth.sign_in.sign_up_link') %>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-          </svg>
-        <% end %>
-      </p>
-    </div>
-
-    <!-- Back to Home -->
-    <div class="text-center mt-6">
-      <%= link_to root_path, class: "inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors" do %>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+    <!-- Social Login -->
+    <div class="space-y-3 mb-6">
+      <!-- Google Login -->
+      <%= button_to user_google_oauth2_omniauth_authorize_path,
+            method: :post,
+            class: "social-btn w-full flex items-center justify-center gap-3 px-6 py-3 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl font-semibold text-gray-700 dark:text-gray-200 hover:border-purple-500",
+            data: { turbo: false } do %>
+        <svg class="w-5 h-5" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
         </svg>
-        <%= t('auth.sign_in.back_to_home') %>
+        <%= t('auth.sign_in.google_login') %>
       <% end %>
+
+      <!-- Facebook Login -->
+      <button type="button" class="social-btn w-full flex items-center justify-center gap-3 px-6 py-3 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl font-semibold text-gray-700 dark:text-gray-200 hover:border-purple-500" onclick="alert('Facebook login coming soon! 🚀')">
+        <svg class="w-5 h-5" fill="#1877F2" viewBox="0 0 24 24">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+        <%= t('auth.sign_in.facebook_login') %>
+      </button>
     </div>
+
+    <!-- Divider -->
+    <div class="relative mb-6">
+      <div class="absolute inset-0 flex items-center">
+        <div class="w-full border-t border-gray-300 dark:border-gray-700"></div>
+      </div>
+      <div class="relative flex justify-center text-sm">
+        <span class="px-4 bg-white/80 dark:bg-gray-800/80 text-gray-500 dark:text-gray-400 font-medium">
+          <%= t('auth.sign_in.or_continue_email') %>
+        </span>
+      </div>
+    </div>
+
+    <!-- Login Form -->
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name),
+                 html: {
+                   class: "space-y-5",
+                   "data-controller" => "analytics password-toggle",
+                   "data-action" => "submit->analytics#trackUserLogin"
+                 }) do |f| %>
+
+      <!-- Email Input -->
+      <div>
+        <%= f.label :email, t('auth.sign_in.email'), class: "block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" %>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
+            </svg>
+          </div>
+          <%= f.email_field :email,
+                autofocus: true,
+                autocomplete: "email",
+                required: true,
+                placeholder: t('auth.sign_in.email_placeholder'),
+                class: "input-field w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 outline-none" %>
+        </div>
+      </div>
+
+      <!-- Password Input -->
+      <div data-controller="password-toggle">
+        <%= f.label :password, t('auth.sign_in.password'), class: "block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" %>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+          </div>
+          <%= f.password_field :password,
+                autocomplete: "current-password",
+                required: true,
+                placeholder: "••••••••",
+                data: { password_toggle_target: "input" },
+                class: "input-field w-full pl-12 pr-12 py-3 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 outline-none" %>
+          <button
+            type="button"
+            data-action="click->password-toggle#toggle"
+            class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-purple-500 transition-colors"
+          >
+            <svg data-password-toggle-target="icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Remember Me & Forgot Password -->
+      <div class="flex items-center justify-between">
+        <label class="flex items-center gap-2 cursor-pointer group">
+          <%= f.check_box :remember_me, class: "w-4 h-4 text-purple-600 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded focus:ring-2 focus:ring-purple-500/20" %>
+          <span class="text-sm text-gray-700 dark:text-gray-300 group-hover:text-purple-600 transition-colors">
+            <%= t('auth.sign_in.remember_me') %>
+          </span>
+        </label>
+
+        <%= link_to t('auth.sign_in.forgot_password'),
+              new_password_path(resource_name),
+              class: "text-sm font-semibold text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 transition-colors" %>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="submit-btn w-full bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+        <span><%= t('auth.sign_in.sign_in_button') %></span>
+      </button>
+
+    <% end %>
 
   </div>
+
+  <!-- Sign Up Link -->
+  <div class="text-center space-y-2">
+    <p class="text-sm text-gray-600 dark:text-gray-400">
+      <%= t('auth.sign_in.no_account') %>
+      <%= link_to t('auth.sign_in.sign_up_link'),
+            new_registration_path(resource_name),
+            class: "link-hover font-semibold text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 ml-1 inline-flex items-center gap-1" do %>
+        <span><%= t('auth.sign_in.sign_up_link') %></span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+        </svg>
+      <% end %>
+    </p>
+
+    <%= link_to root_path, class: "link-hover inline-flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 mt-2" do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+      <span><%= t('auth.sign_in.back_to_home') %></span>
+    <% end %>
+  </div>
+
 </div>

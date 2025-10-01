@@ -7,6 +7,9 @@ class ApplicationController < ActionController::Base
   before_action :store_user_location!, if: :storable_location?
   before_action :detect_mobile_app
 
+  # Use clean auth layout for Devise pages (login, signup, forgot password, reset password)
+  layout :set_layout
+
   # Error handling - catches routing errors and other exceptions
   unless Rails.application.config.consider_all_requests_local
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
@@ -29,7 +32,12 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  
+
+  def set_layout
+    # Use clean auth layout for Devise controllers (login, signup, forgot/reset password)
+    devise_controller? ? 'auth' : 'application'
+  end
+
   def set_locale
     I18n.locale = params[:locale] ||
                   session[:locale] ||

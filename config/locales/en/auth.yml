@@ -14,6 +14,7 @@ en:
       or: Or
       google_sign_in: Continue with Google
       google_login: Continue with Google
+      facebook_login: Continue with Facebook
       or_continue_email: or continue with email
       no_account: Don't have an account?
       sign_up_link: Create free account
