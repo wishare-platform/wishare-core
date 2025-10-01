@@ -1,0 +1,318 @@
+<style>
+  /* Critical prototype-exact styles to override any conflicts */
+  .gradient-text-override {
+    background: linear-gradient(to right, rgb(244, 63, 94), rgb(168, 85, 247)) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    display: inline-block !important;
+  }
+
+  .toggle-button-override {
+    background: rgb(55, 65, 81) !important;
+    border: 1px solid rgb(156, 163, 175) !important;
+    color: rgb(243, 244, 246) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+    font-weight: 500 !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 0.75rem !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .toggle-button-override:hover {
+    background: rgb(75, 85, 99) !important;
+    border-color: rgb(209, 213, 219) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4) !important;
+  }
+</style>
+
+<div class="min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-purple-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 p-8">
+
+  <!-- Header -->
+  <div class="max-w-7xl mx-auto mb-12">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h1 class="heading-hero gradient-text gradient-text-override mb-4" style="font-size: 4rem; font-weight: 600; font-family: 'Playfair Display', serif;">
+          🎨 Wishare Design System
+        </h1>
+        <p class="text-xl text-gray-600 dark:text-gray-300">Complete component library & design patterns</p>
+      </div>
+      <button onclick="document.documentElement.classList.toggle('dark')" class="btn-wishare-secondary toggle-button-override">
+        Toggle Dark Mode
+      </button>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto space-y-12">
+
+    <!-- Color System -->
+    <section class="card-elevated p-8 fade-in-up">
+      <h2 class="heading-section text-gray-800 dark:text-gray-100 mb-6">Color System</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Rose Gradient -->
+        <div>
+          <div class="h-32 rounded-2xl bg-gradient-to-r from-rose-500 to-rose-600 mb-3"></div>
+          <h4 class="font-semibold text-gray-800 dark:text-gray-100 mb-1">Rose (Primary)</h4>
+          <code class="text-sm text-gray-600 dark:text-gray-300">from-rose-500 to-rose-600</code>
+        </div>
+
+        <!-- Purple Gradient -->
+        <div>
+          <div class="h-32 rounded-2xl bg-gradient-to-r from-purple-500 to-purple-600 mb-3"></div>
+          <h4 class="font-semibold text-gray-800 dark:text-gray-100 mb-1">Purple (Accent)</h4>
+          <code class="text-sm text-gray-600 dark:text-gray-300">from-purple-500 to-purple-600</code>
+        </div>
+
+        <!-- Pink Gradient -->
+        <div>
+          <div class="h-32 rounded-2xl bg-gradient-to-r from-pink-500 to-pink-600 mb-3"></div>
+          <h4 class="font-semibold text-gray-800 dark:text-gray-100 mb-1">Pink (Delight)</h4>
+          <code class="text-sm text-gray-600 dark:text-gray-300">from-pink-500 to-pink-600</code>
+        </div>
+
+        <!-- Amber Gradient -->
+        <div>
+          <div class="h-32 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 mb-3"></div>
+          <h4 class="font-semibold text-gray-800 dark:text-gray-100 mb-1">Amber (Warning)</h4>
+          <code class="text-sm text-gray-600 dark:text-gray-300">from-amber-500 to-amber-600</code>
+        </div>
+
+        <!-- Green Gradient -->
+        <div>
+          <div class="h-32 rounded-2xl bg-gradient-to-r from-green-500 to-green-600 mb-3"></div>
+          <h4 class="font-semibold text-gray-800 dark:text-gray-100 mb-1">Green (Success)</h4>
+          <code class="text-sm text-gray-600 dark:text-gray-300">from-green-500 to-green-600</code>
+        </div>
+
+        <!-- Rainbow Gradient -->
+        <div>
+          <div class="h-32 rounded-2xl bg-gradient-to-r from-rose-500 to-purple-500 mb-3"></div>
+          <h4 class="font-semibold text-gray-800 dark:text-gray-100 mb-1">Rainbow (Brand)</h4>
+          <code class="text-sm text-gray-600 dark:text-gray-300">from-rose-500 to-purple-500</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography -->
+    <section class="card-elevated p-8 fade-in-up stagger-delay-1">
+      <h2 class="heading-section text-gray-800 dark:text-gray-100 mb-6">Typography</h2>
+
+      <div class="space-y-6">
+        <div>
+          <h1 class="heading-hero text-gray-800 dark:text-gray-100 mb-2">Heading Hero</h1>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Playfair Display - 4rem (64px) - Weight 600</p>
+        </div>
+
+        <div>
+          <h2 class="heading-page text-gray-800 dark:text-gray-100 mb-2">Heading Page</h2>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Playfair Display - 3rem (48px) - Weight 600</p>
+        </div>
+
+        <div>
+          <h3 class="heading-section text-gray-800 dark:text-gray-100 mb-2">Heading Section</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Playfair Display - 2.5rem (40px) - Weight 500</p>
+        </div>
+
+        <div>
+          <h4 class="heading-card text-gray-800 dark:text-gray-100 mb-2">Heading Card</h4>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Playfair Display - 2rem (32px) - Weight 500</p>
+        </div>
+
+        <div>
+          <h5 class="heading-sub text-gray-800 dark:text-gray-100 mb-2">Heading Sub</h5>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Playfair Display - 1.5rem (24px) - Weight 500</p>
+        </div>
+
+        <div>
+          <p class="text-xl font-normal text-gray-600 dark:text-gray-300 mb-2">Lead Paragraph</p>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Inter - 1.25rem (20px) - Weight 400</p>
+        </div>
+
+        <div>
+          <p class="text-base font-normal text-gray-800 dark:text-gray-100 mb-2">Body Text - This is standard paragraph text for reading content throughout the application.</p>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Inter - 1rem (16px) - Weight 400</p>
+        </div>
+
+        <div>
+          <p class="text-sm font-normal text-gray-800 dark:text-gray-100 mb-2">Small Body Text - This is small text used for secondary information.</p>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Inter - 0.875rem (14px) - Weight 400</p>
+        </div>
+
+        <div>
+          <p class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">CAPTION TEXT</p>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Inter - 0.75rem (12px) - Weight 500 - Uppercase</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Buttons -->
+    <section class="card-elevated p-8 fade-in-up stagger-delay-2">
+      <h2 class="heading-section text-gray-800 dark:text-gray-100 mb-6">Buttons</h2>
+
+      <div class="space-y-6">
+        <div>
+          <button class="btn-wishare-primary">Primary Button</button>
+          <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">Main CTAs and most important actions</p>
+        </div>
+
+        <div>
+          <button class="btn-wishare-secondary">Secondary Button</button>
+          <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">Secondary actions and cancel buttons</p>
+        </div>
+
+        <div>
+          <button class="btn-wishare-enhanced">✨ Enhanced Button</button>
+          <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">Special CTAs with premium feel</p>
+        </div>
+
+        <div class="flex gap-3">
+          <button class="btn-wishare-primary">Save</button>
+          <button class="btn-wishare-secondary">Cancel</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cards -->
+    <section class="space-y-6">
+      <h2 class="heading-section text-gray-800 dark:text-gray-100 mb-6">Cards</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Card Wishare -->
+        <div class="card-wishare p-6">
+          <span class="badge-event mb-3">🎂 Birthday</span>
+          <h3 class="heading-card text-gray-800 dark:text-gray-100 mb-2">Wishare Card</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">Semi-transparent with glass effect. Hover to see interaction.</p>
+          <div class="flex gap-2">
+            <span class="badge-public">Public</span>
+            <span class="text-sm text-gray-500 dark:text-gray-400">12 items</span>
+          </div>
+        </div>
+
+        <!-- Elevated Card -->
+        <div class="card-elevated p-6">
+          <span class="badge-friends mb-3">Friends Only</span>
+          <h3 class="heading-card text-gray-800 dark:text-gray-100 mb-2">Elevated Card</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">Solid background with strong shadow. Hover to see lift effect.</p>
+          <div class="flex gap-2">
+            <span class="badge-friends">Friends</span>
+            <span class="text-sm text-gray-500 dark:text-gray-400">5 items</span>
+          </div>
+        </div>
+
+        <!-- Interactive Card -->
+        <div class="card-wishare p-6 cursor-pointer">
+          <span class="badge-private mb-3">Private</span>
+          <h3 class="heading-card text-gray-800 dark:text-gray-100 mb-2">Interactive Card</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">Clickable with border feedback on hover.</p>
+          <div class="flex gap-2">
+            <span class="badge-private">Private</span>
+            <span class="text-sm text-gray-500 dark:text-gray-400">3 items</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Badges -->
+    <section class="card-elevated p-8 fade-in-up stagger-delay-3">
+      <h2 class="heading-section text-gray-800 dark:text-gray-100 mb-6">Badges</h2>
+
+      <div class="space-y-4">
+        <div>
+          <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">Event Type Badges:</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge-event">🎂 Birthday</span>
+            <span class="badge-event">💍 Wedding</span>
+            <span class="badge-event">🎄 Holiday</span>
+            <span class="badge-event">👶 Baby Shower</span>
+          </div>
+        </div>
+
+        <div>
+          <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">Visibility Badges:</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge-public">Public</span>
+            <span class="badge-friends">Friends Only</span>
+            <span class="badge-private">Private</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Inputs -->
+    <section class="card-elevated p-8 fade-in-up stagger-delay-4">
+      <h2 class="heading-section text-gray-800 dark:text-gray-100 mb-6">Form Inputs</h2>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Text Input</label>
+          <input type="text" class="input-wishare" placeholder="Enter wishlist name">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Textarea</label>
+          <textarea class="input-wishare" rows="4" placeholder="Enter description..."></textarea>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Select Dropdown</label>
+          <select class="input-wishare">
+            <option>Birthday</option>
+            <option>Wedding</option>
+            <option>Holiday</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Component Examples -->
+    <section class="card-elevated p-8">
+      <h2 class="heading-section text-gray-800 dark:text-gray-100 mb-6">Complete Component Examples</h2>
+
+      <div class="flex flex-row gap-8 items-start" style="display: flex !important; flex-direction: row !important;">
+        <!-- Wishlist Card Example -->
+        <div class="card-wishare group overflow-hidden w-full md:w-1/2">
+          <div class="aspect-video bg-gradient-to-br from-rose-200 to-purple-200 flex items-center justify-center">
+            <span class="text-6xl">🎁</span>
+          </div>
+          <div class="p-6">
+            <span class="badge-event mb-3">🎂 Birthday</span>
+            <h3 class="heading-card text-gray-800 dark:text-gray-100 mb-2">My 30th Birthday</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">Celebrating three decades of life with friends and family!</p>
+            <div class="flex items-center justify-between">
+              <div class="flex gap-2 text-sm text-gray-500 dark:text-gray-400">
+                <span>12 items</span>
+                <span>•</span>
+                <span class="badge-public">Public</span>
+              </div>
+              <button class="btn-wishare-primary text-sm py-2">View</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item Card Example -->
+        <div class="card-wishare group overflow-hidden w-full md:w-1/2">
+          <div class="aspect-square bg-gradient-to-br from-amber-200 to-pink-200 flex items-center justify-center">
+            <span class="text-7xl">📱</span>
+          </div>
+          <div class="p-6">
+            <h3 class="font-semibold text-gray-800 dark:text-gray-100 mb-1">iPhone 15 Pro</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">Latest flagship smartphone with amazing camera</p>
+            <div class="flex items-center justify-between">
+              <span class="text-rose-600 dark:text-rose-400 font-semibold text-lg">$999</span>
+              <span class="badge-public">Available</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="max-w-7xl mx-auto mt-12 text-center text-gray-600 dark:text-gray-300">
+    <p class="mb-4">This is a visual demonstration of the Wishare Design System</p>
+    <p class="text-sm">Try hovering over cards and buttons to see interactions • Toggle dark mode to test theme</p>
+  </div>
+
+</div>
