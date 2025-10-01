@@ -46,6 +46,11 @@ pt-BR:
       terms_of_service: Termos de Serviço
       privacy_policy: Política de Privacidade
       copyright: "© %{year} Wishare"
+  switchers:
+    language: Idioma
+    theme: Tema
+    light_mode: Modo claro
+    dark_mode: Modo escuro
   errors:
     404:
       title: Página Não Encontrada

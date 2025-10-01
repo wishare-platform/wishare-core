@@ -1642,6 +1642,58 @@
   transform: translateX(5px);
 }
 
+/* ===== LOGIN PAGE SWITCHER COMPONENTS ===== */
+
+/* Switcher Pill - Glass Morphism */
+.switcher-pill {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .switcher-pill {
+  background: rgba(31, 41, 55, 0.9);
+  border: 1px solid rgba(75, 85, 99, 0.3);
+}
+
+.switcher-pill:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.dark .switcher-pill:hover {
+  background: rgba(31, 41, 55, 0.95);
+  border-color: rgba(168, 85, 247, 0.5);
+}
+
+/* Dropdown Menu for Language Switcher */
+.switcher-dropdown {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .switcher-dropdown {
+  background: rgba(31, 41, 55, 0.95);
+  border: 1px solid rgba(75, 85, 99, 0.3);
+}
+
+.switcher-dropdown.show {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: all;
+}
+
+/* Mobile adjustments for switchers */
+@media (max-width: 640px) {
+  .switcher-pill {
+    height: 36px;
+    font-size: 0.75rem;
+  }
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .animate-gradient,
@@ -1650,7 +1702,9 @@
   .input-field:focus,
   .social-btn:hover,
   .submit-btn:hover,
-  .link-hover:hover {
+  .link-hover:hover,
+  .switcher-pill,
+  .switcher-dropdown {
     animation: none !important;
     transform: none !important;
     transition: none !important;

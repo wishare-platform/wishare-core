@@ -46,6 +46,11 @@ en:
       terms_of_service: Terms of Service
       privacy_policy: Privacy Policy
       copyright: "© %{year} Wishare"
+  switchers:
+    language: Language
+    theme: Theme
+    light_mode: Light mode
+    dark_mode: Dark mode
   errors:
     404:
       title: Page Not Found
