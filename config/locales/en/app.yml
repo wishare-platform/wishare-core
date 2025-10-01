@@ -62,6 +62,11 @@ en:
     sign_out: Sign out
     sign_in: Sign in
     sign_up: Sign up
+    home: Home
+    lists: Lists
+    friends: Friends
+    search_placeholder: Search lists, items, friends...
+    view_public_profile: View Public Profile
   theme:
     toggle: Toggle theme
     light: Light mode

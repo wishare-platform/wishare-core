@@ -2,19 +2,22 @@
 pt-BR:
   auth:
     sign_in:
-      title: Bem-vindo de volta ao Wishare
-      subtitle: Entre para continuar compartilhando presentes especiais
+      title: Bem-vindo de volta!
+      subtitle: Suas listas de desejos te aguardam ✨
       email: E-mail
       password: Senha
       email_placeholder: Digite seu e-mail
       password_placeholder: Digite sua senha
       remember_me: Lembrar de mim
       forgot_password: Esqueceu sua senha?
-      sign_in_button: Entrar
+      sign_in_button: Entrar na minha conta
       or: Ou
       google_sign_in: Continuar com Google
-      no_account: Não tem uma conta?
-      sign_up_link: Cadastre-se
+      google_login: Continuar com Google
+      or_continue_email: ou continue com e-mail
+      no_account: Ainda não tem conta?
+      sign_up_link: Criar conta grátis
+      back_to_home: Voltar para home
     sign_up:
       title: Junte-se ao Wishare
       description: Junte-se ao Wishare para criar e compartilhar listas de presente

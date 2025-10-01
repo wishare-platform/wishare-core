@@ -1,0 +1,34 @@
+<%
+# Wishare Empty State Component
+title = local_assigns.fetch(:title, 'Nothing here yet')
+message = local_assigns.fetch(:message, nil)
+action_text = local_assigns.fetch(:action_text, nil)
+action_href = local_assigns.fetch(:action_href, nil)
+icon = local_assigns.fetch(:icon, 'sparkles')
+
+icon_svg = case icon
+when 'gift'
+  '<svg class="w-12 h-12 mx-auto text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>'
+when 'heart'
+  '<svg class="w-12 h-12 mx-auto text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>'
+when 'star'
+  '<svg class="w-12 h-12 mx-auto text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>'
+when 'plus'
+  '<svg class="w-12 h-12 mx-auto text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>'
+else
+  '<svg class="w-12 h-12 mx-auto text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>'
+end
+%><div class="empty-state-wishare">
+  <div class="empty-state-icon">
+    <%= icon_svg.html_safe %>
+  </div>
+  <h3 class="heading-card mb-2 text-wishare-primary"><%= title %></h3>
+  <% if message.present? %>
+    <p class="text-body-sm text-wishare-secondary mb-6"><%= message %></p>
+  <% end %>
+  <% if block_given? %>
+    <%= yield %>
+  <% elsif action_text.present? && action_href.present? %>
+    <%= render 'shared/wishare/button', text: action_text, href: action_href, variant: 'primary' %>
+  <% end %>
+</div>

@@ -1,0 +1,18 @@
+<%
+# Wishare Button Component
+variant = local_assigns.fetch(:variant, 'primary')
+text = local_assigns.fetch(:text, nil)
+href = local_assigns.fetch(:href, nil)
+button_type = local_assigns.fetch(:type, 'button')
+disabled = local_assigns.fetch(:disabled, false)
+css_class = local_assigns.fetch(:class, '')
+
+button_class = case variant
+when 'secondary' then 'btn-wishare-secondary'
+when 'enhanced' then 'btn-wishare-enhanced'
+when 'ghost' then 'btn-wishare-ghost'
+when 'danger' then 'btn-wishare-danger'
+else 'btn-wishare-primary'
+end
+full_class = "#{button_class} focus-wishare touch-target-wishare #{css_class}"
+%><% if href.present? %><a href="<%= href %>" class="<%= full_class %> inline-block text-center no-underline"><%= block_given? ? yield : text %></a><% else %><button type="<%= button_type %>" class="<%= full_class %>"<% if disabled %> disabled<% end %>><%= block_given? ? yield : text %></button><% end %>

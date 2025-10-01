@@ -1,0 +1,16 @@
+<%
+# Wishare Badge Component
+variant = local_assigns.fetch(:variant, 'public')
+text = local_assigns.fetch(:text, nil)
+icon = local_assigns.fetch(:icon, nil)
+css_class = local_assigns.fetch(:class, '')
+
+badge_class = case variant
+when 'event' then 'badge-event'
+when 'friends' then 'badge-friends'
+when 'private' then 'badge-private'
+when 'purchased' then 'badge-purchased'
+when 'available' then 'badge-available'
+else 'badge-public'
+end
+%><span class="<%= badge_class %> <%= css_class %>"><% if icon.present? %><span class="mr-1"><%= icon %></span><% end %><%= block_given? ? yield : text %></span>

@@ -64,6 +64,11 @@ pt-BR:
     sign_out: Sair
     sign_in: Entrar
     sign_up: Cadastrar
+    home: Início
+    lists: Listas
+    friends: Amigos
+    search_placeholder: Buscar listas, itens, amigos...
+    view_public_profile: Ver Perfil Público
   theme:
     toggle: Alternar tema
     light: Modo claro

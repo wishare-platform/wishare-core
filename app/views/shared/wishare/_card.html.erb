@@ -1,0 +1,16 @@
+<%
+# Wishare Card Component
+variant = local_assigns.fetch(:variant, 'wishare')
+css_class = local_assigns.fetch(:class, '')
+data_attrs = local_assigns.fetch(:data, {})
+id_attr = local_assigns.fetch(:id, nil)
+
+card_class = case variant
+when 'elevated' then 'card-elevated'
+when 'interactive' then 'card-interactive'
+when 'glass' then 'card-glass'
+else 'card-wishare'
+end
+%><div class="<%= card_class %> <%= css_class %>"<% if id_attr.present? %> id="<%= id_attr %>"<% end %><% data_attrs.each do |k, v| %> data-<%= k %>="<%= v %>"<% end %>>
+<%= yield if block_given? %>
+</div>

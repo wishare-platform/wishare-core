@@ -14,6 +14,9 @@ Rails.application.routes.draw do
     get 'health', to: 'mobile_auth#health'
   end
 
+  # Styleguide for design system documentation
+  get '/styleguide', to: 'styleguide#index'
+
   # Root route without locale - redirect to appropriate localized version
   get '/', to: 'root_redirect#index'
 

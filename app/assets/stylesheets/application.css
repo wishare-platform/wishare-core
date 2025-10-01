@@ -1524,3 +1524,135 @@
     background-color: rgb(31, 41, 55);
   }
 }
+
+/* ===== LOGIN PAGE ANIMATIONS ===== */
+
+/* Animated gradient background */
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 15s ease infinite;
+}
+
+/* Floating animation for decorative elements */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Fade in up animation for content entry */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Glass morphism strong effect */
+.glass-strong {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass-strong {
+  background: rgba(31, 41, 55, 0.9);
+  border: 1px solid rgba(75, 85, 99, 0.2);
+}
+
+/* Input field with lift effect on focus */
+.input-field {
+  transition: all 0.3s ease;
+}
+
+.input-field:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(139, 92, 246, 0.2);
+}
+
+/* Social login button with bounce effect */
+.social-btn {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.social-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Submit button with ripple effect */
+.submit-btn {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.submit-btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(139, 92, 246, 0.4);
+}
+
+.submit-btn span {
+  position: relative;
+  z-index: 10;
+}
+
+/* Link hover slide animation */
+.link-hover {
+  transition: all 0.2s ease;
+}
+
+.link-hover:hover {
+  transform: translateX(5px);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .animate-gradient,
+  .animate-float,
+  .animate-fade-in-up,
+  .input-field:focus,
+  .social-btn:hover,
+  .submit-btn:hover,
+  .link-hover:hover {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

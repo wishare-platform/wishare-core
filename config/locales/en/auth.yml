@@ -2,19 +2,22 @@
 en:
   auth:
     sign_in:
-      title: Welcome back to Wishare
-      subtitle: Sign in to continue sharing thoughtful gifts
+      title: Welcome back!
+      subtitle: Your wishlists await you
       email: Email
       password: Password
       email_placeholder: Enter your email
       password_placeholder: Enter your password
       remember_me: Remember me
       forgot_password: Forgot your password?
-      sign_in_button: Sign in
+      sign_in_button: Sign in to my account
       or: Or
       google_sign_in: Continue with Google
+      google_login: Continue with Google
+      or_continue_email: or continue with email
       no_account: Don't have an account?
-      sign_up_link: Sign up
+      sign_up_link: Create free account
+      back_to_home: Back to home
     sign_up:
       title: Join Wishare
       description: Join Wishare to create and share wishlists with friends and family.

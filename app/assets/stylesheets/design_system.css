@@ -63,21 +63,30 @@
 
 /* Standard Wishare Card Pattern (Pinterest-inspired) */
 .card-wishare {
-  @apply bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl;
-  @apply border border-rose-100 dark:border-gray-700;
-  @apply hover:border-rose-200 dark:hover:border-gray-600;
-  @apply overflow-hidden group;
-  @apply transition-all duration-300;
-  @apply hover:shadow-xl hover:scale-[1.02];
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgb(254 205 211);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card-wishare:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 0 20px rgba(236, 72, 153, 0.15);
 }
 
 /* Card with Elevated Shadow */
 .card-elevated {
-  @apply bg-white dark:bg-gray-800 rounded-3xl;
-  @apply shadow-lg hover:shadow-2xl;
-  @apply border border-gray-100 dark:border-gray-700;
-  @apply transition-all duration-300;
-  @apply hover:-translate-y-2;
+  background: white;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card-elevated:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 /* Card with Interactive Hover */
@@ -101,33 +110,52 @@
 
 /* Primary Button - Rose Gradient */
 .btn-wishare-primary {
-  @apply bg-gradient-to-r from-rose-500 to-rose-600;
-  @apply hover:from-rose-600 hover:to-rose-700;
-  @apply text-white font-medium;
-  @apply px-4 py-2 rounded-xl;
-  @apply shadow-lg hover:shadow-xl;
-  @apply transition-all duration-300;
-  @apply hover:scale-[1.02];
+  background: linear-gradient(to right, rgb(244 63 94), rgb(225 29 72));
+  color: white;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.btn-wishare-primary:hover {
+  background: linear-gradient(to right, rgb(225 29 72), rgb(190 18 60));
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Secondary Button - Outline Style */
 .btn-wishare-secondary {
-  @apply bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600;
-  @apply hover:bg-gray-50 dark:hover:bg-gray-700;
-  @apply text-gray-700 dark:text-gray-200 font-medium;
-  @apply px-4 py-2 rounded-xl;
-  @apply transition-all duration-200;
+  background: white;
+  border: 1px solid rgb(209 213 219);
+  color: rgb(55 65 81);
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.btn-wishare-secondary:hover {
+  background: rgb(249 250 251);
 }
 
 /* Enhanced Button - With Shine Effect */
 .btn-wishare-enhanced {
-  @apply relative overflow-hidden;
-  @apply bg-gradient-to-r from-rose-500 to-rose-600;
-  @apply text-white font-semibold;
-  @apply px-6 py-3 rounded-xl;
-  @apply shadow-lg hover:shadow-2xl;
-  @apply transition-all duration-300;
-  @apply hover:-translate-y-1 hover:scale-[1.02];
+  background: linear-gradient(to right, rgb(236 72 153), rgb(219 39 119));
+  color: white;
+  font-weight: 600;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 25px rgba(236, 72, 153, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-wishare-enhanced:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(236, 72, 153, 0.4);
 }
 
 /* Ghost Button - Minimal Style */
@@ -152,27 +180,44 @@
 
 /* Event Type Badges */
 .badge-event {
-  @apply inline-flex items-center gap-1;
-  @apply bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20;
-  @apply border border-amber-200 dark:border-amber-800;
-  @apply text-amber-700 dark:text-amber-300 text-sm font-medium;
-  @apply px-3 py-1 rounded-full;
+  background: linear-gradient(to right, rgb(254 243 199), rgb(253 230 138));
+  border: 1px solid rgb(252 211 77);
+  color: rgb(180 83 9);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 /* Visibility Badges */
 .badge-public {
-  @apply bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400;
-  @apply text-xs px-2 py-1 rounded-full font-medium;
+  background: rgb(220 252 231);
+  color: rgb(21 128 61);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-weight: 500;
 }
 
 .badge-friends {
-  @apply bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400;
-  @apply text-xs px-2 py-1 rounded-full font-medium;
+  background: rgb(219 234 254);
+  color: rgb(30 64 175);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-weight: 500;
 }
 
 .badge-private {
-  @apply bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300;
-  @apply text-xs px-2 py-1 rounded-full font-medium;
+  background: rgb(243 244 246);
+  color: rgb(55 65 81);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-weight: 500;
 }
 
 /* Status Badges */
@@ -190,12 +235,18 @@
 
 /* Standard Input */
 .input-wishare {
-  @apply w-full bg-white dark:bg-gray-800;
-  @apply border border-gray-300 dark:border-gray-600;
-  @apply rounded-xl px-4 py-3;
-  @apply text-gray-900 dark:text-gray-100;
-  @apply focus:ring-2 focus:ring-rose-500 focus:border-rose-500;
-  @apply transition-all duration-200;
+  width: 100%;
+  background: white;
+  border: 1px solid rgb(209 213 219);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.input-wishare:focus {
+  outline: none;
+  border-color: rgb(244 63 94);
+  box-shadow: 0 0 0 2px rgba(244, 63, 94, 0.2);
 }
 
 /* Textarea */
@@ -332,9 +383,50 @@
  * 2xl: 1536px - Large desktops
  */
 
+/* ===== GRADIENT TEXT ===== */
+
+.gradient-text {
+  background: linear-gradient(to right, rgb(244 63 94), rgb(168 85 247));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* ===== ANIMATION PRESETS ===== */
 
+/* Fade-in animation */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
 /* Stagger Delay Utility */
+.stagger-delay-1 {
+  animation-delay: 0.1s;
+}
+
+.stagger-delay-2 {
+  animation-delay: 0.2s;
+}
+
+.stagger-delay-3 {
+  animation-delay: 0.3s;
+}
+
+.stagger-delay-4 {
+  animation-delay: 0.4s;
+}
+
 .stagger-delay-100 {
   animation-delay: 0.1s;
 }
@@ -385,11 +477,11 @@
 }
 
 .text-wishare-secondary {
-  @apply text-gray-600 dark:text-gray-400;
+  @apply text-gray-600 dark:text-gray-300;
 }
 
 .text-wishare-tertiary {
-  @apply text-gray-500 dark:text-gray-500;
+  @apply text-gray-500 dark:text-gray-400;
 }
 
 /* Background colors */
@@ -408,79 +500,96 @@
 
 /* Dark mode card adjustments */
 .dark .card-wishare {
-  @apply bg-gray-800/90 border-gray-700;
-}
-
-.dark .card-wishare:hover {
-  @apply border-gray-600;
+  background: rgba(31, 41, 55, 0.9);
+  border-color: rgb(75 85 99);
 }
 
 .dark .card-elevated {
-  @apply bg-gray-800;
+  background: rgb(31 41 55);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
 .dark .card-interactive {
-  @apply bg-gray-800;
+  background: rgb(31 41 55);
 }
 
 .dark .card-interactive:hover {
-  @apply border-rose-600;
+  border-color: rgb(225 29 72);
 }
 
 .dark .card-glass {
-  @apply bg-gray-800/80 border-gray-700/20;
+  background: rgba(31, 41, 55, 0.8);
+  border-color: rgba(75, 85, 99, 0.2);
 }
 
 /* Dark mode input adjustments */
-.dark .input-wishare,
+.dark .input-wishare {
+  background: rgb(31 41 55);
+  border-color: rgb(75 85 99);
+  color: rgb(243 244 246);
+}
+
+.dark .input-wishare::placeholder {
+  color: rgb(156 163 175);
+}
+
 .dark .textarea-wishare,
 .dark .select-wishare {
-  @apply bg-gray-800 border-gray-600 text-gray-100;
-}
-
-.dark .input-wishare::placeholder,
-.dark .textarea-wishare::placeholder {
-  @apply text-gray-400;
-}
-
-.dark .input-wishare:focus,
-.dark .textarea-wishare:focus,
-.dark .select-wishare:focus {
-  @apply border-rose-500 ring-rose-500/20;
+  background: rgb(31 41 55);
+  border-color: rgb(75 85 99);
+  color: rgb(243 244 246);
 }
 
 .dark .file-input-wishare {
-  @apply bg-gray-800 border-gray-600;
+  background: rgb(31 41 55);
+  border-color: rgb(75 85 99);
 }
 
 .dark .file-input-wishare:hover {
-  @apply border-rose-600;
+  border-color: rgb(225 29 72);
 }
 
 /* Dark mode badge adjustments */
 .dark .badge-event {
-  @apply bg-amber-900/30 border-amber-800 text-amber-300;
+  background: rgba(254, 243, 199, 0.2);
+  border-color: rgb(180 83 9);
+  color: rgb(251 191 36);
 }
 
 .dark .badge-public {
-  @apply bg-green-900/30 text-green-400;
+  background: rgba(220, 252, 231, 0.2);
+  color: rgb(134 239 172);
 }
 
 .dark .badge-friends {
-  @apply bg-blue-900/30 text-blue-400;
+  background: rgba(219, 234, 254, 0.2);
+  color: rgb(147 197 253);
 }
 
 .dark .badge-private {
-  @apply bg-gray-700 text-gray-300;
+  background: rgba(243, 244, 246, 0.2);
+  color: rgb(209 213 219);
 }
 
 .dark .badge-purchased {
-  @apply bg-green-900/30 text-green-400;
+  background: rgba(220, 252, 231, 0.2);
+  color: rgb(134 239 172);
 }
 
 .dark .badge-available {
-  @apply bg-amber-900/30 text-amber-400;
+  background: rgba(254, 243, 199, 0.2);
+  color: rgb(251 191 36);
+}
+
+/* Dark mode button adjustments */
+.dark .btn-wishare-secondary {
+  background: rgb(31 41 55);
+  border-color: rgb(75 85 99);
+  color: rgb(243 244 246);
+}
+
+.dark .btn-wishare-secondary:hover {
+  background: rgb(55 65 81);
 }
 
 /* Dark mode empty state */
