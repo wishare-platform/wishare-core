@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   namespace :mobile do
     get 'auth/status', to: 'mobile_auth#status'
     get 'auth/session_check', to: 'mobile_auth#session_check'
-    get 'auth/config', to: 'mobile_auth#config'
+    get 'auth/config', to: 'mobile_auth#app_config'
     get 'health', to: 'mobile_auth#health'
   end
 

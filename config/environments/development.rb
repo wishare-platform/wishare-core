@@ -31,8 +31,9 @@ Rails.application.configure do
   # Devise mailer configuration
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
-  # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :google
+  # Store uploaded files on the local file system in development.
+  # Production uses :google (GCS). See config/storage.yml for options.
+  config.active_storage.service = :local
 
   # Configure mailer
   config.action_mailer.raise_delivery_errors = true
