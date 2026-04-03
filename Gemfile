@@ -69,6 +69,11 @@ group :development, :test do
 
   # N+1 query detection
   gem "bullet"
+
+  # Testing
+  gem "factory_bot_rails"
+  gem "faker"
+  gem "shoulda-matchers"
 end
 
 # Email delivery - Using SendGrid API (not SMTP) for Railway compatibility
