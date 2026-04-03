@@ -6,7 +6,7 @@ module ActiveSupport
   class TestCase
     include FactoryBot::Syntax::Methods
 
-    parallelize(workers: :number_of_processors)
+    parallelize(workers: 1)
   end
 end
 
