@@ -41,3 +41,12 @@ cupidgifts-*.json
 !/app/assets/builds/.keep
 # Ignore locally installed gems
 vendor/bundle
+
+# OS files
+**/.DS_Store
+
+# Local docs symlink
+docs
+
+# Project state (session continuity)
+STATE.md
